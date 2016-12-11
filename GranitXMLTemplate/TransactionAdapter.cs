@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xml2CSharp;
 
 namespace GranitXMLTemplate
@@ -13,7 +10,7 @@ namespace GranitXMLTemplate
         {
             get
             {
-                return Transaction.Originator.Account.AccountNumber;
+                return (Transaction.Originator.Account.AccountNumber);
             }
             set
             {
@@ -37,7 +34,7 @@ namespace GranitXMLTemplate
         {
             get
             {
-                return Transaction.Beneficiary.Account.AccountNumber;
+                return (Transaction.Beneficiary.Account.AccountNumber);
             }
             set
             {
@@ -68,6 +65,7 @@ namespace GranitXMLTemplate
                 Transaction.Amount.Currency = value;
             }
         }
+
         public DateTime ExecutionDate
         {
             get { return DateTime.Parse(Transaction.RequestedExecutionDate); }
@@ -76,8 +74,8 @@ namespace GranitXMLTemplate
 
         public string Comment 
         {
-            get { return Transaction.RemittanceInfo.Text[0]; }
-            set { Transaction.RemittanceInfo.Text[0] = value; }
+            get { return String.Join("|", Transaction.RemittanceInfo.Text); }
+            set { Transaction.RemittanceInfo.Text = value.Split('|').ToList(); }
         }
 
         private Transaction Transaction { get; set; }
@@ -86,6 +84,5 @@ namespace GranitXMLTemplate
         {
             Transaction = t;
         }
-
     }
 }

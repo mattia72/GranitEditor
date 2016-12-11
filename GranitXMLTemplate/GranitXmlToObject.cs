@@ -8,6 +8,7 @@ namespace GranitXMLTemplate
     internal class GranitXmlToObject
     {
         internal HUFTransactions HUFTransactions { get; private set; }
+
         internal XmlDocument GranitXmlDoc{ get; private set; }
 
         public HUFTransactionAdapter HUFTransactionAdapter { get { return new HUFTransactionAdapter(HUFTransactions); } }
