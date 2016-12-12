@@ -46,20 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="GranitXMLEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="GranitXMLEditor.Designer.cs">
+      <DependentUpon>GranitXMLEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="HUFTransactionAdapter.cs" />
+    <Compile Include="PropertyComparer.cs" />
+    <Compile Include="SortableBindingList.cs" />
     <Compile Include="TransactionAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Xml2CSharp.cs" />
     <Compile Include="GranitXmlToObject.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="GranitXMLEditor.resx">
+      <DependentUpon>GranitXMLEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -91,6 +93,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataGridViewMaskedTextBox\DataGridViewMaskedTextBox.csproj">
+      <Project>{a932952a-4d18-45d3-9f9d-3714b435df37}</Project>
+      <Name>DataGridViewMaskedTextBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PoorMensAboutBox\PoorMensAboutBox.csproj">
+      <Project>{2b7b86ec-e71c-439f-85c7-fe1d074ed651}</Project>
+      <Name>PoorMensAboutBox</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

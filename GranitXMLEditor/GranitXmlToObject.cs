@@ -51,5 +51,10 @@ namespace GranitXMLTemplate
                 HUFTransactions = (HUFTransactions)serializer.Deserialize(reader);
             }
         }
+
+        public void SaveToFile(string xmlFilePath)
+        {
+            GranitXmlDoc.Save(xmlFilePath);
+        }
     }
 }

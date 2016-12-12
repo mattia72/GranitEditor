@@ -1,19 +1,21 @@
-﻿using System;
+﻿using Be.Timvw.Framework.ComponentModel;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 
 namespace GranitXMLTemplate
 {
-    public partial class Form1 : Form
+    public partial class GranitXMLEditor : Form
     {
 
+        private GranitXmlToObject xmlToObject;
         private OpenFileDialog openFileDialog1 ;
 
-        public Form1()
+        public GranitXMLEditor()
         {
             InitializeComponent();
-            LoadXmlFile("fizu_adok_11.xml");
+            LoadXmlFile("default.xml");
         }
 
         public void LoadXml_button_Click(object sender, EventArgs e)
@@ -38,8 +40,11 @@ namespace GranitXMLTemplate
 
         private void LoadXmlFile(string xmlFilePath)
         {
-            GranitXmlToObject xmlGen = new GranitXmlToObject(xmlFilePath);
-            var list = new BindingList<TransactionAdapter>(xmlGen.HUFTransactionAdapter.Transactions);
+            if (xmlToObject == null)
+                xmlToObject = new GranitXmlToObject(xmlFilePath);
+
+            xmlToObject.ReadFromFile(xmlFilePath);
+            var list = new SortableBindingList<TransactionAdapter>(xmlToObject.HUFTransactionAdapter.Transactions);
             dataGridView1.DataSource = list;
         }
 
@@ -56,6 +61,26 @@ namespace GranitXMLTemplate
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
 
             alignTableToolStripMenuItem.Checked = !alignTableToolStripMenuItem.Checked;
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (xmlToObject != null)
+            {
+                var saveDlg = new SaveFileDialog();
+                if (saveDlg.ShowDialog() == DialogResult.OK)
+                {
+                    string xmlFilePath = Path.GetFullPath(saveDlg.FileName);
+                    xmlToObject.SaveToFile(xmlFilePath);
+
+                }
+            }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var aboutBox = new PoorMensAboutBox.AboutBox();
+            aboutBox.ShowDialog();
         }
     }
 }
