@@ -6,10 +6,13 @@
 using System;
 using System.Xml.Serialization;
 using System.Collections.Generic;
-namespace Xml2CSharp
+using GranitXMLEditor;
+using System.Runtime.Serialization;
+
+namespace GranitXMLEditor
 {
     [XmlRoot(ElementName = "Account")]
-    public class Account
+    public class Account : IComparable<Account>
     {
         [XmlElement(ElementName = "AccountNumber")]
         public string AccountNumber { get; set; }
@@ -17,10 +20,15 @@ namespace Xml2CSharp
         {
             AccountNumber = "";
         }
+
+        public int CompareTo(Account other)
+        {
+            return AccountNumber.CompareTo(other.AccountNumber);
+        }
     }
 
     [XmlRoot(ElementName = "Originator")]
-    public class Originator
+    public class Originator : IComparable<Originator>
     {
         [XmlElement(ElementName = "Account")]
         public Account Account { get; set; }
@@ -28,10 +36,15 @@ namespace Xml2CSharp
         {
             Account = new Account();
         }
+
+        public int CompareTo(Originator other)
+        {
+            return Account.CompareTo(other.Account);
+        }
     }
 
     [XmlRoot(ElementName = "Beneficiary")]
-    public class Beneficiary
+    public class Beneficiary : IComparable<Beneficiary>
     {
         [XmlElement(ElementName = "Name")]
         public string Name { get; set; }
@@ -42,10 +55,19 @@ namespace Xml2CSharp
         {
             Account = new Account();
         }
+
+        public int CompareTo(Beneficiary other)
+        {
+            if (0 != Account.CompareTo(other.Account))
+                return Account.CompareTo(other.Account);
+            if (0 != Name.CompareTo(other.Name))
+                return Name.CompareTo(other.Name);
+            return 0;
+        }
     }
 
     [XmlRoot(ElementName = "Amount")]
-    public class Amount
+    public class Amount : IComparable<Amount>
     {
         [XmlAttribute(AttributeName = "Currency")]
         public string Currency { get; set; }
@@ -63,17 +85,36 @@ namespace Xml2CSharp
             Value = amount;
             Currency = currency;
         }
+
+        public int CompareTo(Amount other)
+        {
+            if (Value != other.Value)
+                return Value.CompareTo(other.Value);
+            if (Currency != other.Currency)
+                return Currency.CompareTo(other.Currency);
+            return 0;
+        }
     }
 
     [XmlRoot(ElementName = "RemittanceInfo")]
-    public class RemittanceInfo
+    public class RemittanceInfo :IComparable<RemittanceInfo>
     {
         [XmlElement(ElementName = "Text")]
         public List<string> Text { get; set; }
+
+        public int CompareTo(RemittanceInfo other)
+        {
+            for (int i = 0; i < Text.Count; i++)
+            {
+                if ( Text[i].CompareTo(other.Text[i]) != 0)
+                    return Text[i].CompareTo(other.Text[i]);
+            }
+            return 0;
+        }
     }
 
     [XmlRoot(ElementName = "Transaction")]
-    public class Transaction
+    public class Transaction : IComparable<Transaction>
     {
         [XmlElement(ElementName = "Originator")]
         public Originator Originator { get; set; }
@@ -85,9 +126,34 @@ namespace Xml2CSharp
         public string RequestedExecutionDate { get; set; }
         [XmlElement(ElementName = "RemittanceInfo")]
         public RemittanceInfo RemittanceInfo { get; set; }
+
+        public Transaction()
+        {
+            Originator = new Originator();
+            Beneficiary = new Beneficiary();
+            Amount = new Amount();
+            RequestedExecutionDate = "";
+            RemittanceInfo = new RemittanceInfo();
+        }
+
+        public int CompareTo(Transaction other)
+        {
+            if (0 != Amount.CompareTo(other.Amount))
+                return Amount.CompareTo(other.Amount);
+            if (0 != Originator.CompareTo(other.Originator))
+                return Originator.CompareTo(other.Originator);
+            if (0 != Beneficiary.CompareTo(other.Beneficiary))
+                return Beneficiary.CompareTo(other.Beneficiary);
+            if (0 != RequestedExecutionDate.CompareTo(other.RequestedExecutionDate))
+                return RequestedExecutionDate.CompareTo(other.RequestedExecutionDate);
+            if (0 != RemittanceInfo.CompareTo(other.RemittanceInfo))
+                return RemittanceInfo.CompareTo(other.RemittanceInfo);
+
+            return 0;
+        }
     }
 
-    [XmlRoot(ElementName = "HUFTransactions")]
+    [XmlRoot(ElementName = Constants.HUFTransactions)] 
     public class HUFTransactions
     {
         [XmlElement(ElementName = "Transaction")]

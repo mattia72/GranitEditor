@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 
-namespace GranitXMLTemplate
+namespace GranitXMLEditor
 {
     public partial class GranitXMLEditor : Form
     {
@@ -43,7 +43,7 @@ namespace GranitXMLTemplate
             if (xmlToObject == null)
                 xmlToObject = new GranitXmlToObject(xmlFilePath);
 
-            xmlToObject.ReadFromFile(xmlFilePath);
+            xmlToObject.LoadObjectFromFile(xmlFilePath);
             var list = new SortableBindingList<TransactionAdapter>(xmlToObject.HUFTransactionAdapter.Transactions);
             dataGridView1.DataSource = list;
         }
@@ -81,6 +81,68 @@ namespace GranitXMLTemplate
         {
             var aboutBox = new PoorMensAboutBox.AboutBox();
             aboutBox.ShowDialog();
+        }
+
+        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+
+        }
+
+        private DataGridViewCellValidatingEventArgs cellErrorLocation;
+        private string cellErrorText;
+
+        private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (dataGridView1.CurrentCell.Tag == e.FormattedValue)
+            {
+                e.Cancel = true;    //Cancel changes of current cell
+                return;
+            }
+
+            //string headerText = dataGridView1.Columns[e.ColumnIndex].HeaderText;
+
+            //string value = "";
+
+
+            //switch (headerText)
+            //{
+            //    case "Originator":
+            //        value = (string)e.FormattedValue;
+            //        if (value.Length != 16 && value.Length != 24)
+            //        {
+            //            dataGridView1.CurrentCell.ToolTipText = "Invalid Value";
+            //            dataGridView1.BackgroundColor = System.Drawing.Color.LightPink;
+            //            e.Cancel = true;
+            //        }
+            //        break;
+            //    default:
+            //        e.Cancel = false;
+            //        break;
+            //}
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            //dataGridView1.Rows[e.RowIndex].ErrorText = String.Empty;
+            cellErrorLocation = null;
+            cellErrorText = null;
+            //dataGridView1.BackgroundColor = BackColor;
+        }
+
+        //private void AnnotateCell(string errorMessage, DataGridViewCellValidatingEventArgs editEvent)
+        //{
+        //    cellErrorLocation = editEvent;
+        //    cellErrorText = errorMessage;
+        //}
+
+        private void dataGridView1_CellErrorTextNeeded(object sender, DataGridViewCellErrorTextNeededEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_RowErrorTextNeeded(object sender, DataGridViewRowErrorTextNeededEventArgs e)
+        {
+
         }
     }
 }

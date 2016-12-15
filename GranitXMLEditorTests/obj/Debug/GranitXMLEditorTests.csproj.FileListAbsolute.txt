@@ -1,0 +1,10 @@
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\GranitXMLEditorTests\bin\Debug\GranitXMLEditorTests.dll
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\GranitXMLEditorTests\bin\Debug\GranitXMLEditorTests.pdb
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\GranitXMLEditorTests\bin\Debug\GranitXMLTemplate.exe
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\GranitXMLEditorTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\GranitXMLEditorTests\bin\Debug\PoorMensAboutBox.dll
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\GranitXMLEditorTests\bin\Debug\GranitXMLTemplate.pdb
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\GranitXMLEditorTests\bin\Debug\PoorMensAboutBox.pdb
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\GranitXMLEditorTests\obj\Debug\GranitXMLEditorTests.csprojResolveAssemblyReference.cache
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\GranitXMLEditorTests\obj\Debug\GranitXMLEditorTests.dll
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\GranitXMLEditorTests\obj\Debug\GranitXMLEditorTests.pdb

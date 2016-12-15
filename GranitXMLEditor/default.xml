@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="iso-8859-2"?>
+<HUFTransactions>
+  <!-- Utólagos -->
+  <Transaction>
+    <Originator>
+      <Account>
+        <AccountNumber>111111112222222233333333</AccountNumber>
+      </Account>
+    </Originator>
+    <Beneficiary>
+      <Name>Gipsz Jakab</Name>
+      <Account>
+        <AccountNumber>333333334444444455555555</AccountNumber>
+      </Account>
+    </Beneficiary>
+    <Amount Currency="HUF">1000.00</Amount>
+    <RequestedExecutionDate>2016-12-02</RequestedExecutionDate>
+    <RemittanceInfo>
+      <Text>Utólagos elszámolásra</Text>
+    </RemittanceInfo>
+  </Transaction>
+  <!-- 290: Adóelőleg -->
+  <Transaction>
+    <Originator>
+      <Account>
+        <AccountNumber>111111112222222233333333</AccountNumber>
+      </Account>
+    </Originator>
+    <Beneficiary>
+      <Name>Magánszemélyektől levont adó, adóelőleg</Name>
+      <Account>
+        <AccountNumber>100320000605595000000000</AccountNumber>
+      </Account>
+    </Beneficiary>
+    <Amount Currency="HUF">3000.00</Amount>
+    <RequestedExecutionDate>2016-12-09</RequestedExecutionDate>
+    <RemittanceInfo>
+      <Text>Adónemkód: 290 Cégnév: BuliSoft Bt.</Text>
+      <Text>Adószám: 55555555-2-13</Text>
+      <Text>Dátum: 2016 november</Text>
+    </RemittanceInfo>
+  </Transaction>
+  <!-- 152: Egészségügyi hozzájárulás (nem minden hónapban!) -->
+  <Transaction>
+    <Originator>
+      <Account>
+        <AccountNumber>111111112222222233333333</AccountNumber>
+      </Account>
+    </Originator>
+    <Beneficiary>
+      <Name>Egészségügyi hozzájárulás százalékos</Name>
+      <Account>
+        <AccountNumber>100320000605621200000000</AccountNumber>
+      </Account>
+    </Beneficiary>
+    <Amount Currency="HUF">2000.00</Amount>
+    <RequestedExecutionDate>2016-12-09</RequestedExecutionDate>
+    <RemittanceInfo>
+      <Text>Adónemkód: 152 Cégnév: BuliSoft Bt.</Text>
+      <Text>Adószám: 55555555-2-13</Text>
+      <Text>Dátum: 2016 november</Text>
+    </RemittanceInfo>
+  </Transaction>
+  <!-- Munkabér -->
+  <Transaction>
+    <Originator>
+      <Account>
+        <AccountNumber>111111112222222233333333</AccountNumber>
+      </Account>
+    </Originator>
+    <Beneficiary>
+      <Name>Gipsz Jakab</Name>
+      <Account>
+        <AccountNumber>333333334444444455555555</AccountNumber>
+      </Account>
+    </Beneficiary>
+    <Amount Currency="HUF">100.00</Amount>
+    <RequestedExecutionDate>2016-12-02</RequestedExecutionDate>
+    <RemittanceInfo>
+      <Text>BuliSoft Bt. Gipsz Jakab</Text>
+      <Text>munkabér utalás, 2016 április</Text>
+    </RemittanceInfo>
+  </Transaction>
+  <!-- 258: Szociális -->
+  <Transaction>
+    <Originator>
+      <Account>
+        <AccountNumber>111111112222222233333333</AccountNumber>
+      </Account>
+    </Originator>
+    <Beneficiary>
+      <Name>Szociális hozzájárulási adó</Name>
+      <Account>
+        <AccountNumber>100320000605591200000000</AccountNumber>
+      </Account>
+    </Beneficiary>
+    <Amount Currency="HUF">4000.00</Amount>
+    <RequestedExecutionDate>2016-12-09</RequestedExecutionDate>
+    <RemittanceInfo>
+      <Text>Adónemkód: 258 Cégnév: BuliSoft Bt.</Text>
+      <Text>Adószám: 55555555-2-13</Text>
+      <Text>Dátum: 2016 november</Text>
+    </RemittanceInfo>
+  </Transaction>
+  <!-- 293: Egészségbiztos -->
+  <Transaction>
+    <Originator>
+      <Account>
+        <AccountNumber>111111112222222233333333</AccountNumber>
+      </Account>
+    </Originator>
+    <Beneficiary>
+      <Name>Egészségbiztosítási és munkaerő-piaci járulékmagánszemélyektől levont</Name>
+      <Account>
+        <AccountNumber>100320000605598100000000</AccountNumber>
+      </Account>
+    </Beneficiary>
+    <Amount Currency="HUF">1000.00</Amount>
+    <RequestedExecutionDate>2016-12-09</RequestedExecutionDate>
+    <RemittanceInfo>
+      <Text>Adónemkód: 293 Cégnév: BuliSoft Bt.</Text>
+      <Text>Adószám: 55555555-2-13</Text>
+      <Text>Dátum: 2016 november</Text>
+    </RemittanceInfo>
+  </Transaction>
+  <!-- 291: Nyugdíj -->
+  <Transaction>
+    <Originator>
+      <Account>
+        <AccountNumber>111111112222222233333333</AccountNumber>
+      </Account>
+    </Originator>
+    <Beneficiary>
+      <Name>Nyugdíjbiztosítási Alapot megillető bevételek magánszemélyektől levont</Name>
+      <Account>
+        <AccountNumber>100320000605597400000000</AccountNumber>
+      </Account>
+    </Beneficiary>
+    <Amount Currency="HUF">1000.00</Amount>
+    <RequestedExecutionDate>2016-12-09</RequestedExecutionDate>
+    <RemittanceInfo>
+      <Text>Adónemkód: 291 Cégnév: BuliSoft Bt.</Text>
+      <Text>Adószám: 55555555-2-13</Text>
+      <Text>Dátum: 2016 november</Text>
+    </RemittanceInfo>
+  </Transaction>
+  <!-- 182: Szakkpzési -->
+  <Transaction>
+    <Originator>
+      <Account>
+        <AccountNumber>111111112222222233333333</AccountNumber>
+      </Account>
+    </Originator>
+    <Beneficiary>
+      <Name>Szakképzési hozzájárulás</Name>
+      <Account>
+        <AccountNumber>100320000605606100000000</AccountNumber>
+      </Account>
+    </Beneficiary>
+    <Amount Currency="HUF">2000.00</Amount>
+    <RequestedExecutionDate>2016-12-09</RequestedExecutionDate>
+    <RemittanceInfo>
+      <Text>Adónemkód: 182 Cégnév: BuliSoft Bt.</Text>
+      <Text>Adószám: 55555555-2-13</Text>
+      <Text>Dátum: 2016 november</Text>
+    </RemittanceInfo>
+  </Transaction>
+</HUFTransactions>
