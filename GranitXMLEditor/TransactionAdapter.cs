@@ -3,6 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using GranitXMLEditor;
+using System.Globalization;
 
 namespace GranitXMLEditor
 {
@@ -39,7 +40,7 @@ namespace GranitXMLEditor
         {
             get { return Transaction.Amount.Value; }
             set {
-                UpdateGranitXDocument(Constants.Amount, value.ToString());
+                UpdateGranitXDocument(Constants.Amount, value.ToString("F2", CultureInfo.InvariantCulture));
                 Transaction.Amount.Value = value;
             }
         }
