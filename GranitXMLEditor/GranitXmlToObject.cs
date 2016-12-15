@@ -1,60 +1,71 @@
 ﻿using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using Xml2CSharp;
+using GranitXMLEditor;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using System.Linq;
+using System;
+using System.Globalization;
+using System.Runtime.Serialization;
 
-namespace GranitXMLTemplate
+namespace GranitXMLEditor
 {
     internal class GranitXmlToObject
     {
         internal HUFTransactions HUFTransactions { get; private set; }
-
-        internal XmlDocument GranitXmlDoc{ get; private set; }
-
-        public HUFTransactionAdapter HUFTransactionAdapter { get { return new HUFTransactionAdapter(HUFTransactions); } }
+        internal HUFTransactionAdapter HUFTransactionAdapter { get; private set; }
+        internal XDocument GranitXDocument { get; private set; }
 
         private GranitXmlToObject()
         {
-            GranitXmlDoc = new XmlDocument();
+            GranitXDocument = new XDocument();
         }
 
-        public GranitXmlToObject( HUFTransactions hufTransactions )
-            : this()
+        public GranitXmlToObject(HUFTransactions hufTransactions) : this()
         {
             HUFTransactions = hufTransactions;
-            GenerateXmlDocument();
+            HUFTransactionAdapter = new HUFTransactionAdapter(HUFTransactions, GranitXDocument);
+            UpdateGranitXDocument();
         }
 
-        public GranitXmlToObject( string xmlFilePath )
-            : this()
+        public GranitXmlToObject(string xmlFilePath) : this()
         {
-            ReadFromFile(xmlFilePath);
+            LoadObjectFromFile(xmlFilePath);
+            UpdateGranitXDocument();
+            HUFTransactionAdapter = new HUFTransactionAdapter(HUFTransactions, GranitXDocument);
         }
 
-        public void GenerateXmlDocument()
+        public void UpdateGranitXDocument()
         {
-            var nav = GranitXmlDoc.CreateNavigator();
-            using (var writer = nav.AppendChild())
+            XDocument xml = new XDocument();
+            using (var writer = xml.CreateWriter())
             {
                 var ser = new XmlSerializer(HUFTransactions.GetType());
                 ser.Serialize(writer, HUFTransactions);
             }
+
+            if (GranitXDocument.Elements().Count() == 0)
+                GranitXDocument = xml;
+            else
+            {
+                // merge xmls
+                //GranitXmlDoc.
+            }
+
+
         }
 
-        public void ReadFromFile(string xmlFilePath)
+        public void LoadObjectFromFile(string xmlFilePath)
         {
-            GranitXmlDoc.Load(xmlFilePath);
-            var serializer = new XmlSerializer(typeof(HUFTransactions));
-
-            using (var reader = new XmlNodeReader(GranitXmlDoc))
-            {
-                HUFTransactions = (HUFTransactions)serializer.Deserialize(reader);
-            }
+            var ser = new XmlSerializer(typeof(HUFTransactions));
+            var xml = XDocument.Load(xmlFilePath);
+            HUFTransactions = (HUFTransactions)ser.Deserialize(xml.CreateReader());
         }
 
         public void SaveToFile(string xmlFilePath)
         {
-            GranitXmlDoc.Save(xmlFilePath);
+            GranitXDocument.Save(xmlFilePath);
         }
     }
 }

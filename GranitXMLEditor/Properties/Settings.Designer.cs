@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GranitXMLTemplate.Properties
+namespace GranitXMLEditor.Properties
 {
 
 
