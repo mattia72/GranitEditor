@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using GranitXMLEditor;
 using System.Globalization;
 
 namespace GranitXMLEditor

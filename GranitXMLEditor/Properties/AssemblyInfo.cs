@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GranitXMLTemplate")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("IT Services Hungary")]
+[assembly: AssemblyCompany("MataSoft Bt.")]
 [assembly: AssemblyProduct("GranitXMLTemplate")]
-[assembly: AssemblyCopyright("Copyright © IT Services Hungary 2016")]
+[assembly: AssemblyCopyright("Copyright © MataSoft Bt. 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

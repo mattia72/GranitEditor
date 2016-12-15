@@ -2,3 +2,7 @@ c:\home\dev\visual studio 2015\Projects\GranitXMLTemplate\DataGridViewMaskedText
 c:\home\dev\visual studio 2015\Projects\GranitXMLTemplate\DataGridViewMaskedTextBox\bin\Debug\DataGridViewMaskedTextBox.pdb
 c:\home\dev\visual studio 2015\Projects\GranitXMLTemplate\DataGridViewMaskedTextBox\obj\Debug\DataGridViewMaskedTextBox.dll
 c:\home\dev\visual studio 2015\Projects\GranitXMLTemplate\DataGridViewMaskedTextBox\obj\Debug\DataGridViewMaskedTextBox.pdb
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\DataGridViewMaskedTextBox\bin\Debug\DataGridViewMaskedTextBox.dll
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\DataGridViewMaskedTextBox\bin\Debug\DataGridViewMaskedTextBox.pdb
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\DataGridViewMaskedTextBox\obj\Debug\DataGridViewMaskedTextBox.dll
+C:\home\dev\visual studio 2015\Projects\GranitXMLEditor\DataGridViewMaskedTextBox\obj\Debug\DataGridViewMaskedTextBox.pdb

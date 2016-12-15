@@ -2,10 +2,14 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/GranitXMLTemplate/bin/Debug/fizu_adok_11.xml
-/GranitXMLTemplate/bin/Debug
-/GranitXMLTemplate/obj/Debug
 /GranitXMLEditor/bin/Debug
 /GranitXMLEditor/obj/Debug
+#/GranitXMLEditorTest/bin/Debug
+#/GranitXMLEditorTest/obj/Debug
 /PoorMensAboutBox/bin/Debug
 /PoorMensAboutBox/obj
+/DataGridViewMaskedTextBox/bin/Debug
+/DataGridViewMaskedTextBox/obj/Debug
+*.exe
+*.pdb
+
