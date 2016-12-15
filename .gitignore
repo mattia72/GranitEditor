@@ -10,6 +10,8 @@
 #/PoorMensAboutBox/obj
 #/DataGridViewMaskedTextBox/bin/Debug
 #/DataGridViewMaskedTextBox/obj/Debug
+**/.*
+.*
 *.obj
 *.exe
 *.exp
