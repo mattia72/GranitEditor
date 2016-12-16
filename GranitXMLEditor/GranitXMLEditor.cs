@@ -1,20 +1,40 @@
 ﻿using Be.Timvw.Framework.ComponentModel;
+using GranitXMLEditor.Properties;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace GranitXMLEditor
 {
-    public partial class GranitXMLEditor : Form
+    public partial class GranitXMLEditorForm : Form
     {
 
         private GranitXmlToObject xmlToObject;
         private OpenFileDialog openFileDialog1 ;
 
-        public GranitXMLEditor()
+        public GranitXMLEditorForm()
         {
             InitializeComponent();
             LoadXmlFile("default.xml");
+            if (!string.IsNullOrEmpty(Settings.Default.SortedColumn))
+            {
+                DataGridViewColumn col = FindColumnByHeaderText(Settings.Default.SortedColumn);
+                dataGridView1.Sort(col, Settings.Default.SortOrder == "Ascending" ? ListSortDirection.Ascending : ListSortDirection.Descending);
+                col.HeaderCell.SortGlyphDirection = Settings.Default.SortOrder == "Ascending" ? SortOrder.Ascending : SortOrder.Descending;
+            }
+        }
+
+        private DataGridViewColumn FindColumnByHeaderText(string headerText)
+        {
+            foreach (DataGridViewColumn col in dataGridView1.Columns)
+            {
+                if (col.HeaderText == headerText)
+                {
+                    return col;
+                }
+            }
+            return null;
         }
 
         public void LoadXml_button_Click(object sender, EventArgs e)
@@ -87,8 +107,8 @@ namespace GranitXMLEditor
 
         }
 
-        private DataGridViewCellValidatingEventArgs cellErrorLocation;
-        private string cellErrorText;
+        //private DataGridViewCellValidatingEventArgs cellErrorLocation;
+        //private string cellErrorText;
 
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
@@ -123,8 +143,8 @@ namespace GranitXMLEditor
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             //dataGridView1.Rows[e.RowIndex].ErrorText = String.Empty;
-            cellErrorLocation = null;
-            cellErrorText = null;
+            //cellErrorLocation = null;
+            //cellErrorText = null;
             //dataGridView1.BackgroundColor = BackColor;
         }
 
@@ -142,6 +162,16 @@ namespace GranitXMLEditor
         private void dataGridView1_RowErrorTextNeeded(object sender, DataGridViewRowErrorTextNeededEventArgs e)
         {
 
+        }
+
+        private void dataGridView1_Sorted(object sender, EventArgs e)
+        {
+            var sortedCol = dataGridView1.SortedColumn;
+            var sortDirection = dataGridView1.SortOrder;
+            string sortedField = sortedCol.HeaderText;
+            Settings.Default.SortedColumn = sortedField;
+            Settings.Default.SortOrder = sortDirection.ToString();
+            Settings.Default.Save();
         }
     }
 }
