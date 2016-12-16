@@ -10,8 +10,8 @@ namespace GranitXMLEditor
     public partial class GranitXMLEditorForm : Form
     {
 
-        private GranitXmlToObject xmlToObject;
-        private OpenFileDialog openFileDialog1 ;
+        private GranitXmlToObjectBinder xmlToObject;
+        private OpenFileDialog openFileDialog1;
 
         public GranitXMLEditorForm()
         {
@@ -60,7 +60,7 @@ namespace GranitXMLEditor
         private void LoadXmlFile(string xmlFilePath)
         {
             if (xmlToObject == null)
-                xmlToObject = new GranitXmlToObject(xmlFilePath);
+                xmlToObject = new GranitXmlToObjectBinder(xmlFilePath);
 
             xmlToObject.LoadObjectFromFile(xmlFilePath);
             var list = new SortableBindingList<TransactionAdapter>(xmlToObject.HUFTransactionAdapter.Transactions);
@@ -173,7 +173,7 @@ namespace GranitXMLEditor
             Settings.Default.SortOrder = sortDirection.ToString();
             Settings.Default.Save();
 
-            xmlToObject.GranitXDocument.
+            xmlToObject.Sort(sortedField, sortDirection);
         }
     }
 }
