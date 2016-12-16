@@ -8,6 +8,7 @@ using System.Linq;
 using System;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Windows.Forms;
 
 namespace GranitXMLEditor
 {
@@ -68,9 +69,16 @@ namespace GranitXMLEditor
             GranitXDocument.Save(xmlFilePath);
         }
 
-        public void Sort(string columnText )
+        public void Sort(string columnText, SortOrder sortOrder)
         {
-            var sorted = GranitXDocument.Descendants(Constants.Transaction).OrderBy(x => x.Element("Amount").Value);
+            switch (columnText)
+            {
+                case Constants.Amount:
+                    var sorted = GranitXDocument.Descendants(Constants.Transaction).OrderBy(x => x.Element(Constants.Amount).Value);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
