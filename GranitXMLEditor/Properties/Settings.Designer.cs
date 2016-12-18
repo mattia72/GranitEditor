@@ -46,5 +46,17 @@ namespace GranitXMLEditor.Properties {
                 this["SortOrder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AlignTable {
+            get {
+                return ((string)(this["AlignTable"]));
+            }
+            set {
+                this["AlignTable"] = value;
+            }
+        }
     }
 }

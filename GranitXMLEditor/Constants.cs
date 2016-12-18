@@ -21,6 +21,7 @@ namespace GranitXMLEditor
         public const string RemittanceInfo = "RemittanceInfo";
         public const string Text = "Text";
         public const string Transaction = "Transaction";
+        public const string TransactionAttribute = "id";
         public const string RequestedExecutionDate = "RequestedExecutionDate";
         public const string DateFormat = "yyyy-MM-dd";
         //DataGridView

@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace GranitXMLEditor
 {
-    public class TransactionAdapter : IComparable<XElement>, IComparable<Transaction>, IComparable<TransactionAdapter>
+    public class TransactionAdapter : IComparable<XElement>, IComparable<Transaction>, IComparable<TransactionAdapter>, IBindable<XElement>
     {
         public string Originator
         {
@@ -96,7 +96,7 @@ namespace GranitXMLEditor
                 return;
 
             var xt = GranitXDocument.Descendants(Constants.Transaction)
-                .Where(x=> this.CompareTo(x) == 0).ToList()
+                .Where(x=> this.IsBindedWith(x)).ToList()
                 .FirstOrDefault();
 
             switch (field)
@@ -177,5 +177,10 @@ namespace GranitXMLEditor
             }
             xt.Element(Constants.RemittanceInfo).Elements(Constants.Text).Where(x => x.Value == "").Remove();
         }
+
+    public bool IsBindedWith(XElement t)
+    {
+      return Transaction.IsBindedWith(t);
     }
+  }
 }
