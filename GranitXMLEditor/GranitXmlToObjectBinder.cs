@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using System.Linq;
 using System.Windows.Forms;
+using System;
 
 namespace GranitXMLEditor
 {
@@ -15,13 +16,6 @@ namespace GranitXMLEditor
     {
       GranitXDocument = new XDocument();
     }
-
-    //public GranitXmlToObjectBinder(HUFTransactions hufTransactions) : this()
-    //{
-    //    HUFTransactions = hufTransactions;
-    //    CreateAdapter();
-    //    UpdateGranitXDocument();
-    //}
 
     public GranitXmlToObjectBinder(string xmlFilePath) : this()
     {
@@ -44,7 +38,7 @@ namespace GranitXMLEditor
       else
       {
         // merge xmls
-        //GranitXmlDoc.
+        throw new NotImplementedException();
       }
     }
 
@@ -90,7 +84,7 @@ namespace GranitXMLEditor
       switch (columnText)
       {
         case Constants.Amount:
-          var sorted = GranitXDocument.Descendants(Constants.Transaction).OrderBy(x => x.Element(Constants.Amount).Value);
+          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.Amount, sortOrder);
           break;
         default:
           break;
