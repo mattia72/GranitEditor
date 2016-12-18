@@ -26,7 +26,7 @@ namespace GranitXMLEditor
         sortedElements = x.Descendants(elementName).OrderByDescending(e => e.Element(elementValue).Value);
 
       if (sortedElements != null)
-        sortedElements.First().Parent.ReplaceNodes(sortedElements); // and we lost comments...
+        sortedElements.First().Parent.ReplaceNodes(sortedElements); // and now we lost comments from parent node...
 
       //{
       //  int j = 0;
@@ -41,7 +41,7 @@ namespace GranitXMLEditor
       //    if (j >= sortedElements.Count())                
       //      break;
       //  }
+      //}
     }
-  }
   }
 }
