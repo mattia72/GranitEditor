@@ -51,31 +51,44 @@ namespace GranitXMLEditor
     {
       var ser = new XmlSerializer(typeof(HUFTransactions));
       HUFTransactions = (HUFTransactions)ser.Deserialize(xml.CreateReader());
-      AddTransactionIdAttribute();
+      AddTransactionAttributes();
     }
 
-    private void AddTransactionIdAttribute()
+    private void AddTransactionAttributes()
     {
       int id = 0;
       foreach (var item in GranitXDocument.Descendants(Constants.Transaction).InDocumentOrder())
       {
-        XAttribute a = new XAttribute(Constants.TransactionAttribute, ++id);
+        XAttribute a = new XAttribute(Constants.TransactionIdAttribute, ++id);
+        XAttribute a2 = new XAttribute(Constants.TransactionActiveAttribute, true);
         item.Add(a);
+        item.Add(a2);
       }
     }
 
     public void SaveToFile(string xmlFilePath)
     {
-      RemoveTransactionIdAttribute();
-      GranitXDocument.Save(xmlFilePath);
+      var xDocToSave = new XDocument(new XElement(Constants.HUFTransactions));
+
+      foreach (var item in GranitXDocument.Root.Elements().
+        Where(x => x.Attribute(Constants.TransactionActiveAttribute) == null || x.Attribute(Constants.TransactionActiveAttribute).Value == "true"))
+      {
+          xDocToSave.Root.Add(item);
+      }
+
+      RemoveTransactionAttributes(xDocToSave);
+      xDocToSave.Save(xmlFilePath);
     }
 
-    private void RemoveTransactionIdAttribute()
+    private void RemoveTransactionAttributes(XDocument x)
     {
-      foreach (var item in GranitXDocument.Descendants(Constants.HUFTransactions).Elements())
+      foreach (var item in x.Root.Elements())
       {
-        if(item.Attribute(Constants.TransactionAttribute) != null)
-          item.Attribute(Constants.TransactionAttribute).Remove();
+        if(item.Attribute(Constants.TransactionIdAttribute) != null)
+          item.Attribute(Constants.TransactionIdAttribute).Remove();
+
+        if(item.Attribute(Constants.TransactionActiveAttribute) != null)
+          item.Attribute(Constants.TransactionActiveAttribute).Remove();
       }
     }
 
@@ -83,10 +96,29 @@ namespace GranitXMLEditor
     {
       switch (columnText)
       {
+        case Constants.Active:
+          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.Active, sortOrder);
+          break;
+        case Constants.Originator:
+          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.Originator, sortOrder);
+          break;
+        case Constants.BeneficiaryName:
+          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.BeneficiaryName, sortOrder);
+          break;
+        case Constants.BeneficiaryAccount:
+          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.BeneficiaryAccount, sortOrder);
+          break;
         case Constants.Amount:
           GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.Amount, sortOrder);
           break;
-        default:
+        case Constants.Currency:
+          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.Currency, sortOrder);
+          break;
+        case Constants.RequestedExecutionDate:
+          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.RequestedExecutionDate, sortOrder);
+          break;
+        case Constants.RemittanceInfo:
+          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.RemittanceInfo, sortOrder);
           break;
       }
     }
@@ -95,6 +127,5 @@ namespace GranitXMLEditor
     {
       HUFTransactionAdapter = new HUFTransactionAdapter(HUFTransactions, GranitXDocument);
     }
-
   }
 }

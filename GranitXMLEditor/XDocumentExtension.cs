@@ -28,7 +28,7 @@ namespace GranitXMLEditor
       if (sortedElements != null)
         sortedElements.First().Parent.ReplaceNodes(sortedElements); // and now we lost comments from parent node...
 
-      //{
+      //{// this method doesn't work, but bubleshort could help
       //  int j = 0;
       //  var transactionNodes = x.Elements().Where(t => t.Attribute(Constants.TransactionAttribute) != null).ToArray();
       //  for (int i = 0; i < transactionNodes.Count(); i++)

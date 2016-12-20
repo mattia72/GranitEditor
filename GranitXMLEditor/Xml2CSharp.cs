@@ -119,6 +119,8 @@ namespace GranitXMLEditor
   {
     [XmlIgnore()]
     private static int TransactionCounter = 0;
+    [XmlIgnore()]
+    public static bool IsActive { get; set; }
 
     [XmlElement(ElementName = "Originator")]
     public Originator Originator { get; set; }
@@ -137,6 +139,7 @@ namespace GranitXMLEditor
     public Transaction()
     {
       TransactionId = ++TransactionCounter;
+      IsActive = true;
       Originator = new Originator();
       Beneficiary = new Beneficiary();
       Amount = new Amount();
@@ -146,26 +149,23 @@ namespace GranitXMLEditor
 
     public int CompareTo(Transaction other)
     {
-      if (TransactionId != other.TransactionId)
-      {
-        if (0 != Amount.CompareTo(other.Amount))
-          return Amount.CompareTo(other.Amount);
-        if (0 != Originator.CompareTo(other.Originator))
-          return Originator.CompareTo(other.Originator);
-        if (0 != Beneficiary.CompareTo(other.Beneficiary))
-          return Beneficiary.CompareTo(other.Beneficiary);
-        if (0 != RequestedExecutionDate.CompareTo(other.RequestedExecutionDate))
-          return RequestedExecutionDate.CompareTo(other.RequestedExecutionDate);
-        if (0 != RemittanceInfo.CompareTo(other.RemittanceInfo))
-          return RemittanceInfo.CompareTo(other.RemittanceInfo);
-      }
+      if (0 != Amount.CompareTo(other.Amount))
+        return Amount.CompareTo(other.Amount);
+      if (0 != Originator.CompareTo(other.Originator))
+        return Originator.CompareTo(other.Originator);
+      if (0 != Beneficiary.CompareTo(other.Beneficiary))
+        return Beneficiary.CompareTo(other.Beneficiary);
+      if (0 != RequestedExecutionDate.CompareTo(other.RequestedExecutionDate))
+        return RequestedExecutionDate.CompareTo(other.RequestedExecutionDate);
+      if (0 != RemittanceInfo.CompareTo(other.RemittanceInfo))
+        return RemittanceInfo.CompareTo(other.RemittanceInfo);
 
-      return 0;                      
+      return 0;
     }
 
     public bool IsBindedWith(XElement t)
     {
-      return (TransactionId == int.Parse(t.Attribute(Constants.TransactionAttribute).Value));
+      return (TransactionId == int.Parse(t.Attribute(Constants.TransactionIdAttribute).Value));
     }
   }
 
