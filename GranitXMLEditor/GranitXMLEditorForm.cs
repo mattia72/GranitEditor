@@ -51,16 +51,6 @@ namespace GranitXMLEditor
       return null;
     }
 
-    public void LoadXml_button_Click(object sender, EventArgs e)
-    {
-      OpenGranitXmlFile();
-    }
-
-    private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      SaveGranitXmlFile();
-    }
-
     private void OpenGranitXmlFile()
     {
       openFileDialog1 = openFileDialog1 == null ? new OpenFileDialog() : openFileDialog1;
@@ -100,11 +90,6 @@ namespace GranitXMLEditor
       var list = new SortableBindingList<TransactionAdapter>(xmlToObject.HUFTransactionAdapter.Transactions);
       dataGridView1.DataSource = list;
 
-    }
-
-    private void openToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      OpenGranitXmlFile();
     }
 
     private void alignTableToolStripMenuItem_Click(object sender, EventArgs e)
@@ -215,6 +200,26 @@ namespace GranitXMLEditor
         dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
         Debug.WriteLine("CommitEdit called.");
       }
+    }
+
+    private void openToolStripMenuItem1_Click(object sender, EventArgs e)
+    {
+      OpenGranitXmlFile();
+    }
+
+    private void saveAsToolStripMenuItem1_Click(object sender, EventArgs e)
+    {
+      SaveGranitXmlFile();
+    }
+
+    protected override void OnClosing(CancelEventArgs e)
+    {
+      base.OnClosing(e);
+    }
+
+    private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      Close();
     }
   }
 }
