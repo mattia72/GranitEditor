@@ -221,5 +221,10 @@ namespace GranitXMLEditor
     {
       Close();
     }
+
+    private void findAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+
+    }
   }
 }
