@@ -3,6 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace GranitXMLEditor
 {
@@ -15,6 +16,7 @@ namespace GranitXMLEditor
       {
         UpdateGranitXDocument(Constants.Active, value.ToString().ToLower());
         Transaction.IsActive = value;
+        Debug.WriteLine("InActiv property set to {0} for T id:{1}", value, Transaction.TransactionId);
       }
 
     }

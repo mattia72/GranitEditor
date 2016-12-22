@@ -6,6 +6,7 @@ using Be.Timvw.Framework.ComponentModel;
 using GranitXMLEditor.Properties;
 using System.Xml.Linq;
 using System.Xml;
+using System.Diagnostics;
 
 namespace GranitXMLEditor
 {
@@ -194,6 +195,26 @@ namespace GranitXMLEditor
       Settings.Default.Save();
 
       xmlToObject.Sort(dataGridView1.SortedColumn.HeaderText, dataGridView1.SortOrder);
+    }
+
+    private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+    {
+      //if (dataGridView1.CurrentCell == null) return;
+      //if ((bool)dataGridView1.CurrentCell.Value == true)
+      //  Debug.WriteLine("Checkbox value true.");
+      //else if ((bool)dataGridView1.CurrentCell.Value == false)
+      //  Debug.WriteLine("Checkbox value false.");
+      //else Debug.WriteLine(dataGridView1.CurrentCell.Value.ToString());
+    }
+
+    private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+    {
+      // without this, it doesn't update the adapter after click
+      if (dataGridView1.IsCurrentCellDirty)
+      {
+        dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
+        Debug.WriteLine("CommitEdit called.");
+      }
     }
   }
 }

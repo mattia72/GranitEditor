@@ -120,7 +120,7 @@ namespace GranitXMLEditor
     [XmlIgnore()]
     private static int TransactionCounter = 0;
     [XmlIgnore()]
-    public static bool IsActive { get; set; }
+    public bool IsActive { get; set; }
 
     [XmlElement(ElementName = "Originator")]
     public Originator Originator { get; set; }

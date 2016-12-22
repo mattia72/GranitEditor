@@ -97,28 +97,38 @@ namespace GranitXMLEditor
       switch (columnText)
       {
         case Constants.Active:
-          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.Active, sortOrder);
+          GranitXDocument.SortElementsByXPathEvaluate(Constants.Transaction, "/@" + Constants.TransactionIdAttribute, 
+            sortOrder);
           break;
         case Constants.Originator:
-          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.Originator, sortOrder);
+          GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
+            string.Join("/", new string[] { Constants.Originator, Constants.Account, Constants.AccountNumber }), 
+            sortOrder);
           break;
         case Constants.BeneficiaryName:
-          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.BeneficiaryName, sortOrder);
+          GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
+            string.Join("/", new string[] { Constants.Beneficiary, Constants.Name }), sortOrder);
           break;
         case Constants.BeneficiaryAccount:
-          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.BeneficiaryAccount, sortOrder);
+          GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction,
+            string.Join("/", new string[] { Constants.Beneficiary, Constants.Account, Constants.AccountNumber }),
+            sortOrder);
           break;
         case Constants.Amount:
-          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.Amount, sortOrder);
+          GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, Constants.Amount, sortOrder);
           break;
         case Constants.Currency:
-          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.Currency, sortOrder);
+          GranitXDocument.SortElementsByXPathEvaluate(Constants.Transaction, 
+            Constants.Amount + "/@" + Constants.Currency, sortOrder);
           break;
         case Constants.RequestedExecutionDate:
-          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.RequestedExecutionDate, sortOrder);
+          GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
+            Constants.RequestedExecutionDate, sortOrder);
           break;
         case Constants.RemittanceInfo:
-          GranitXDocument.SortDescendantElementsByElementValue(Constants.Transaction, Constants.RemittanceInfo, sortOrder);
+          //TODO sort by all Text field
+          GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
+            Constants.RemittanceInfo + "/" + Constants.Text, sortOrder);
           break;
       }
     }
