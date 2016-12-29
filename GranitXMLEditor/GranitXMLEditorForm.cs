@@ -4,8 +4,6 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using Be.Timvw.Framework.ComponentModel;
 using GranitXMLEditor.Properties;
-using System.Xml.Linq;
-using System.Xml;
 using System.Diagnostics;
 
 namespace GranitXMLEditor
@@ -104,12 +102,6 @@ namespace GranitXMLEditor
       }
       Settings.Default.AlignTable = dataGridView1.AutoSizeColumnsMode.ToString();
       alignTableToolStripMenuItem.Checked = !alignTableToolStripMenuItem.Checked;
-    }
-
-    private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      var aboutBox = new PoorMensAboutBox.AboutBox();
-      aboutBox.ShowDialog();
     }
 
     private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -222,9 +214,42 @@ namespace GranitXMLEditor
       Close();
     }
 
+    private FindReplaceDlg findReplaceDlg;
     private void findAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
     {
+      if (findReplaceDlg == null)
+        findReplaceDlg = new FindReplaceDlg(dataGridView1);
 
+      if (findReplaceDlg.IsDisposed)
+        findReplaceDlg = new FindReplaceDlg(dataGridView1);
+
+      if (!findReplaceDlg.Visible)
+      {
+        findReplaceDlg.Show(this);
+        findReplaceDlg.BringToFront();
+      }
+      else
+      {
+        findReplaceDlg.Hide();
+      }
+
+    }
+
+    private AboutBox ab = new AboutBox();
+    private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
+    {
+      if (ab.IsDisposed)
+        ab = new AboutBox();
+
+      if (!ab.Visible)
+      {
+        ab.Show();
+        ab.BringToFront();
+      }
+      else
+      {
+        ab.Hide();
+      }
     }
   }
 }

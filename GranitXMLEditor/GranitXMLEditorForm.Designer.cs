@@ -65,6 +65,7 @@
       this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
       this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.findAndReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.alignTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
@@ -77,7 +78,6 @@
       this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
       this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-      this.findAndReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.panel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).BeginInit();
@@ -379,6 +379,14 @@
       this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(258, 26);
       this.selectAllToolStripMenuItem.Text = "Select &All";
       // 
+      // findAndReplaceToolStripMenuItem
+      // 
+      this.findAndReplaceToolStripMenuItem.Name = "findAndReplaceToolStripMenuItem";
+      this.findAndReplaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+      this.findAndReplaceToolStripMenuItem.Size = new System.Drawing.Size(258, 26);
+      this.findAndReplaceToolStripMenuItem.Text = "Find and Replace...";
+      this.findAndReplaceToolStripMenuItem.Click += new System.EventHandler(this.findAndReplaceToolStripMenuItem_Click);
+      // 
       // toolsToolStripMenuItem
       // 
       this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -393,25 +401,25 @@
       // alignTableToolStripMenuItem
       // 
       this.alignTableToolStripMenuItem.Name = "alignTableToolStripMenuItem";
-      this.alignTableToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.alignTableToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
       this.alignTableToolStripMenuItem.Text = "Align Table";
       this.alignTableToolStripMenuItem.Click += new System.EventHandler(this.alignTableToolStripMenuItem_Click);
       // 
       // toolStripSeparator6
       // 
       this.toolStripSeparator6.Name = "toolStripSeparator6";
-      this.toolStripSeparator6.Size = new System.Drawing.Size(178, 6);
+      this.toolStripSeparator6.Size = new System.Drawing.Size(157, 6);
       // 
       // customizeToolStripMenuItem
       // 
       this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-      this.customizeToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.customizeToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
       this.customizeToolStripMenuItem.Text = "&Customize";
       // 
       // optionsToolStripMenuItem
       // 
       this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-      this.optionsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.optionsToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
       this.optionsToolStripMenuItem.Text = "&Options";
       // 
       // helpToolStripMenuItem1
@@ -454,18 +462,11 @@
       this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
       this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
       this.aboutToolStripMenuItem1.Text = "&About...";
+      this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
       // 
       // errorProvider1
       // 
       this.errorProvider1.ContainerControl = this;
-      // 
-      // findAndReplaceToolStripMenuItem
-      // 
-      this.findAndReplaceToolStripMenuItem.Name = "findAndReplaceToolStripMenuItem";
-      this.findAndReplaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-      this.findAndReplaceToolStripMenuItem.Size = new System.Drawing.Size(258, 26);
-      this.findAndReplaceToolStripMenuItem.Text = "Find and Replace...";
-      this.findAndReplaceToolStripMenuItem.Click += new System.EventHandler(this.findAndReplaceToolStripMenuItem_Click);
       // 
       // GranitXMLEditorForm
       // 

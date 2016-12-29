@@ -69,7 +69,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="FindReplaceDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindReplaceDlg.Designer.cs">
+      <DependentUpon>FindReplaceDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="GranitXMLEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +103,12 @@
     <Compile Include="XDocumentExtension.cs" />
     <Compile Include="Xml2CSharp.cs" />
     <Compile Include="GranitXmlToObjectBinder.cs" />
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindReplaceDlg.resx">
+      <DependentUpon>FindReplaceDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GranitXMLEditorForm.resx">
       <DependentUpon>GranitXMLEditorForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -134,10 +152,6 @@
     <ProjectReference Include="..\DataGridViewMaskedTextBox\DataGridViewMaskedTextBox.csproj">
       <Project>{a932952a-4d18-45d3-9f9d-3714b435df37}</Project>
       <Name>DataGridViewMaskedTextBox</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PoorMensAboutBox\PoorMensAboutBox.csproj">
-      <Project>{2b7b86ec-e71c-439f-85c7-fe1d074ed651}</Project>
-      <Name>PoorMensAboutBox</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

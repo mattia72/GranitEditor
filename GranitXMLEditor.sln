@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitXMLEditor", "GranitXM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGridViewMaskedTextBox", "DataGridViewMaskedTextBox\DataGridViewMaskedTextBox.csproj", "{A932952A-4D18-45D3-9F9D-3714B435DF37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoorMensAboutBox", "PoorMensAboutBox\PoorMensAboutBox.csproj", "{2B7B86EC-E71C-439F-85C7-FE1D074ED651}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitXMLEditorTests", "GranitXMLEditorTests\GranitXMLEditorTests.csproj", "{1EF2EC31-D8F0-42DD-968F-477FB81674C7}"
 EndProject
 Global
@@ -36,14 +34,6 @@ Global
 		{A932952A-4D18-45D3-9F9D-3714B435DF37}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A932952A-4D18-45D3-9F9D-3714B435DF37}.Release|x86.ActiveCfg = Release|Any CPU
 		{A932952A-4D18-45D3-9F9D-3714B435DF37}.Release|x86.Build.0 = Release|Any CPU
-		{2B7B86EC-E71C-439F-85C7-FE1D074ED651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B7B86EC-E71C-439F-85C7-FE1D074ED651}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B7B86EC-E71C-439F-85C7-FE1D074ED651}.Debug|x86.ActiveCfg = Debug|x86
-		{2B7B86EC-E71C-439F-85C7-FE1D074ED651}.Debug|x86.Build.0 = Debug|x86
-		{2B7B86EC-E71C-439F-85C7-FE1D074ED651}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B7B86EC-E71C-439F-85C7-FE1D074ED651}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B7B86EC-E71C-439F-85C7-FE1D074ED651}.Release|x86.ActiveCfg = Release|x86
-		{2B7B86EC-E71C-439F-85C7-FE1D074ED651}.Release|x86.Build.0 = Release|x86
 		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|x86.ActiveCfg = Debug|Any CPU

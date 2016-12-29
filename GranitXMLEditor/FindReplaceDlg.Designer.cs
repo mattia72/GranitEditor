@@ -28,25 +28,33 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.comboBox1 = new System.Windows.Forms.ComboBox();
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindReplaceDlg));
+      this.findComboBox = new System.Windows.Forms.ComboBox();
       this.label1 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
-      this.comboBox2 = new System.Windows.Forms.ComboBox();
+      this.replaceComboBox = new System.Windows.Forms.ComboBox();
       this.findButton = new System.Windows.Forms.Button();
       this.replaceButton = new System.Windows.Forms.Button();
       this.replaceAllButton = new System.Windows.Forms.Button();
       this.cancelButton = new System.Windows.Forms.Button();
       this.matchWholeWordsCheckBox = new System.Windows.Forms.CheckBox();
       this.matchCaseCheckBox = new System.Windows.Forms.CheckBox();
+      this.upRadioButton = new System.Windows.Forms.RadioButton();
+      this.downRadioButton = new System.Windows.Forms.RadioButton();
+      this.selectionRadioButton = new System.Windows.Forms.RadioButton();
+      this.groupBox1 = new System.Windows.Forms.GroupBox();
+      this.useRegexpCheckBox = new System.Windows.Forms.CheckBox();
+      this.groupBox1.SuspendLayout();
       this.SuspendLayout();
       // 
-      // comboBox1
+      // findComboBox
       // 
-      this.comboBox1.FormattingEnabled = true;
-      this.comboBox1.Location = new System.Drawing.Point(111, 12);
-      this.comboBox1.Name = "comboBox1";
-      this.comboBox1.Size = new System.Drawing.Size(315, 24);
-      this.comboBox1.TabIndex = 0;
+      this.findComboBox.FormattingEnabled = true;
+      this.findComboBox.Location = new System.Drawing.Point(111, 12);
+      this.findComboBox.Name = "findComboBox";
+      this.findComboBox.Size = new System.Drawing.Size(315, 24);
+      this.findComboBox.TabIndex = 0;
+      this.findComboBox.TextChanged += new System.EventHandler(this.findComboBox_TextChanged);
       // 
       // label1
       // 
@@ -66,22 +74,23 @@
       this.label2.TabIndex = 3;
       this.label2.Text = "R&eplace with:";
       // 
-      // comboBox2
+      // replaceComboBox
       // 
-      this.comboBox2.FormattingEnabled = true;
-      this.comboBox2.Location = new System.Drawing.Point(111, 42);
-      this.comboBox2.Name = "comboBox2";
-      this.comboBox2.Size = new System.Drawing.Size(315, 24);
-      this.comboBox2.TabIndex = 2;
+      this.replaceComboBox.FormattingEnabled = true;
+      this.replaceComboBox.Location = new System.Drawing.Point(111, 42);
+      this.replaceComboBox.Name = "replaceComboBox";
+      this.replaceComboBox.Size = new System.Drawing.Size(315, 24);
+      this.replaceComboBox.TabIndex = 2;
       // 
       // findButton
       // 
-      this.findButton.Location = new System.Drawing.Point(432, 12);
+      this.findButton.Location = new System.Drawing.Point(432, 7);
       this.findButton.Name = "findButton";
       this.findButton.Size = new System.Drawing.Size(94, 28);
       this.findButton.TabIndex = 4;
       this.findButton.Text = "&Find";
       this.findButton.UseVisualStyleBackColor = true;
+      this.findButton.Click += new System.EventHandler(this.findButton_Click);
       // 
       // replaceButton
       // 
@@ -91,6 +100,7 @@
       this.replaceButton.TabIndex = 4;
       this.replaceButton.Text = "&Replace";
       this.replaceButton.UseVisualStyleBackColor = true;
+      this.replaceButton.Click += new System.EventHandler(this.replaceButton_Click);
       // 
       // replaceAllButton
       // 
@@ -104,17 +114,18 @@
       // cancelButton
       // 
       this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-      this.cancelButton.Location = new System.Drawing.Point(432, 113);
+      this.cancelButton.Location = new System.Drawing.Point(432, 143);
       this.cancelButton.Name = "cancelButton";
       this.cancelButton.Size = new System.Drawing.Size(94, 27);
       this.cancelButton.TabIndex = 5;
       this.cancelButton.Text = "&Cancel";
       this.cancelButton.UseVisualStyleBackColor = true;
+      this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
       // 
       // matchWholeWordsCheckBox
       // 
       this.matchWholeWordsCheckBox.AutoSize = true;
-      this.matchWholeWordsCheckBox.Location = new System.Drawing.Point(16, 88);
+      this.matchWholeWordsCheckBox.Location = new System.Drawing.Point(12, 93);
       this.matchWholeWordsCheckBox.Name = "matchWholeWordsCheckBox";
       this.matchWholeWordsCheckBox.Size = new System.Drawing.Size(149, 21);
       this.matchWholeWordsCheckBox.TabIndex = 6;
@@ -124,19 +135,75 @@
       // matchCaseCheckBox
       // 
       this.matchCaseCheckBox.AutoSize = true;
-      this.matchCaseCheckBox.Location = new System.Drawing.Point(16, 115);
+      this.matchCaseCheckBox.Location = new System.Drawing.Point(12, 120);
       this.matchCaseCheckBox.Name = "matchCaseCheckBox";
       this.matchCaseCheckBox.Size = new System.Drawing.Size(102, 21);
       this.matchCaseCheckBox.TabIndex = 6;
       this.matchCaseCheckBox.Text = "Match &case";
       this.matchCaseCheckBox.UseVisualStyleBackColor = true;
       // 
+      // upRadioButton
+      // 
+      this.upRadioButton.AutoSize = true;
+      this.upRadioButton.Location = new System.Drawing.Point(39, 27);
+      this.upRadioButton.Name = "upRadioButton";
+      this.upRadioButton.Size = new System.Drawing.Size(47, 21);
+      this.upRadioButton.TabIndex = 7;
+      this.upRadioButton.Text = "Up";
+      this.upRadioButton.UseVisualStyleBackColor = true;
+      // 
+      // downRadioButton
+      // 
+      this.downRadioButton.AutoSize = true;
+      this.downRadioButton.Checked = true;
+      this.downRadioButton.Location = new System.Drawing.Point(92, 27);
+      this.downRadioButton.Name = "downRadioButton";
+      this.downRadioButton.Size = new System.Drawing.Size(64, 21);
+      this.downRadioButton.TabIndex = 8;
+      this.downRadioButton.TabStop = true;
+      this.downRadioButton.Text = "Down";
+      this.downRadioButton.UseVisualStyleBackColor = true;
+      // 
+      // selectionRadioButton
+      // 
+      this.selectionRadioButton.AutoSize = true;
+      this.selectionRadioButton.Location = new System.Drawing.Point(162, 27);
+      this.selectionRadioButton.Name = "selectionRadioButton";
+      this.selectionRadioButton.Size = new System.Drawing.Size(87, 21);
+      this.selectionRadioButton.TabIndex = 8;
+      this.selectionRadioButton.Text = "Selection";
+      this.selectionRadioButton.UseVisualStyleBackColor = true;
+      // 
+      // groupBox1
+      // 
+      this.groupBox1.Controls.Add(this.selectionRadioButton);
+      this.groupBox1.Controls.Add(this.downRadioButton);
+      this.groupBox1.Controls.Add(this.upRadioButton);
+      this.groupBox1.Location = new System.Drawing.Point(171, 93);
+      this.groupBox1.Name = "groupBox1";
+      this.groupBox1.Size = new System.Drawing.Size(255, 75);
+      this.groupBox1.TabIndex = 9;
+      this.groupBox1.TabStop = false;
+      this.groupBox1.Text = "Direction";
+      // 
+      // useRegexpCheckBox
+      // 
+      this.useRegexpCheckBox.AutoSize = true;
+      this.useRegexpCheckBox.Location = new System.Drawing.Point(12, 147);
+      this.useRegexpCheckBox.Name = "useRegexpCheckBox";
+      this.useRegexpCheckBox.Size = new System.Drawing.Size(102, 21);
+      this.useRegexpCheckBox.TabIndex = 10;
+      this.useRegexpCheckBox.Text = "Use &regexp";
+      this.useRegexpCheckBox.UseVisualStyleBackColor = true;
+      // 
       // FindReplaceDlg
       // 
+      this.AcceptButton = this.findButton;
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.CancelButton = this.cancelButton;
-      this.ClientSize = new System.Drawing.Size(538, 152);
+      this.ClientSize = new System.Drawing.Size(538, 182);
+      this.Controls.Add(this.useRegexpCheckBox);
       this.Controls.Add(this.matchCaseCheckBox);
       this.Controls.Add(this.matchWholeWordsCheckBox);
       this.Controls.Add(this.cancelButton);
@@ -144,13 +211,18 @@
       this.Controls.Add(this.replaceButton);
       this.Controls.Add(this.findButton);
       this.Controls.Add(this.label2);
-      this.Controls.Add(this.comboBox2);
+      this.Controls.Add(this.replaceComboBox);
       this.Controls.Add(this.label1);
-      this.Controls.Add(this.comboBox1);
+      this.Controls.Add(this.findComboBox);
+      this.Controls.Add(this.groupBox1);
+      this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MaximizeBox = false;
       this.Name = "FindReplaceDlg";
-      this.ShowIcon = false;
-      this.Text = "Find and Replace";
+      this.ShowInTaskbar = false;
+      this.Text = "Search and Replace";
+      this.groupBox1.ResumeLayout(false);
+      this.groupBox1.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -158,15 +230,20 @@
 
     #endregion
 
-    private System.Windows.Forms.ComboBox comboBox1;
+    private System.Windows.Forms.ComboBox findComboBox;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.Label label2;
-    private System.Windows.Forms.ComboBox comboBox2;
+    private System.Windows.Forms.ComboBox replaceComboBox;
     private System.Windows.Forms.Button findButton;
     private System.Windows.Forms.Button replaceButton;
     private System.Windows.Forms.Button replaceAllButton;
     private System.Windows.Forms.Button cancelButton;
     private System.Windows.Forms.CheckBox matchWholeWordsCheckBox;
     private System.Windows.Forms.CheckBox matchCaseCheckBox;
+    private System.Windows.Forms.RadioButton upRadioButton;
+    private System.Windows.Forms.RadioButton downRadioButton;
+    private System.Windows.Forms.RadioButton selectionRadioButton;
+    private System.Windows.Forms.GroupBox groupBox1;
+    private System.Windows.Forms.CheckBox useRegexpCheckBox;
   }
 }
