@@ -26,7 +26,7 @@ namespace GranitXMLEditor
       Hide();
     }
 
-    private bool isFirstFind = true;
+    private bool isFirstCallOfFind = true;
     private List<DataGridViewCell> cellsToSearch;
     private int cellsToSearchNextIndex = 0;
     private Regex regexToSearch;
@@ -34,51 +34,70 @@ namespace GranitXMLEditor
     private void findButton_Click(object sender, EventArgs e)
     {
       findComboBox.Items.Add(findComboBox.Text);
-      Find();
+      FindAndSelectMatchingCell();
     }
 
-    private void Find()
+    private Match FindAndSelectMatchingCell()
     {
-      if (isFirstFind)
-        InitSearch();
+      if (isFirstCallOfFind)
+        InitSearch(true);
 
-      DialogResult answer = DialogResult.Yes;
-      while (!FoundInCells(regexToSearch).Success && answer == DialogResult.Yes)
+      Match match = regexToSearch.Match("");
+      bool allreadyAsked = false;
+      do
       {
-        answer = MessageBox.Show(
-          string.Format("Cannot find '{0}'.\nShell we continue from the beginning?", findComboBox.Text),
-          Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+        match = FoundInCells(regexToSearch);
 
-        if (answer == DialogResult.Yes)
+        if (!match.Success && !allreadyAsked)
         {
-          InitSearch();
-          cellsToSearchNextIndex = downRadioButton.Checked ? 0 : (upRadioButton.Checked ? cellsToSearch.Count - 1 : 0);
+          var answer = MessageBox.Show(
+            string.Format("Cannot find '{0}'.\nShell we continue from the beginning?", findComboBox.Text),
+            Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+          allreadyAsked = true;
+          if (answer == DialogResult.Yes)
+          {
+            InitSearch(false);
+            cellsToSearchNextIndex = downRadioButton.Checked ? 0 : (upRadioButton.Checked ? cellsToSearch.Count - 1 : 0);
+            continue;                      
+          }
+          else
+            break;
         }
-        isFirstFind = true;
+
+        break;
       }
+      while (true);
+
+      isFirstCallOfFind = false;
+      return match;
     }
 
-    private void InitSearch()
+    private void InitSearch(bool firstInit)
     {
-      if (selectionRadioButton.Checked)
+      if (selectionRadioButton.Checked && firstInit)
       {
-        cellsToSearch = new List<DataGridViewCell>(dgv.SelectedCells.Count);
-        dgv.SelectedCells.CopyTo(cellsToSearch.ToArray(), 0);
+        DataGridViewCell[] cellArrayToSearch = new DataGridViewCell[dgv.SelectedCells.Count];
+        dgv.SelectedCells.CopyTo(cellArrayToSearch, 0);
+        cellsToSearch = cellArrayToSearch.ToList();
         cellsToSearch.Reverse();
       }
-      else if (downRadioButton.Checked)
+      else if (downRadioButton.Checked && firstInit)
       {
         cellsToSearch = GetAllCells();
       }
-      else if (upRadioButton.Checked)
+      else if (upRadioButton.Checked && firstInit)
       {
         cellsToSearch = GetAllCells();
         cellsToSearch.Reverse();
       }
       regexToSearch = CreateFindRegex();
-      isFirstFind = false;
 
-      cellsToSearchNextIndex = GetActiveCellIndex(cellsToSearch);
+      cellsToSearchNextIndex = firstInit ? 0 : IsSelectedCells() ? 0 : GetActiveCellIndex(cellsToSearch);
+    }
+
+    private bool IsSelectedCells()
+    {
+      return selectionRadioButton.Checked;
     }
 
     private int GetActiveCellIndex(List<DataGridViewCell> cellsToSearch)
@@ -127,7 +146,7 @@ namespace GranitXMLEditor
             dgv.CancelEdit();
             SelectTextInCell(tbCell, match);
             cellsToSearchNextIndex = i + 1;
-            break;
+            return match;
           }
         }
       }
@@ -190,16 +209,53 @@ namespace GranitXMLEditor
 
     private void findComboBox_TextChanged(object sender, EventArgs e)
     {
-      isFirstFind = true;
+      isFirstCallOfFind = true;
     }
 
     private void replaceButton_Click(object sender, EventArgs e)
     {
       replaceComboBox.Items.Add(replaceComboBox.Text);
+
+      if (dgv.EditingControl == null)
+        FindAndSelectMatchingCell();
+
+      if (dgv.EditingControl == null)
+        return;
+
+      ReplaceCellText();
+    }
+
+    private void ReplaceCellText()
+    {
       string text = dgv.EditingControl.Text;
+
       dgv.BeginEdit(false);
       dgv.EditingControl.Text = regexToSearch.Replace(text, replaceComboBox.Text);
       dgv.EndEdit();
+      dgv.ClearSelection();
+    }
+
+    private void FindReplaceDlg_VisibleChanged(object sender, EventArgs e)
+    {
+      if (Visible == true)
+        isFirstCallOfFind = true;
+    }
+
+    private void replaceAllButton_Click(object sender, EventArgs e)
+    {
+      replaceComboBox.Items.Add(replaceComboBox.Text);
+
+      do
+      {
+        if (dgv.EditingControl == null)
+          FindAndSelectMatchingCell();
+
+        if (dgv.EditingControl == null)
+          return;
+
+        ReplaceCellText();
+      }
+      while (true);
     }
   }
 }

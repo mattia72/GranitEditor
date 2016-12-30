@@ -110,6 +110,7 @@
       this.replaceAllButton.TabIndex = 4;
       this.replaceAllButton.Text = "Replace &All";
       this.replaceAllButton.UseVisualStyleBackColor = true;
+      this.replaceAllButton.Click += new System.EventHandler(this.replaceAllButton_Click);
       // 
       // cancelButton
       // 
@@ -221,6 +222,7 @@
       this.Name = "FindReplaceDlg";
       this.ShowInTaskbar = false;
       this.Text = "Search and Replace";
+      this.VisibleChanged += new System.EventHandler(this.FindReplaceDlg_VisibleChanged);
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
       this.ResumeLayout(false);
