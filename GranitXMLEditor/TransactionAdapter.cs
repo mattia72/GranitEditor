@@ -133,7 +133,7 @@ namespace GranitXMLEditor
           xt.Element(Constants.Beneficiary).Element(Constants.Name).Value = value;
           break;
         case Constants.BeneficiaryAccount:
-          xt.Element(Constants.Beneficiary).Element(Constants.AccountNumber).Value = value;
+          xt.Element(Constants.Beneficiary).Element(Constants.Account).Element(Constants.AccountNumber).Value = value;
           break;
         case Constants.Amount:
           xt.Element(Constants.Amount).Value = value;

@@ -14,6 +14,8 @@ namespace GranitXMLEditor
     private GranitXmlToObjectBinder xmlToObject;
     private OpenFileDialog openFileDialog1;
     private SaveFileDialog saveFileDialog1;
+    private AboutBox ab;
+    private FindReplaceDlg findReplaceDlg;
 
     public GranitXMLEditorForm()
     {
@@ -214,14 +216,9 @@ namespace GranitXMLEditor
       Close();
     }
 
-    private FindReplaceDlg findReplaceDlg;
     private void findAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      if (findReplaceDlg == null)
-        findReplaceDlg = new FindReplaceDlg(dataGridView1);
-
-      if (findReplaceDlg.IsDisposed)
-        findReplaceDlg = new FindReplaceDlg(dataGridView1);
+      CreateFindDialog();
 
       if (!findReplaceDlg.Visible)
       {
@@ -232,12 +229,24 @@ namespace GranitXMLEditor
       {
         findReplaceDlg.Hide();
       }
-
     }
 
-    private AboutBox ab = new AboutBox();
+    private void CreateFindDialog()
+    {
+      if (findReplaceDlg == null)
+        findReplaceDlg = new FindReplaceDlg(dataGridView1);
+
+      if (findReplaceDlg.IsDisposed)
+        findReplaceDlg = new FindReplaceDlg(dataGridView1);
+    }
+
     private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
     {
+      if (ab == null)
+      {
+        ab = new AboutBox();
+      }
+
       if (ab.IsDisposed)
         ab = new AboutBox();
 
@@ -250,6 +259,22 @@ namespace GranitXMLEditor
       {
         ab.Hide();
       }
+    }
+
+    private void dataGridView1_UserAddedRow(object sender, DataGridViewRowEventArgs e)
+    {
+
+    }
+
+    private void dataGridView1_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+    {
+
+    }
+
+    private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+    {
+      CreateFindDialog();
+      findReplaceDlg.IsFirstInitNecessary = true;
     }
   }
 }

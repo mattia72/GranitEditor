@@ -132,6 +132,7 @@
       this.matchWholeWordsCheckBox.TabIndex = 6;
       this.matchWholeWordsCheckBox.Text = "Match &whole words";
       this.matchWholeWordsCheckBox.UseVisualStyleBackColor = true;
+      this.matchWholeWordsCheckBox.CheckedChanged += new System.EventHandler(this.matchWholeWordsCheckBox_CheckedChanged);
       // 
       // matchCaseCheckBox
       // 
@@ -142,6 +143,7 @@
       this.matchCaseCheckBox.TabIndex = 6;
       this.matchCaseCheckBox.Text = "Match &case";
       this.matchCaseCheckBox.UseVisualStyleBackColor = true;
+      this.matchCaseCheckBox.CheckedChanged += new System.EventHandler(this.matchCaseCheckBox_CheckedChanged);
       // 
       // upRadioButton
       // 
@@ -152,6 +154,7 @@
       this.upRadioButton.TabIndex = 7;
       this.upRadioButton.Text = "Up";
       this.upRadioButton.UseVisualStyleBackColor = true;
+      this.upRadioButton.CheckedChanged += new System.EventHandler(this.upRadioButton_CheckedChanged);
       // 
       // downRadioButton
       // 
@@ -174,6 +177,7 @@
       this.selectionRadioButton.TabIndex = 8;
       this.selectionRadioButton.Text = "Selection";
       this.selectionRadioButton.UseVisualStyleBackColor = true;
+      this.selectionRadioButton.CheckedChanged += new System.EventHandler(this.selectionRadioButton_CheckedChanged);
       // 
       // groupBox1
       // 
@@ -196,6 +200,7 @@
       this.useRegexpCheckBox.TabIndex = 10;
       this.useRegexpCheckBox.Text = "Use &regexp";
       this.useRegexpCheckBox.UseVisualStyleBackColor = true;
+      this.useRegexpCheckBox.CheckedChanged += new System.EventHandler(this.useRegexpCheckBox_CheckedChanged);
       // 
       // FindReplaceDlg
       // 
