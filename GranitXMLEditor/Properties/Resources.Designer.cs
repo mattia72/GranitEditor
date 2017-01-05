@@ -59,5 +59,25 @@ namespace GranitXMLEditor.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First row reached, cannot find &apos;{0}&apos;.
+        ///Shell we continue from the end?.
+        /// </summary>
+        internal static string FirstRowMsgBoxText {
+            get {
+                return ResourceManager.GetString("FirstRowMsgBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last row reached, cannot find &apos;{0}&apos;.
+        ///Shell we continue from the beginning?.
+        /// </summary>
+        internal static string LastRowMsgBoxText {
+            get {
+                return ResourceManager.GetString("LastRowMsgBoxText", resourceCulture);
+            }
+        }
     }
 }

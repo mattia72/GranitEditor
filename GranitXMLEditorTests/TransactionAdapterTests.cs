@@ -1,6 +1,8 @@
 ﻿using GranitXMLEditor;
 using GranitXMLEditorTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Globalization;
+using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
@@ -12,21 +14,49 @@ namespace GranitXMLEditor.Tests
     [TestMethod()]
     public void UpdateGranitXDocumentTest()
     {
-      var xdoc = XDocument.Parse(TestConstants.HUFTransactionXml);
+      XDocument xt;
+      TransactionAdapter ta;
+      FillTransactionAdapter(out xt, out ta);
+
+      //Act
+      ta.IsActive = true;
+      ta.Amount = 999.99m;
+      ta.BeneficiaryAccount = "999999998888888877777777";
+      ta.BeneficiaryName = "James Bond";
+      ta.Currency = "EUR";
+      ta.ExecutionDate = System.DateTime.Now;
+      ta.Originator = "555555556666666677777777";
+      ta.RemittanceInfo = "szöveg|szöveg|megint szöveg";
+
+      Assert.AreEqual(xt.Root.Element(Constants.Transaction).Attribute(Constants.TransactionActiveAttribute).Value.ToLower(),
+        ta.IsActive.ToString().ToLower());
+      Assert.AreEqual(xt.Root.Element(Constants.Transaction).Element(Constants.Amount).Value,
+        ta.Amount.ToString("F2", CultureInfo.InvariantCulture));
+      Assert.AreEqual(xt.Root.Element(Constants.Transaction).Element(Constants.Beneficiary).Element(Constants.Account).Element(Constants.AccountNumber).Value,
+        ta.BeneficiaryAccount);
+      Assert.AreEqual(xt.Root.Element(Constants.Transaction).Element(Constants.Beneficiary).Element(Constants.Name).Value,
+        ta.BeneficiaryName);
+      Assert.AreEqual(xt.Root.Element(Constants.Transaction).Element(Constants.Amount).Attribute(Constants.Currency).Value,
+        ta.Currency);
+      Assert.AreEqual(xt.Root.Element(Constants.Transaction).Element(Constants.RequestedExecutionDate).Value,
+        ta.ExecutionDate.ToString(Constants.DateFormat));
+      Assert.AreEqual(xt.Root.Element(Constants.Transaction).Element(Constants.Originator).Element(Constants.Account).Element(Constants.AccountNumber).Value,
+        ta.Originator);
+
+      string rInfo = string.Join("|", xt.Root.Element(Constants.Transaction).Element(Constants.RemittanceInfo).Elements(Constants.Text).Select(x => x.Value.Trim()));
+      Assert.AreEqual(rInfo, ta.RemittanceInfo);
+    }
+
+    private static void FillTransactionAdapter(out XDocument xdoc, out TransactionAdapter ta)
+    {
+      xdoc = XDocument.Parse(TestConstants.HUFTransactionXml);
       XmlRootAttribute xRoot = new XmlRootAttribute();
       xRoot.ElementName = Constants.HUFTransactions;
       // xRoot.Namespace = "http://www.cpandl.com";
       xRoot.IsNullable = true;
       var ser = new XmlSerializer(typeof(HUFTransactions), xRoot);
       HUFTransactions t = (HUFTransactions)ser.Deserialize(xdoc.CreateReader());
-      var ta = new TransactionAdapter(t.Transaction[0], xdoc);
-
-      //Act
-      ta.UpdateGranitXDocument(Constants.Active, "True");
-
-      Assert.AreEqual(xdoc.Root.Element(Constants.Transaction)
-        .Attribute(Constants.TransactionActiveAttribute).Value, 
-        ta.IsActive.ToString());
+      ta = new TransactionAdapter(t.Transaction[0], xdoc);
     }
   }
 }

@@ -16,7 +16,7 @@ namespace GranitXMLEditor
       {
         UpdateGranitXDocument(Constants.Active, value.ToString().ToLower());
         Transaction.IsActive = value;
-        Debug.WriteLine("InActiv property set to {0} for T id:{1}", value, Transaction.TransactionId);
+        Debug.WriteLine("IsActiv property set to {0} for T id:{1}", value, Transaction.TransactionId);
       }
 
     }
