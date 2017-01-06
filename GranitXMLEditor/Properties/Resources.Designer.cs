@@ -61,8 +61,8 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to First row reached, cannot find &apos;{0}&apos;.
-        ///Shell we continue from the end?.
+        ///   Looks up a localized string similar to First row reached.
+        ///Continue search from the end?.
         /// </summary>
         internal static string FirstRowMsgBoxText {
             get {
@@ -71,12 +71,22 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last row reached, cannot find &apos;{0}&apos;.
-        ///Shell we continue from the beginning?.
+        ///   Looks up a localized string similar to Last row reached. 
+        ///Continue search from the beginning?.
         /// </summary>
         internal static string LastRowMsgBoxText {
             get {
                 return ResourceManager.GetString("LastRowMsgBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following specified text not found:
+        ///{0}.
+        /// </summary>
+        internal static string NotFoundMsgBoxText {
+            get {
+                return ResourceManager.GetString("NotFoundMsgBoxText", resourceCulture);
             }
         }
     }

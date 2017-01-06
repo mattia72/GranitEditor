@@ -72,17 +72,15 @@ namespace GranitXMLEditor
       {
         match = SelectNextMatchingCell(_regexToSearch, _allreadyAsked, ref _cellsToSearchNextIndex);
 
-        bool nothingFound = !match.Success;
+        bool notFound = !match.Success;
         bool endReached = _cellsToSearchNextIndex < 0;
 
-        if (!calledFromReplace && ( endReached || nothingFound) || 
-            (calledFromReplace && ( endReached || nothingFound) && !_oneOccuranceFound && !_allreadyAsked) // Don't ask in case of replace all, if something replaced
+        if (!calledFromReplace && ( endReached || notFound) || 
+            (calledFromReplace && ( endReached || notFound) && !_oneOccuranceFound && !_allreadyAsked) // Don't ask in case of replace all, if something replaced
           //&& _cellsToSearchEndIndex == (downRadioButton.Checked ? 0 : (upRadioButton.Checked ? _cellsToSearch.Count - 1 : 0))
           )
         {
-          var answer = MessageBox.Show(
-            string.Format(upRadioButton.Checked ? Resources.FirstRowMsgBoxText : Resources.LastRowMsgBoxText, findComboBox.Text),
-            Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+          DialogResult answer = ShowMessageBox(endReached && !_oneOccuranceFound);
 
           if (calledFromReplace)
             _allreadyAsked = true;
@@ -103,7 +101,7 @@ namespace GranitXMLEditor
           }
         }
 
-        if(calledFromReplace && match.Success)
+        if (match.Success)
           _oneOccuranceFound = true;
 
         break;
@@ -111,6 +109,17 @@ namespace GranitXMLEditor
       while (true);
 
       return match;
+    }
+
+    private DialogResult ShowMessageBox(bool nothingFoundAtAll)
+    {
+      string text = nothingFoundAtAll ? string.Format(Resources.NotFoundMsgBoxText, findComboBox.Text)
+        : upRadioButton.Checked ? Resources.FirstRowMsgBoxText : Resources.LastRowMsgBoxText;
+
+      var answer = MessageBox.Show(text, Application.ProductName,
+        nothingFoundAtAll ? MessageBoxButtons.OK : MessageBoxButtons.YesNo,
+        nothingFoundAtAll ? MessageBoxIcon.Information : MessageBoxIcon.Question);
+      return answer;
     }
 
     private void ResetOriginalSelection()
@@ -352,14 +361,17 @@ namespace GranitXMLEditor
       var matchingCells = _cellsToSearch
         .Where(c => c.Value != null && _regexToSearch.Match(c.Value.ToString()).Success).ToList();
 
-      for (int i = 0; i < matchingCells.Count; i++)
-      {
-        Match match = SelectMatchedTextInCell(matchingCells[i], _regexToSearch);
-        if (match.Success)
+      if (matchingCells.Count == 0)
+        ShowMessageBox(true);
+      else
+        for (int i = 0; i < matchingCells.Count; i++)
         {
-          ReplaceCellText(match);
+          Match match = SelectMatchedTextInCell(matchingCells[i], _regexToSearch);
+          if (match.Success)
+          {
+            ReplaceCellText(match);
+          }
         }
-      }
     }
 
     private void ResetDgvState()

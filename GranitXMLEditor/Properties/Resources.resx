@@ -118,11 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FirstRowMsgBoxText" xml:space="preserve">
-    <value>First row reached, cannot find '{0}'.
-Shell we continue from the end?</value>
+    <value>First row reached.
+Continue search from the end?</value>
   </data>
   <data name="LastRowMsgBoxText" xml:space="preserve">
-    <value>Last row reached, cannot find '{0}'.
-Shell we continue from the beginning?</value>
+    <value>Last row reached. 
+Continue search from the beginning?</value>
+  </data>
+  <data name="NotFoundMsgBoxText" xml:space="preserve">
+    <value>The following specified text not found:
+{0}</value>
   </data>
 </root>
