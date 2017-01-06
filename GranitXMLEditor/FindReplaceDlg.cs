@@ -44,6 +44,10 @@ namespace GranitXMLEditor
     private Regex _regexToSearch;
 
     public bool IsFirstInitNecessary { get; set; }
+    public bool IsSelectionChecked {
+      get { return selectionRadioButton.Checked; }
+      set { selectionRadioButton.Checked = value; }
+    }
 
     private void findButton_Click(object sender, EventArgs e)
     {
@@ -87,12 +91,13 @@ namespace GranitXMLEditor
           {
             _cellsToSearch = GetCellsToSearchList();
             _regexToSearch = CreateFindRegex();
-            _cellsToSearchNextIndex = downRadioButton.Checked ? 0 : (upRadioButton.Checked ? _cellsToSearch.Count - 1 : 0);
+            _cellsToSearchNextIndex = 0; //downRadioButton.Checked ? 0 : (upRadioButton.Checked ? _cellsToSearch.Count - 1 : 0);
             _cellsToSearchEndIndex = _cellsToSearchNextIndex;
             continue;
           }
           else
           {
+            ResetOriginalSelection();
             IsFirstInitNecessary = true;
             break;
           }
@@ -106,6 +111,24 @@ namespace GranitXMLEditor
       while (true);
 
       return match;
+    }
+
+    private void ResetOriginalSelection()
+    {
+      if (selectionRadioButton.Checked)
+      {
+        ResetDgvState();
+        var selectedCells = GetCellsToSearchList();
+        foreach (var item in selectedCells)
+        {
+          if (item.IsInEditMode)
+          {
+            if(dgv.CancelEdit())
+              dgv.EndEdit();
+          }
+          item.Selected = true;
+        }
+      }
     }
 
     private void FirstInitializationIfNeeded()
@@ -180,8 +203,8 @@ namespace GranitXMLEditor
 
     private Match SelectNextMatchingCell(Regex regex, bool againFromTheBeginning, ref int nextIndex)
     {
-      Match match = regex.Match("");
 
+      Match match = regex.Match("");
       int startIndex = againFromTheBeginning ? 0 : nextIndex; 
       int endIndex = againFromTheBeginning ? 
         (startIndex == 0 && _cellsToSearchEndIndex == 0 ? _cellsToSearch.Count : _cellsToSearchEndIndex) : _cellsToSearch.Count;
@@ -191,25 +214,36 @@ namespace GranitXMLEditor
         for (int i = startIndex; i < endIndex; i++)
         {
           var cell = _cellsToSearch[i];
-          if (typeof(DataGridViewTextBoxCell) == cell.GetType())
+          match = SelectMatchedTextInCell(cell, regex);
+          if (match.Success)
           {
-            var tbCell = (DataGridViewTextBoxCell)cell;
-            if (tbCell.Value == null || tbCell.Value.ToString() == string.Empty)
-              continue;
-
-            match = regex.Match(tbCell.Value.ToString());
-            if (match.Success)
-            {
-              dgv.ClearSelection();
-              dgv.CancelEdit();
-              SelectTextInCell(tbCell, match);
-              nextIndex = i + 1;
-              return match;
-            }
+            nextIndex = i + 1;
+            return match;
           }
         }
       }
       nextIndex = -1;
+      return match;
+    }
+
+    private Match SelectMatchedTextInCell(DataGridViewCell cell, Regex regex)
+    {
+      Match match = regex.Match("");
+      if (typeof(DataGridViewTextBoxCell) == cell.GetType())
+      {
+        var tbCell = (DataGridViewTextBoxCell)cell;
+
+        if (tbCell.Value == null 
+          || tbCell.Value.ToString() == string.Empty)
+          return match;
+
+        match = regex.Match(tbCell.Value.ToString());
+        if (match.Success)
+        {
+          ResetDgvState();
+          SelectTextInCell(tbCell, match);
+        }
+      }
       return match;
     }
 
@@ -219,6 +253,7 @@ namespace GranitXMLEditor
       dgv.BeginEdit(false);
       ((TextBox)dgv.EditingControl).SelectionStart = match.Index;
       ((TextBox)dgv.EditingControl).SelectionLength = match.Length;
+      dgv.Parent.Parent.Select(); //Activate parent, to show the selection in the grid
     }
 
     private Regex CreateFindRegex()
@@ -288,17 +323,17 @@ namespace GranitXMLEditor
           IsFirstInitNecessary = true;
           return;
         }
-        ReplaceCellText();
+        ReplaceCellText(m);
     }
 
-    private void ReplaceCellText()
+    private void ReplaceCellText(Match match)
     {
       string text = dgv.EditingControl.Text;
 
       dgv.BeginEdit(false);
       dgv.EditingControl.Text = _regexToSearch.Replace(text, replaceComboBox.Text);
       dgv.EndEdit();
-      dgv.ClearSelection();
+      ResetDgvState();
     }
 
     private void FindReplaceDlg_VisibleChanged(object sender, EventArgs e)
@@ -312,15 +347,26 @@ namespace GranitXMLEditor
 
       AddToRecentSearches();
       FirstInitializationIfNeeded();
-      _allreadyAsked = false;
 
+      ResetDgvState();
+      var matchingCells = _cellsToSearch
+        .Where(c => c.Value != null && _regexToSearch.Match(c.Value.ToString()).Success).ToList();
+
+      for (int i = 0; i < matchingCells.Count; i++)
+      {
+        Match match = SelectMatchedTextInCell(matchingCells[i], _regexToSearch);
+        if (match.Success)
+        {
+          ReplaceCellText(match);
+        }
+      }
+    }
+
+    private void ResetDgvState()
+    {
+      dgv.CancelEdit();
       dgv.EndEdit();
       dgv.ClearSelection();
-
-      for (int i = _cellsToSearchNextIndex; i < _cellsToSearch.Count; i++)
-      {
-        FindNextAndReplace();
-      }
     }
 
     private void matchWholeWordsCheckBox_CheckedChanged(object sender, EventArgs e)

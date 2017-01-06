@@ -222,6 +222,8 @@ namespace GranitXMLEditor
 
       if (!findReplaceDlg.Visible)
       {
+        if (dataGridView1.SelectedCells.Count > 1)
+          findReplaceDlg.IsSelectionChecked = true;
         findReplaceDlg.Show(this);
         findReplaceDlg.BringToFront();
       }
