@@ -100,8 +100,9 @@
     <Compile Include="TransactionAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransactionXElement.cs" />
     <Compile Include="XDocumentExtension.cs" />
-    <Compile Include="Xml2CSharp.cs" />
+    <Compile Include="HUFTransaction.cs" />
     <Compile Include="GranitXmlToObjectBinder.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>

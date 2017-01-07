@@ -6,14 +6,19 @@ namespace GranitXMLEditor
 {
   class HUFTransactionAdapter
   {
-    private HUFTransactions HUFTransactions { get; set; }
+    private HUFTransaction HUFTransactions { get; set; }
     public List<TransactionAdapter> Transactions { get; set; }
     public XDocument GranitXDocument { get; private set; }
 
-    public HUFTransactionAdapter(HUFTransactions ht, XDocument xdoc)
+    public HUFTransactionAdapter(HUFTransaction ht, XDocument xdoc)
+    {
+      CreateAdaptersForTransactions(ht, xdoc);
+    }
+
+    public void CreateAdaptersForTransactions(HUFTransaction ht, XDocument xdoc)
     {
       HUFTransactions = ht;
-      Transactions = ht.Transaction.Select(x => new TransactionAdapter(x, xdoc)).ToList();
+      Transactions = ht.Transactions.Select(x => new TransactionAdapter(x, xdoc)).ToList();
     }
   }
 }

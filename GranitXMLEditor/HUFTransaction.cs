@@ -170,13 +170,13 @@ namespace GranitXMLEditor
   }
 
   [XmlRoot(ElementName = Constants.HUFTransactions)]
-  public class HUFTransactions
+  public class HUFTransaction
   {
     [XmlElement(ElementName = "Transaction")]
-    public List<Transaction> Transaction { get; set; }
-    public HUFTransactions()
+    public List<Transaction> Transactions { get; set; }
+    public HUFTransaction()
     {
-      Transaction = new List<Transaction>();
+      Transactions = new List<Transaction>();
     }
   }
 

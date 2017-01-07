@@ -5,6 +5,7 @@ using System.ComponentModel;
 using Be.Timvw.Framework.ComponentModel;
 using GranitXMLEditor.Properties;
 using System.Diagnostics;
+using System.Data;
 
 namespace GranitXMLEditor
 {
@@ -186,16 +187,6 @@ namespace GranitXMLEditor
       //else Debug.WriteLine(dataGridView1.CurrentCell.Value.ToString());
     }
 
-    private void dataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-    {
-      // without this, it doesn't update the adapter after click
-      if (dataGridView1.IsCurrentCellDirty)
-      {
-        dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
-        Debug.WriteLine("CommitEdit called.");
-      }
-    }
-
     private void openToolStripMenuItem1_Click(object sender, EventArgs e)
     {
       OpenGranitXmlFile();
@@ -265,7 +256,12 @@ namespace GranitXMLEditor
 
     private void dataGridView1_UserAddedRow(object sender, DataGridViewRowEventArgs e)
     {
-
+      var bindingList = ((SortableBindingList<TransactionAdapter>)dataGridView1.DataSource);
+      //delete last (non working adapter) and create a new...
+      bindingList.RemoveAt(bindingList.Count - 1);
+      bindingList.Add(xmlToObject.AddNewTransactionRow());
+      dataGridView1.CurrentCell = e.Row.Cells[1]; //TODO: change index to the name of the cell
+      dataGridView1.BeginEdit(false);
     }
 
     private void dataGridView1_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
@@ -278,5 +274,6 @@ namespace GranitXMLEditor
       CreateFindDialog();
       findReplaceDlg.IsFirstInitNecessary = true;
     }
+
   }
 }

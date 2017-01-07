@@ -1,18 +1,23 @@
 ﻿using System;
+using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace GranitXMLEditor
 {
-  internal class TransactionXElement : XElement
+  internal class TransactionXElementParser : XElement
   {
+    public XElement ParsedElement { get; set; }
 
-    public TransactionXElement():
-      base(Constants.Transaction)
+    public TransactionXElementParser(): base(Constants.Transaction)
     {
       ParsedElement = Parse(TransactionXml);
     }
 
-    public XElement ParsedElement { get; set; }
+    public TransactionXElementParser(TransactionAdapter ta): base(Constants.Transaction)
+    {
+      ParsedElement = Parse(ta.Transaction);
+    }
 
     private string TransactionXml = @"  
       <Transaction>
@@ -20,7 +25,20 @@ namespace GranitXMLEditor
        <Beneficiary> <Name></Name> <Account> <AccountNumber>000000000000000000000000</AccountNumber> </Account> </Beneficiary>
        <Amount Currency = ""HUF"" >1.00</Amount>
        <RequestedExecutionDate>" + DateTime.Now.ToString(Constants.DateFormat) + @"</RequestedExecutionDate>
-       <RemittanceInfo> <Text>Utólagos elszámolásra</Text> </RemittanceInfo>
+       <RemittanceInfo> <Text></Text> </RemittanceInfo>
       </Transaction> ";
+
+    private XElement Parse(Transaction ta)
+    {
+      XDocument xml = new XDocument();
+
+      using (var writer = xml.CreateWriter())
+      {
+        var ser = new XmlSerializer(ta.GetType());
+        ser.Serialize(writer, ta);
+      }
+      return xml.Root;
+    }
+
   }
 }                                                                     

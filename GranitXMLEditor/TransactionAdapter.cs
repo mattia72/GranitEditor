@@ -4,10 +4,14 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Globalization;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace GranitXMLEditor
 {
-  public class TransactionAdapter : IComparable<XElement>, IComparable<Transaction>, IComparable<TransactionAdapter>, IBindable<XElement>
+  public class TransactionAdapter : IComparable<XElement>,
+    IComparable<Transaction>,
+    IComparable<TransactionAdapter>,
+    IBindable<XElement>, INotifyPropertyChanged
   {
     public bool IsActive
     {
@@ -101,15 +105,24 @@ namespace GranitXMLEditor
       }
     }
 
+    public int TransactionId { get { return Transaction.TransactionId;} }
+
     public TransactionAdapter()
     {
       Transaction = new Transaction();
     }
 
     public TransactionAdapter(Transaction t, XDocument xdoc)
-    {
+    {                                
       Transaction = t;
       GranitXDocument = xdoc;
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected void OnPropertyChanged(string propertyName)
+    {
+      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     public void UpdateGranitXDocument(string field, string value)
@@ -148,6 +161,10 @@ namespace GranitXMLEditor
           UpdateRemittanceInfo(xt, value);
           break;
       }
+
+      OnPropertyChanged(field);
+      Debug.WriteLine(string.Format("TransactionAdapter.UpdateGranitXDocument: {0} updated with: {1}", field, value));
+
     }
 
     public int CompareTo(XElement x)
@@ -178,7 +195,7 @@ namespace GranitXMLEditor
       return Transaction.CompareTo(other);
     }
 
-    private Transaction Transaction { get; set; }
+    public Transaction Transaction { get; set; }
 
     private XDocument GranitXDocument { get; set; }
 

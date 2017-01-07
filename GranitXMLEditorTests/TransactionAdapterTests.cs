@@ -54,9 +54,9 @@ namespace GranitXMLEditor.Tests
       xRoot.ElementName = Constants.HUFTransactions;
       // xRoot.Namespace = "http://www.cpandl.com";
       xRoot.IsNullable = true;
-      var ser = new XmlSerializer(typeof(HUFTransactions), xRoot);
-      HUFTransactions t = (HUFTransactions)ser.Deserialize(xdoc.CreateReader());
-      ta = new TransactionAdapter(t.Transaction[0], xdoc);
+      var ser = new XmlSerializer(typeof(HUFTransaction), xRoot);
+      HUFTransaction t = (HUFTransaction)ser.Deserialize(xdoc.CreateReader());
+      ta = new TransactionAdapter(t.Transactions[0], xdoc);
     }
   }
 }

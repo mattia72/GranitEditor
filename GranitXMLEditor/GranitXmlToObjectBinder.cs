@@ -8,7 +8,7 @@ namespace GranitXMLEditor
 {
   internal class GranitXmlToObjectBinder
   {
-    internal HUFTransactions HUFTransactions { get; private set; }
+    internal HUFTransaction HUFTransactions { get; private set; }
     internal HUFTransactionAdapter HUFTransactionAdapter { get; private set; }
     internal XDocument GranitXDocument { get; private set; }
 
@@ -21,7 +21,23 @@ namespace GranitXMLEditor
     {
       LoadXDocumentFromFile(xmlFilePath);
       LoadObjectFromXDocument(GranitXDocument);
-      CreateAdapter();
+      ReCreateAdapter();
+    }
+
+    public TransactionAdapter AddNewTransactionRow()
+    {
+      XElement transactionXelem = new TransactionXElementParser().ParsedElement;
+      GranitXDocument.Root.Add(transactionXelem);
+      LoadObjectFromXElement(transactionXelem);
+      return ReCreateAdapter();
+    }
+
+    public TransactionAdapter AddTransactionRow(TransactionAdapter ta)
+    {
+      XElement transactionXelem = new TransactionXElementParser(ta).ParsedElement;
+      GranitXDocument.Root.Add(transactionXelem);
+      LoadObjectFromXElement(transactionXelem);
+      return ReCreateAdapter();
     }
 
     public void UpdateGranitXDocument()
@@ -36,8 +52,7 @@ namespace GranitXMLEditor
       if (GranitXDocument.IsEmpty())
         GranitXDocument = xml;
       else
-      {
-        // merge xmls
+      { // merge xmls && dataGridView1.CurrentRow != null
         throw new NotImplementedException();
       }
     }
@@ -49,9 +64,17 @@ namespace GranitXMLEditor
 
     private void LoadObjectFromXDocument(XDocument xml)
     {
-      var ser = new XmlSerializer(typeof(HUFTransactions));
-      HUFTransactions = (HUFTransactions)ser.Deserialize(xml.CreateReader());
+      var ser = new XmlSerializer(typeof(HUFTransaction));
+      HUFTransactions = (HUFTransaction)ser.Deserialize(xml.CreateReader());
       AddTransactionAttributes();
+    }
+
+    private void LoadObjectFromXElement(XElement xml)
+    {
+      var ser = new XmlSerializer(typeof(Transaction));
+      Transaction t = (Transaction)ser.Deserialize(xml.CreateReader());
+      HUFTransactions.Transactions.Add(t);
+      AddDefaultAttributes(t.TransactionId, xml);
     }
 
     private void AddTransactionAttributes()
@@ -59,10 +82,22 @@ namespace GranitXMLEditor
       int id = 0;
       foreach (var item in GranitXDocument.Descendants(Constants.Transaction).InDocumentOrder())
       {
-        XAttribute a = new XAttribute(Constants.TransactionIdAttribute, ++id);
-        XAttribute a2 = new XAttribute(Constants.TransactionActiveAttribute, true);
-        item.Add(a);
-        item.Add(a2);
+        //TODO: bind id with real Transaction objects
+        AddDefaultAttributes(++id, item);
+      }
+    }
+
+    private static void AddDefaultAttributes(int id, XElement item)
+    {
+      if (item.Attribute(Constants.TransactionIdAttribute) == null)
+      {
+        XAttribute idAttribute = new XAttribute(Constants.TransactionIdAttribute, id);
+        item.Add(idAttribute);
+      }
+      if (item.Attribute(Constants.TransactionActiveAttribute) == null)
+      {
+        XAttribute activeAttribute = new XAttribute(Constants.TransactionActiveAttribute, true);
+        item.Add(activeAttribute);
       }
     }
 
@@ -133,9 +168,11 @@ namespace GranitXMLEditor
       }
     }
 
-    private void CreateAdapter()
+    private TransactionAdapter ReCreateAdapter()
     {
       HUFTransactionAdapter = new HUFTransactionAdapter(HUFTransactions, GranitXDocument);
+      // return with the largest TransactionId
+      return HUFTransactionAdapter.Transactions.Aggregate((i, j) => i.TransactionId > j.TransactionId ? i : j); 
     }
   }
 }
