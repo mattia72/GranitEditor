@@ -35,6 +35,15 @@
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GranitXMLEditorForm));
       this.panel1 = new System.Windows.Forms.Panel();
       this.dataGridView1 = new System.Windows.Forms.DataGridView();
+      this.isActiveDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+      this.originatorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.beneficiaryNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.beneficiaryAccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.amountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.currencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.executionDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.remittanceInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.transactionAdapterBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,20 +78,13 @@
       this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
       this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-      this.isActiveDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-      this.originatorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.beneficiaryNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.beneficiaryAccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.amountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.currencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.executionDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.remittanceInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.transactionAdapterBindingSource = new System.Windows.Forms.BindingSource(this.components);
+      this.recentFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
       this.panel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).BeginInit();
       this.menuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).BeginInit();
       this.SuspendLayout();
       // 
       // panel1
@@ -152,6 +154,58 @@
       this.dataGridView1.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_UserDeletedRow);
       this.dataGridView1.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dataGridView1_UserDeletingRow);
       // 
+      // isActiveDataGridViewCheckBoxColumn
+      // 
+      this.isActiveDataGridViewCheckBoxColumn.DataPropertyName = "IsActive";
+      this.isActiveDataGridViewCheckBoxColumn.HeaderText = "IsActive";
+      this.isActiveDataGridViewCheckBoxColumn.Name = "isActiveDataGridViewCheckBoxColumn";
+      // 
+      // originatorDataGridViewTextBoxColumn
+      // 
+      this.originatorDataGridViewTextBoxColumn.DataPropertyName = "Originator";
+      this.originatorDataGridViewTextBoxColumn.HeaderText = "Originator";
+      this.originatorDataGridViewTextBoxColumn.Name = "originatorDataGridViewTextBoxColumn";
+      // 
+      // beneficiaryNameDataGridViewTextBoxColumn
+      // 
+      this.beneficiaryNameDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryName";
+      this.beneficiaryNameDataGridViewTextBoxColumn.HeaderText = "BeneficiaryName";
+      this.beneficiaryNameDataGridViewTextBoxColumn.Name = "beneficiaryNameDataGridViewTextBoxColumn";
+      // 
+      // beneficiaryAccountDataGridViewTextBoxColumn
+      // 
+      this.beneficiaryAccountDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryAccount";
+      this.beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = "BeneficiaryAccount";
+      this.beneficiaryAccountDataGridViewTextBoxColumn.Name = "beneficiaryAccountDataGridViewTextBoxColumn";
+      // 
+      // amountDataGridViewTextBoxColumn
+      // 
+      this.amountDataGridViewTextBoxColumn.DataPropertyName = "Amount";
+      this.amountDataGridViewTextBoxColumn.HeaderText = "Amount";
+      this.amountDataGridViewTextBoxColumn.Name = "amountDataGridViewTextBoxColumn";
+      // 
+      // currencyDataGridViewTextBoxColumn
+      // 
+      this.currencyDataGridViewTextBoxColumn.DataPropertyName = "Currency";
+      this.currencyDataGridViewTextBoxColumn.HeaderText = "Currency";
+      this.currencyDataGridViewTextBoxColumn.Name = "currencyDataGridViewTextBoxColumn";
+      // 
+      // executionDateDataGridViewTextBoxColumn
+      // 
+      this.executionDateDataGridViewTextBoxColumn.DataPropertyName = "ExecutionDate";
+      this.executionDateDataGridViewTextBoxColumn.HeaderText = "ExecutionDate";
+      this.executionDateDataGridViewTextBoxColumn.Name = "executionDateDataGridViewTextBoxColumn";
+      // 
+      // remittanceInfoDataGridViewTextBoxColumn
+      // 
+      this.remittanceInfoDataGridViewTextBoxColumn.DataPropertyName = "RemittanceInfo";
+      this.remittanceInfoDataGridViewTextBoxColumn.HeaderText = "RemittanceInfo";
+      this.remittanceInfoDataGridViewTextBoxColumn.Name = "remittanceInfoDataGridViewTextBoxColumn";
+      // 
+      // transactionAdapterBindingSource
+      // 
+      this.transactionAdapterBindingSource.DataSource = typeof(GranitXMLEditor.TransactionAdapter);
+      // 
       // menuStrip1
       // 
       this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -178,6 +232,8 @@
             this.printToolStripMenuItem,
             this.printPreviewToolStripMenuItem,
             this.toolStripSeparator2,
+            this.recentFilesToolStripMenuItem,
+            this.toolStripSeparator7,
             this.exitToolStripMenuItem});
       this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
       this.fileToolStripMenuItem1.Size = new System.Drawing.Size(44, 24);
@@ -189,7 +245,7 @@
       this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.newToolStripMenuItem.Name = "newToolStripMenuItem";
       this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-      this.newToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+      this.newToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
       this.newToolStripMenuItem.Text = "&New";
       this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
       // 
@@ -199,14 +255,14 @@
       this.openToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.openToolStripMenuItem1.Name = "openToolStripMenuItem1";
       this.openToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-      this.openToolStripMenuItem1.Size = new System.Drawing.Size(173, 26);
+      this.openToolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
       this.openToolStripMenuItem1.Text = "&Open";
       this.openToolStripMenuItem1.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
       // 
       // toolStripSeparator
       // 
       this.toolStripSeparator.Name = "toolStripSeparator";
-      this.toolStripSeparator.Size = new System.Drawing.Size(170, 6);
+      this.toolStripSeparator.Size = new System.Drawing.Size(178, 6);
       // 
       // saveToolStripMenuItem
       // 
@@ -214,21 +270,21 @@
       this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
       this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-      this.saveToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+      this.saveToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
       this.saveToolStripMenuItem.Text = "&Save";
       this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
       // 
       // saveAsToolStripMenuItem1
       // 
       this.saveAsToolStripMenuItem1.Name = "saveAsToolStripMenuItem1";
-      this.saveAsToolStripMenuItem1.Size = new System.Drawing.Size(173, 26);
+      this.saveAsToolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
       this.saveAsToolStripMenuItem1.Text = "Save &As";
       this.saveAsToolStripMenuItem1.Click += new System.EventHandler(this.saveAsToolStripMenuItem1_Click);
       // 
       // toolStripSeparator1
       // 
       this.toolStripSeparator1.Name = "toolStripSeparator1";
-      this.toolStripSeparator1.Size = new System.Drawing.Size(170, 6);
+      this.toolStripSeparator1.Size = new System.Drawing.Size(178, 6);
       // 
       // printToolStripMenuItem
       // 
@@ -237,7 +293,7 @@
       this.printToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.printToolStripMenuItem.Name = "printToolStripMenuItem";
       this.printToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-      this.printToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+      this.printToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
       this.printToolStripMenuItem.Text = "&Print";
       // 
       // printPreviewToolStripMenuItem
@@ -246,18 +302,18 @@
       this.printPreviewToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printPreviewToolStripMenuItem.Image")));
       this.printPreviewToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-      this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+      this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
       this.printPreviewToolStripMenuItem.Text = "Print Pre&view";
       // 
       // toolStripSeparator2
       // 
       this.toolStripSeparator2.Name = "toolStripSeparator2";
-      this.toolStripSeparator2.Size = new System.Drawing.Size(170, 6);
+      this.toolStripSeparator2.Size = new System.Drawing.Size(178, 6);
       // 
       // exitToolStripMenuItem
       // 
       this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-      this.exitToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+      this.exitToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
       this.exitToolStripMenuItem.Text = "E&xit";
       this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
       // 
@@ -363,25 +419,25 @@
       // alignTableToolStripMenuItem
       // 
       this.alignTableToolStripMenuItem.Name = "alignTableToolStripMenuItem";
-      this.alignTableToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
+      this.alignTableToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
       this.alignTableToolStripMenuItem.Text = "Align Table";
       this.alignTableToolStripMenuItem.Click += new System.EventHandler(this.alignTableToolStripMenuItem_Click);
       // 
       // toolStripSeparator6
       // 
       this.toolStripSeparator6.Name = "toolStripSeparator6";
-      this.toolStripSeparator6.Size = new System.Drawing.Size(157, 6);
+      this.toolStripSeparator6.Size = new System.Drawing.Size(178, 6);
       // 
       // customizeToolStripMenuItem
       // 
       this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-      this.customizeToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
+      this.customizeToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
       this.customizeToolStripMenuItem.Text = "&Customize";
       // 
       // optionsToolStripMenuItem
       // 
       this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-      this.optionsToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
+      this.optionsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
       this.optionsToolStripMenuItem.Text = "&Options";
       // 
       // helpToolStripMenuItem1
@@ -430,57 +486,16 @@
       // 
       this.errorProvider1.ContainerControl = this;
       // 
-      // isActiveDataGridViewCheckBoxColumn
+      // recentFilesToolStripMenuItem
       // 
-      this.isActiveDataGridViewCheckBoxColumn.DataPropertyName = "IsActive";
-      this.isActiveDataGridViewCheckBoxColumn.HeaderText = "IsActive";
-      this.isActiveDataGridViewCheckBoxColumn.Name = "isActiveDataGridViewCheckBoxColumn";
+      this.recentFilesToolStripMenuItem.Name = "recentFilesToolStripMenuItem";
+      this.recentFilesToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.recentFilesToolStripMenuItem.Text = "Recent Files";
       // 
-      // originatorDataGridViewTextBoxColumn
+      // toolStripSeparator7
       // 
-      this.originatorDataGridViewTextBoxColumn.DataPropertyName = "Originator";
-      this.originatorDataGridViewTextBoxColumn.HeaderText = "Originator";
-      this.originatorDataGridViewTextBoxColumn.Name = "originatorDataGridViewTextBoxColumn";
-      // 
-      // beneficiaryNameDataGridViewTextBoxColumn
-      // 
-      this.beneficiaryNameDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryName";
-      this.beneficiaryNameDataGridViewTextBoxColumn.HeaderText = "BeneficiaryName";
-      this.beneficiaryNameDataGridViewTextBoxColumn.Name = "beneficiaryNameDataGridViewTextBoxColumn";
-      // 
-      // beneficiaryAccountDataGridViewTextBoxColumn
-      // 
-      this.beneficiaryAccountDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryAccount";
-      this.beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = "BeneficiaryAccount";
-      this.beneficiaryAccountDataGridViewTextBoxColumn.Name = "beneficiaryAccountDataGridViewTextBoxColumn";
-      // 
-      // amountDataGridViewTextBoxColumn
-      // 
-      this.amountDataGridViewTextBoxColumn.DataPropertyName = "Amount";
-      this.amountDataGridViewTextBoxColumn.HeaderText = "Amount";
-      this.amountDataGridViewTextBoxColumn.Name = "amountDataGridViewTextBoxColumn";
-      // 
-      // currencyDataGridViewTextBoxColumn
-      // 
-      this.currencyDataGridViewTextBoxColumn.DataPropertyName = "Currency";
-      this.currencyDataGridViewTextBoxColumn.HeaderText = "Currency";
-      this.currencyDataGridViewTextBoxColumn.Name = "currencyDataGridViewTextBoxColumn";
-      // 
-      // executionDateDataGridViewTextBoxColumn
-      // 
-      this.executionDateDataGridViewTextBoxColumn.DataPropertyName = "ExecutionDate";
-      this.executionDateDataGridViewTextBoxColumn.HeaderText = "ExecutionDate";
-      this.executionDateDataGridViewTextBoxColumn.Name = "executionDateDataGridViewTextBoxColumn";
-      // 
-      // remittanceInfoDataGridViewTextBoxColumn
-      // 
-      this.remittanceInfoDataGridViewTextBoxColumn.DataPropertyName = "RemittanceInfo";
-      this.remittanceInfoDataGridViewTextBoxColumn.HeaderText = "RemittanceInfo";
-      this.remittanceInfoDataGridViewTextBoxColumn.Name = "remittanceInfoDataGridViewTextBoxColumn";
-      // 
-      // transactionAdapterBindingSource
-      // 
-      this.transactionAdapterBindingSource.DataSource = typeof(GranitXMLEditor.TransactionAdapter);
+      this.toolStripSeparator7.Name = "toolStripSeparator7";
+      this.toolStripSeparator7.Size = new System.Drawing.Size(178, 6);
       // 
       // GranitXMLEditorForm
       // 
@@ -495,10 +510,10 @@
       this.Text = "GránitXmlEditor";
       this.panel1.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).EndInit();
       this.menuStrip1.ResumeLayout(false);
       this.menuStrip1.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -550,6 +565,8 @@
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
     private System.Windows.Forms.ToolStripMenuItem alignTableToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem findAndReplaceToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem recentFilesToolStripMenuItem;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
   }
 }
 

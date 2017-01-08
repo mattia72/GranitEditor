@@ -14,5 +14,11 @@
     <Setting Name="LastOpenedFilePath" Type="System.String" Scope="User">
       <Value Profile="(Default)">default.xml</Value>
     </Setting>
+    <Setting Name="RecentFileList" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MruListItemLength" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -1,24 +1,21 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using Microsoft.Win32;
 
-namespace JWC
+namespace GranitXMLEditor
 {
-	/// <summary>
-	/// Represents a most recently used (MRU) menu.
-	/// </summary>
-	/// <remarks>This class shows the MRU list in a popup menu. To display
-	/// the MRU list "inline" use <see labelName="MruMenuInline" />.
-	/// <para>The class will optionally load the last set of files from the registry
-	/// on construction and store them when instructed by the main program.</para>
-	/// <para>Internally, this class uses zero-based numbering for the items.
-	/// The displayed numbers, however, will start with one.</para></remarks>
-	public class MruStripMenu
+  /// <summary>
+  /// Represents a most recently used (MRU) menu.
+  /// </summary>
+  /// <remarks>This class shows the MRU list in a popup menu. To display
+  /// the MRU list "inline" use <see labelName="MruMenuInline" />.
+  /// <para>The class will optionally load the last set of files from the registry
+  /// on construction and store them when instructed by the main program.</para>
+  /// <para>Internally, this class uses zero-based numbering for the items.
+  /// The displayed numbers, however, will start with one.</para></remarks>
+  public class MruStripMenu
 	{
 		private   ClickedHandler    clickedHandler;
 		protected ToolStripMenuItem recentFileMenuItem;
@@ -57,7 +54,8 @@ namespace JWC
 			{
 				Tag = filename;
 				Text = entryname;
-				Click += eventHandler;
+        ToolTipText = filename;
+        Click += eventHandler;
 			}
 
 			/// <summary>
@@ -599,8 +597,9 @@ namespace JWC
 
 				menuItem.Text = FixupEntryname(0, entryname);
 				menuItem.Filename = filename;
+        menuItem.ToolTipText = filename;
 
-				MenuItems.Insert(StartIndex, menuItem);
+        MenuItems.Insert(StartIndex, menuItem);
 
 				SetFirstFile(menuItem);
 				FixupPrefixes(1);

@@ -70,6 +70,15 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File does not exists! .
+        /// </summary>
+        internal static string FileDoesntExists {
+            get {
+                return ResourceManager.GetString("FileDoesntExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First row reached.
         ///Continue search from the end?.
         /// </summary>

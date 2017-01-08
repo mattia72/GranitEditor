@@ -70,5 +70,28 @@ namespace GranitXMLEditor.Properties {
                 this["LastOpenedFilePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection RecentFileList {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RecentFileList"]));
+            }
+            set {
+                this["RecentFileList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int MruListItemLength {
+            get {
+                return ((int)(this["MruListItemLength"]));
+            }
+            set {
+                this["MruListItemLength"] = value;
+            }
+        }
     }
 }

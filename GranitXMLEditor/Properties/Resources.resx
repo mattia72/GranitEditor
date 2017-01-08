@@ -120,6 +120,9 @@
   <data name="DoYouWantToSave" xml:space="preserve">
     <value>Do you want to save {0}?</value>
   </data>
+  <data name="FileDoesntExists" xml:space="preserve">
+    <value>File does not exists! </value>
+  </data>
   <data name="FirstRowMsgBoxText" xml:space="preserve">
     <value>First row reached.
 Continue search from the end?</value>

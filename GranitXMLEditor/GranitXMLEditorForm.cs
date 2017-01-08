@@ -12,7 +12,6 @@ namespace GranitXMLEditor
 {
   public partial class GranitXMLEditorForm : Form
   {
-
     private GranitXmlToObjectBinder _xmlToObject;
     private OpenFileDialog _openFileDialog1;
     private SaveFileDialog _saveFileDialog1;
@@ -20,20 +19,38 @@ namespace GranitXMLEditor
     private FindReplaceDlg _findReplaceDlg;
     private string _lastOpenedFilePath;
     private bool _docHasPendingChanges=false;
+    private MruStripMenu _mruMenu;
 
     public GranitXMLEditorForm()
     {
       InitializeComponent();
-      OpenLastOPenedFileIfExists();
+      _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, clickedHadler, 10);
       ApplySettings();
+      OpenLastOpenedFileIfExists();
       _docHasPendingChanges = false;
     }
 
-    private void OpenLastOPenedFileIfExists()
+    private void clickedHadler(int number, string filename)
+    {
+      if (File.Exists(filename))
+      {
+        LoadDocument(filename);
+        _mruMenu.SetFirstFile(number);
+      }
+      else
+      {
+        MessageBox.Show(
+        string.Format(Resources.FileDoesntExists, Path.GetFileName(filename)),
+        Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        _mruMenu.RemoveFile(number);
+      }
+    }
+
+    private void OpenLastOpenedFileIfExists()
     {
       LastOpenedFilePath = Settings.Default.LastOpenedFilePath;
       if (LastOpenedFilePath != string.Empty && File.Exists(LastOpenedFilePath))
-        LoadXmlFile(LastOpenedFilePath);
+        LoadDocument(LastOpenedFilePath);
       else
         OpenNewDocument();
     }
@@ -45,7 +62,8 @@ namespace GranitXMLEditor
       {
         _lastOpenedFilePath = value;
         Text = Application.ProductName + " - " + Path.GetFileName(_lastOpenedFilePath);
-       
+        if(!string.IsNullOrEmpty(_lastOpenedFilePath))
+          _mruMenu.AddFile(_lastOpenedFilePath);
       }
     }
 
@@ -61,6 +79,25 @@ namespace GranitXMLEditor
       {
         dataGridView1.AutoSizeColumnsMode = Settings.Default.AlignTable;
       }
+      _mruMenu.MaxShortenPathLength = Settings.Default.MruListItemLength;
+      foreach (string item in Settings.Default.RecentFileList)
+      {
+        _mruMenu.AddFile(item);
+      }
+    }
+
+    private void SaveSettings(CancelEventArgs e)
+    {
+      Settings.Default.SortedColumn = dataGridView1.SortedColumn != null ? dataGridView1.SortedColumn.HeaderText : "";
+      Settings.Default.SortOrder = dataGridView1.SortOrder;
+      Settings.Default.AlignTable = dataGridView1.AutoSizeColumnsMode;
+      if (LastOpenedFilePath == string.Empty)
+        e.Cancel = AskAndSaveFile() != true;
+      Settings.Default.LastOpenedFilePath = LastOpenedFilePath;
+      Settings.Default.RecentFileList.Clear();
+      var files = _mruMenu.GetFiles();
+      Settings.Default.RecentFileList.AddRange(files);
+      Settings.Default.Save();
     }
 
     private DataGridViewColumn FindColumnByHeaderText(string headerText)
@@ -85,8 +122,7 @@ namespace GranitXMLEditor
 
       if (_openFileDialog1.ShowDialog() == DialogResult.OK)
       {
-        LastOpenedFilePath = Path.GetFullPath(_openFileDialog1.FileName);
-        LoadXmlFile(LastOpenedFilePath);
+        LoadDocument(LastOpenedFilePath);
       }
     }
 
@@ -109,7 +145,7 @@ namespace GranitXMLEditor
       return filename;
     }
 
-    private void SaveToFile(string fileName)
+    private void SaveDocument(string fileName)
     {
       string xmlFilePath = Path.GetFullPath(fileName);
       _xmlToObject.SaveToFile(xmlFilePath);
@@ -117,11 +153,12 @@ namespace GranitXMLEditor
       _docHasPendingChanges = false;
     }
 
-    private void LoadXmlFile(string xmlFilePath)
+    private void LoadDocument(string xmlFilePath)
     {
       _xmlToObject = new GranitXmlToObjectBinder(xmlFilePath);
       var list = new SortableBindingList<TransactionAdapter>(_xmlToObject.HUFTransactionAdapter.Transactions);
       dataGridView1.DataSource = list;
+      LastOpenedFilePath = xmlFilePath;
     }
 
     private void alignTableToolStripMenuItem_Click(object sender, EventArgs e)
@@ -223,18 +260,12 @@ namespace GranitXMLEditor
     private void saveAsToolStripMenuItem1_Click(object sender, EventArgs e)
     {
       string f = GetFileNameToSaveByOpeningSaveFileDialog();
-      SaveToFile(f);
+      SaveDocument(f);
     }
 
     protected override void OnClosing(CancelEventArgs e)
     {
-      Settings.Default.SortedColumn = dataGridView1.SortedColumn != null ? dataGridView1.SortedColumn.HeaderText : "";
-      Settings.Default.SortOrder = dataGridView1.SortOrder;
-      Settings.Default.AlignTable = dataGridView1.AutoSizeColumnsMode;
-      if (LastOpenedFilePath == string.Empty)
-        e.Cancel = AskAndSaveFile() != true;
-      Settings.Default.LastOpenedFilePath = LastOpenedFilePath;
-      Settings.Default.Save();
+      SaveSettings(e);
 
       base.OnClosing(e);
     }
@@ -345,8 +376,8 @@ namespace GranitXMLEditor
       }
       else
       {
-        LastOpenedFilePath = GetFileNameToSaveByOpeningSaveFileDialog();
-        SaveToFile(LastOpenedFilePath);
+        var file = GetFileNameToSaveByOpeningSaveFileDialog();
+        SaveDocument(file);
       }
     }
 
@@ -360,13 +391,13 @@ namespace GranitXMLEditor
       {
         if (LastOpenedFilePath != string.Empty)
         {
-          SaveToFile(LastOpenedFilePath);
+          SaveDocument(LastOpenedFilePath);
         }
         else
         {
           string f = GetFileNameToSaveByOpeningSaveFileDialog();
           if (f != null)
-            SaveToFile(f);
+            SaveDocument(f);
           else
             return false;
         }

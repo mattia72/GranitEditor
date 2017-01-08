@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="HUFTransactionAdapter.cs" />
     <Compile Include="IBindable.cs" />
+    <Compile Include="MruStripMenu.cs" />
     <Compile Include="PropertyComparer.cs" />
     <Compile Include="Resource1.Designer.cs">
       <AutoGen>True</AutoGen>
