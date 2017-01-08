@@ -6,6 +6,7 @@ using Be.Timvw.Framework.ComponentModel;
 using GranitXMLEditor.Properties;
 using System.Diagnostics;
 using System.Data;
+using System.Linq;
 
 namespace GranitXMLEditor
 {
@@ -23,13 +24,18 @@ namespace GranitXMLEditor
     public GranitXMLEditorForm()
     {
       InitializeComponent();
+      OpenLastOPenedFileIfExists();
+      ApplySettings();
+      _docHasPendingChanges = false;
+    }
+
+    private void OpenLastOPenedFileIfExists()
+    {
       LastOpenedFilePath = Settings.Default.LastOpenedFilePath;
-      if (LastOpenedFilePath != string.Empty)
+      if (LastOpenedFilePath != string.Empty && File.Exists(LastOpenedFilePath))
         LoadXmlFile(LastOpenedFilePath);
       else
         OpenNewDocument();
-      ApplySettings();
-      _docHasPendingChanges = false;
     }
 
     public string LastOpenedFilePath
@@ -366,6 +372,13 @@ namespace GranitXMLEditor
         }
       }
       return true;
+    }
+
+    private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      dataGridView1.EndEdit();
+      //_xmlToObject.HUFTransactionAdapter.Transactions.Where(t => !t.IsActive).All(x => { return x.IsActive = true;});
+      dataGridView1.SelectAll();
     }
   }
 }
