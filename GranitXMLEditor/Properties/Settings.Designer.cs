@@ -37,10 +37,10 @@ namespace GranitXMLEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SortOrder {
+        [global::System.Configuration.DefaultSettingValueAttribute("None")]
+        public global::System.Windows.Forms.SortOrder SortOrder {
             get {
-                return ((string)(this["SortOrder"]));
+                return ((global::System.Windows.Forms.SortOrder)(this["SortOrder"]));
             }
             set {
                 this["SortOrder"] = value;
@@ -49,13 +49,25 @@ namespace GranitXMLEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AlignTable {
+        [global::System.Configuration.DefaultSettingValueAttribute("None")]
+        public global::System.Windows.Forms.DataGridViewAutoSizeColumnsMode AlignTable {
             get {
-                return ((string)(this["AlignTable"]));
+                return ((global::System.Windows.Forms.DataGridViewAutoSizeColumnsMode)(this["AlignTable"]));
             }
             set {
                 this["AlignTable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("default.xml")]
+        public string LastOpenedFilePath {
+            get {
+                return ((string)(this["LastOpenedFilePath"]));
+            }
+            set {
+                this["LastOpenedFilePath"] = value;
             }
         }
     }

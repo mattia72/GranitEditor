@@ -61,6 +61,15 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to save {0}?.
+        /// </summary>
+        internal static string DoYouWantToSave {
+            get {
+                return ResourceManager.GetString("DoYouWantToSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First row reached.
         ///Continue search from the end?.
         /// </summary>

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DoYouWantToSave" xml:space="preserve">
+    <value>Do you want to save {0}?</value>
+  </data>
   <data name="FirstRowMsgBoxText" xml:space="preserve">
     <value>First row reached.
 Continue search from the end?</value>
