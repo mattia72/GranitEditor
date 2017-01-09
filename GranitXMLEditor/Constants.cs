@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace GranitXMLEditor
+﻿namespace GranitXMLEditor
 {
   public class Constants
   {
@@ -27,15 +20,8 @@ namespace GranitXMLEditor
     public const string RequestedExecutionDate = "RequestedExecutionDate";
     public const string DateFormat = "yyyy-MM-dd";
     //DataGridView
-    public const string OriginatorHeader = "Originator";
     public const string BeneficiaryAccount = "BeneficiaryAccount";
-    public const string BeneficiaryAccountHeader = "BeneficiaryAccount";
     public const string BeneficiaryName = "BeneficiaryName";
-    public const string BeneficiaryNameHeader = "BeneficiaryName";
-    public const string AmountHeader = "Amount";
-    public const string CurrencyHeader = "Currency";
-    public const string RequestedExecutionDateHeader = "RequestedExecutionDate";
-    public const string RemittanceInfoHeader = "Info";
 
   }
 }

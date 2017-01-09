@@ -61,6 +61,42 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amount.
+        /// </summary>
+        internal static string AmountHeader {
+            get {
+                return ResourceManager.GetString("AmountHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BeneficiaryAccount.
+        /// </summary>
+        internal static string BeneficiaryAccountHeader {
+            get {
+                return ResourceManager.GetString("BeneficiaryAccountHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BeneficiaryName.
+        /// </summary>
+        internal static string BeneficiaryNameHeader {
+            get {
+                return ResourceManager.GetString("BeneficiaryNameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currency.
+        /// </summary>
+        internal static string CurrencyHeader {
+            get {
+                return ResourceManager.GetString("CurrencyHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want to save {0}?.
         /// </summary>
         internal static string DoYouWantToSave {
@@ -89,6 +125,54 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon GranitBankIcon {
+            get {
+                object obj = ResourceManager.GetObject("GranitBankIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GranitBankSign {
+            get {
+                object obj = ResourceManager.GetObject("GranitBankSign", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The account number is invalid..
+        /// </summary>
+        internal static string InvalidAccountError {
+            get {
+                return ResourceManager.GetString("InvalidAccountError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currency is invalid. Only &apos;HUF&apos; is accepted..
+        /// </summary>
+        internal static string InvalidCurrencyError {
+            get {
+                return ResourceManager.GetString("InvalidCurrencyError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remittance info is invalid, max 4 line and max 32 char is allowed per line.
+        ///Line separator is &apos;|&apos; character..
+        /// </summary>
+        internal static string InvalidRemittanceInfoError {
+            get {
+                return ResourceManager.GetString("InvalidRemittanceInfoError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last row reached. 
         ///Continue search from the beginning?.
         /// </summary>
@@ -105,6 +189,33 @@ namespace GranitXMLEditor.Properties {
         internal static string NotFoundMsgBoxText {
             get {
                 return ResourceManager.GetString("NotFoundMsgBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Originator.
+        /// </summary>
+        internal static string OriginatorHeaderText {
+            get {
+                return ResourceManager.GetString("OriginatorHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RemittanceInfo.
+        /// </summary>
+        internal static string RemittanceInfoHeader {
+            get {
+                return ResourceManager.GetString("RemittanceInfoHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RequestedExecutionDate.
+        /// </summary>
+        internal static string RequestedExecutionDateHeader {
+            get {
+                return ResourceManager.GetString("RequestedExecutionDateHeader", resourceCulture);
             }
         }
     }

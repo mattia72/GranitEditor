@@ -76,6 +76,7 @@
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="GranitDataGridViewCellValidator.cs" />
     <Compile Include="FindReplaceDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,11 +93,6 @@
     <Compile Include="IBindable.cs" />
     <Compile Include="MruStripMenu.cs" />
     <Compile Include="PropertyComparer.cs" />
-    <Compile Include="Resource1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resource1.resx</DependentUpon>
-    </Compile>
     <Compile Include="SortableBindingList.cs" />
     <Compile Include="TransactionAdapter.cs" />
     <Compile Include="Program.cs" />
@@ -124,10 +120,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Resource1.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <None Include="Properties\DataSources\TransactionAdapter.datasource" />
     <None Include="Properties\DataSources\TransactionAdapter1.datasource" />
     <None Include="Properties\DataSources\Xml2CSharp.Account.datasource" />

@@ -20,6 +20,7 @@ namespace GranitXMLEditor
     private string _lastOpenedFilePath;
     private bool _docHasPendingChanges=false;
     private MruStripMenu _mruMenu;
+    private GranitDataGridViewCellValidator cellVallidator;
 
     public GranitXMLEditorForm()
     {
@@ -28,6 +29,7 @@ namespace GranitXMLEditor
       ApplySettings();
       OpenLastOpenedFileIfExists();
       _docHasPendingChanges = false;
+      cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
     }
 
     private void clickedHadler(int number, string filename)
@@ -86,13 +88,11 @@ namespace GranitXMLEditor
       }
     }
 
-    private void SaveSettings(CancelEventArgs e)
+    private void SaveSettings()
     {
       Settings.Default.SortedColumn = dataGridView1.SortedColumn != null ? dataGridView1.SortedColumn.HeaderText : "";
       Settings.Default.SortOrder = dataGridView1.SortOrder;
       Settings.Default.AlignTable = dataGridView1.AutoSizeColumnsMode;
-      if (LastOpenedFilePath == string.Empty)
-        e.Cancel = AskAndSaveFile() != true;
       Settings.Default.LastOpenedFilePath = LastOpenedFilePath;
       Settings.Default.RecentFileList.Clear();
       var files = _mruMenu.GetFiles();
@@ -191,33 +191,16 @@ namespace GranitXMLEditor
         return;
       }
 
-      //string headerText = dataGridView1.Columns[e.ColumnIndex].HeaderText;
+      string headerText = dataGridView1.Columns[e.ColumnIndex].HeaderText;
 
-      //string value = "";
+      cellVallidator.Validate(ref e, headerText);
 
-      //switch (headerText)
-      //{
-      //    case "Originator":
-      //        value = (string)e.FormattedValue;
-      //        if (value.Length != 16 && value.Length != 24)
-      //        {
-      //            dataGridView1.CurrentCell.ToolTipText = "Invalid Value";
-      //            dataGridView1.BackgroundColor = System.Drawing.Color.LightPink;
-      //            e.Cancel = true;
-      //        }
-      //        break;
-      //    default:
-      //        e.Cancel = false;
-      //        break;
-      //}
     }
+
 
     private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
     {
-      //dataGridView1.Rows[e.RowIndex].ErrorText = String.Empty;
-      //cellErrorLocation = null;
-      //cellErrorText = null;
-      //dataGridView1.BackgroundColor = BackColor;
+      dataGridView1.Rows[e.RowIndex].ErrorText = string.Empty;
     }
 
     //private void AnnotateCell(string errorMessage, DataGridViewCellValidatingEventArgs editEvent)
@@ -265,8 +248,10 @@ namespace GranitXMLEditor
 
     protected override void OnClosing(CancelEventArgs e)
     {
-      SaveSettings(e);
+      if (_docHasPendingChanges || LastOpenedFilePath == string.Empty)
+        e.Cancel = AskAndSaveFile() != true;
 
+      SaveSettings();
       base.OnClosing(e);
     }
 

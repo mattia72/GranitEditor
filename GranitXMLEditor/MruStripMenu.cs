@@ -15,6 +15,7 @@ namespace GranitXMLEditor
   /// on construction and store them when instructed by the main program.</para>
   /// <para>Internally, this class uses zero-based numbering for the items.
   /// The displayed numbers, however, will start with one.</para></remarks>
+  [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
   public class MruStripMenu
 	{
 		private   ClickedHandler    clickedHandler;
@@ -43,14 +44,15 @@ namespace GranitXMLEditor
 				Tag = "";
 			}
 
-			/// <summary>
-			/// Initializes an MruMenuItem object.
-			/// </summary>
-			/// <param labelName="filename">The string to actually return in the <paramref labelName="eventHandler">eventHandler</paramref>.</param>
-			/// <param labelName="entryname">The string that will be displayed in the menu.</param>
-			/// <param labelName="eventHandler">The <see cref="EventHandler">EventHandler</see> that 
-			/// handles the <see cref="MenuItem.Click">Click</see> event for this menu item.</param>
-			public MruMenuItem(string filename, string entryname, EventHandler eventHandler)
+      /// <summary>
+      /// Initializes an MruMenuItem object.
+      /// </summary>
+      /// <param labelName="filename">The string to actually return in the <paramref labelName="eventHandler">eventHandler</paramref>.</param>
+      /// <param labelName="entryname">The string that will be displayed in the menu.</param>
+      /// <param labelName="eventHandler">The <see cref="EventHandler">EventHandler</see> that 
+      /// handles the <see cref="MenuItem.Click">Click</see> event for this menu item.</param>
+      [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+      public MruMenuItem(string filename, string entryname, EventHandler eventHandler)
 			{
 				Tag = filename;
 				Text = entryname;
@@ -137,15 +139,16 @@ namespace GranitXMLEditor
   		{
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the MruMenu class.
-		/// </summary>
-		/// <param labelName="recentFileMenuItem">The temporary menu item which will be replaced with the MRU list.</param>
-		/// <param labelName="clickedHandler">The delegate to handle the item selection (click) event.</param>
-		/// <param labelName="registryKeyName">The name or path of the registry key to use to store the MRU list and settings.</param>
-		/// <param labelName="loadFromRegistry">Loads the MRU settings from the registry immediately.</param>
-		/// <param labelName="maxEntries">The maximum number of items on the MRU list.</param>
-		public MruStripMenu(ToolStripMenuItem recentFileMenuItem, ClickedHandler clickedHandler, string registryKeyName, bool loadFromRegistry, int maxEntries)
+    /// <summary>
+    /// Initializes a new instance of the MruMenu class.
+    /// </summary>
+    /// <param labelName="recentFileMenuItem">The temporary menu item which will be replaced with the MRU list.</param>
+    /// <param labelName="clickedHandler">The delegate to handle the item selection (click) event.</param>
+    /// <param labelName="registryKeyName">The name or path of the registry key to use to store the MRU list and settings.</param>
+    /// <param labelName="loadFromRegistry">Loads the MRU settings from the registry immediately.</param>
+    /// <param labelName="maxEntries">The maximum number of items on the MRU list.</param>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    public MruStripMenu(ToolStripMenuItem recentFileMenuItem, ClickedHandler clickedHandler, string registryKeyName, bool loadFromRegistry, int maxEntries)
 		{
 			Init(recentFileMenuItem, clickedHandler, registryKeyName, loadFromRegistry, maxEntries);
 		}
