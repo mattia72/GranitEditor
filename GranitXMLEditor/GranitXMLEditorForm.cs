@@ -82,10 +82,11 @@ namespace GranitXMLEditor
         dataGridView1.AutoSizeColumnsMode = Settings.Default.AlignTable;
       }
       _mruMenu.MaxShortenPathLength = Settings.Default.MruListItemLength;
-      foreach (string item in Settings.Default.RecentFileList)
-      {
-        _mruMenu.AddFile(item);
-      }
+      if (Settings.Default.RecentFileList != null)
+        foreach (string item in Settings.Default.RecentFileList)
+        {
+          _mruMenu.AddFile(item);
+        }
     }
 
     private void SaveSettings()
@@ -94,7 +95,14 @@ namespace GranitXMLEditor
       Settings.Default.SortOrder = dataGridView1.SortOrder;
       Settings.Default.AlignTable = dataGridView1.AutoSizeColumnsMode;
       Settings.Default.LastOpenedFilePath = LastOpenedFilePath;
-      Settings.Default.RecentFileList.Clear();
+      if (Settings.Default.RecentFileList != null)
+      {
+        Settings.Default.RecentFileList.Clear();
+      }
+      else
+      {
+        Settings.Default.RecentFileList = new System.Collections.Specialized.StringCollection();
+      }
       var files = _mruMenu.GetFiles();
       Settings.Default.RecentFileList.AddRange(files);
       Settings.Default.Save();
@@ -122,7 +130,7 @@ namespace GranitXMLEditor
 
       if (_openFileDialog1.ShowDialog() == DialogResult.OK)
       {
-        LoadDocument(LastOpenedFilePath);
+        LoadDocument(_openFileDialog1.FileName);
       }
     }
 

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GranitXMLTemplate")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("GranitEditor")]
+[assembly: AssemblyDescription("Import xml editor for Granit netBank transactions")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MataSoft Bt.")]
-[assembly: AssemblyProduct("GranitXMLTemplate")]
+[assembly: AssemblyProduct("GranitEditor")]
 [assembly: AssemblyCopyright("Copyright © MataSoft Bt. 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
