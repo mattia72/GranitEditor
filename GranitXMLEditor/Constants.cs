@@ -17,7 +17,7 @@
     public const string Text = "Text";
     public const string Transaction = "Transaction";
     public const string TransactionIdAttribute = "id";
-    public const string TransactionActiveAttribute = "is_active";
+    public const string TransactionSelectedAttribute = "is_selected";
     public const string RequestedExecutionDate = "RequestedExecutionDate";
     public const string DateFormat = "yyyy-MM-dd";
     //DataGridView

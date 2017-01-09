@@ -75,7 +75,7 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="AlignStripMenu.cs" />
+    <Compile Include="EnumStripMenu.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GranitDataGridViewCellValidator.cs" />
     <Compile Include="FindReplaceDlg.cs">

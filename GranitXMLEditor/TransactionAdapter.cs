@@ -137,7 +137,7 @@ namespace GranitXMLEditor
       switch (field)
       {
         case Constants.Active:
-          xt.Attribute(Constants.TransactionActiveAttribute).Value = value;
+          xt.Attribute(Constants.TransactionSelectedAttribute).Value = value;
           break;
         case Constants.Originator:
           xt.Element(Constants.Originator).Element(Constants.Account).Element(Constants.AccountNumber).Value = value;

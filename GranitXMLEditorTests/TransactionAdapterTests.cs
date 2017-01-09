@@ -28,7 +28,7 @@ namespace GranitXMLEditor.Tests
       ta.Originator = "555555556666666677777777";
       ta.RemittanceInfo = "szöveg|szöveg|megint szöveg";
 
-      Assert.AreEqual(xt.Root.Element(Constants.Transaction).Attribute(Constants.TransactionActiveAttribute).Value.ToLower(),
+      Assert.AreEqual(xt.Root.Element(Constants.Transaction).Attribute(Constants.TransactionSelectedAttribute).Value.ToLower(),
         ta.IsActive.ToString().ToLower());
       Assert.AreEqual(xt.Root.Element(Constants.Transaction).Element(Constants.Amount).Value,
         ta.Amount.ToString(Constants.AmountFormatString, CultureInfo.InvariantCulture));

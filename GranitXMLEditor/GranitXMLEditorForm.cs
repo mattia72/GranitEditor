@@ -20,19 +20,19 @@ namespace GranitXMLEditor
     private string _lastOpenedFilePath;
     private bool _docHasPendingChanges=false;
     private MruStripMenu _mruMenu;
-    private AutoSizeModeStripMenu _autoSizeMenu;
-    private GranitDataGridViewCellValidator cellVallidator;
+    private EnumStripMenu<DataGridViewAutoSizeColumnsMode> _autoSizeMenu;
+    private GranitDataGridViewCellValidator _cellVallidator;
 
     public GranitXMLEditorForm()
     {
       InitializeComponent();
       _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, mruMenu_Clicked, 10);
-      _autoSizeMenu = new AutoSizeModeStripMenu(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
+      _autoSizeMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
       ApplySettings();
       SetTextResources();
       OpenLastOpenedFileIfExists();
       _docHasPendingChanges = false;
-      cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
+      _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
     }
 
     private void autoSizeMenu_Clicked(DataGridViewAutoSizeColumnsMode mode)
@@ -117,13 +117,9 @@ namespace GranitXMLEditor
       Settings.Default.AlignTable = dataGridView1.AutoSizeColumnsMode;
       Settings.Default.LastOpenedFilePath = LastOpenedFilePath;
       if (Settings.Default.RecentFileList != null)
-      {
         Settings.Default.RecentFileList.Clear();
-      }
       else
-      {
         Settings.Default.RecentFileList = new System.Collections.Specialized.StringCollection();
-      }
       var files = _mruMenu.GetFiles();
       Settings.Default.RecentFileList.AddRange(files);
       Settings.Default.Save();
@@ -134,9 +130,7 @@ namespace GranitXMLEditor
       foreach (DataGridViewColumn col in dataGridView1.Columns)
       {
         if (col.HeaderText == headerText)
-        {
           return col;
-        }
       }
       return null;
     }
@@ -150,9 +144,7 @@ namespace GranitXMLEditor
       _openFileDialog1.RestoreDirectory = true;
 
       if (_openFileDialog1.ShowDialog() == DialogResult.OK)
-      {
         LoadDocument(_openFileDialog1.FileName);
-      }
     }
 
     private string GetFileNameToSaveByOpeningSaveFileDialog()
@@ -167,9 +159,7 @@ namespace GranitXMLEditor
         _saveFileDialog1.RestoreDirectory = true;
 
         if (_saveFileDialog1.ShowDialog() == DialogResult.OK)
-        {
           filename = _saveFileDialog1.FileName;
-        }
       }
       return filename;
     }
@@ -208,7 +198,7 @@ namespace GranitXMLEditor
 
       string headerText = dataGridView1.Columns[e.ColumnIndex].HeaderText;
 
-      cellVallidator.Validate(ref e, headerText);
+      _cellVallidator.Validate(ref e, headerText);
 
     }
 

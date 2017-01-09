@@ -106,9 +106,9 @@ namespace GranitXMLEditor
         XAttribute idAttribute = new XAttribute(Constants.TransactionIdAttribute, id);
         item.Add(idAttribute);
       }
-      if (item.Attribute(Constants.TransactionActiveAttribute) == null)
+      if (item.Attribute(Constants.TransactionSelectedAttribute) == null)
       {
-        XAttribute activeAttribute = new XAttribute(Constants.TransactionActiveAttribute, true);
+        XAttribute activeAttribute = new XAttribute(Constants.TransactionSelectedAttribute, true);
         item.Add(activeAttribute);
       }
     }
@@ -118,7 +118,7 @@ namespace GranitXMLEditor
       var xDocToSave = new XDocument(new XElement(Constants.HUFTransactions));
 
       foreach (var item in GranitXDocument.Root.Elements().
-        Where(x => x.Attribute(Constants.TransactionActiveAttribute) == null || x.Attribute(Constants.TransactionActiveAttribute).Value == "true"))
+        Where(x => x.Attribute(Constants.TransactionSelectedAttribute) == null || x.Attribute(Constants.TransactionSelectedAttribute).Value == "true"))
       {
           xDocToSave.Root.Add(item);
       }
@@ -134,8 +134,8 @@ namespace GranitXMLEditor
         if(item.Attribute(Constants.TransactionIdAttribute) != null)
           item.Attribute(Constants.TransactionIdAttribute).Remove();
 
-        if(item.Attribute(Constants.TransactionActiveAttribute) != null)
-          item.Attribute(Constants.TransactionActiveAttribute).Remove();
+        if(item.Attribute(Constants.TransactionSelectedAttribute) != null)
+          item.Attribute(Constants.TransactionSelectedAttribute).Remove();
       }
     }
 
