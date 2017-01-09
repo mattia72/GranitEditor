@@ -15,11 +15,11 @@ namespace GranitXMLEditor
   {
     public bool IsActive
     {
-      get { return (Transaction.IsActive); }
+      get { return (Transaction.IsSelected); }
       set
       {
         UpdateGranitXDocument(Constants.Active, value.ToString().ToLower());
-        Transaction.IsActive = value;
+        Transaction.IsSelected = value;
         Debug.WriteLine("IsActiv property set to {0} for T id:{1}", value, Transaction.TransactionId);
       }
 
@@ -59,7 +59,7 @@ namespace GranitXMLEditor
       get { return Transaction.Amount.Value; }
       set
       {
-        UpdateGranitXDocument(Constants.Amount, value.ToString("F2", CultureInfo.InvariantCulture));
+        UpdateGranitXDocument(Constants.Amount, value.ToString(Constants.AmountFormatString, CultureInfo.InvariantCulture));
         Transaction.Amount.Value = value;
       }
     }

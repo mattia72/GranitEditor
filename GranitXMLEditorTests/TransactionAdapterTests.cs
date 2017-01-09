@@ -31,7 +31,7 @@ namespace GranitXMLEditor.Tests
       Assert.AreEqual(xt.Root.Element(Constants.Transaction).Attribute(Constants.TransactionActiveAttribute).Value.ToLower(),
         ta.IsActive.ToString().ToLower());
       Assert.AreEqual(xt.Root.Element(Constants.Transaction).Element(Constants.Amount).Value,
-        ta.Amount.ToString("F2", CultureInfo.InvariantCulture));
+        ta.Amount.ToString(Constants.AmountFormatString, CultureInfo.InvariantCulture));
       Assert.AreEqual(xt.Root.Element(Constants.Transaction).Element(Constants.Beneficiary).Element(Constants.Account).Element(Constants.AccountNumber).Value,
         ta.BeneficiaryAccount);
       Assert.AreEqual(xt.Root.Element(Constants.Transaction).Element(Constants.Beneficiary).Element(Constants.Name).Value,

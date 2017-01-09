@@ -70,6 +70,15 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Cell.
+        /// </summary>
+        internal static string AutoSizeColumnModeAllCell {
+            get {
+                return ResourceManager.GetString("AutoSizeColumnModeAllCell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BeneficiaryAccount.
         /// </summary>
         internal static string BeneficiaryAccountHeader {
@@ -154,11 +163,29 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amount has to be a valid number..
+        /// </summary>
+        internal static string InvalidAmountError {
+            get {
+                return ResourceManager.GetString("InvalidAmountError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Currency is invalid. Only &apos;HUF&apos; is accepted..
         /// </summary>
         internal static string InvalidCurrencyError {
             get {
                 return ResourceManager.GetString("InvalidCurrencyError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value in the field is not a valid date..
+        /// </summary>
+        internal static string InvalidDateError {
+            get {
+                return ResourceManager.GetString("InvalidDateError", resourceCulture);
             }
         }
         
@@ -169,6 +196,15 @@ namespace GranitXMLEditor.Properties {
         internal static string InvalidRemittanceInfoError {
             get {
                 return ResourceManager.GetString("InvalidRemittanceInfoError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected.
+        /// </summary>
+        internal static string IsActiveHeaderText {
+            get {
+                return ResourceManager.GetString("IsActiveHeaderText", resourceCulture);
             }
         }
         
@@ -211,7 +247,16 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to RequestedExecutionDate.
+        ///   Looks up a localized string similar to Following text is too  long: {0}.
+        /// </summary>
+        internal static string RemittanceInfoLineTooLongError {
+            get {
+                return ResourceManager.GetString("RemittanceInfoLineTooLongError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ExecutionDate.
         /// </summary>
         internal static string RequestedExecutionDateHeader {
             get {

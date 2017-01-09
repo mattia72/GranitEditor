@@ -139,9 +139,9 @@ namespace GranitXMLEditor
       }
     }
 
-    public void Sort(string columnText, SortOrder sortOrder)
+    public void Sort(string columnHeaderText, SortOrder sortOrder)
     {
-      switch (columnText)
+      switch (columnHeaderText)
       {
         case Constants.Active:
           GranitXDocument.SortElementsByXPathEvaluate(Constants.Transaction, "/@" + Constants.TransactionIdAttribute, 

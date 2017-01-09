@@ -11,6 +11,7 @@
     public const string Beneficiary = "Beneficiary";
     public const string Name = "Name";
     public const string Amount = "Amount";
+    public const string AmountFormatString = "F2";
     public const string Currency = "Currency";
     public const string RemittanceInfo = "RemittanceInfo";
     public const string Text = "Text";

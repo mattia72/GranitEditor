@@ -20,19 +20,39 @@ namespace GranitXMLEditor
     private string _lastOpenedFilePath;
     private bool _docHasPendingChanges=false;
     private MruStripMenu _mruMenu;
+    private AutoSizeModeStripMenu _autoSizeMenu;
     private GranitDataGridViewCellValidator cellVallidator;
 
     public GranitXMLEditorForm()
     {
       InitializeComponent();
-      _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, clickedHadler, 10);
+      _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, mruMenu_Clicked, 10);
+      _autoSizeMenu = new AutoSizeModeStripMenu(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
       ApplySettings();
+      SetTextResources();
       OpenLastOpenedFileIfExists();
       _docHasPendingChanges = false;
       cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
     }
 
-    private void clickedHadler(int number, string filename)
+    private void autoSizeMenu_Clicked(DataGridViewAutoSizeColumnsMode mode)
+    {
+      dataGridView1.AutoSizeColumnsMode = mode == 0 ? DataGridViewAutoSizeColumnsMode.None : mode;
+    }
+
+    private void SetTextResources()
+    {
+      isActiveDataGridViewCheckBoxColumn.HeaderText = Resources.IsActiveHeaderText;
+      originatorDataGridViewTextBoxColumn.HeaderText = Resources.OriginatorHeaderText;
+      beneficiaryNameDataGridViewTextBoxColumn.HeaderText = Resources.BeneficiaryNameHeader;
+      beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = Resources.BeneficiaryAccountHeader;
+      amountDataGridViewTextBoxColumn.HeaderText = Resources.AmountHeader;
+      currencyDataGridViewTextBoxColumn.HeaderText = Resources.CurrencyHeader;
+      executionDateDataGridViewTextBoxColumn.HeaderText = Resources.RequestedExecutionDateHeader;
+      remittanceInfoDataGridViewTextBoxColumn.HeaderText = Resources.RemittanceInfoHeader;
+    }
+
+    private void mruMenu_Clicked(int number, string filename)
     {
       if (File.Exists(filename))
       {
@@ -77,9 +97,10 @@ namespace GranitXMLEditor
         dataGridView1.Sort(col, Settings.Default.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
         col.HeaderCell.SortGlyphDirection = Settings.Default.SortOrder == SortOrder.Ascending ? SortOrder.Ascending : SortOrder.Descending;
       }
-      if (Settings.Default.AlignTable != DataGridViewAutoSizeColumnsMode.None)
+      if (Settings.Default.AlignTable != 0)
       {
         dataGridView1.AutoSizeColumnsMode = Settings.Default.AlignTable;
+        _autoSizeMenu.SetCheckedByMode(dataGridView1.AutoSizeColumnsMode);
       }
       _mruMenu.MaxShortenPathLength = Settings.Default.MruListItemLength;
       if (Settings.Default.RecentFileList != null)
@@ -167,20 +188,6 @@ namespace GranitXMLEditor
       var list = new SortableBindingList<TransactionAdapter>(_xmlToObject.HUFTransactionAdapter.Transactions);
       dataGridView1.DataSource = list;
       LastOpenedFilePath = xmlFilePath;
-    }
-
-    private void alignTableToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      if (alignTableToolStripMenuItem.Checked)
-      {
-        dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-      }
-      else
-      {
-        dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
-      }
-      alignTableToolStripMenuItem.Checked = !alignTableToolStripMenuItem.Checked;
-
     }
 
     private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)

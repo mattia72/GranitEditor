@@ -120,7 +120,7 @@ namespace GranitXMLEditor
     [XmlIgnore()]
     private static int TransactionCounter = 0;
     [XmlIgnore()]
-    public bool IsActive { get; set; }
+    public bool IsSelected { get; set; }
 
     [XmlElement(ElementName = "Originator")]
     public Originator Originator { get; set; }
@@ -139,7 +139,7 @@ namespace GranitXMLEditor
     public Transaction()
     {
       TransactionId = ++TransactionCounter;
-      IsActive = true;
+      IsSelected = true;
       Originator = new Originator();
       Beneficiary = new Beneficiary();
       Amount = new Amount();
