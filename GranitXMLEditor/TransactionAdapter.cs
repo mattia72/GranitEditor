@@ -136,6 +136,9 @@ namespace GranitXMLEditor
           .Where(x => this.IsBindedWith(x)).ToList()
           .FirstOrDefault();
 
+      if (xt == null)
+        throw new InvalidOperationException("No XElement binded with this adapter.");
+
       switch (field)
       {
         case Constants.Active:
