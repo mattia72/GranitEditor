@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AmountHeader" xml:space="preserve">
+  <data name="AmountHeaderText" xml:space="preserve">
     <value>Amount</value>
   </data>
   <data name="AutoSizeColumnModeAllCell" xml:space="preserve">
@@ -179,13 +179,13 @@ Continue search from the beginning?</value>
   <data name="OriginatorHeaderText" xml:space="preserve">
     <value>Originator</value>
   </data>
-  <data name="RemittanceInfoHeader" xml:space="preserve">
+  <data name="RemittanceInfoHeaderText" xml:space="preserve">
     <value>RemittanceInfo</value>
   </data>
   <data name="RemittanceInfoLineTooLongError" xml:space="preserve">
     <value>Following text is too  long: {0}</value>
   </data>
-  <data name="RequestedExecutionDateHeader" xml:space="preserve">
+  <data name="RequestedExecutionDateHeaderText" xml:space="preserve">
     <value>ExecutionDate</value>
   </data>
 </root>

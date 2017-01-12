@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Be.Timvw.Framework.Collections.Generic;
 
-namespace Be.Timvw.Framework.ComponentModel
+namespace GranitXMLEditor
 {
-    public class SortableBindingList<T> : BindingList<T>
+  public class SortableBindingList<T> : BindingList<T>
     {
         private readonly Dictionary<Type, PropertyComparer<T>> comparers;
         private bool isSorted;

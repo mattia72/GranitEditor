@@ -8,7 +8,6 @@ using System;
 using System.Xml.Serialization;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using System.Linq;
 
 namespace GranitXMLEditor
 {

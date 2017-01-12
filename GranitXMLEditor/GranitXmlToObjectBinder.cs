@@ -9,7 +9,7 @@ namespace GranitXMLEditor
   internal class GranitXmlToObjectBinder
   {
     internal HUFTransaction HUFTransaction { get; private set; }
-    internal HUFTransactionAdapter HUFTransactionAdapter { get; private set; }
+    internal HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
     internal XDocument GranitXDocument { get; private set; }
 
     public GranitXmlToObjectBinder()
@@ -38,7 +38,7 @@ namespace GranitXMLEditor
 
     public void RemoveTransactionRowById( int transactionId)
     {
-      HUFTransactionAdapter.Transactions.RemoveAll(t => t.TransactionId == transactionId);
+      HUFTransactionsAdapter.Transactions.RemoveAll(t => t.TransactionId == transactionId);
       HUFTransaction.Transactions.RemoveAll(t => t.TransactionId == transactionId);
       GranitXDocument.Root.Elements(Constants.Transaction)
         .Where(t => t.Attribute(Constants.TransactionIdAttribute).Value == transactionId.ToString()).Remove();
@@ -182,9 +182,9 @@ namespace GranitXMLEditor
 
     private TransactionAdapter ReCreateAdapter()
     {
-      HUFTransactionAdapter = new HUFTransactionAdapter(HUFTransaction, GranitXDocument);
+      HUFTransactionsAdapter = new HUFTransactionsAdapter(HUFTransaction, GranitXDocument);
       // return with the largest TransactionId
-      var ts = HUFTransactionAdapter.Transactions;
+      var ts = HUFTransactionsAdapter.Transactions;
       if (ts.Count != 0)
       {
         return ts.Aggregate((i, j) => i.TransactionId > j.TransactionId ? i : j);

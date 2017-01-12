@@ -75,16 +75,22 @@ namespace GranitXMLEditor
   {
     public EnumStripMenuItem()
     {
+      if (!typeof(T).IsEnum)
+        throw new ArgumentException("T must be an enumerated type");
+
       Tag = "";
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public EnumStripMenuItem(T tag, EventHandler eventHandler)
+    public EnumStripMenuItem(T tag, EventHandler clickEventHandler)
     {
+      if (!typeof(T).IsEnum)
+        throw new ArgumentException("T must be an enumerated type");
+
       Text = GetTextOfEnumValue(tag);
       Tag = tag;
       //ToolTipText = text;
-      Click += eventHandler;
+      Click += clickEventHandler;
     }
 
     public virtual string GetTextOfEnumValue(T tag)
@@ -93,5 +99,4 @@ namespace GranitXMLEditor
       return tag.ToString();
     }
   }
-
 }

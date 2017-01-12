@@ -23,6 +23,7 @@
     //DataGridView
     public const string BeneficiaryAccount = "BeneficiaryAccount";
     public const string BeneficiaryName = "BeneficiaryName";
+    public const string NullAccountFragment = "00000000";
 
   }
 }

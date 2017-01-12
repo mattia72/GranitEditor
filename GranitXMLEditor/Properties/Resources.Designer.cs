@@ -63,9 +63,9 @@ namespace GranitXMLEditor.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Amount.
         /// </summary>
-        internal static string AmountHeader {
+        internal static string AmountHeaderText {
             get {
-                return ResourceManager.GetString("AmountHeader", resourceCulture);
+                return ResourceManager.GetString("AmountHeaderText", resourceCulture);
             }
         }
         
@@ -240,9 +240,9 @@ namespace GranitXMLEditor.Properties {
         /// <summary>
         ///   Looks up a localized string similar to RemittanceInfo.
         /// </summary>
-        internal static string RemittanceInfoHeader {
+        internal static string RemittanceInfoHeaderText {
             get {
-                return ResourceManager.GetString("RemittanceInfoHeader", resourceCulture);
+                return ResourceManager.GetString("RemittanceInfoHeaderText", resourceCulture);
             }
         }
         
@@ -258,9 +258,9 @@ namespace GranitXMLEditor.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ExecutionDate.
         /// </summary>
-        internal static string RequestedExecutionDateHeader {
+        internal static string RequestedExecutionDateHeaderText {
             get {
-                return ResourceManager.GetString("RequestedExecutionDateHeader", resourceCulture);
+                return ResourceManager.GetString("RequestedExecutionDateHeaderText", resourceCulture);
             }
         }
     }

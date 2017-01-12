@@ -5,13 +5,15 @@ using System.Xml.Serialization;
 using System.Globalization;
 using System.Diagnostics;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace GranitXMLEditor
 {
   public class TransactionAdapter : IComparable<XElement>,
     IComparable<Transaction>,
     IComparable<TransactionAdapter>,
-    IBindable<XElement>, INotifyPropertyChanged
+    IBindable<XElement>, 
+    INotifyPropertyChanged
   {
     public bool IsActive
     {
@@ -224,5 +226,33 @@ namespace GranitXMLEditor
     {
       return Transaction.IsBindedWith(t);
     }
+
+    private class SortAmountAscendingHelper : IComparer<TransactionAdapter>
+    {
+      public int Compare(TransactionAdapter x, TransactionAdapter y)
+      {
+        return x.Amount.CompareTo(y.Amount);
+      }
+    }
+
+    public static IComparer<TransactionAdapter> SortAmountAscending()
+    {
+      return (IComparer<TransactionAdapter>)new SortAmountAscendingHelper();
+    }
+
+    private class SortAmountDescendingHelper : IComparer<TransactionAdapter>
+    {
+      public int Compare(TransactionAdapter x, TransactionAdapter y)
+      {
+        return y.Amount.CompareTo(x.Amount);
+      }
+    }
+
+    public static IComparer<TransactionAdapter> SortAmountDescending()
+    {
+      return (IComparer<TransactionAdapter>) new SortAmountDescendingHelper();
+    }
+
+
   }
 }

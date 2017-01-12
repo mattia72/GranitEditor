@@ -2,11 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using System.ComponentModel;
-using Be.Timvw.Framework.ComponentModel;
 using GranitXMLEditor.Properties;
-using System.Diagnostics;
-using System.Data;
-using System.Linq;
 
 namespace GranitXMLEditor
 {
@@ -22,17 +18,18 @@ namespace GranitXMLEditor
     private MruStripMenu _mruMenu;
     private EnumStripMenu<DataGridViewAutoSizeColumnsMode> _autoSizeMenu;
     private GranitDataGridViewCellValidator _cellVallidator;
+    private SortableBindingList<TransactionAdapter> _bindingList;
 
     public GranitXMLEditorForm()
     {
       InitializeComponent();
       _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, mruMenu_Clicked, 10);
       _autoSizeMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
-      ApplySettings();
-      SetTextResources();
       OpenLastOpenedFileIfExists();
       _docHasPendingChanges = false;
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
+      SetTextResources();
+      ApplySettings();
     }
 
     private void autoSizeMenu_Clicked(DataGridViewAutoSizeColumnsMode mode)
@@ -44,12 +41,13 @@ namespace GranitXMLEditor
     {
       isActiveDataGridViewCheckBoxColumn.HeaderText = Resources.IsActiveHeaderText;
       originatorDataGridViewTextBoxColumn.HeaderText = Resources.OriginatorHeaderText;
+      //originatorDataGridViewTextBoxColumn.
       beneficiaryNameDataGridViewTextBoxColumn.HeaderText = Resources.BeneficiaryNameHeader;
       beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = Resources.BeneficiaryAccountHeader;
-      amountDataGridViewTextBoxColumn.HeaderText = Resources.AmountHeader;
+      amountDataGridViewTextBoxColumn.HeaderText = Resources.AmountHeaderText;
       currencyDataGridViewTextBoxColumn.HeaderText = Resources.CurrencyHeader;
-      executionDateDataGridViewTextBoxColumn.HeaderText = Resources.RequestedExecutionDateHeader;
-      remittanceInfoDataGridViewTextBoxColumn.HeaderText = Resources.RemittanceInfoHeader;
+      executionDateDataGridViewTextBoxColumn.HeaderText = Resources.RequestedExecutionDateHeaderText;
+      remittanceInfoDataGridViewTextBoxColumn.HeaderText = Resources.RemittanceInfoHeaderText;
     }
 
     private void mruMenu_Clicked(int number, string filename)
@@ -93,9 +91,17 @@ namespace GranitXMLEditor
     {
       if (!string.IsNullOrEmpty(Settings.Default.SortedColumn))
       {
-        DataGridViewColumn col = FindColumnByHeaderText(Settings.Default.SortedColumn);
-        dataGridView1.Sort(col, Settings.Default.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
-        col.HeaderCell.SortGlyphDirection = Settings.Default.SortOrder == SortOrder.Ascending ? SortOrder.Ascending : SortOrder.Descending;
+        DataGridViewColumn sortedColumn = FindColumnByHeaderText(Settings.Default.SortedColumn);
+        if(_bindingList.RaiseListChangedEvents)
+          _bindingList.ListChanged += _bindingList_ListChanged;
+
+        //_xmlToObject.HUFTransactionsAdapter.Sort(TransactionAdapter.SortAmountAscending());
+        //_bindingList.Listanged
+
+
+        dataGridView1.Sort(sortedColumn,
+          Settings.Default.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
+        sortedColumn.HeaderCell.SortGlyphDirection = Settings.Default.SortOrder == SortOrder.Ascending ? SortOrder.Ascending : SortOrder.Descending;
       }
       if (Settings.Default.AlignTable != 0)
       {
@@ -108,6 +114,11 @@ namespace GranitXMLEditor
         {
           _mruMenu.AddFile(item);
         }
+    }
+
+    private void _bindingList_ListChanged(object sender, ListChangedEventArgs e)
+    {
+
     }
 
     private void SaveSettings()
@@ -175,8 +186,8 @@ namespace GranitXMLEditor
     private void LoadDocument(string xmlFilePath)
     {
       _xmlToObject = new GranitXmlToObjectBinder(xmlFilePath);
-      var list = new SortableBindingList<TransactionAdapter>(_xmlToObject.HUFTransactionAdapter.Transactions);
-      dataGridView1.DataSource = list;
+      _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObject.HUFTransactionsAdapter.Transactions);
+      dataGridView1.DataSource = _bindingList;
       LastOpenedFilePath = xmlFilePath;
     }
 
@@ -254,9 +265,11 @@ namespace GranitXMLEditor
     protected override void OnClosing(CancelEventArgs e)
     {
       if (_docHasPendingChanges || LastOpenedFilePath == string.Empty)
-        e.Cancel = AskAndSaveFile() != true;
+        e.Cancel = AskAndSaveFile(MessageBoxButtons.YesNoCancel) == DialogResult.Cancel;
 
-      SaveSettings();
+      if(!e.Cancel)
+        SaveSettings();
+
       base.OnClosing(e);
     }
 
@@ -344,17 +357,19 @@ namespace GranitXMLEditor
 
     private void newToolStripMenuItem_Click(object sender, EventArgs e)
     {
+      DialogResult answere = DialogResult.OK; ;
       if (_docHasPendingChanges)
-        AskAndSaveFile();
+        answere = AskAndSaveFile(MessageBoxButtons.YesNoCancel);
 
-      OpenNewDocument();
+      if(answere != DialogResult.Cancel)
+        OpenNewDocument();
     }
 
     private void OpenNewDocument()
     {
       _xmlToObject = new GranitXmlToObjectBinder();
-      var list = new SortableBindingList<TransactionAdapter>(_xmlToObject.HUFTransactionAdapter.Transactions);
-      dataGridView1.DataSource = list;
+      _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObject.HUFTransactionsAdapter.Transactions);
+      dataGridView1.DataSource = _bindingList;
       LastOpenedFilePath = string.Empty;
     }
 
@@ -362,7 +377,7 @@ namespace GranitXMLEditor
     {
       if (LastOpenedFilePath != string.Empty)
       {
-        AskAndSaveFile();
+        AskAndSaveFile(MessageBoxButtons.YesNo);
       }
       else
       {
@@ -371,11 +386,11 @@ namespace GranitXMLEditor
       }
     }
 
-    private bool AskAndSaveFile()
+    private DialogResult AskAndSaveFile(MessageBoxButtons buttons)
     {
       var answ = MessageBox.Show(
         string.Format(Resources.DoYouWantToSave, Path.GetFileName(LastOpenedFilePath)),
-        Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        Application.ProductName, buttons, MessageBoxIcon.Question);
 
       if (answ == DialogResult.Yes)
       {
@@ -389,10 +404,10 @@ namespace GranitXMLEditor
           if (f != null)
             SaveDocument(f);
           else
-            return false;
+            return DialogResult.Cancel;
         }
       }
-      return true;
+      return DialogResult.Yes;
     }
 
     private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -400,6 +415,12 @@ namespace GranitXMLEditor
       dataGridView1.EndEdit();
       //_xmlToObject.HUFTransactionAdapter.Transactions.Where(t => !t.IsActive).All(x => { return x.IsActive = true;});
       dataGridView1.SelectAll();
+    }
+
+    private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+    {
+      GranitDataGridViewCellFormatter.Format(dataGridView1, ref e);
+
     }
   }
 }

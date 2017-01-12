@@ -36,7 +36,7 @@ namespace GranitXMLEditor
           e.Cancel = true;
         }
       }
-      else if (headerText == Resources.RemittanceInfoHeader)
+      else if (headerText == Resources.RemittanceInfoHeaderText)
       {
         string value = (string)e.FormattedValue;
         string line = string.Empty;
@@ -48,20 +48,17 @@ namespace GranitXMLEditor
           e.Cancel = true;
         }
       }
-      else if (headerText == Resources.AmountHeader)
+      else if (headerText == Resources.AmountHeaderText)
       {
         string value = (string)e.FormattedValue;
-        try
+        decimal number;
+        if ((decimal.TryParse(value, out number) && (number < 0)) || Math.Round(number) != number)
         {
-          decimal.Parse(value);
-        }
-        catch (System.Exception)
-        {
-          dataGridView1.Rows[e.RowIndex].ErrorText = Resources.InvalidAmountError; 
+          dataGridView1.Rows[e.RowIndex].ErrorText = Resources.InvalidAmountError;
           e.Cancel = true;
         }
       }
-      else if (headerText == Resources.RequestedExecutionDateHeader)
+      else if (headerText == Resources.RequestedExecutionDateHeaderText)
       {
         string value = (string)e.FormattedValue;
         try
@@ -100,7 +97,7 @@ namespace GranitXMLEditor
 
     private static bool IsAccountNumberValid(string value)
     {
-      return value.Length == 16 && value.Length == 24;
+      return value.Length == 26;
     }
   }
 }
