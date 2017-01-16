@@ -247,14 +247,8 @@ namespace GranitXMLEditor
     private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
     {
       Debug.WriteLine("CellValueChanged called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
-      if ( e.RowIndex != -1 )
-        _docHasPendingChanges = true;    // TODO: Bug# 26
-      //if (dataGridView1.CurrentCell == null) return;
-      //if ((bool)dataGridView1.CurrentCell.Value == true)
-      //  Debug.WriteLine("Checkbox value true.");
-      //else if ((bool)dataGridView1.CurrentCell.Value == false)
-      //  Debug.WriteLine("Checkbox value false.");
-      //else Debug.WriteLine(dataGridView1.CurrentCell.Value.ToString());
+      if ( e.RowIndex != -1 ) // on first load 
+        _docHasPendingChanges = true;    
     }
 
     private void openToolStripMenuItem1_Click(object sender, EventArgs e)
