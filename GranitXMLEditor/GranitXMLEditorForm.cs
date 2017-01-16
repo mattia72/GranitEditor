@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.ComponentModel;
 using GranitXMLEditor.Properties;
+using System.Diagnostics;
 
 namespace GranitXMLEditor
 {
@@ -189,6 +190,7 @@ namespace GranitXMLEditor
       _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObject.HUFTransactionsAdapter.Transactions);
       dataGridView1.DataSource = _bindingList;
       LastOpenedFilePath = xmlFilePath;
+      _docHasPendingChanges = false;
     }
 
     private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -216,7 +218,9 @@ namespace GranitXMLEditor
 
     private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
     {
+      Debug.WriteLine("CellEndEdit called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
       dataGridView1.Rows[e.RowIndex].ErrorText = string.Empty;
+      //_docHasPendingChanges = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].EditingCellValueChanged;    // TODO: Bug# 26
     }
 
     //private void AnnotateCell(string errorMessage, DataGridViewCellValidatingEventArgs editEvent)
@@ -242,7 +246,9 @@ namespace GranitXMLEditor
 
     private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
     {
-      _docHasPendingChanges = true;
+      Debug.WriteLine("CellValueChanged called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
+      if ( e.RowIndex != -1 )
+        _docHasPendingChanges = true;    // TODO: Bug# 26
       //if (dataGridView1.CurrentCell == null) return;
       //if ((bool)dataGridView1.CurrentCell.Value == true)
       //  Debug.WriteLine("Checkbox value true.");
@@ -264,6 +270,8 @@ namespace GranitXMLEditor
 
     protected override void OnClosing(CancelEventArgs e)
     {
+      Debug.WriteLine("OnClosing called. docHasPendingChanges: {0}", _docHasPendingChanges);
+
       if (_docHasPendingChanges || LastOpenedFilePath == string.Empty)
         e.Cancel = AskAndSaveFile(MessageBoxButtons.YesNoCancel) == DialogResult.Cancel;
 
@@ -407,7 +415,7 @@ namespace GranitXMLEditor
             return DialogResult.Cancel;
         }
       }
-      return DialogResult.Yes;
+      return answ;
     }
 
     private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)

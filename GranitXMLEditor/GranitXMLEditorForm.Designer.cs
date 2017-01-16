@@ -35,6 +35,14 @@
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GranitXMLEditorForm));
       this.panel1 = new System.Windows.Forms.Panel();
       this.dataGridView1 = new System.Windows.Forms.DataGridView();
+      this.isActiveDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+      this.originatorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.beneficiaryNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.beneficiaryAccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.amountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.currencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.executionDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.remittanceInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.transactionAdapterBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,14 +80,6 @@
       this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
       this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-      this.isActiveDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-      this.originatorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.beneficiaryNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.beneficiaryAccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.amountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.currencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.executionDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.remittanceInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.panel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).BeginInit();
@@ -154,6 +154,55 @@
       this.dataGridView1.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_UserAddedRow);
       this.dataGridView1.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_UserDeletedRow);
       this.dataGridView1.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dataGridView1_UserDeletingRow);
+      // 
+      // isActiveDataGridViewCheckBoxColumn
+      // 
+      this.isActiveDataGridViewCheckBoxColumn.DataPropertyName = "IsActive";
+      this.isActiveDataGridViewCheckBoxColumn.HeaderText = "IsActive";
+      this.isActiveDataGridViewCheckBoxColumn.Name = "isActiveDataGridViewCheckBoxColumn";
+      // 
+      // originatorDataGridViewTextBoxColumn
+      // 
+      this.originatorDataGridViewTextBoxColumn.DataPropertyName = "Originator";
+      this.originatorDataGridViewTextBoxColumn.HeaderText = "Originator";
+      this.originatorDataGridViewTextBoxColumn.Name = "originatorDataGridViewTextBoxColumn";
+      this.originatorDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+      // 
+      // beneficiaryNameDataGridViewTextBoxColumn
+      // 
+      this.beneficiaryNameDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryName";
+      this.beneficiaryNameDataGridViewTextBoxColumn.HeaderText = "BeneficiaryName";
+      this.beneficiaryNameDataGridViewTextBoxColumn.Name = "beneficiaryNameDataGridViewTextBoxColumn";
+      // 
+      // beneficiaryAccountDataGridViewTextBoxColumn
+      // 
+      this.beneficiaryAccountDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryAccount";
+      this.beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = "BeneficiaryAccount";
+      this.beneficiaryAccountDataGridViewTextBoxColumn.Name = "beneficiaryAccountDataGridViewTextBoxColumn";
+      // 
+      // amountDataGridViewTextBoxColumn
+      // 
+      this.amountDataGridViewTextBoxColumn.DataPropertyName = "Amount";
+      this.amountDataGridViewTextBoxColumn.HeaderText = "Amount";
+      this.amountDataGridViewTextBoxColumn.Name = "amountDataGridViewTextBoxColumn";
+      // 
+      // currencyDataGridViewTextBoxColumn
+      // 
+      this.currencyDataGridViewTextBoxColumn.DataPropertyName = "Currency";
+      this.currencyDataGridViewTextBoxColumn.HeaderText = "Currency";
+      this.currencyDataGridViewTextBoxColumn.Name = "currencyDataGridViewTextBoxColumn";
+      // 
+      // executionDateDataGridViewTextBoxColumn
+      // 
+      this.executionDateDataGridViewTextBoxColumn.DataPropertyName = "ExecutionDate";
+      this.executionDateDataGridViewTextBoxColumn.HeaderText = "ExecutionDate";
+      this.executionDateDataGridViewTextBoxColumn.Name = "executionDateDataGridViewTextBoxColumn";
+      // 
+      // remittanceInfoDataGridViewTextBoxColumn
+      // 
+      this.remittanceInfoDataGridViewTextBoxColumn.DataPropertyName = "RemittanceInfo";
+      this.remittanceInfoDataGridViewTextBoxColumn.HeaderText = "RemittanceInfo";
+      this.remittanceInfoDataGridViewTextBoxColumn.Name = "remittanceInfoDataGridViewTextBoxColumn";
       // 
       // transactionAdapterBindingSource
       // 
@@ -453,55 +502,6 @@
       // errorProvider1
       // 
       this.errorProvider1.ContainerControl = this;
-      // 
-      // isActiveDataGridViewCheckBoxColumn
-      // 
-      this.isActiveDataGridViewCheckBoxColumn.DataPropertyName = "IsActive";
-      this.isActiveDataGridViewCheckBoxColumn.HeaderText = "IsActive";
-      this.isActiveDataGridViewCheckBoxColumn.Name = "isActiveDataGridViewCheckBoxColumn";
-      // 
-      // originatorDataGridViewTextBoxColumn
-      // 
-      this.originatorDataGridViewTextBoxColumn.DataPropertyName = "Originator";
-      this.originatorDataGridViewTextBoxColumn.HeaderText = "Originator";
-      this.originatorDataGridViewTextBoxColumn.Name = "originatorDataGridViewTextBoxColumn";
-      this.originatorDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-      // 
-      // beneficiaryNameDataGridViewTextBoxColumn
-      // 
-      this.beneficiaryNameDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryName";
-      this.beneficiaryNameDataGridViewTextBoxColumn.HeaderText = "BeneficiaryName";
-      this.beneficiaryNameDataGridViewTextBoxColumn.Name = "beneficiaryNameDataGridViewTextBoxColumn";
-      // 
-      // beneficiaryAccountDataGridViewTextBoxColumn
-      // 
-      this.beneficiaryAccountDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryAccount";
-      this.beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = "BeneficiaryAccount";
-      this.beneficiaryAccountDataGridViewTextBoxColumn.Name = "beneficiaryAccountDataGridViewTextBoxColumn";
-      // 
-      // amountDataGridViewTextBoxColumn
-      // 
-      this.amountDataGridViewTextBoxColumn.DataPropertyName = "Amount";
-      this.amountDataGridViewTextBoxColumn.HeaderText = "Amount";
-      this.amountDataGridViewTextBoxColumn.Name = "amountDataGridViewTextBoxColumn";
-      // 
-      // currencyDataGridViewTextBoxColumn
-      // 
-      this.currencyDataGridViewTextBoxColumn.DataPropertyName = "Currency";
-      this.currencyDataGridViewTextBoxColumn.HeaderText = "Currency";
-      this.currencyDataGridViewTextBoxColumn.Name = "currencyDataGridViewTextBoxColumn";
-      // 
-      // executionDateDataGridViewTextBoxColumn
-      // 
-      this.executionDateDataGridViewTextBoxColumn.DataPropertyName = "ExecutionDate";
-      this.executionDateDataGridViewTextBoxColumn.HeaderText = "ExecutionDate";
-      this.executionDateDataGridViewTextBoxColumn.Name = "executionDateDataGridViewTextBoxColumn";
-      // 
-      // remittanceInfoDataGridViewTextBoxColumn
-      // 
-      this.remittanceInfoDataGridViewTextBoxColumn.DataPropertyName = "RemittanceInfo";
-      this.remittanceInfoDataGridViewTextBoxColumn.HeaderText = "RemittanceInfo";
-      this.remittanceInfoDataGridViewTextBoxColumn.Name = "remittanceInfoDataGridViewTextBoxColumn";
       // 
       // GranitXMLEditorForm
       // 
