@@ -255,7 +255,5 @@ namespace GranitXMLEditor
     {
       return (IComparer<TransactionAdapter>) new SortAmountDescendingHelper();
     }
-
-
   }
 }

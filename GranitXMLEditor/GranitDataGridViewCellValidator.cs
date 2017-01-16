@@ -1,6 +1,7 @@
 ﻿using GranitXMLEditor.Properties;
 using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace GranitXMLEditor
@@ -97,7 +98,7 @@ namespace GranitXMLEditor
 
     private static bool IsAccountNumberValid(string value)
     {
-      return value.Length == 26;
+      return value.Length == 26 && Regex.Match(value, @"(\d{8}-){2}\d{8}").Success;
     }
   }
 }
