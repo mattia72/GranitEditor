@@ -85,6 +85,7 @@
     <Compile Include="FindReplaceDlg.Designer.cs">
       <DependentUpon>FindReplaceDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="GranitDataGridViewContextMenuHandler.cs" />
     <Compile Include="GranitXMLEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>

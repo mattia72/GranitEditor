@@ -117,7 +117,8 @@ namespace GranitXMLEditor
   public class Transaction : IComparable<Transaction>, IBindable<XElement>
   {
     [XmlIgnore()]
-    private static int TransactionCounter = 0;
+    public static long NextTransactionId { get; set; }
+
     [XmlIgnore()]
     public bool IsSelected { get; set; }
 
@@ -133,11 +134,11 @@ namespace GranitXMLEditor
     public RemittanceInfo RemittanceInfo { get; set; }
 
     [XmlAttribute(AttributeName = "id")]
-    public int TransactionId { get; set; }
+    public long TransactionId { get; set; }
 
     public Transaction()
     {
-      TransactionId = ++TransactionCounter;
+      TransactionId = ++NextTransactionId;
       IsSelected = true;
       Originator = new Originator();
       Beneficiary = new Beneficiary();
@@ -164,7 +165,7 @@ namespace GranitXMLEditor
 
     public bool IsBindedWith(XElement t)
     {
-      return (TransactionId == int.Parse(t.Attribute(Constants.TransactionIdAttribute).Value));
+      return (TransactionId == long.Parse(t.Attribute(Constants.TransactionIdAttribute).Value));
     }
   }
 

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using GranitXMLEditor.Properties;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace GranitXMLEditor
 {
@@ -20,6 +21,7 @@ namespace GranitXMLEditor
     private EnumStripMenu<DataGridViewAutoSizeColumnsMode> _autoSizeMenu;
     private GranitDataGridViewCellValidator _cellVallidator;
     private SortableBindingList<TransactionAdapter> _bindingList;
+    private GranitDataGridViewContextMenuHandler _contextMenuHandler;
 
     public GranitXMLEditorForm()
     {
@@ -29,6 +31,7 @@ namespace GranitXMLEditor
       OpenLastOpenedFileIfExists();
       _docHasPendingChanges = false;
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
+      _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1);
       SetTextResources();
       ApplySettings();
     }
@@ -223,31 +226,16 @@ namespace GranitXMLEditor
       //_docHasPendingChanges = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].EditingCellValueChanged;    // TODO: Bug# 26
     }
 
-    //private void AnnotateCell(string errorMessage, DataGridViewCellValidatingEventArgs editEvent)
-    //{
-    //    cellErrorLocation = editEvent;
-    //    cellErrorText = errorMessage;
-    //}
-
-    private void dataGridView1_CellErrorTextNeeded(object sender, DataGridViewCellErrorTextNeededEventArgs e)
-    {
-
-    }
-
-    private void dataGridView1_RowErrorTextNeeded(object sender, DataGridViewRowErrorTextNeededEventArgs e)
-    {
-
-    }
-
     private void dataGridView1_Sorted(object sender, EventArgs e)
     {
       _xmlToObject.Sort(dataGridView1.SortedColumn.HeaderText, dataGridView1.SortOrder);
+      _docHasPendingChanges = true;
     }
 
     private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
     {
       Debug.WriteLine("CellValueChanged called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
-      if ( e.RowIndex != -1 ) // on first load 
+      if ( e.RowIndex != -1 ) // not on first load 
         _docHasPendingChanges = true;    
     }
 
@@ -330,10 +318,10 @@ namespace GranitXMLEditor
     private void dataGridView1_UserAddedRow(object sender, DataGridViewRowEventArgs e)
     {
       var bindingList = ((SortableBindingList<TransactionAdapter>)dataGridView1.DataSource);
-      //delete last (non working adapter) and create a new...
+      //delete last (non working) adapter and create a new...
       bindingList.RemoveAt(bindingList.Count - 1);
       bindingList.Add(_xmlToObject.AddNewTransactionRow());
-      dataGridView1.CurrentCell = e.Row.Cells[1]; //TODO: change index to the name of the cell
+      dataGridView1.CurrentCell = e.Row.Cells[Resources.OriginatorHeaderText]; 
       dataGridView1.BeginEdit(false);
     }
 
@@ -342,19 +330,6 @@ namespace GranitXMLEditor
     {
       CreateFindDialog();
       _findReplaceDlg.IsFirstInitNecessary = true;
-    }
-
-    private int? _transactionIdTodelete = null;
-
-    private void dataGridView1_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
-    {
-      _transactionIdTodelete = ((TransactionAdapter)e.Row.DataBoundItem).TransactionId;
-
-    }
-    private void dataGridView1_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
-    {
-      if(_transactionIdTodelete != null)
-        _xmlToObject.RemoveTransactionRowById((int)_transactionIdTodelete);
     }
 
     private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -423,6 +398,44 @@ namespace GranitXMLEditor
     {
       GranitDataGridViewCellFormatter.Format(dataGridView1, ref e);
 
+    }
+
+    private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+    {
+
+    }
+
+    private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
+    {
+      _contextMenuHandler.grid_MouseClick(sender, e);
+    }
+
+    private void deleteRowToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      _contextMenuHandler.grid_DeleteSelectedRows(sender, e);
+    }
+
+    private void dataGridView1_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+    {
+      long? _transactionIdTodelete = null;
+      if(dataGridView1.Rows.Count > e.RowIndex)
+        _transactionIdTodelete = ((TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem).TransactionId;
+
+      if (_transactionIdTodelete != null)
+      {
+        _xmlToObject.RemoveTransactionRowById((long)_transactionIdTodelete);
+        _docHasPendingChanges = true;
+      }
+    }
+
+    private void duplicateRowToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      _contextMenuHandler.grid_DuplicateRow(sender, e);
+    }
+
+    private void deleteSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      _contextMenuHandler.grid_DeleteSelectedRows(sender, e);
     }
   }
 }

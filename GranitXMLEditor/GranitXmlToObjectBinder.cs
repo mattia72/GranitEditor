@@ -36,7 +36,7 @@ namespace GranitXMLEditor
       return ReCreateAdapter();
     }
 
-    public void RemoveTransactionRowById( int transactionId)
+    public void RemoveTransactionRowById( long transactionId)
     {
       HUFTransactionsAdapter.Transactions.RemoveAll(t => t.TransactionId == transactionId);
       HUFTransaction.Transactions.RemoveAll(t => t.TransactionId == transactionId);
@@ -91,15 +91,13 @@ namespace GranitXMLEditor
 
     private void InitTransactionAttributes()
     {
-      int id = 0;
-      foreach (var item in GranitXDocument.Descendants(Constants.Transaction).InDocumentOrder())
+      foreach (var item in GranitXDocument.Root.Elements(Constants.Transaction).InDocumentOrder())
       {
-        //TODO: bind id with real Transaction objects
-        AddDefaultAttributes(++id, item);
+        AddDefaultAttributes(Transaction.NextTransactionId, item);
       }
     }
 
-    private static void AddDefaultAttributes(int id, XElement item)
+    private static void AddDefaultAttributes(long id, XElement item)
     {
       if (item.Attribute(Constants.TransactionIdAttribute) == null)
       {

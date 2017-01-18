@@ -15,6 +15,9 @@ namespace GranitXMLEditor
     IBindable<XElement>, 
     INotifyPropertyChanged
   {
+
+    public Transaction Transaction { get; set; }
+
     public bool IsActive
     {
       get { return (Transaction.IsSelected); }
@@ -91,7 +94,6 @@ namespace GranitXMLEditor
       }
     }
 
-
     public string RemittanceInfo
     {
       get
@@ -107,7 +109,9 @@ namespace GranitXMLEditor
       }
     }
 
-    public int TransactionId { get { return Transaction.TransactionId;} }
+    public long TransactionId { get { return Transaction.TransactionId;} }
+
+    private XDocument GranitXDocument { get; set; }
 
     public TransactionAdapter()
     {
@@ -132,7 +136,7 @@ namespace GranitXMLEditor
       if (GranitXDocument == null)
         return;
 
-      var xt = GranitXDocument.Descendants(Constants.Transaction)
+      var xt = GranitXDocument.Root.Elements(Constants.Transaction)
           .Where(x => this.IsBindedWith(x)).ToList()
           .FirstOrDefault();
 
@@ -199,10 +203,6 @@ namespace GranitXMLEditor
     {
       return Transaction.CompareTo(other);
     }
-
-    public Transaction Transaction { get; set; }
-
-    private XDocument GranitXDocument { get; set; }
 
     private static void UpdateRemittanceInfo(XElement xt, string value)
     {
