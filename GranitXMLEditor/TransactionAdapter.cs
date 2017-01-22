@@ -13,6 +13,7 @@ namespace GranitXMLEditor
     IComparable<Transaction>,
     IComparable<TransactionAdapter>,
     IBindable<XElement>, 
+    ICloneable,
     INotifyPropertyChanged
   {
 
@@ -254,6 +255,12 @@ namespace GranitXMLEditor
     public static IComparer<TransactionAdapter> SortAmountDescending()
     {
       return (IComparer<TransactionAdapter>) new SortAmountDescendingHelper();
+    }
+
+    public object Clone()
+    {
+      TransactionAdapter clone = new TransactionAdapter((Transaction)Transaction.Clone(), GranitXDocument);
+      return clone;
     }
   }
 }

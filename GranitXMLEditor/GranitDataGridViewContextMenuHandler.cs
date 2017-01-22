@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GranitXMLEditor.Properties;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -12,12 +13,14 @@ namespace GranitXMLEditor
   {
     private ContextMenuStrip _contextMenuStrip;
     private DataGridView _dataGridView;
+    private GranitXmlToObjectBinder _xmlToObject;
     private int? _currentMouseOverRow = null;
 
-    public GranitDataGridViewContextMenuHandler(DataGridView dgv, ContextMenuStrip contextMenuStrip)
+    public GranitDataGridViewContextMenuHandler(DataGridView dgv, ContextMenuStrip contextMenuStrip, GranitXmlToObjectBinder xml2Obj)
     {
-      this._contextMenuStrip = contextMenuStrip;
+      _contextMenuStrip = contextMenuStrip;
       _dataGridView = dgv;
+      _xmlToObject = xml2Obj;
     }
     internal void grid_MouseClick(object sender, MouseEventArgs e)
     {
@@ -56,9 +59,11 @@ namespace GranitXMLEditor
 
       if (row != null)
       {
-        //TODO copy transaction
+        TransactionAdapter ta = (TransactionAdapter)row.DataBoundItem;
+        var bindingList = ((SortableBindingList<TransactionAdapter>)_dataGridView.DataSource);
+        bindingList.Add(_xmlToObject.AddTransactionRow((TransactionAdapter)ta.Clone()));
+        _dataGridView.CurrentCell = _dataGridView.Rows[_dataGridView.RowCount - 1].Cells[1];
       }
-      
     }
   }
 }

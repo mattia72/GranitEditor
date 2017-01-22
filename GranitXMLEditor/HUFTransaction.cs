@@ -12,7 +12,7 @@ using System.Xml.Linq;
 namespace GranitXMLEditor
 {
   [XmlRoot(ElementName = "Account")]
-  public class Account : IComparable<Account>
+  public class Account : IComparable<Account>, ICloneable
   {
     [XmlElement(ElementName = "AccountNumber")]
     public string AccountNumber { get; set; }
@@ -25,10 +25,15 @@ namespace GranitXMLEditor
     {
       return AccountNumber.CompareTo(other.AccountNumber);
     }
+
+    public object Clone()
+    {
+      return new Account { AccountNumber = AccountNumber };
+    }
   }
 
   [XmlRoot(ElementName = "Originator")]
-  public class Originator : IComparable<Originator>
+  public class Originator : IComparable<Originator>, ICloneable
   {
     [XmlElement(ElementName = "Account")]
     public Account Account { get; set; }
@@ -41,10 +46,15 @@ namespace GranitXMLEditor
     {
       return Account.CompareTo(other.Account);
     }
+
+    public object Clone()
+    {
+      return new Originator { Account = (Account)Account.Clone() };
+    }
   }
 
   [XmlRoot(ElementName = "Beneficiary")]
-  public class Beneficiary : IComparable<Beneficiary>
+  public class Beneficiary : IComparable<Beneficiary>, ICloneable
   {
     [XmlElement(ElementName = "Name")]
     public string Name { get; set; }
@@ -64,10 +74,15 @@ namespace GranitXMLEditor
         return Name.CompareTo(other.Name);
       return 0;
     }
+
+    public object Clone()
+    {
+      return new Beneficiary { Account = (Account)Account.Clone(), Name = Name };
+    }
   }
 
   [XmlRoot(ElementName = "Amount")]
-  public class Amount : IComparable<Amount>
+  public class Amount : IComparable<Amount>, ICloneable
   {
     [XmlAttribute(AttributeName = "Currency")]
     public string Currency { get; set; }
@@ -94,13 +109,25 @@ namespace GranitXMLEditor
         return Currency.CompareTo(other.Currency);
       return 0;
     }
+
+    public object Clone()
+    {
+      return new Amount { Value = Value, Currency = Currency };
+    }
   }
 
   [XmlRoot(ElementName = "RemittanceInfo")]
-  public class RemittanceInfo : IComparable<RemittanceInfo>
+  public class RemittanceInfo : IComparable<RemittanceInfo>, ICloneable
   {
     [XmlElement(ElementName = "Text")]
     public List<string> Text { get; set; }
+
+    public object Clone()
+    {
+      var clone = new RemittanceInfo();
+      clone.Text = new List<string>(Text);
+      return clone;
+    }
 
     public int CompareTo(RemittanceInfo other)
     {
@@ -114,7 +141,7 @@ namespace GranitXMLEditor
   }
 
   [XmlRoot(ElementName = "Transaction")]
-  public class Transaction : IComparable<Transaction>, IBindable<XElement>
+  public class Transaction : IComparable<Transaction>, IBindable<XElement>, ICloneable
   {
     [XmlIgnore()]
     public static long NextTransactionId { get; set; }
@@ -166,6 +193,19 @@ namespace GranitXMLEditor
     public bool IsBindedWith(XElement t)
     {
       return (TransactionId == long.Parse(t.Attribute(Constants.TransactionIdAttribute).Value));
+    }
+
+    public object Clone()
+    {
+      Transaction clone = new Transaction();
+      clone.IsSelected = IsSelected;
+      clone.Amount = (Amount)Amount.Clone();
+      clone.Beneficiary = (Beneficiary)Beneficiary.Clone();
+      clone.Originator = (Originator)Originator.Clone();
+      clone.RequestedExecutionDate = RequestedExecutionDate;
+      clone.RemittanceInfo = (RemittanceInfo)RemittanceInfo.Clone();
+
+      return clone;
     }
   }
 

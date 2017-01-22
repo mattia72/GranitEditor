@@ -31,7 +31,7 @@ namespace GranitXMLEditor
       OpenLastOpenedFileIfExists();
       _docHasPendingChanges = false;
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
-      _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1);
+      _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, _xmlToObject);
       SetTextResources();
       ApplySettings();
     }
@@ -321,7 +321,7 @@ namespace GranitXMLEditor
       //delete last (non working) adapter and create a new...
       bindingList.RemoveAt(bindingList.Count - 1);
       bindingList.Add(_xmlToObject.AddNewTransactionRow());
-      dataGridView1.CurrentCell = e.Row.Cells[Resources.OriginatorHeaderText]; 
+      dataGridView1.CurrentCell = e.Row.Cells[1]; 
       dataGridView1.BeginEdit(false);
     }
 
@@ -419,7 +419,7 @@ namespace GranitXMLEditor
     {
       long? _transactionIdTodelete = null;
       if(dataGridView1.Rows.Count > e.RowIndex)
-        _transactionIdTodelete = ((TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem).TransactionId;
+        _transactionIdTodelete = ((TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem)?.TransactionId;
 
       if (_transactionIdTodelete != null)
       {
