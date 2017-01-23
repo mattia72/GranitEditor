@@ -29,21 +29,12 @@
         private void InitializeComponent()
         {
       this.components = new System.ComponentModel.Container();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GranitXMLEditorForm));
       this.panel1 = new System.Windows.Forms.Panel();
       this.dataGridView1 = new System.Windows.Forms.DataGridView();
-      this.isActiveDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-      this.originatorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.beneficiaryNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.beneficiaryAccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.amountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.currencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.executionDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.remittanceInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.transactionAdapterBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,12 +77,22 @@
       this.duplicateRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
       this.deleteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.newToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+      this.isActiveDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+      this.originatorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.beneficiaryNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.beneficiaryAccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.amountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.currencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.executionDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.remittanceInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.transactionAdapterBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.panel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).BeginInit();
       this.menuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
       this.contextMenuStrip1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).BeginInit();
       this.SuspendLayout();
       // 
       // panel1
@@ -109,14 +110,14 @@
       // 
       this.dataGridView1.AutoGenerateColumns = false;
       this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-      dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-      dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-      dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-      dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-      dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-      dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-      dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-      this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+      dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+      dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+      dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+      dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+      dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+      dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+      this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
       this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.isActiveDataGridViewCheckBoxColumn,
@@ -128,25 +129,25 @@
             this.executionDateDataGridViewTextBoxColumn,
             this.remittanceInfoDataGridViewTextBoxColumn});
       this.dataGridView1.DataSource = this.transactionAdapterBindingSource;
-      dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-      dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-      dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-      dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-      dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-      dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-      dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-      this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle5;
+      dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+      dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+      dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+      dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+      dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+      dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+      dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+      this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
       this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.dataGridView1.Location = new System.Drawing.Point(0, 0);
       this.dataGridView1.Name = "dataGridView1";
-      dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-      dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-      dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-      dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-      dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-      dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-      dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-      this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+      dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+      dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+      dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+      dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+      dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+      dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+      this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
       this.dataGridView1.RowTemplate.Height = 24;
       this.dataGridView1.Size = new System.Drawing.Size(1154, 389);
       this.dataGridView1.TabIndex = 0;
@@ -161,59 +162,6 @@
       this.dataGridView1.Sorted += new System.EventHandler(this.dataGridView1_Sorted);
       this.dataGridView1.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_UserAddedRow);
       this.dataGridView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseClick);
-      // 
-      // isActiveDataGridViewCheckBoxColumn
-      // 
-      this.isActiveDataGridViewCheckBoxColumn.DataPropertyName = "IsActive";
-      this.isActiveDataGridViewCheckBoxColumn.HeaderText = "IsActive";
-      this.isActiveDataGridViewCheckBoxColumn.Name = "isActiveDataGridViewCheckBoxColumn";
-      // 
-      // originatorDataGridViewTextBoxColumn
-      // 
-      this.originatorDataGridViewTextBoxColumn.DataPropertyName = "Originator";
-      this.originatorDataGridViewTextBoxColumn.HeaderText = "Originator";
-      this.originatorDataGridViewTextBoxColumn.Name = "originatorDataGridViewTextBoxColumn";
-      this.originatorDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-      // 
-      // beneficiaryNameDataGridViewTextBoxColumn
-      // 
-      this.beneficiaryNameDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryName";
-      this.beneficiaryNameDataGridViewTextBoxColumn.HeaderText = "BeneficiaryName";
-      this.beneficiaryNameDataGridViewTextBoxColumn.Name = "beneficiaryNameDataGridViewTextBoxColumn";
-      // 
-      // beneficiaryAccountDataGridViewTextBoxColumn
-      // 
-      this.beneficiaryAccountDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryAccount";
-      this.beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = "BeneficiaryAccount";
-      this.beneficiaryAccountDataGridViewTextBoxColumn.Name = "beneficiaryAccountDataGridViewTextBoxColumn";
-      // 
-      // amountDataGridViewTextBoxColumn
-      // 
-      this.amountDataGridViewTextBoxColumn.DataPropertyName = "Amount";
-      this.amountDataGridViewTextBoxColumn.HeaderText = "Amount";
-      this.amountDataGridViewTextBoxColumn.Name = "amountDataGridViewTextBoxColumn";
-      // 
-      // currencyDataGridViewTextBoxColumn
-      // 
-      this.currencyDataGridViewTextBoxColumn.DataPropertyName = "Currency";
-      this.currencyDataGridViewTextBoxColumn.HeaderText = "Currency";
-      this.currencyDataGridViewTextBoxColumn.Name = "currencyDataGridViewTextBoxColumn";
-      // 
-      // executionDateDataGridViewTextBoxColumn
-      // 
-      this.executionDateDataGridViewTextBoxColumn.DataPropertyName = "ExecutionDate";
-      this.executionDateDataGridViewTextBoxColumn.HeaderText = "ExecutionDate";
-      this.executionDateDataGridViewTextBoxColumn.Name = "executionDateDataGridViewTextBoxColumn";
-      // 
-      // remittanceInfoDataGridViewTextBoxColumn
-      // 
-      this.remittanceInfoDataGridViewTextBoxColumn.DataPropertyName = "RemittanceInfo";
-      this.remittanceInfoDataGridViewTextBoxColumn.HeaderText = "RemittanceInfo";
-      this.remittanceInfoDataGridViewTextBoxColumn.Name = "remittanceInfoDataGridViewTextBoxColumn";
-      // 
-      // transactionAdapterBindingSource
-      // 
-      this.transactionAdapterBindingSource.DataSource = typeof(GranitXMLEditor.TransactionAdapter);
       // 
       // menuStrip1
       // 
@@ -528,17 +476,19 @@
       // 
       this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
       this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem1,
             this.duplicateRowToolStripMenuItem,
             this.toolStripSeparator9,
             this.deleteRowToolStripMenuItem});
       this.contextMenuStrip1.Name = "contextMenuStrip1";
-      this.contextMenuStrip1.Size = new System.Drawing.Size(190, 62);
+      this.contextMenuStrip1.Size = new System.Drawing.Size(190, 116);
+      this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
       // 
       // duplicateRowToolStripMenuItem
       // 
       this.duplicateRowToolStripMenuItem.Name = "duplicateRowToolStripMenuItem";
       this.duplicateRowToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
-      this.duplicateRowToolStripMenuItem.Text = "Duplicate";
+      this.duplicateRowToolStripMenuItem.Text = "Duplicate Row";
       this.duplicateRowToolStripMenuItem.Click += new System.EventHandler(this.duplicateRowToolStripMenuItem_Click);
       // 
       // toolStripSeparator9
@@ -553,6 +503,66 @@
       this.deleteRowToolStripMenuItem.Text = "Delete Selected";
       this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.deleteRowToolStripMenuItem_Click);
       // 
+      // newToolStripMenuItem1
+      // 
+      this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
+      this.newToolStripMenuItem1.Size = new System.Drawing.Size(189, 26);
+      this.newToolStripMenuItem1.Text = "New Row";
+      this.newToolStripMenuItem1.Click += new System.EventHandler(this.newToolStripMenuItem1_Click);
+      // 
+      // isActiveDataGridViewCheckBoxColumn
+      // 
+      this.isActiveDataGridViewCheckBoxColumn.DataPropertyName = "IsActive";
+      this.isActiveDataGridViewCheckBoxColumn.HeaderText = "IsActive";
+      this.isActiveDataGridViewCheckBoxColumn.Name = "isActiveDataGridViewCheckBoxColumn";
+      // 
+      // originatorDataGridViewTextBoxColumn
+      // 
+      this.originatorDataGridViewTextBoxColumn.DataPropertyName = "Originator";
+      this.originatorDataGridViewTextBoxColumn.HeaderText = "Originator";
+      this.originatorDataGridViewTextBoxColumn.Name = "originatorDataGridViewTextBoxColumn";
+      this.originatorDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+      // 
+      // beneficiaryNameDataGridViewTextBoxColumn
+      // 
+      this.beneficiaryNameDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryName";
+      this.beneficiaryNameDataGridViewTextBoxColumn.HeaderText = "BeneficiaryName";
+      this.beneficiaryNameDataGridViewTextBoxColumn.Name = "beneficiaryNameDataGridViewTextBoxColumn";
+      // 
+      // beneficiaryAccountDataGridViewTextBoxColumn
+      // 
+      this.beneficiaryAccountDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryAccount";
+      this.beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = "BeneficiaryAccount";
+      this.beneficiaryAccountDataGridViewTextBoxColumn.Name = "beneficiaryAccountDataGridViewTextBoxColumn";
+      // 
+      // amountDataGridViewTextBoxColumn
+      // 
+      this.amountDataGridViewTextBoxColumn.DataPropertyName = "Amount";
+      this.amountDataGridViewTextBoxColumn.HeaderText = "Amount";
+      this.amountDataGridViewTextBoxColumn.Name = "amountDataGridViewTextBoxColumn";
+      // 
+      // currencyDataGridViewTextBoxColumn
+      // 
+      this.currencyDataGridViewTextBoxColumn.DataPropertyName = "Currency";
+      this.currencyDataGridViewTextBoxColumn.HeaderText = "Currency";
+      this.currencyDataGridViewTextBoxColumn.Name = "currencyDataGridViewTextBoxColumn";
+      // 
+      // executionDateDataGridViewTextBoxColumn
+      // 
+      this.executionDateDataGridViewTextBoxColumn.DataPropertyName = "ExecutionDate";
+      this.executionDateDataGridViewTextBoxColumn.HeaderText = "ExecutionDate";
+      this.executionDateDataGridViewTextBoxColumn.Name = "executionDateDataGridViewTextBoxColumn";
+      // 
+      // remittanceInfoDataGridViewTextBoxColumn
+      // 
+      this.remittanceInfoDataGridViewTextBoxColumn.DataPropertyName = "RemittanceInfo";
+      this.remittanceInfoDataGridViewTextBoxColumn.HeaderText = "RemittanceInfo";
+      this.remittanceInfoDataGridViewTextBoxColumn.Name = "remittanceInfoDataGridViewTextBoxColumn";
+      // 
+      // transactionAdapterBindingSource
+      // 
+      this.transactionAdapterBindingSource.DataSource = typeof(GranitXMLEditor.TransactionAdapter);
+      // 
       // GranitXMLEditorForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -566,11 +576,11 @@
       this.Text = "GránitXmlEditor";
       this.panel1.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).EndInit();
       this.menuStrip1.ResumeLayout(false);
       this.menuStrip1.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
       this.contextMenuStrip1.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -630,6 +640,7 @@
     private System.Windows.Forms.ToolStripMenuItem duplicateRowToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
     private System.Windows.Forms.ToolStripMenuItem deleteRowToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem1;
   }
 }
 

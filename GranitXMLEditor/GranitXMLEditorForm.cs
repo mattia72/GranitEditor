@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using GranitXMLEditor.Properties;
 using System.Diagnostics;
-using System.Drawing;
+using System.Linq;
 
 namespace GranitXMLEditor
 {
@@ -215,9 +215,7 @@ namespace GranitXMLEditor
       string headerText = dataGridView1.Columns[e.ColumnIndex].HeaderText;
 
       _cellVallidator.Validate(ref e, headerText);
-
     }
-
 
     private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
     {
@@ -325,7 +323,6 @@ namespace GranitXMLEditor
       dataGridView1.BeginEdit(false);
     }
 
-
     private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
     {
       CreateFindDialog();
@@ -348,19 +345,6 @@ namespace GranitXMLEditor
       _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObject.HUFTransactionsAdapter.Transactions);
       dataGridView1.DataSource = _bindingList;
       LastOpenedFilePath = string.Empty;
-    }
-
-    private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      if (LastOpenedFilePath != string.Empty)
-      {
-        AskAndSaveFile(MessageBoxButtons.YesNo);
-      }
-      else
-      {
-        var file = GetFileNameToSaveByOpeningSaveFileDialog();
-        SaveDocument(file);
-      }
     }
 
     private DialogResult AskAndSaveFile(MessageBoxButtons buttons)
@@ -387,6 +371,20 @@ namespace GranitXMLEditor
       return answ;
     }
 
+    private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      if (LastOpenedFilePath != string.Empty)
+      {
+        AskAndSaveFile(MessageBoxButtons.YesNo);
+      }
+      else
+      {
+        var file = GetFileNameToSaveByOpeningSaveFileDialog();
+        SaveDocument(file);
+      }
+    }
+
+
     private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
     {
       dataGridView1.EndEdit();
@@ -402,7 +400,27 @@ namespace GranitXMLEditor
 
     private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
     {
+      //TODO text resource
+      if (dataGridView1.SelectedRows.Count > 1)
+      {
+        EnableAllcontextMenuItem(false);
+        deleteRowToolStripMenuItem.Text = "Delete Selected";
+        deleteRowToolStripMenuItem.Enabled = true;
+      }
+      else
+      {
+        EnableAllcontextMenuItem(true);
+        deleteRowToolStripMenuItem.Text = "Delete";
+      }
+    }
 
+    private void EnableAllcontextMenuItem(bool v)
+    {
+      foreach (ToolStripItem item in contextMenuStrip1.Items)
+      {
+        if (item is ToolStripMenuItem)
+          item.Enabled = v;
+      }
     }
 
     private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
@@ -436,6 +454,11 @@ namespace GranitXMLEditor
     private void deleteSelectedToolStripMenuItem_Click(object sender, EventArgs e)
     {
       _contextMenuHandler.grid_DeleteSelectedRows(sender, e);
+    }
+
+    private void newToolStripMenuItem1_Click(object sender, EventArgs e)
+    {
+      _contextMenuHandler.grid_AddNewRow(sender, e);
     }
   }
 }
