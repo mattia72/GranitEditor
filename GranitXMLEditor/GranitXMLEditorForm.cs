@@ -5,10 +5,11 @@ using System.ComponentModel;
 using GranitXMLEditor.Properties;
 using System.Diagnostics;
 using System.Linq;
+using GenericUndoRedo;
 
 namespace GranitXMLEditor
 {
-  public partial class GranitXMLEditorForm : Form
+  public partial class GranitXMLEditorForm : Form, ITransactionPoolOwner
   {
     private GranitXmlToObjectBinder _xmlToObject;
     private OpenFileDialog _openFileDialog1;
@@ -22,6 +23,8 @@ namespace GranitXMLEditor
     private GranitDataGridViewCellValidator _cellVallidator;
     private SortableBindingList<TransactionAdapter> _bindingList;
     private GranitDataGridViewContextMenuHandler _contextMenuHandler;
+    private TransactionPool _transactionPool = new TransactionPool();
+    private UndoRedoHistory<ITransactionPoolOwner> _history;
 
     public GranitXMLEditorForm()
     {
@@ -30,6 +33,7 @@ namespace GranitXMLEditor
       _autoSizeMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
       OpenLastOpenedFileIfExists();
       _docHasPendingChanges = false;
+      _history = new UndoRedoHistory<ITransactionPoolOwner>(this);
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
       _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, _xmlToObject);
       SetTextResources();
@@ -88,6 +92,19 @@ namespace GranitXMLEditor
         Text = Application.ProductName + " - " + Path.GetFileName(_lastOpenedFilePath);
         if(!string.IsNullOrEmpty(_lastOpenedFilePath))
           _mruMenu.AddFile(_lastOpenedFilePath);
+      }
+    }
+
+    public TransactionPool TransactionPool
+    {
+      get
+      {
+        throw new NotImplementedException();
+      }
+
+      set
+      {
+        throw new NotImplementedException();
       }
     }
 

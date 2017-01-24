@@ -94,12 +94,14 @@
     </Compile>
     <Compile Include="HUFTransactionAdapter.cs" />
     <Compile Include="IBindable.cs" />
+    <Compile Include="ITransactionPoolOwner.cs" />
     <Compile Include="MruStripMenu.cs" />
     <Compile Include="PropertyComparer.cs" />
     <Compile Include="SortableBindingList.cs" />
     <Compile Include="TransactionAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransactionPool.cs" />
     <Compile Include="TransactionXElement.cs" />
     <Compile Include="XDocumentExtension.cs" />
     <Compile Include="HUFTransaction.cs" />
@@ -164,6 +166,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GenericUndoRedo\GenericUndoRedo.csproj">
+      <Project>{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}</Project>
+      <Name>GenericUndoRedo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
