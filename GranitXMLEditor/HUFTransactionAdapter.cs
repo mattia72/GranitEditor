@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace GranitXMLEditor
 {
-  class HUFTransactionsAdapter : INotifyPropertyChanged
+  public class HUFTransactionsAdapter : INotifyPropertyChanged
   {
     private HUFTransaction HUFTransactions { get; set; }
     public List<TransactionAdapter> Transactions { get; set; }

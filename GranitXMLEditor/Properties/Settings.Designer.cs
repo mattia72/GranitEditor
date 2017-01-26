@@ -61,7 +61,7 @@ namespace GranitXMLEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("default.xml")]
+        [global::System.Configuration.DefaultSettingValueAttribute("example.xml")]
         public string LastOpenedFilePath {
             get {
                 return ((string)(this["LastOpenedFilePath"]));

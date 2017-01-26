@@ -47,7 +47,7 @@ namespace GranitXMLEditor.Tests
       Assert.AreEqual(rInfo, ta.RemittanceInfo);
     }
 
-    private static void FillTransactionAdapter(out XDocument xdoc, out TransactionAdapter ta)
+    public static void FillTransactionAdapter(out XDocument xdoc, out TransactionAdapter ta)
     {
       xdoc = XDocument.Parse(TestConstants.HUFTransactionXml);
       XmlRootAttribute xRoot = new XmlRootAttribute();

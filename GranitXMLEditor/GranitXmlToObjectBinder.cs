@@ -6,11 +6,11 @@ using System;
 
 namespace GranitXMLEditor
 {
-  internal class GranitXmlToObjectBinder
+  public class GranitXmlToObjectBinder
   {
-    internal HUFTransaction HUFTransaction { get; private set; }
-    internal HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
-    internal XDocument GranitXDocument { get; private set; }
+    public HUFTransaction HUFTransaction { get; private set; }
+    public HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
+    public XDocument GranitXDocument { get; private set; }
 
     public GranitXmlToObjectBinder()
     {
@@ -61,12 +61,12 @@ namespace GranitXMLEditor
         ser.Serialize(writer, HUFTransaction);
       }
 
-      if (GranitXDocument.IsEmpty())
+      //if (GranitXDocument.IsEmpty())
         GranitXDocument = xml;
-      else
-      { // merge xmls && dataGridView1.CurrentRow != null
-        throw new NotImplementedException();
-      }
+      //else
+      //{ // merge xmls && dataGridView1.CurrentRow != null
+      //  throw new NotImplementedException();
+      //}
     }
 
     public void LoadXDocumentFromFile(string xmlFilePath)
@@ -78,7 +78,7 @@ namespace GranitXMLEditor
     {
       var ser = new XmlSerializer(typeof(HUFTransaction));
       HUFTransaction = (HUFTransaction)ser.Deserialize(xml.CreateReader());
-      InitTransactionAttributes();
+      SetTransactionIdAttribute();
     }
 
     private void LoadObjectFromXElement(XElement xml)
@@ -89,11 +89,13 @@ namespace GranitXMLEditor
       AddDefaultAttributes(t.TransactionId, xml);
     }
 
-    private void InitTransactionAttributes()
+    private void SetTransactionIdAttribute()
     {
+      int index = 0;
       foreach (var item in GranitXDocument.Root.Elements(Constants.Transaction).InDocumentOrder())
       {
-        AddDefaultAttributes(Transaction.NextTransactionId, item);
+        AddDefaultAttributes(HUFTransaction.Transactions[index].TransactionId, item);
+        index++;
       }
     }
 
@@ -181,10 +183,10 @@ namespace GranitXMLEditor
     private TransactionAdapter ReCreateAdapter()
     {
       HUFTransactionsAdapter = new HUFTransactionsAdapter(HUFTransaction, GranitXDocument);
-      // return with the largest TransactionId
       var ts = HUFTransactionsAdapter.Transactions;
       if (ts.Count != 0)
       {
+        // return with the largest TransactionId
         return ts.Aggregate((i, j) => i.TransactionId > j.TransactionId ? i : j);
       }
       else
