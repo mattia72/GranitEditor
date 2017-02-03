@@ -12,7 +12,7 @@ namespace GranitXMLEditor
 {
   public partial class GranitXMLEditorForm : Form
   {
-    private GranitXmlToObjectBinder _xmlToObject;
+    private GranitXmlToObjectBinder _xmlToObjectBinder;
     private OpenFileDialog _openFileDialog1;
     private SaveFileDialog _saveFileDialog1;
     private AboutBox _aboutBox;
@@ -36,9 +36,9 @@ namespace GranitXMLEditor
       OpenLastOpenedFileIfExists();
       _docHasPendingChanges = false;
       //_history = new UndoRedoHistory<TransactionPool>(_transactionPool);
-      _history = new UndoRedoHistory<List<Transaction>>(_xmlToObject.HUFTransaction.Transactions);
+      _history = new UndoRedoHistory<List<Transaction>>(_xmlToObjectBinder.HUFTransaction.Transactions);
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
-      _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, _xmlToObject);
+      _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, _xmlToObjectBinder);
       SetTextResources();
       ApplySettings();
     }
@@ -100,16 +100,14 @@ namespace GranitXMLEditor
 
     private void ApplySettings()
     {
+      if (_bindingList.RaiseListChangedEvents)
+        _bindingList.ListChanged += _bindingList_ListChanged;
+
       if (!string.IsNullOrEmpty(Settings.Default.SortedColumn))
       {
         DataGridViewColumn sortedColumn = FindColumnByHeaderText(Settings.Default.SortedColumn);
-        if(_bindingList.RaiseListChangedEvents)
-          _bindingList.ListChanged += _bindingList_ListChanged;
-
         //_xmlToObject.HUFTransactionsAdapter.Sort(TransactionAdapter.SortAmountAscending());
         //_bindingList.Listanged
-
-
         dataGridView1.Sort(sortedColumn,
           Settings.Default.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
         sortedColumn.HeaderCell.SortGlyphDirection = Settings.Default.SortOrder == SortOrder.Ascending ? SortOrder.Ascending : SortOrder.Descending;
@@ -173,7 +171,7 @@ namespace GranitXMLEditor
     private string GetFileNameToSaveByOpeningSaveFileDialog()
     {
       string filename = null;
-      if (_xmlToObject != null)
+      if (_xmlToObjectBinder != null)
       {
         _saveFileDialog1 = _saveFileDialog1 == null ? new SaveFileDialog() : _saveFileDialog1;
         _saveFileDialog1.InitialDirectory = Application.StartupPath;
@@ -190,15 +188,15 @@ namespace GranitXMLEditor
     private void SaveDocument(string fileName)
     {
       string xmlFilePath = Path.GetFullPath(fileName);
-      _xmlToObject.SaveToFile(xmlFilePath);
+      _xmlToObjectBinder.SaveToFile(xmlFilePath);
       LastOpenedFilePath = xmlFilePath;
       _docHasPendingChanges = false;
     }
 
     private void LoadDocument(string xmlFilePath)
     {
-      _xmlToObject = new GranitXmlToObjectBinder(xmlFilePath);
-      _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObject.HUFTransactionsAdapter.Transactions);
+      _xmlToObjectBinder = new GranitXmlToObjectBinder(xmlFilePath);
+      _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObjectBinder.HUFTransactionsAdapter.Transactions);
       dataGridView1.DataSource = _bindingList;
       LastOpenedFilePath = xmlFilePath;
       _docHasPendingChanges = false;
@@ -241,7 +239,7 @@ namespace GranitXMLEditor
       //{
       //  _history.Do(new RemoveTransactionMemento(t));
       //}
-      _xmlToObject.Sort(dataGridView1.SortedColumn.HeaderText, dataGridView1.SortOrder);
+      _xmlToObjectBinder.Sort(dataGridView1.SortedColumn.HeaderText, dataGridView1.SortOrder);
 
       //foreach (Transaction t in _xmlToObject.HUFTransaction.Transactions)
       //{
@@ -264,12 +262,6 @@ namespace GranitXMLEditor
     private void openToolStripMenuItem1_Click(object sender, EventArgs e)
     {
       OpenGranitXmlFile();
-    }
-
-    private void saveAsToolStripMenuItem1_Click(object sender, EventArgs e)
-    {
-      string f = GetFileNameToSaveByOpeningSaveFileDialog();
-      SaveDocument(f);
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -342,7 +334,7 @@ namespace GranitXMLEditor
       var bindingList = ((SortableBindingList<TransactionAdapter>)dataGridView1.DataSource);
       //delete last (non working) adapter and create a new...
       bindingList.RemoveAt(bindingList.Count - 1);
-      bindingList.Add(_xmlToObject.AddEmptyTransactionRow());
+      bindingList.Add(_xmlToObjectBinder.AddEmptyTransactionRow());
       dataGridView1.CurrentCell = e.Row.Cells[1]; 
       dataGridView1.BeginEdit(false);
     }
@@ -365,8 +357,8 @@ namespace GranitXMLEditor
 
     private void OpenNewDocument()
     {
-      _xmlToObject = new GranitXmlToObjectBinder();
-      _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObject.HUFTransactionsAdapter.Transactions);
+      _xmlToObjectBinder = new GranitXmlToObjectBinder();
+      _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObjectBinder.HUFTransactionsAdapter.Transactions);
       dataGridView1.DataSource = _bindingList;
       LastOpenedFilePath = string.Empty;
     }
@@ -397,15 +389,13 @@ namespace GranitXMLEditor
 
     private void saveToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      if (LastOpenedFilePath != string.Empty)
-      {
-        AskAndSaveFile(MessageBoxButtons.YesNo);
-      }
-      else
-      {
-        var file = GetFileNameToSaveByOpeningSaveFileDialog();
-        SaveDocument(file);
-      }
+      AskAndSaveFile(MessageBoxButtons.YesNo);
+    }
+
+    private void saveAsToolStripMenuItem1_Click(object sender, EventArgs e)
+    {
+      string f = GetFileNameToSaveByOpeningSaveFileDialog();
+      SaveDocument(f);
     }
 
 
@@ -466,7 +456,7 @@ namespace GranitXMLEditor
       if (_transactionIdTodelete != null)
       {
         _history.Do(new RemoveTransactionMemento(((TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem).Transaction));
-        _xmlToObject.RemoveTransactionRowById((long)_transactionIdTodelete);
+        _xmlToObjectBinder.RemoveTransactionRowById((long)_transactionIdTodelete);
         _docHasPendingChanges = true;
       }
     }
@@ -491,7 +481,7 @@ namespace GranitXMLEditor
       if (_history.CanUndo)
       {
         _history.Undo();
-        _xmlToObject.UpdateGranitXDocument();
+        _xmlToObjectBinder.UpdateGranitXDocument();
       }
     }
 
@@ -500,7 +490,7 @@ namespace GranitXMLEditor
       if (_history.CanRedo)
       {
         _history.Redo();
-        _xmlToObject.UpdateGranitXDocument();
+        _xmlToObjectBinder.UpdateGranitXDocument();
       }
     }
 

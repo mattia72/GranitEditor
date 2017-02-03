@@ -128,23 +128,30 @@ namespace GranitXMLEditor
       foreach (var item in GranitXDocument.Root.Elements().
         Where(x => x.Attribute(Constants.TransactionSelectedAttribute) == null || x.Attribute(Constants.TransactionSelectedAttribute).Value == "true"))
       {
-          xDocToSave.Root.Add(item);
+        RemoveTransactionAttributes(item);
+        xDocToSave.Root.Add(RemoveAllNamespaces(item));
       }
-
-      RemoveTransactionAttributes(xDocToSave);
       xDocToSave.Save(xmlFilePath);
     }
 
-    private void RemoveTransactionAttributes(XDocument x)
+    private static void RemoveTransactionAttributes(XElement item)
     {
-      foreach (var item in x.Root.Elements())
-      {
-        if(item.Attribute(Constants.TransactionIdAttribute) != null)
-          item.Attribute(Constants.TransactionIdAttribute).Remove();
+      if (item.Attribute(Constants.TransactionIdAttribute) != null)
+        item.Attribute(Constants.TransactionIdAttribute).Remove();
 
-        if(item.Attribute(Constants.TransactionSelectedAttribute) != null)
-          item.Attribute(Constants.TransactionSelectedAttribute).Remove();
-      }
+      if (item.Attribute(Constants.TransactionSelectedAttribute) != null)
+        item.Attribute(Constants.TransactionSelectedAttribute).Remove();
+    }
+
+    private static XElement RemoveAllNamespaces(XElement e)
+    {
+      return new XElement(e.Name.LocalName,
+        (from n in e.Nodes()
+         select ((n is XElement) ? RemoveAllNamespaces(n as XElement) : n)),
+            (e.HasAttributes) ?
+              (from a in e.Attributes()
+               where (!a.IsNamespaceDeclaration)
+               select new XAttribute(a.Name.LocalName, a.Value)) : null);
     }
 
     public void Sort(string columnHeaderText, SortOrder sortOrder)
