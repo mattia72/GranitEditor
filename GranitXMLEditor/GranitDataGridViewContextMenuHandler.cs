@@ -84,7 +84,10 @@ namespace GranitXMLEditor
     private void AddNewRow(TransactionAdapter ta)
     {
       var bindingList = ((SortableBindingList<TransactionAdapter>)_dataGridView.DataSource);
-      bindingList.Add(_xmlToObject.AddTransactionRow(ta));
+      if(ta==null)
+        bindingList.Add(_xmlToObject.AddEmptyTransactionRow());
+      else
+        bindingList.Add(_xmlToObject.AddTransactionRow(ta));
       SelectLastRow();
     }
 

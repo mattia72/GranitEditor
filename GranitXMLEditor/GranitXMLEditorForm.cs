@@ -6,10 +6,11 @@ using GranitXMLEditor.Properties;
 using System.Diagnostics;
 using System.Linq;
 using GenericUndoRedo;
+using System.Collections.Generic;
 
 namespace GranitXMLEditor
 {
-  public partial class GranitXMLEditorForm : Form, ITransactionPoolOwner
+  public partial class GranitXMLEditorForm : Form
   {
     private GranitXmlToObjectBinder _xmlToObject;
     private OpenFileDialog _openFileDialog1;
@@ -24,7 +25,8 @@ namespace GranitXMLEditor
     private SortableBindingList<TransactionAdapter> _bindingList;
     private GranitDataGridViewContextMenuHandler _contextMenuHandler;
     private TransactionPool _transactionPool = new TransactionPool();
-    private UndoRedoHistory<ITransactionPoolOwner> _history;
+    //private UndoRedoHistory<TransactionPool> _history;
+    private UndoRedoHistory<List<Transaction>> _history;
 
     public GranitXMLEditorForm()
     {
@@ -33,7 +35,8 @@ namespace GranitXMLEditor
       _autoSizeMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
       OpenLastOpenedFileIfExists();
       _docHasPendingChanges = false;
-      _history = new UndoRedoHistory<ITransactionPoolOwner>(this);
+      //_history = new UndoRedoHistory<TransactionPool>(_transactionPool);
+      _history = new UndoRedoHistory<List<Transaction>>(_xmlToObject.HUFTransaction.Transactions);
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
       _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, _xmlToObject);
       SetTextResources();
@@ -95,19 +98,6 @@ namespace GranitXMLEditor
       }
     }
 
-    public TransactionPool TransactionPool
-    {
-      get
-      {
-        throw new NotImplementedException();
-      }
-
-      set
-      {
-        throw new NotImplementedException();
-      }
-    }
-
     private void ApplySettings()
     {
       if (!string.IsNullOrEmpty(Settings.Default.SortedColumn))
@@ -139,6 +129,7 @@ namespace GranitXMLEditor
 
     private void _bindingList_ListChanged(object sender, ListChangedEventArgs e)
     {
+      Debug.WriteLine("BindingList changed " + e.ListChangedType + " " + e.PropertyDescriptor);
 
     }
 
@@ -213,14 +204,6 @@ namespace GranitXMLEditor
       _docHasPendingChanges = false;
     }
 
-    private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-    {
-
-    }
-
-    //private DataGridViewCellValidatingEventArgs cellErrorLocation;
-    //private string cellErrorText;
-
     private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
     {
       if (dataGridView1.CurrentCell.Tag == e.FormattedValue)
@@ -234,16 +217,38 @@ namespace GranitXMLEditor
       _cellVallidator.Validate(ref e, headerText);
     }
 
+    //Transaction beginEditTrans=null;
+    private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+    {
+      Debug.WriteLine("CellBeginEdit called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
+      //beginEditTrans = ((TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem).Transaction;
+
+      if ( e.RowIndex != -1 ) // not on first load 
+        _history.Do(new AddTransactionMemento());
+    }
+
     private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
     {
       Debug.WriteLine("CellEndEdit called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
-      dataGridView1.Rows[e.RowIndex].ErrorText = string.Empty;
-      //_docHasPendingChanges = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].EditingCellValueChanged;    // TODO: Bug# 26
+      if ( e.RowIndex != -1 ) // not on first load 
+        dataGridView1.Rows[e.RowIndex].ErrorText = string.Empty;
     }
 
     private void dataGridView1_Sorted(object sender, EventArgs e)
     {
+      //_history.BeginCompoundDo();
+      //foreach (Transaction t in _xmlToObject.HUFTransaction.Transactions)
+      //{
+      //  _history.Do(new RemoveTransactionMemento(t));
+      //}
       _xmlToObject.Sort(dataGridView1.SortedColumn.HeaderText, dataGridView1.SortOrder);
+
+      //foreach (Transaction t in _xmlToObject.HUFTransaction.Transactions)
+      //{
+      //  _history.Do(new AddTransactionMemento());
+      //}
+      //_history.EndCompoundDo();
+
       _docHasPendingChanges = true;
     }
 
@@ -251,7 +256,9 @@ namespace GranitXMLEditor
     {
       Debug.WriteLine("CellValueChanged called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
       if ( e.RowIndex != -1 ) // not on first load 
-        _docHasPendingChanges = true;    
+      { 
+        _docHasPendingChanges = true;
+      }
     }
 
     private void openToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -330,12 +337,12 @@ namespace GranitXMLEditor
       }
     }
 
-    private void dataGridView1_UserAddedRow(object sender, DataGridViewRowEventArgs e)
+    private void dataGridView1_UserAddedNewRow(object sender, DataGridViewRowEventArgs e)
     {
       var bindingList = ((SortableBindingList<TransactionAdapter>)dataGridView1.DataSource);
       //delete last (non working) adapter and create a new...
       bindingList.RemoveAt(bindingList.Count - 1);
-      bindingList.Add(_xmlToObject.AddNewTransactionRow());
+      bindingList.Add(_xmlToObject.AddEmptyTransactionRow());
       dataGridView1.CurrentCell = e.Row.Cells[1]; 
       dataGridView1.BeginEdit(false);
     }
@@ -458,6 +465,7 @@ namespace GranitXMLEditor
 
       if (_transactionIdTodelete != null)
       {
+        _history.Do(new RemoveTransactionMemento(((TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem).Transaction));
         _xmlToObject.RemoveTransactionRowById((long)_transactionIdTodelete);
         _docHasPendingChanges = true;
       }
@@ -477,5 +485,30 @@ namespace GranitXMLEditor
     {
       _contextMenuHandler.grid_AddNewRow(sender, e);
     }
+
+    private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      if (_history.CanUndo)
+      {
+        _history.Undo();
+        _xmlToObject.UpdateGranitXDocument();
+      }
+    }
+
+    private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      if (_history.CanRedo)
+      {
+        _history.Redo();
+        _xmlToObject.UpdateGranitXDocument();
+      }
+    }
+
+    private void editToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
+    {
+      undoToolStripMenuItem.Enabled = _history.CanUndo;
+      redoToolStripMenuItem.Enabled = _history.CanRedo;
+    }
+
   }
 }

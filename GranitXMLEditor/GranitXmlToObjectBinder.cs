@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using System.Linq;
 using System.Windows.Forms;
 using System;
+using System.Diagnostics;
 
 namespace GranitXMLEditor
 {
@@ -18,6 +19,12 @@ namespace GranitXMLEditor
       GranitXDocument.Add(new XElement(Constants.HUFTransactions));
       HUFTransaction = new HUFTransaction();
       ReCreateAdapter();
+      HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;
+    }
+
+    private void HUFTransactionsAdapter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+      Debug.WriteLine("Property changed:" + e.PropertyName);
     }
 
     public GranitXmlToObjectBinder(string xmlFilePath) 
@@ -26,9 +33,10 @@ namespace GranitXMLEditor
       LoadXDocumentFromFile(xmlFilePath);
       LoadObjectFromXDocument(GranitXDocument);
       ReCreateAdapter();
+      HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;
     }
 
-    public TransactionAdapter AddNewTransactionRow()
+    public TransactionAdapter AddEmptyTransactionRow()
     {
       XElement transactionXelem = new TransactionXElementParser().ParsedElement;
       GranitXDocument.Root.Add(transactionXelem);
@@ -191,7 +199,7 @@ namespace GranitXMLEditor
       }
       else
       {
-        return AddNewTransactionRow();
+        return AddEmptyTransactionRow();
       }
     }
   }

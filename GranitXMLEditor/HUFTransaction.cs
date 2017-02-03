@@ -64,6 +64,7 @@ namespace GranitXMLEditor
     public Beneficiary()
     {
       Account = new Account();
+      Name = "";
     }
 
     public int CompareTo(Beneficiary other)
@@ -121,6 +122,11 @@ namespace GranitXMLEditor
   {
     [XmlElement(ElementName = "Text")]
     public List<string> Text { get; set; }
+
+    public RemittanceInfo()
+    {
+      Text = new List<string>();
+    }
 
     public object Clone()
     {

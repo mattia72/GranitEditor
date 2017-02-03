@@ -12,7 +12,7 @@
       <Value Profile="(Default)">None</Value>
     </Setting>
     <Setting Name="LastOpenedFilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">default.xml</Value>
+      <Value Profile="(Default)">example.xml</Value>
     </Setting>
     <Setting Name="RecentFileList" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace GranitXMLEditor
 {
-  abstract class TransactionMemento : IMemento<TransactionPool>
+  abstract class TransactionMemento : IMemento<List<Transaction>>
   {
-    #region IMemento<TransactionPool> Members
+    #region IMemento<List<Transaction>> Members
 
-    public abstract IMemento<TransactionPool> Restore(TransactionPool target);
+    public abstract IMemento<List<Transaction>> Restore(List<Transaction> target);
 
     #endregion
   }
@@ -24,10 +24,10 @@ namespace GranitXMLEditor
       this.index = index;
     }
 
-    public override IMemento<TransactionPool> Restore(TransactionPool target)
+    public override IMemento<List<Transaction>> Restore(List<Transaction> target)
     {
       Transaction removed = target[index];
-      IMemento<TransactionPool> inverse = new RemoveTransactionMemento(index, removed);
+      IMemento<List<Transaction>> inverse = new RemoveTransactionMemento(index, removed);
       target.RemoveAt(index);
       return inverse;
     }
@@ -50,9 +50,9 @@ namespace GranitXMLEditor
       this.removed = item;
     }
 
-    public override IMemento<TransactionPool> Restore(TransactionPool target)
+    public override IMemento<List<Transaction>> Restore(List<Transaction> target)
     {
-      IMemento<TransactionPool> inverse = null; 
+      IMemento<List<Transaction>> inverse = null; 
       if (index != null)
       {
         inverse = new InsertTransactionMemento((int)index);
@@ -73,10 +73,10 @@ namespace GranitXMLEditor
     {
     }
 
-    public override IMemento<TransactionPool> Restore(TransactionPool target)
+    public override IMemento<List<Transaction>> Restore(List<Transaction> target)
     {
       int index = target.Count - 1;
-      IMemento<TransactionPool> inverse = new RemoveTransactionMemento(index, target[index]);
+      IMemento<List<Transaction>> inverse = new RemoveTransactionMemento(index, target[index]);
       target.RemoveAt(target.Count - 1);
       return inverse;
     }
