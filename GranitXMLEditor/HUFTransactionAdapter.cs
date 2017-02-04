@@ -9,7 +9,6 @@ namespace GranitXMLEditor
   {
     private HUFTransaction HUFTransactions { get; set; }
     public List<TransactionAdapter> Transactions { get; set; }
-    public XDocument GranitXDocument { get; private set; }
     public event PropertyChangedEventHandler PropertyChanged;
 
     public HUFTransactionsAdapter(HUFTransaction ht, XDocument xdoc)

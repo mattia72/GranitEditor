@@ -48,6 +48,9 @@ namespace GranitXMLEditor
     {
       if (_currentMouseOverRow != null && _currentMouseOverRow > -1 && _currentMouseOverRow <= _dataGridView.RowCount - 2) // last committed line
       {
+        //Transaction t = (Transaction)_dataGridView.Rows[(int)_currentMouseOverRow].DataBoundItem;
+        //if(t != null)
+        //  _xmlToObject.History.Do(new RemoveTransactionMemento(t));
         _dataGridView.Rows.RemoveAt((int)_currentMouseOverRow);
       }
     }
@@ -60,7 +63,6 @@ namespace GranitXMLEditor
     internal void grid_DuplicateRow(object sender, EventArgs e)
     {
       DataGridViewRow row = GetActiveRow();
-
       if (row != null)
       {
         TransactionAdapter ta = (TransactionAdapter)row.DataBoundItem;

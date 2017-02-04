@@ -24,6 +24,8 @@ namespace GranitXMLEditor
     private GranitDataGridViewCellValidator _cellVallidator;
     private GranitDataGridViewContextMenuHandler _contextMenuHandler;
     private TransactionPool _transactionPool = new TransactionPool();
+    private SortableBindingList<TransactionAdapter> _bindingList;
+
     //private UndoRedoHistory<TransactionPool> _history;
 
     public GranitXMLEditorForm()
@@ -133,7 +135,7 @@ namespace GranitXMLEditor
 
       if (transactionIdTodelete != null)
       {
-        _xmlToObjectBinder.RemoveTransactionRowById((long)transactionIdTodelete);
+        _xmlToObjectBinder.RemoveTransactionRowById((long)transactionIdTodelete, e.RowIndex);
         _docHasPendingChanges = true;
       }
     }
@@ -213,7 +215,8 @@ namespace GranitXMLEditor
 
     private void LoadDocument(string xmlFilePath)
     {
-      _xmlToObjectBinder = new GranitXmlToObjectBinder(xmlFilePath, dataGridView1);
+      _xmlToObjectBinder = new GranitXmlToObjectBinder(xmlFilePath);
+      RebindBindingList();
       LastOpenedFilePath = xmlFilePath;
       _docHasPendingChanges = false;
     }
@@ -335,8 +338,8 @@ namespace GranitXMLEditor
       //delete last (non working) adapter and create a new...
       bindingList.RemoveAt(bindingList.Count - 1);
       bindingList.Add(_xmlToObjectBinder.AddEmptyTransactionRow());
-      dataGridView1.CurrentCell = e.Row.Cells[1]; 
-      dataGridView1.BeginEdit(false);
+      //dataGridView1.CurrentCell = e.Row.Cells[1]; 
+      //dataGridView1.BeginEdit(false);
     }
 
     private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -355,10 +358,24 @@ namespace GranitXMLEditor
         OpenNewDocument();
     }
 
+    public void RebindBindingList()
+    {
+      _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObjectBinder.HUFTransactionsAdapter.Transactions);
+      dataGridView1.DataSource = _bindingList;
+      if (_bindingList.RaiseListChangedEvents)
+        _bindingList.ListChanged += _bindingList_ListChanged;
+    }
+
+    private void _bindingList_ListChanged(object sender, ListChangedEventArgs e)
+    {
+      Debug.WriteLine("BindingList changed " + e.ListChangedType + " " + e.PropertyDescriptor);
+    }
+
     private void OpenNewDocument()
     {
       _xmlToObjectBinder = new GranitXmlToObjectBinder();
       LastOpenedFilePath = string.Empty;
+      RebindBindingList();
     }
 
     private DialogResult AskAndSaveFile(MessageBoxButtons buttons)
@@ -465,6 +482,7 @@ namespace GranitXMLEditor
       if (_xmlToObjectBinder.History.CanUndo)
       {
         _xmlToObjectBinder.History_Undo();
+        RebindBindingList();
       }
     }
 
@@ -473,6 +491,7 @@ namespace GranitXMLEditor
       if (_xmlToObjectBinder.History.CanRedo)
       {
         _xmlToObjectBinder.History_Redo();
+        RebindBindingList();
       }
     }
 

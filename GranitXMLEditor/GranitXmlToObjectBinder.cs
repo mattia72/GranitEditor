@@ -12,9 +12,6 @@ namespace GranitXMLEditor
 {
   public class GranitXmlToObjectBinder
   {
-    private DataGridView _dataGridView;
-    private SortableBindingList<TransactionAdapter> _bindingList;
-
     public HUFTransaction HUFTransaction { get; private set; }
     public HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
     public XDocument GranitXDocument { get; private set; }
@@ -27,7 +24,6 @@ namespace GranitXMLEditor
       GranitXDocument.Add(new XElement(Constants.HUFTransactions));
       HUFTransaction = new HUFTransaction();
       ReCreateAdapter();
-      HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;
       History = new UndoRedoHistory<List<Transaction>>(HUFTransaction.Transactions);
     }
 
@@ -37,29 +33,8 @@ namespace GranitXMLEditor
       HUFTransaction = CreateObjectFromXDocument(GranitXDocument);
       SetTransactionIdAttribute();
       ReCreateAdapter();
-      HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;
       History = new UndoRedoHistory<List<Transaction>>(HUFTransaction.Transactions);
     }
-
-    public GranitXmlToObjectBinder(string xmlFilePath, DataGridView dataGridView) : this(xmlFilePath)
-    {
-      this._dataGridView = dataGridView;
-      RebindBindingList();
-    }
-
-    public void RebindBindingList()
-    {
-      _bindingList = new SortableBindingList<TransactionAdapter>(HUFTransactionsAdapter.Transactions);
-      _dataGridView.DataSource = _bindingList;
-      if (_bindingList.RaiseListChangedEvents)
-        _bindingList.ListChanged += _bindingList_ListChanged;
-    }
-
-    private void _bindingList_ListChanged(object sender, ListChangedEventArgs e)
-    {
-      Debug.WriteLine("BindingList changed " + e.ListChangedType + " " + e.PropertyDescriptor);
-    }
-
 
     private void HUFTransactionsAdapter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
@@ -68,17 +43,26 @@ namespace GranitXMLEditor
 
     public TransactionAdapter AddEmptyTransactionRow()
     {
-      History.Do(new AddTransactionMemento());
+      History?.Do(new AddTransactionMemento());
       XElement transactionXelem = new TransactionXElementParser().ParsedElement;
       GranitXDocument.Root.Add(transactionXelem);
       LoadObjectFromXElement(transactionXelem);
       return ReCreateAdapter();
     }
 
-    public void RemoveTransactionRowById( long transactionId)
+    public Transaction GetTransactionById(long transactionId)
     {
-      Debug.WriteLine("Remove transactionId: " + transactionId);
-      History.Do(new RemoveTransactionMemento(HUFTransaction.Transactions.Where(t => t.TransactionId == transactionId ).FirstOrDefault()));
+      return HUFTransaction.Transactions.Where(t => t.TransactionId == transactionId).FirstOrDefault();
+    }
+
+    public void RemoveTransactionRowById( long transactionId, int rowIndex)
+    {
+      Debug.WriteLine("Remove transactionId: " + transactionId + " from index: " + rowIndex);
+
+      History.Do(
+        new RemoveTransactionMemento(rowIndex, 
+        HUFTransaction.Transactions.Where(t => t.TransactionId == transactionId ).FirstOrDefault()));
+
       HUFTransactionsAdapter.Transactions.RemoveAll(t => t.TransactionId == transactionId);
       HUFTransaction.Transactions.RemoveAll(t => t.TransactionId == transactionId);
       GranitXDocument.Root.Elements(Constants.Transaction)
@@ -232,6 +216,7 @@ namespace GranitXMLEditor
     private TransactionAdapter ReCreateAdapter()
     {
       HUFTransactionsAdapter = new HUFTransactionsAdapter(HUFTransaction, GranitXDocument);
+      HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;
       var ts = HUFTransactionsAdapter.Transactions;
       if (ts.Count != 0)
       {
