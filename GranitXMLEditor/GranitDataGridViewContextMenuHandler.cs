@@ -1,10 +1,6 @@
-﻿using GranitXMLEditor.Properties;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GranitXMLEditor
@@ -27,6 +23,8 @@ namespace GranitXMLEditor
       if (e.Button == MouseButtons.Right)
       {
         _currentMouseOverRow = _dataGridView.HitTest(e.X, e.Y).RowIndex;
+
+        Debug.WriteLine("Mouse on row: " + _currentMouseOverRow);
         _contextMenuStrip.Show(_dataGridView, new Point(e.X, e.Y));
       }
     }
@@ -48,10 +46,15 @@ namespace GranitXMLEditor
 
     private void grid_DeleteActiveRow()
     {
-      if (_currentMouseOverRow != null && 
-        _currentMouseOverRow > -1 && 
-        _currentMouseOverRow <= _dataGridView.RowCount - 2) // last committed line
+      if (_currentMouseOverRow != null && _currentMouseOverRow > -1 && _currentMouseOverRow <= _dataGridView.RowCount - 2) // last committed line
+      {
         _dataGridView.Rows.RemoveAt((int)_currentMouseOverRow);
+      }
+    }
+
+    private long GetTransactionId(int rowIndex)
+    {
+      return ((TransactionAdapter)_dataGridView.Rows[rowIndex].DataBoundItem).TransactionId;
     }
 
     internal void grid_DuplicateRow(object sender, EventArgs e)

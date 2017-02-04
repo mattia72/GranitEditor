@@ -22,11 +22,9 @@ namespace GranitXMLEditor
     private MruStripMenu _mruMenu;
     private EnumStripMenu<DataGridViewAutoSizeColumnsMode> _autoSizeMenu;
     private GranitDataGridViewCellValidator _cellVallidator;
-    private SortableBindingList<TransactionAdapter> _bindingList;
     private GranitDataGridViewContextMenuHandler _contextMenuHandler;
     private TransactionPool _transactionPool = new TransactionPool();
     //private UndoRedoHistory<TransactionPool> _history;
-    private UndoRedoHistory<List<Transaction>> _history;
 
     public GranitXMLEditorForm()
     {
@@ -34,13 +32,13 @@ namespace GranitXMLEditor
       _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, mruMenu_Clicked, 10);
       _autoSizeMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
       OpenLastOpenedFileIfExists();
-      _docHasPendingChanges = false;
       //_history = new UndoRedoHistory<TransactionPool>(_transactionPool);
-      _history = new UndoRedoHistory<List<Transaction>>(_xmlToObjectBinder.HUFTransaction.Transactions);
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
       _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, _xmlToObjectBinder);
       SetTextResources();
       ApplySettings();
+      //after sorting has to be reset...
+      _docHasPendingChanges = false;
     }
 
     private void autoSizeMenu_Clicked(DataGridViewAutoSizeColumnsMode mode)
@@ -100,17 +98,13 @@ namespace GranitXMLEditor
 
     private void ApplySettings()
     {
-      if (_bindingList.RaiseListChangedEvents)
-        _bindingList.ListChanged += _bindingList_ListChanged;
-
       if (!string.IsNullOrEmpty(Settings.Default.SortedColumn))
       {
         DataGridViewColumn sortedColumn = FindColumnByHeaderText(Settings.Default.SortedColumn);
-        //_xmlToObject.HUFTransactionsAdapter.Sort(TransactionAdapter.SortAmountAscending());
-        //_bindingList.Listanged
         dataGridView1.Sort(sortedColumn,
           Settings.Default.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
-        sortedColumn.HeaderCell.SortGlyphDirection = Settings.Default.SortOrder == SortOrder.Ascending ? SortOrder.Ascending : SortOrder.Descending;
+        sortedColumn.HeaderCell.SortGlyphDirection = 
+          Settings.Default.SortOrder == SortOrder.Ascending ? SortOrder.Ascending : SortOrder.Descending;
       }
       if (Settings.Default.AlignTable != 0)
       {
@@ -125,10 +119,34 @@ namespace GranitXMLEditor
         }
     }
 
-    private void _bindingList_ListChanged(object sender, ListChangedEventArgs e)
+    /// <summary>
+    /// If the user press delete on a row we should delete the DataBoundItem
+    /// </summary>
+    private void dataGridView1_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
     {
-      Debug.WriteLine("BindingList changed " + e.ListChangedType + " " + e.PropertyDescriptor);
+      long? transactionIdTodelete = null;
+      if (dataGridView1.Rows.Count > e.RowIndex)
+      {
+         transactionIdTodelete = _xmlToObjectBinder.HUFTransactionsAdapter.Transactions.
+          Where(x => GetRow(x.TransactionId) == null).FirstOrDefault()?.TransactionId;
+      }
 
+      if (transactionIdTodelete != null)
+      {
+        _xmlToObjectBinder.RemoveTransactionRowById((long)transactionIdTodelete);
+        _docHasPendingChanges = true;
+      }
+    }
+
+    private DataGridViewRow GetRow(long transactionId)
+    {
+      foreach (DataGridViewRow row in dataGridView1.Rows)
+      {
+        if(row.DataBoundItem != null && 
+          (row.DataBoundItem as TransactionAdapter).TransactionId == transactionId)
+          return row;
+      }
+      return null;
     }
 
     private void SaveSettings()
@@ -195,9 +213,7 @@ namespace GranitXMLEditor
 
     private void LoadDocument(string xmlFilePath)
     {
-      _xmlToObjectBinder = new GranitXmlToObjectBinder(xmlFilePath);
-      _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObjectBinder.HUFTransactionsAdapter.Transactions);
-      dataGridView1.DataSource = _bindingList;
+      _xmlToObjectBinder = new GranitXmlToObjectBinder(xmlFilePath, dataGridView1);
       LastOpenedFilePath = xmlFilePath;
       _docHasPendingChanges = false;
     }
@@ -220,9 +236,7 @@ namespace GranitXMLEditor
     {
       Debug.WriteLine("CellBeginEdit called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
       //beginEditTrans = ((TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem).Transaction;
-
-      if ( e.RowIndex != -1 ) // not on first load 
-        _history.Do(new AddTransactionMemento());
+      //if ( e.RowIndex != -1 ) // not on first load 
     }
 
     private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -234,19 +248,7 @@ namespace GranitXMLEditor
 
     private void dataGridView1_Sorted(object sender, EventArgs e)
     {
-      //_history.BeginCompoundDo();
-      //foreach (Transaction t in _xmlToObject.HUFTransaction.Transactions)
-      //{
-      //  _history.Do(new RemoveTransactionMemento(t));
-      //}
       _xmlToObjectBinder.Sort(dataGridView1.SortedColumn.HeaderText, dataGridView1.SortOrder);
-
-      //foreach (Transaction t in _xmlToObject.HUFTransaction.Transactions)
-      //{
-      //  _history.Do(new AddTransactionMemento());
-      //}
-      //_history.EndCompoundDo();
-
       _docHasPendingChanges = true;
     }
 
@@ -254,9 +256,7 @@ namespace GranitXMLEditor
     {
       Debug.WriteLine("CellValueChanged called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
       if ( e.RowIndex != -1 ) // not on first load 
-      { 
         _docHasPendingChanges = true;
-      }
     }
 
     private void openToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -358,8 +358,6 @@ namespace GranitXMLEditor
     private void OpenNewDocument()
     {
       _xmlToObjectBinder = new GranitXmlToObjectBinder();
-      _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObjectBinder.HUFTransactionsAdapter.Transactions);
-      dataGridView1.DataSource = _bindingList;
       LastOpenedFilePath = string.Empty;
     }
 
@@ -447,20 +445,6 @@ namespace GranitXMLEditor
       _contextMenuHandler.grid_DeleteSelectedRows(sender, e);
     }
 
-    private void dataGridView1_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-    {
-      long? _transactionIdTodelete = null;
-      if(dataGridView1.Rows.Count > e.RowIndex)
-        _transactionIdTodelete = ((TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem)?.TransactionId;
-
-      if (_transactionIdTodelete != null)
-      {
-        _history.Do(new RemoveTransactionMemento(((TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem).Transaction));
-        _xmlToObjectBinder.RemoveTransactionRowById((long)_transactionIdTodelete);
-        _docHasPendingChanges = true;
-      }
-    }
-
     private void duplicateRowToolStripMenuItem_Click(object sender, EventArgs e)
     {
       _contextMenuHandler.grid_DuplicateRow(sender, e);
@@ -478,26 +462,24 @@ namespace GranitXMLEditor
 
     private void undoToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      if (_history.CanUndo)
+      if (_xmlToObjectBinder.History.CanUndo)
       {
-        _history.Undo();
-        _xmlToObjectBinder.UpdateGranitXDocument();
+        _xmlToObjectBinder.History_Undo();
       }
     }
 
     private void redoToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      if (_history.CanRedo)
+      if (_xmlToObjectBinder.History.CanRedo)
       {
-        _history.Redo();
-        _xmlToObjectBinder.UpdateGranitXDocument();
+        _xmlToObjectBinder.History_Redo();
       }
     }
 
     private void editToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
     {
-      undoToolStripMenuItem.Enabled = _history.CanUndo;
-      redoToolStripMenuItem.Enabled = _history.CanRedo;
+      undoToolStripMenuItem.Enabled = _xmlToObjectBinder.History.CanUndo;
+      redoToolStripMenuItem.Enabled = _xmlToObjectBinder.History.CanRedo;
     }
 
   }

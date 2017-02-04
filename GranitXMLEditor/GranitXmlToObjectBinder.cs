@@ -4,14 +4,22 @@ using System.Linq;
 using System.Windows.Forms;
 using System;
 using System.Diagnostics;
+using GenericUndoRedo;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace GranitXMLEditor
 {
   public class GranitXmlToObjectBinder
   {
+    private DataGridView _dataGridView;
+    private SortableBindingList<TransactionAdapter> _bindingList;
+
     public HUFTransaction HUFTransaction { get; private set; }
     public HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
     public XDocument GranitXDocument { get; private set; }
+
+    public UndoRedoHistory<List<Transaction>> History { get; set; }
 
     public GranitXmlToObjectBinder()
     {
@@ -20,24 +28,47 @@ namespace GranitXMLEditor
       HUFTransaction = new HUFTransaction();
       ReCreateAdapter();
       HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;
+      History = new UndoRedoHistory<List<Transaction>>(HUFTransaction.Transactions);
     }
+
+    public GranitXmlToObjectBinder(string xmlFilePath) 
+    {
+      GranitXDocument = XDocument.Load(xmlFilePath);
+      HUFTransaction = CreateObjectFromXDocument(GranitXDocument);
+      SetTransactionIdAttribute();
+      ReCreateAdapter();
+      HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;
+      History = new UndoRedoHistory<List<Transaction>>(HUFTransaction.Transactions);
+    }
+
+    public GranitXmlToObjectBinder(string xmlFilePath, DataGridView dataGridView) : this(xmlFilePath)
+    {
+      this._dataGridView = dataGridView;
+      RebindBindingList();
+    }
+
+    public void RebindBindingList()
+    {
+      _bindingList = new SortableBindingList<TransactionAdapter>(HUFTransactionsAdapter.Transactions);
+      _dataGridView.DataSource = _bindingList;
+      if (_bindingList.RaiseListChangedEvents)
+        _bindingList.ListChanged += _bindingList_ListChanged;
+    }
+
+    private void _bindingList_ListChanged(object sender, ListChangedEventArgs e)
+    {
+      Debug.WriteLine("BindingList changed " + e.ListChangedType + " " + e.PropertyDescriptor);
+    }
+
 
     private void HUFTransactionsAdapter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
       Debug.WriteLine("Property changed:" + e.PropertyName);
     }
 
-    public GranitXmlToObjectBinder(string xmlFilePath) 
-    {
-      GranitXDocument = new XDocument();
-      LoadXDocumentFromFile(xmlFilePath);
-      LoadObjectFromXDocument(GranitXDocument);
-      ReCreateAdapter();
-      HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;
-    }
-
     public TransactionAdapter AddEmptyTransactionRow()
     {
+      History.Do(new AddTransactionMemento());
       XElement transactionXelem = new TransactionXElementParser().ParsedElement;
       GranitXDocument.Root.Add(transactionXelem);
       LoadObjectFromXElement(transactionXelem);
@@ -46,6 +77,8 @@ namespace GranitXMLEditor
 
     public void RemoveTransactionRowById( long transactionId)
     {
+      Debug.WriteLine("Remove transactionId: " + transactionId);
+      History.Do(new RemoveTransactionMemento(HUFTransaction.Transactions.Where(t => t.TransactionId == transactionId ).FirstOrDefault()));
       HUFTransactionsAdapter.Transactions.RemoveAll(t => t.TransactionId == transactionId);
       HUFTransaction.Transactions.RemoveAll(t => t.TransactionId == transactionId);
       GranitXDocument.Root.Elements(Constants.Transaction)
@@ -54,6 +87,7 @@ namespace GranitXMLEditor
 
     public TransactionAdapter AddTransactionRow(TransactionAdapter ta)
     {
+      History.Do(new AddTransactionMemento());
       XElement transactionXelem = new TransactionXElementParser(ta).ParsedElement;
       GranitXDocument.Root.Add(transactionXelem);
       LoadObjectFromXElement(transactionXelem);
@@ -68,25 +102,13 @@ namespace GranitXMLEditor
         var ser = new XmlSerializer(HUFTransaction.GetType());
         ser.Serialize(writer, HUFTransaction);
       }
-
-      //if (GranitXDocument.IsEmpty())
-        GranitXDocument = xml;
-      //else
-      //{ // merge xmls && dataGridView1.CurrentRow != null
-      //  throw new NotImplementedException();
-      //}
+      GranitXDocument = xml;
     }
 
-    public void LoadXDocumentFromFile(string xmlFilePath)
-    {
-      GranitXDocument = XDocument.Load(xmlFilePath);
-    }
-
-    private void LoadObjectFromXDocument(XDocument xml)
+    private HUFTransaction CreateObjectFromXDocument(XDocument xml)
     {
       var ser = new XmlSerializer(typeof(HUFTransaction));
-      HUFTransaction = (HUFTransaction)ser.Deserialize(xml.CreateReader());
-      SetTransactionIdAttribute();
+      return (HUFTransaction)ser.Deserialize(xml.CreateReader());
     }
 
     private void LoadObjectFromXElement(XElement xml)
@@ -156,6 +178,11 @@ namespace GranitXMLEditor
 
     public void Sort(string columnHeaderText, SortOrder sortOrder)
     {
+      //History.BeginCompoundDo();
+      //foreach (Transaction t in _xmlToObject.HUFTransaction.Transactions)
+      //{
+      //  History.Do(new RemoveTransactionMemento(t));
+      //}
       switch (columnHeaderText)
       {
         case Constants.Active:
@@ -192,6 +219,13 @@ namespace GranitXMLEditor
           GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
             Constants.RemittanceInfo + "/" + Constants.Text, sortOrder);
           break;
+
+      //foreach (Transaction t in _xmlToObject.HUFTransaction.Transactions)
+      //{
+      //  History.Do(new AddTransactionMemento());
+      //}
+      //History.EndCompoundDo();
+
       }
     }
 
@@ -207,6 +241,26 @@ namespace GranitXMLEditor
       else
       {
         return AddEmptyTransactionRow();
+      }
+    }
+
+    internal void History_Undo()
+    {
+      if (History.CanUndo)
+      {
+        History.Undo();
+        UpdateGranitXDocument();
+        ReCreateAdapter();
+      }
+    }
+
+    internal void History_Redo()
+    {
+      if (History.CanRedo)
+      {
+        History.Redo();
+        UpdateGranitXDocument();
+        ReCreateAdapter();
       }
     }
   }
