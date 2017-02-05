@@ -69,7 +69,7 @@ namespace GenericUndoRedo
         /// Being able to restore its own state, undo can be implemented using an undo stack. But that's not enough for implementing redo. 
         /// The returned inverse memento is the key to support redo.
         /// </remarks>
-        IMemento<T> Restore(T target);
+        IMemento<T> Restore(ref T target);
 		
 	}
 

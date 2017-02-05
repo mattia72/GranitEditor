@@ -19,12 +19,12 @@ namespace GranitXMLEditor
 
     public Transaction Transaction { get; set; }
 
-    public bool IsActive
+    public bool IsSelected
     {
       get { return (Transaction.IsSelected); }
       set
       {
-        UpdateGranitXDocument(Constants.Active, value.ToString().ToLower());
+        UpdateGranitXDocument(Constants.IsSelected, value.ToString().ToLower());
         Transaction.IsSelected = value;
         Debug.WriteLine("IsActiv property set to {0} for T id:{1}", value, Transaction.TransactionId);
       }
@@ -146,7 +146,7 @@ namespace GranitXMLEditor
 
       switch (field)
       {
-        case Constants.Active:
+        case Constants.IsSelected:
           xt.Attribute(Constants.TransactionSelectedAttribute).Value = value;
           break;
         case Constants.Originator:

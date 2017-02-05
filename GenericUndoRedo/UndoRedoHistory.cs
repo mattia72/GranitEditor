@@ -272,7 +272,7 @@ namespace GenericUndoRedo
 
             inUndoRedo = true;
             IMemento<T> top = undoStack.Pop();
-            redoStack.Push(top.Restore(subject));
+            redoStack.Push(top.Restore(ref subject));
             inUndoRedo = false;
         }
 
@@ -288,7 +288,7 @@ namespace GenericUndoRedo
 
             inUndoRedo = true;
             IMemento<T> top = redoStack.Pop();
-            undoStack.Push(top.Restore(subject));
+            undoStack.Push(top.Restore(ref subject));
             inUndoRedo = false;
         }
 

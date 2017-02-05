@@ -46,7 +46,7 @@ namespace GranitXMLEditor
       History?.Do(new AddTransactionMemento());
       XElement transactionXelem = new TransactionXElementParser().ParsedElement;
       GranitXDocument.Root.Add(transactionXelem);
-      LoadObjectFromXElement(transactionXelem);
+      CreateObjectFromXElement(transactionXelem);
       return ReCreateAdapter();
     }
 
@@ -63,7 +63,7 @@ namespace GranitXMLEditor
         new RemoveTransactionMemento(rowIndex, 
         HUFTransaction.Transactions.Where(t => t.TransactionId == transactionId ).FirstOrDefault()));
 
-      HUFTransactionsAdapter.Transactions.RemoveAll(t => t.TransactionId == transactionId);
+      HUFTransactionsAdapter.TransactionAdapters.RemoveAll(t => t.TransactionId == transactionId);
       HUFTransaction.Transactions.RemoveAll(t => t.TransactionId == transactionId);
       GranitXDocument.Root.Elements(Constants.Transaction)
         .Where(t => t.Attribute(Constants.TransactionIdAttribute).Value == transactionId.ToString()).Remove();
@@ -74,7 +74,7 @@ namespace GranitXMLEditor
       History.Do(new AddTransactionMemento());
       XElement transactionXelem = new TransactionXElementParser(ta).ParsedElement;
       GranitXDocument.Root.Add(transactionXelem);
-      LoadObjectFromXElement(transactionXelem);
+      CreateObjectFromXElement(transactionXelem);
       return ReCreateAdapter();
     }
 
@@ -95,7 +95,7 @@ namespace GranitXMLEditor
       return (HUFTransaction)ser.Deserialize(xml.CreateReader());
     }
 
-    private void LoadObjectFromXElement(XElement xml)
+    private void CreateObjectFromXElement(XElement xml)
     {
       var ser = new XmlSerializer(typeof(Transaction));
       Transaction t = (Transaction)ser.Deserialize(xml.CreateReader());
@@ -132,7 +132,8 @@ namespace GranitXMLEditor
       var xDocToSave = new XDocument(new XElement(Constants.HUFTransactions));
 
       foreach (var item in GranitXDocument.Root.Elements().
-        Where(x => x.Attribute(Constants.TransactionSelectedAttribute) == null || x.Attribute(Constants.TransactionSelectedAttribute).Value == "true"))
+        Where(x => x.Attribute(Constants.TransactionSelectedAttribute) == null || 
+        x.Attribute(Constants.TransactionSelectedAttribute).Value == "true"))
       {
         RemoveTransactionAttributes(item);
         xDocToSave.Root.Add(RemoveAllNamespaces(item));
@@ -162,14 +163,9 @@ namespace GranitXMLEditor
 
     public void Sort(string columnHeaderText, SortOrder sortOrder)
     {
-      //History.BeginCompoundDo();
-      //foreach (Transaction t in _xmlToObject.HUFTransaction.Transactions)
-      //{
-      //  History.Do(new RemoveTransactionMemento(t));
-      //}
       switch (columnHeaderText)
       {
-        case Constants.Active:
+        case Constants.IsSelected:
           GranitXDocument.SortElementsByXPathEvaluate(Constants.Transaction, "/@" + Constants.TransactionIdAttribute, 
             sortOrder);
           break;
@@ -203,21 +199,19 @@ namespace GranitXMLEditor
           GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
             Constants.RemittanceInfo + "/" + Constants.Text, sortOrder);
           break;
-
-      //foreach (Transaction t in _xmlToObject.HUFTransaction.Transactions)
-      //{
-      //  History.Do(new AddTransactionMemento());
-      //}
-      //History.EndCompoundDo();
-
       }
+      //History.BeginCompoundDo();
+      //HUFTransaction.Transactions.ForEach(x => History.Do(new RemoveTransactionMemento(x)));
+      //HUFTransaction = CreateObjectFromXDocument(GranitXDocument);
+      //HUFTransaction.Transactions.ForEach(x => History.Do(new AddTransactionMemento()));
+      //History.EndCompoundDo();
     }
 
     private TransactionAdapter ReCreateAdapter()
     {
       HUFTransactionsAdapter = new HUFTransactionsAdapter(HUFTransaction, GranitXDocument);
       HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;
-      var ts = HUFTransactionsAdapter.Transactions;
+      var ts = HUFTransactionsAdapter.TransactionAdapters;
       if (ts.Count != 0)
       {
         // return with the largest TransactionId

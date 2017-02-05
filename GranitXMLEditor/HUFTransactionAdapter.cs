@@ -8,7 +8,7 @@ namespace GranitXMLEditor
   public class HUFTransactionsAdapter : INotifyPropertyChanged
   {
     private HUFTransaction HUFTransactions { get; set; }
-    public List<TransactionAdapter> Transactions { get; set; }
+    public List<TransactionAdapter> TransactionAdapters { get; set; }
     public event PropertyChangedEventHandler PropertyChanged;
 
     public HUFTransactionsAdapter(HUFTransaction ht, XDocument xdoc)
@@ -19,12 +19,12 @@ namespace GranitXMLEditor
     public void CreateAdaptersForTransactions(HUFTransaction ht, XDocument xdoc)
     {
       HUFTransactions = ht;
-      Transactions = ht.Transactions.Select(x => new TransactionAdapter(x, xdoc)).ToList();
+      TransactionAdapters = ht.Transactions.Select(x => new TransactionAdapter(x, xdoc)).ToList();
     }
 
     public void Sort(IComparer<TransactionAdapter> comparer)
     {
-      Transactions.Sort(comparer);
+      TransactionAdapters.Sort(comparer);
 
       OnPropertyChanged("Transactions");
     }

@@ -7,9 +7,41 @@ namespace GranitXMLEditor
   {
     #region IMemento<List<Transaction>> Members
 
-    public abstract IMemento<List<Transaction>> Restore(List<Transaction> target);
+    public abstract IMemento<List<Transaction>> Restore(ref List<Transaction> target);
 
     #endregion
+  }
+
+  class UnSortTransactionMemento : TransactionMemento
+  {
+    List<Transaction>  sorted;
+    public UnSortTransactionMemento(List<Transaction> itemList)
+    {
+      sorted = itemList;
+    }
+
+    public override IMemento<List<Transaction>> Restore(ref List<Transaction> target)
+    {
+      IMemento<List<Transaction>> inverse = new SortTransactionMemento(sorted);
+      target = sorted;
+      return inverse;
+    }
+  }
+
+  class SortTransactionMemento : TransactionMemento
+  {
+    List<Transaction>  unsorted;
+    public SortTransactionMemento(List<Transaction> items)
+    {
+      unsorted = items;
+    }
+
+    public override IMemento<List<Transaction>> Restore(ref List<Transaction> target)
+    {
+      IMemento<List<Transaction>> inverse = new UnSortTransactionMemento(unsorted);
+      target = unsorted;
+      return inverse;
+    }
   }
 
   class InsertTransactionMemento : TransactionMemento
@@ -20,7 +52,7 @@ namespace GranitXMLEditor
       this.index = index;
     }
 
-    public override IMemento<List<Transaction>> Restore(List<Transaction> target)
+    public override IMemento<List<Transaction>> Restore(ref List<Transaction> target)
     {
       Transaction removed = target[index];
       IMemento<List<Transaction>> inverse = new RemoveTransactionMemento(index, removed);
@@ -46,7 +78,7 @@ namespace GranitXMLEditor
       this.removed = item;
     }
 
-    public override IMemento<List<Transaction>> Restore(List<Transaction> target)
+    public override IMemento<List<Transaction>> Restore(ref List<Transaction> target)
     {
       IMemento<List<Transaction>> inverse = null; 
       if (index != null)
@@ -69,7 +101,7 @@ namespace GranitXMLEditor
     {
     }
 
-    public override IMemento<List<Transaction>> Restore(List<Transaction> target)
+    public override IMemento<List<Transaction>> Restore(ref List<Transaction> target)
     {
       int index = target.Count - 1;
       IMemento<List<Transaction>> inverse = new RemoveTransactionMemento(index, target[index]);

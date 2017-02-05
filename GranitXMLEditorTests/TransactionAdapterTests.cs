@@ -19,7 +19,7 @@ namespace GranitXMLEditor.Tests
       FillTransactionAdapter(out xt, out ta);
 
       //Act
-      ta.IsActive = true;
+      ta.IsSelected = true;
       ta.Amount = 999.99m;
       ta.BeneficiaryAccount = "999999998888888877777777";
       ta.BeneficiaryName = "James Bond";
@@ -29,7 +29,7 @@ namespace GranitXMLEditor.Tests
       ta.RemittanceInfo = "szöveg|szöveg|megint szöveg";
 
       Assert.AreEqual(xt.Root.Element(Constants.Transaction).Attribute(Constants.TransactionSelectedAttribute).Value.ToLower(),
-        ta.IsActive.ToString().ToLower());
+        ta.IsSelected.ToString().ToLower());
       Assert.AreEqual(xt.Root.Element(Constants.Transaction).Element(Constants.Amount).Value,
         ta.Amount.ToString(Constants.AmountFormatString, CultureInfo.InvariantCulture));
       Assert.AreEqual(xt.Root.Element(Constants.Transaction).Element(Constants.Beneficiary).Element(Constants.Account).Element(Constants.AccountNumber).Value,

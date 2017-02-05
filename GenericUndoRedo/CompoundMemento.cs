@@ -65,27 +65,27 @@ namespace GenericUndoRedo
         #region IMemento Members
 
         /// <summary>
-        /// Implicity implememntation of <see cref="IMemento&lt;T&gt;.Restore(T)"/>, which returns <see cref="CompoundMemento&lt;T&gt;"/>
+        /// Implicity implememntation of <see cref="IMemento&lt;T&gt;.Restore(ref T)"/>, which returns <see cref="CompoundMemento&lt;T&gt;"/>
         /// </summary>
         /// <param name="target"></param>
         /// <returns></returns>
-        public CompoundMemento<T> Restore(T target)
+        public CompoundMemento<T> Restore(ref T target)
         {
             CompoundMemento<T> inverse = new CompoundMemento<T>();
             //starts from the last action
             for (int i = mementos.Count - 1; i >= 0; i--)
-                inverse.Add(mementos[i].Restore(target));
+                inverse.Add(mementos[i].Restore(ref target));
             return inverse;
         }
 
         /// <summary>
-        /// Explicity implememntation of <see cref="IMemento&lt;T&gt;.Restore(T)"/>
+        /// Explicity implememntation of <see cref="IMemento&lt;T&gt;.Restore(ref T)"/>
         /// </summary>
         /// <param name="target"></param>
         /// <returns></returns>
-        IMemento<T> IMemento<T>.Restore(T target)
+        IMemento<T> IMemento<T>.Restore(ref T target)
         {
-            return Restore(target);
+            return Restore(ref target);
         }
 
         #endregion

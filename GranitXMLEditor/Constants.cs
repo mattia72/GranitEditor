@@ -6,7 +6,7 @@
     public const string HUFTransactions = "HUFTransactions";
     public const string Account = "Account";
     public const string AccountNumber = "AccountNumber";
-    public const string Active = "Active";
+    public const string IsSelected = "Active";
     public const string Originator = "Originator";
     public const string Beneficiary = "Beneficiary";
     public const string Name = "Name";

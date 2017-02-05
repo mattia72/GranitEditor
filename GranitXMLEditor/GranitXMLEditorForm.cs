@@ -50,9 +50,8 @@ namespace GranitXMLEditor
 
     private void SetTextResources()
     {
-      isActiveDataGridViewCheckBoxColumn.HeaderText = Resources.IsActiveHeaderText;
+      isSelectedDataGridViewCheckBoxColumn.HeaderText = Resources.IsActiveHeaderText;
       originatorDataGridViewTextBoxColumn.HeaderText = Resources.OriginatorHeaderText;
-      //originatorDataGridViewTextBoxColumn.
       beneficiaryNameDataGridViewTextBoxColumn.HeaderText = Resources.BeneficiaryNameHeader;
       beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = Resources.BeneficiaryAccountHeader;
       amountDataGridViewTextBoxColumn.HeaderText = Resources.AmountHeaderText;
@@ -129,7 +128,7 @@ namespace GranitXMLEditor
       long? transactionIdTodelete = null;
       if (dataGridView1.Rows.Count > e.RowIndex)
       {
-         transactionIdTodelete = _xmlToObjectBinder.HUFTransactionsAdapter.Transactions.
+         transactionIdTodelete = _xmlToObjectBinder.HUFTransactionsAdapter.TransactionAdapters.
           Where(x => GetRow(x.TransactionId) == null).FirstOrDefault()?.TransactionId;
       }
 
@@ -360,7 +359,7 @@ namespace GranitXMLEditor
 
     public void RebindBindingList()
     {
-      _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObjectBinder.HUFTransactionsAdapter.Transactions);
+      _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObjectBinder.HUFTransactionsAdapter.TransactionAdapters);
       dataGridView1.DataSource = _bindingList;
       if (_bindingList.RaiseListChangedEvents)
         _bindingList.ListChanged += _bindingList_ListChanged;
