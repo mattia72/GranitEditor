@@ -9,7 +9,6 @@ namespace GranitXMLEditor
 {
   public class GranitXmlToAdapterBinder : IGranitXDocumentOwner
   {
-    //public HUFTransaction HUFTransaction { get; private set; }
     public HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
     public XDocument GranitXDocument { get; set; }
     public UndoRedoHistory<IGranitXDocumentOwner> History { get; set; }
@@ -132,6 +131,8 @@ namespace GranitXMLEditor
 
     public void Sort(string columnHeaderText, SortOrder sortOrder)
     {
+      History?.Do(new TransactionPoolMemento(GranitXDocument));
+
       switch (columnHeaderText)
       {
         case Constants.IsSelected:

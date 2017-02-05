@@ -106,7 +106,7 @@
     <Compile Include="TransactionXElement.cs" />
     <Compile Include="XDocumentExtension.cs" />
     <Compile Include="HUFTransaction.cs" />
-    <Compile Include="GranitXmlToObjectBinder.cs" />
+    <Compile Include="GranitXmlToAdapterBinder.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
