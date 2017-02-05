@@ -32,6 +32,12 @@ namespace GranitXMLEditor
       History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
     }
 
+    private void HUFTransactionsAdapter_PropertyChanging(object sender, System.ComponentModel.PropertyChangingEventArgs e)
+    {
+      History?.Do(new TransactionPoolMemento(GranitXDocument));
+      Debug.WriteLine("Property changing:" + e.PropertyName);
+    }
+
     private void HUFTransactionsAdapter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
       Debug.WriteLine("Property changed:" + e.PropertyName);
@@ -163,17 +169,13 @@ namespace GranitXMLEditor
             Constants.RemittanceInfo + "/" + Constants.Text, sortOrder);
           break;
       }
-      //History.BeginCompoundDo();
-      //HUFTransaction.Transactions.ForEach(x => History.Do(new RemoveTransactionMemento(x)));
-      //HUFTransaction = CreateObjectFromXDocument(GranitXDocument);
-      //HUFTransaction.Transactions.ForEach(x => History.Do(new AddTransactionMemento()));
-      //History.EndCompoundDo();
     }
 
     private TransactionAdapter ReCreateAdapter()
     {
       HUFTransactionsAdapter = new HUFTransactionsAdapter(GranitXDocument);
       HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;
+      HUFTransactionsAdapter.PropertyChanging += HUFTransactionsAdapter_PropertyChanging;
       var ts = HUFTransactionsAdapter.TransactionAdapters;
       if (ts.Count != 0)
       {

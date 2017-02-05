@@ -359,6 +359,8 @@ namespace GranitXMLEditor
 
     public void RebindBindingList()
     {
+      if(dataGridView1.IsCurrentCellInEditMode)
+        dataGridView1.CancelEdit();
       _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObjectBinder.HUFTransactionsAdapter.TransactionAdapters);
       dataGridView1.DataSource = _bindingList;
       if (_bindingList.RaiseListChangedEvents)

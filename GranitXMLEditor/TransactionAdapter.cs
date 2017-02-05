@@ -14,7 +14,8 @@ namespace GranitXMLEditor
     IComparable<TransactionAdapter>,
     IBindable<XElement>, 
     ICloneable,
-    INotifyPropertyChanged
+    INotifyPropertyChanged,
+    INotifyPropertyChanging
   {
 
     public Transaction Transaction { get; set; }
@@ -125,6 +126,13 @@ namespace GranitXMLEditor
       GranitXDocument = xdoc;
     }
 
+    public event PropertyChangingEventHandler PropertyChanging;
+
+    protected void OnPropertyChanging(string propertyName)
+    {
+      PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     protected void OnPropertyChanged(string propertyName)
@@ -144,6 +152,7 @@ namespace GranitXMLEditor
       if (xt == null)
         throw new InvalidOperationException("No XElement binded with this adapter.");
 
+      OnPropertyChanging(field);
       switch (field)
       {
         case Constants.IsSelected:
