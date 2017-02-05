@@ -25,30 +25,6 @@ namespace GranitXMLEditor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SortedColumn {
-            get {
-                return ((string)(this["SortedColumn"]));
-            }
-            set {
-                this["SortedColumn"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("None")]
-        public global::System.Windows.Forms.SortOrder SortOrder {
-            get {
-                return ((global::System.Windows.Forms.SortOrder)(this["SortOrder"]));
-            }
-            set {
-                this["SortOrder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("None")]
         public global::System.Windows.Forms.DataGridViewAutoSizeColumnsMode AlignTable {
             get {

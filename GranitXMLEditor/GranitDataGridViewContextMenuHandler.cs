@@ -9,10 +9,10 @@ namespace GranitXMLEditor
   {
     private ContextMenuStrip _contextMenuStrip;
     private DataGridView _dataGridView;
-    private GranitXmlToObjectBinder _xmlToObject;
+    private GranitXmlToAdapterBinder _xmlToObject;
     private int? _currentMouseOverRow = null;
 
-    public GranitDataGridViewContextMenuHandler(DataGridView dgv, ContextMenuStrip contextMenuStrip, GranitXmlToObjectBinder xml2Obj)
+    public GranitDataGridViewContextMenuHandler(DataGridView dgv, ContextMenuStrip contextMenuStrip, GranitXmlToAdapterBinder xml2Obj)
     {
       _contextMenuStrip = contextMenuStrip;
       _dataGridView = dgv;

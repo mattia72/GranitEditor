@@ -1,39 +1,35 @@
-﻿using System.Xml.Serialization;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using System.Linq;
 using System.Windows.Forms;
-using System;
 using System.Diagnostics;
 using GenericUndoRedo;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System;
 
 namespace GranitXMLEditor
 {
-  public class GranitXmlToObjectBinder
+  public class GranitXmlToAdapterBinder : IGranitXDocumentOwner
   {
-    public HUFTransaction HUFTransaction { get; private set; }
+    //public HUFTransaction HUFTransaction { get; private set; }
     public HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
-    public XDocument GranitXDocument { get; private set; }
+    public XDocument GranitXDocument { get; set; }
+    public UndoRedoHistory<IGranitXDocumentOwner> History { get; set; }
 
-    public UndoRedoHistory<List<Transaction>> History { get; set; }
-
-    public GranitXmlToObjectBinder()
+    public GranitXmlToAdapterBinder()
     {
       GranitXDocument = new XDocument();
       GranitXDocument.Add(new XElement(Constants.HUFTransactions));
-      HUFTransaction = new HUFTransaction();
+      //HUFTransaction = new HUFTransaction();
       ReCreateAdapter();
-      History = new UndoRedoHistory<List<Transaction>>(HUFTransaction.Transactions);
+      History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
     }
 
-    public GranitXmlToObjectBinder(string xmlFilePath) 
+    public GranitXmlToAdapterBinder(string xmlFilePath) 
     {
       GranitXDocument = XDocument.Load(xmlFilePath);
-      HUFTransaction = CreateObjectFromXDocument(GranitXDocument);
+      //HUFTransaction = CreateObjectFromXDocument(GranitXDocument);
       SetTransactionIdAttribute();
       ReCreateAdapter();
-      History = new UndoRedoHistory<List<Transaction>>(HUFTransaction.Transactions);
+      History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
     }
 
     private void HUFTransactionsAdapter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -43,73 +39,40 @@ namespace GranitXMLEditor
 
     public TransactionAdapter AddEmptyTransactionRow()
     {
-      History?.Do(new AddTransactionMemento());
+      History?.Do(new TransactionPoolMemento(GranitXDocument));
+
       XElement transactionXelem = new TransactionXElementParser().ParsedElement;
       GranitXDocument.Root.Add(transactionXelem);
-      CreateObjectFromXElement(transactionXelem);
       return ReCreateAdapter();
-    }
-
-    public Transaction GetTransactionById(long transactionId)
-    {
-      return HUFTransaction.Transactions.Where(t => t.TransactionId == transactionId).FirstOrDefault();
     }
 
     public void RemoveTransactionRowById( long transactionId, int rowIndex)
     {
       Debug.WriteLine("Remove transactionId: " + transactionId + " from index: " + rowIndex);
 
-      History.Do(
-        new RemoveTransactionMemento(rowIndex, 
-        HUFTransaction.Transactions.Where(t => t.TransactionId == transactionId ).FirstOrDefault()));
+      History?.Do(new TransactionPoolMemento(GranitXDocument));
 
       HUFTransactionsAdapter.TransactionAdapters.RemoveAll(t => t.TransactionId == transactionId);
-      HUFTransaction.Transactions.RemoveAll(t => t.TransactionId == transactionId);
       GranitXDocument.Root.Elements(Constants.Transaction)
         .Where(t => t.Attribute(Constants.TransactionIdAttribute).Value == transactionId.ToString()).Remove();
     }
 
     public TransactionAdapter AddTransactionRow(TransactionAdapter ta)
     {
-      History.Do(new AddTransactionMemento());
+
+      History?.Do(new TransactionPoolMemento(GranitXDocument));
+
       XElement transactionXelem = new TransactionXElementParser(ta).ParsedElement;
       GranitXDocument.Root.Add(transactionXelem);
-      CreateObjectFromXElement(transactionXelem);
       return ReCreateAdapter();
-    }
-
-    public void UpdateGranitXDocument()
-    {
-      XDocument xml = new XDocument();
-      using (var writer = xml.CreateWriter())
-      {
-        var ser = new XmlSerializer(HUFTransaction.GetType());
-        ser.Serialize(writer, HUFTransaction);
-      }
-      GranitXDocument = xml;
-    }
-
-    private HUFTransaction CreateObjectFromXDocument(XDocument xml)
-    {
-      var ser = new XmlSerializer(typeof(HUFTransaction));
-      return (HUFTransaction)ser.Deserialize(xml.CreateReader());
-    }
-
-    private void CreateObjectFromXElement(XElement xml)
-    {
-      var ser = new XmlSerializer(typeof(Transaction));
-      Transaction t = (Transaction)ser.Deserialize(xml.CreateReader());
-      HUFTransaction.Transactions.Add(t);
-      AddDefaultAttributes(t.TransactionId, xml);
     }
 
     private void SetTransactionIdAttribute()
     {
-      int index = 0;
+      int index = 1;
       foreach (var item in GranitXDocument.Root.Elements(Constants.Transaction).InDocumentOrder())
       {
-        AddDefaultAttributes(HUFTransaction.Transactions[index].TransactionId, item);
-        index++;
+        AddDefaultAttributes(index++, item);
       }
     }
 
@@ -209,7 +172,7 @@ namespace GranitXMLEditor
 
     private TransactionAdapter ReCreateAdapter()
     {
-      HUFTransactionsAdapter = new HUFTransactionsAdapter(HUFTransaction, GranitXDocument);
+      HUFTransactionsAdapter = new HUFTransactionsAdapter(GranitXDocument);
       HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;
       var ts = HUFTransactionsAdapter.TransactionAdapters;
       if (ts.Count != 0)
@@ -228,7 +191,6 @@ namespace GranitXMLEditor
       if (History.CanUndo)
       {
         History.Undo();
-        UpdateGranitXDocument();
         ReCreateAdapter();
       }
     }
@@ -238,7 +200,6 @@ namespace GranitXMLEditor
       if (History.CanRedo)
       {
         History.Redo();
-        UpdateGranitXDocument();
         ReCreateAdapter();
       }
     }

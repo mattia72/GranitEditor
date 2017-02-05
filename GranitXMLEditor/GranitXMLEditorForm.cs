@@ -12,9 +12,9 @@ namespace GranitXMLEditor
 {
   public partial class GranitXMLEditorForm : Form
   {
-    private GranitXmlToObjectBinder _xmlToObjectBinder;
-    private OpenFileDialog _openFileDialog1;
-    private SaveFileDialog _saveFileDialog1;
+    private GranitXmlToAdapterBinder _xmlToObjectBinder;
+    private OpenFileDialog _openFileDialog;
+    private SaveFileDialog _saveFileDialog;
     private AboutBox _aboutBox;
     private FindReplaceDlg _findReplaceDlg;
     private string _lastOpenedFilePath;
@@ -23,7 +23,6 @@ namespace GranitXMLEditor
     private EnumStripMenu<DataGridViewAutoSizeColumnsMode> _autoSizeMenu;
     private GranitDataGridViewCellValidator _cellVallidator;
     private GranitDataGridViewContextMenuHandler _contextMenuHandler;
-    private TransactionPool _transactionPool = new TransactionPool();
     private SortableBindingList<TransactionAdapter> _bindingList;
 
     //private UndoRedoHistory<TransactionPool> _history;
@@ -99,14 +98,14 @@ namespace GranitXMLEditor
 
     private void ApplySettings()
     {
-      if (!string.IsNullOrEmpty(Settings.Default.SortedColumn))
-      {
-        DataGridViewColumn sortedColumn = FindColumnByHeaderText(Settings.Default.SortedColumn);
-        dataGridView1.Sort(sortedColumn,
-          Settings.Default.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
-        sortedColumn.HeaderCell.SortGlyphDirection = 
-          Settings.Default.SortOrder == SortOrder.Ascending ? SortOrder.Ascending : SortOrder.Descending;
-      }
+      //if (!string.IsNullOrEmpty(Settings.Default.SortedColumn))
+      //{
+      //  DataGridViewColumn sortedColumn = FindColumnByHeaderText(Settings.Default.SortedColumn);
+      //  dataGridView1.Sort(sortedColumn,
+      //    Settings.Default.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
+      //  sortedColumn.HeaderCell.SortGlyphDirection = 
+      //    Settings.Default.SortOrder == SortOrder.Ascending ? SortOrder.Ascending : SortOrder.Descending;
+      //}
       if (Settings.Default.AlignTable != 0)
       {
         dataGridView1.AutoSizeColumnsMode = Settings.Default.AlignTable;
@@ -152,8 +151,8 @@ namespace GranitXMLEditor
 
     private void SaveSettings()
     {
-      Settings.Default.SortedColumn = dataGridView1.SortedColumn != null ? dataGridView1.SortedColumn.HeaderText : "";
-      Settings.Default.SortOrder = dataGridView1.SortOrder;
+      //Settings.Default.SortedColumn = dataGridView1.SortedColumn != null ? dataGridView1.SortedColumn.HeaderText : "";
+      //Settings.Default.SortOrder = dataGridView1.SortOrder;
       Settings.Default.AlignTable = dataGridView1.AutoSizeColumnsMode;
       Settings.Default.LastOpenedFilePath = LastOpenedFilePath;
       if (Settings.Default.RecentFileList != null)
@@ -177,14 +176,14 @@ namespace GranitXMLEditor
 
     private void OpenGranitXmlFile()
     {
-      _openFileDialog1 = _openFileDialog1 == null ? new OpenFileDialog() : _openFileDialog1;
-      _openFileDialog1.InitialDirectory = Application.StartupPath;
-      _openFileDialog1.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-      _openFileDialog1.FilterIndex = 2;
-      _openFileDialog1.RestoreDirectory = true;
+      _openFileDialog = _openFileDialog == null ? new OpenFileDialog() : _openFileDialog;
+      _openFileDialog.InitialDirectory = Application.StartupPath;
+      _openFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+      _openFileDialog.FilterIndex = 2;
+      _openFileDialog.RestoreDirectory = true;
 
-      if (_openFileDialog1.ShowDialog() == DialogResult.OK)
-        LoadDocument(_openFileDialog1.FileName);
+      if (_openFileDialog.ShowDialog() == DialogResult.OK)
+        LoadDocument(_openFileDialog.FileName);
     }
 
     private string GetFileNameToSaveByOpeningSaveFileDialog()
@@ -192,14 +191,14 @@ namespace GranitXMLEditor
       string filename = null;
       if (_xmlToObjectBinder != null)
       {
-        _saveFileDialog1 = _saveFileDialog1 == null ? new SaveFileDialog() : _saveFileDialog1;
-        _saveFileDialog1.InitialDirectory = Application.StartupPath;
-        _saveFileDialog1.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-        _saveFileDialog1.FilterIndex = 2;
-        _saveFileDialog1.RestoreDirectory = true;
+        _saveFileDialog = _saveFileDialog == null ? new SaveFileDialog() : _saveFileDialog;
+        _saveFileDialog.InitialDirectory = Application.StartupPath;
+        _saveFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+        _saveFileDialog.FilterIndex = 2;
+        _saveFileDialog.RestoreDirectory = true;
 
-        if (_saveFileDialog1.ShowDialog() == DialogResult.OK)
-          filename = _saveFileDialog1.FileName;
+        if (_saveFileDialog.ShowDialog() == DialogResult.OK)
+          filename = _saveFileDialog.FileName;
       }
       return filename;
     }
@@ -214,7 +213,7 @@ namespace GranitXMLEditor
 
     private void LoadDocument(string xmlFilePath)
     {
-      _xmlToObjectBinder = new GranitXmlToObjectBinder(xmlFilePath);
+      _xmlToObjectBinder = new GranitXmlToAdapterBinder(xmlFilePath);
       RebindBindingList();
       LastOpenedFilePath = xmlFilePath;
       _docHasPendingChanges = false;
@@ -231,6 +230,7 @@ namespace GranitXMLEditor
       string headerText = dataGridView1.Columns[e.ColumnIndex].HeaderText;
 
       _cellVallidator.Validate(ref e, headerText);
+
     }
 
     //Transaction beginEditTrans=null;
@@ -372,7 +372,7 @@ namespace GranitXMLEditor
 
     private void OpenNewDocument()
     {
-      _xmlToObjectBinder = new GranitXmlToObjectBinder();
+      _xmlToObjectBinder = new GranitXmlToAdapterBinder();
       LastOpenedFilePath = string.Empty;
       RebindBindingList();
     }

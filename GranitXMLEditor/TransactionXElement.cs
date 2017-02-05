@@ -39,6 +39,5 @@ namespace GranitXMLEditor
       }
       return xml.Root;
     }
-
   }
 }                                                                     

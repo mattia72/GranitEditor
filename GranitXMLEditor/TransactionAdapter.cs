@@ -119,7 +119,7 @@ namespace GranitXMLEditor
       Transaction = new Transaction();
     }
 
-    public TransactionAdapter(Transaction t, XDocument xdoc)
+    public TransactionAdapter(Transaction t, System.Xml.Linq.XDocument xdoc)
     {                                
       Transaction = t;
       GranitXDocument = xdoc;
@@ -181,7 +181,7 @@ namespace GranitXMLEditor
     {
       if (x == null) return 1;
 
-      var serializer = new XmlSerializer(typeof(Transaction));
+      var serializer = new XmlSerializer(typeof(XDocument));
       var other = (Transaction)serializer.Deserialize(x.CreateReader());
 
       return CompareTo(other);

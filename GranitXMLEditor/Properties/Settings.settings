@@ -2,12 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GranitXMLEditor.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="SortedColumn" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="SortOrder" Type="System.Windows.Forms.SortOrder" Scope="User">
-      <Value Profile="(Default)">None</Value>
-    </Setting>
     <Setting Name="AlignTable" Type="System.Windows.Forms.DataGridViewAutoSizeColumnsMode" Scope="User">
       <Value Profile="(Default)">None</Value>
     </Setting>

@@ -1,5 +1,8 @@
 ﻿using GenericUndoRedo;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Linq;
 
 namespace GranitXMLEditor
 {
@@ -14,7 +17,7 @@ namespace GranitXMLEditor
 
   class UnSortTransactionMemento : TransactionMemento
   {
-    List<Transaction>  sorted;
+    List<Transaction> sorted;
     public UnSortTransactionMemento(List<Transaction> itemList)
     {
       sorted = itemList;
@@ -30,7 +33,7 @@ namespace GranitXMLEditor
 
   class SortTransactionMemento : TransactionMemento
   {
-    List<Transaction>  unsorted;
+    List<Transaction> unsorted;
     public SortTransactionMemento(List<Transaction> items)
     {
       unsorted = items;
@@ -80,7 +83,7 @@ namespace GranitXMLEditor
 
     public override IMemento<List<Transaction>> Restore(ref List<Transaction> target)
     {
-      IMemento<List<Transaction>> inverse = null; 
+      IMemento<List<Transaction>> inverse = null;
       if (index != null)
       {
         inverse = new InsertTransactionMemento((int)index);
@@ -108,5 +111,27 @@ namespace GranitXMLEditor
       target.RemoveAt(target.Count - 1);
       return inverse;
     }
+  }
+
+  class TransactionPoolMemento : IMemento<IGranitXDocumentOwner>
+  {
+    XDocument _memento;
+
+    public TransactionPoolMemento(XDocument memento)
+    {
+      _memento = new XDocument(memento);
+    }
+
+    #region IMemento<IXDocumentOwner> Members
+
+    public IMemento<IGranitXDocumentOwner> Restore(ref IGranitXDocumentOwner target)
+    {
+      IMemento<IGranitXDocumentOwner> inverse = new TransactionPoolMemento(target.GranitXDocument);
+
+      target.GranitXDocument = _memento;
+      return inverse;
+    }
+
+    #endregion
   }
 }

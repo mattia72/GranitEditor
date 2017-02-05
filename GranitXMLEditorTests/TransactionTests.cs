@@ -25,9 +25,9 @@ namespace GranitXMLEditor.Tests
     public void CompareTo_Originator_NotEqual_Test()
     {
       //arrange
-      var xt1 = XDocument.Parse(TestConstants.TransactionXml);
+      var xt1 = System.Xml.Linq.XDocument.Parse(TestConstants.TransactionXml);
       var transactionXml2 = TestConstants.TransactionXml.Replace("11111111", "99999999");
-      var xt2 = XDocument.Parse(transactionXml2);
+      var xt2 = System.Xml.Linq.XDocument.Parse(transactionXml2);
 
       var ser = new XmlSerializer(typeof(Transaction));
       Transaction t1 = (Transaction)ser.Deserialize(xt1.CreateReader());
@@ -41,9 +41,9 @@ namespace GranitXMLEditor.Tests
     public void CompareTo_Beneficiary_NotEqual_Test()
     {
       //arrange
-      var xt1 = XDocument.Parse(TestConstants.TransactionXml);
+      var xt1 = System.Xml.Linq.XDocument.Parse(TestConstants.TransactionXml);
       var transactionXml2 = TestConstants.TransactionXml.Replace("Gipsz", "Tusko");
-      var xt2 = XDocument.Parse(transactionXml2);
+      var xt2 = System.Xml.Linq.XDocument.Parse(transactionXml2);
 
       var ser = new XmlSerializer(typeof(Transaction));
       Transaction t1 = (Transaction)ser.Deserialize(xt1.CreateReader());
@@ -57,9 +57,9 @@ namespace GranitXMLEditor.Tests
     public void CompareTo_BeneficiaryAccount_NotEqual_Test()
     {
       //arrange
-      var xt1 = XDocument.Parse(TestConstants.TransactionXml);
+      var xt1 = System.Xml.Linq.XDocument.Parse(TestConstants.TransactionXml);
       var transactionXml2 = TestConstants.TransactionXml.Replace("33333333", "99999999");
-      var xt2 = XDocument.Parse(transactionXml2);
+      var xt2 = System.Xml.Linq.XDocument.Parse(transactionXml2);
 
       var ser = new XmlSerializer(typeof(Transaction));
       Transaction t1 = (Transaction)ser.Deserialize(xt1.CreateReader());
@@ -73,9 +73,9 @@ namespace GranitXMLEditor.Tests
     public void CompareTo_AmountCurrency_NotEqual_Test()
     {
       //arrange
-      var xt1 = XDocument.Parse(TestConstants.TransactionXml);
+      var xt1 = System.Xml.Linq.XDocument.Parse(TestConstants.TransactionXml);
       var transactionXml2 = TestConstants.TransactionXml.Replace("HUF", "EUR");
-      var xt2 = XDocument.Parse(transactionXml2);
+      var xt2 = System.Xml.Linq.XDocument.Parse(transactionXml2);
 
       var ser = new XmlSerializer(typeof(Transaction));
       Transaction t1 = (Transaction)ser.Deserialize(xt1.CreateReader());
@@ -89,9 +89,9 @@ namespace GranitXMLEditor.Tests
     public void CompareTo_Amount_NotEqual_Test()
     {
       //arrange
-      var xt1 = XDocument.Parse(TestConstants.TransactionXml);
+      var xt1 = System.Xml.Linq.XDocument.Parse(TestConstants.TransactionXml);
       var transactionXml2 = TestConstants.TransactionXml.Replace("1000.00", "1111.11");
-      var xt2 = XDocument.Parse(transactionXml2);
+      var xt2 = System.Xml.Linq.XDocument.Parse(transactionXml2);
 
       var ser = new XmlSerializer(typeof(Transaction));
       Transaction t1 = (Transaction)ser.Deserialize(xt1.CreateReader());

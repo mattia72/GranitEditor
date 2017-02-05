@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace GranitXMLEditor
 {
@@ -11,15 +12,27 @@ namespace GranitXMLEditor
     public List<TransactionAdapter> TransactionAdapters { get; set; }
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public HUFTransactionsAdapter(HUFTransaction ht, XDocument xdoc)
+    public HUFTransactionsAdapter(XDocument xdoc)
     {
-      CreateAdaptersForTransactions(ht, xdoc);
+      CreateAdaptersForTransactions(xdoc);
     }
 
-    public void CreateAdaptersForTransactions(HUFTransaction ht, XDocument xdoc)
+    public void CreateAdaptersForTransactions(XDocument xdoc)
     {
-      HUFTransactions = ht;
-      TransactionAdapters = ht.Transactions.Select(x => new TransactionAdapter(x, xdoc)).ToList();
+      HUFTransactions = CreateObjectFromXDocument(xdoc);
+      TransactionAdapters = HUFTransactions.Transactions.Select(x => new TransactionAdapter(x, xdoc)).ToList();
+    }
+    private HUFTransaction CreateObjectFromXDocument(XDocument xml)
+    {
+      var ser = new XmlSerializer(typeof(HUFTransaction));
+      return (HUFTransaction)ser.Deserialize(xml.CreateReader());
+    }
+
+    private void CreateObjectFromXElement(XElement xml)
+    {
+      var ser = new XmlSerializer(typeof(Transaction));
+      Transaction t = (Transaction)ser.Deserialize(xml.CreateReader());
+      HUFTransactions.Transactions.Add(t);
     }
 
     public void Sort(IComparer<TransactionAdapter> comparer)

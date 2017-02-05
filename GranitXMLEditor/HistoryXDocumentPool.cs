@@ -7,7 +7,7 @@ using System.Xml.Linq;
 namespace GranitXMLEditor
 {
   [Serializable]
-  public class HistoryXDocumentPool: IEnumerable<XDocument>
+  public class HistoryXDocumentPool: IEnumerable<XDocument>, ICloneable
   {
     List<XDocument> _pool;
 
@@ -22,7 +22,7 @@ namespace GranitXMLEditor
     public HistoryXDocumentPool(XDocument xdoc)
     {
       _pool = new List<XDocument>();
-      _pool.Add(xdoc);
+      _pool.Add(new XDocument(xdoc));
     }
 
     public HistoryXDocumentPool(List<XDocument> list)
@@ -69,6 +69,13 @@ namespace GranitXMLEditor
       XDocument[] ta = new XDocument[_pool.Count];
       _pool.CopyTo(ta);
       _memento = new HistoryXDocumentPool(new List<XDocument>(ta));
+    }
+
+    public object Clone()
+    {
+      XDocument[] ta = new XDocument[_pool.Count];
+      _pool.CopyTo(ta);
+      return new HistoryXDocumentPool(new List<XDocument>(ta));
     }
   }
 }

@@ -14,7 +14,7 @@ namespace GranitXMLEditor.Tests
     [TestMethod()]
     public void UpdateGranitXDocumentTest()
     {
-      XDocument xt;
+      System.Xml.Linq.XDocument xt;
       TransactionAdapter ta;
       FillTransactionAdapter(out xt, out ta);
 
@@ -47,9 +47,9 @@ namespace GranitXMLEditor.Tests
       Assert.AreEqual(rInfo, ta.RemittanceInfo);
     }
 
-    public static void FillTransactionAdapter(out XDocument xdoc, out TransactionAdapter ta)
+    public static void FillTransactionAdapter(out System.Xml.Linq.XDocument xdoc, out TransactionAdapter ta)
     {
-      xdoc = XDocument.Parse(TestConstants.HUFTransactionXml);
+      xdoc = System.Xml.Linq.XDocument.Parse(TestConstants.HUFTransactionXml);
       XmlRootAttribute xRoot = new XmlRootAttribute();
       xRoot.ElementName = Constants.HUFTransactions;
       // xRoot.Namespace = "http://www.cpandl.com";

@@ -16,16 +16,16 @@ namespace GranitXMLEditor.Tests
     [TestMethod()]
     public void GranitXmlToObjectBinderTest()
     {
-      var x2o = new GranitXmlToObjectBinder();
+      var x2o = new GranitXmlToAdapterBinder();
       Assert.IsNotNull(x2o.GranitXDocument);
-      Assert.IsNotNull(x2o.HUFTransaction);
+      //Assert.IsNotNull(x2o.HUFTransaction);
       Assert.IsNotNull(x2o.HUFTransactionsAdapter);
     }
 
     [TestMethod()]
     public void TransactionId_Uniq_Test()
     {
-      var x2o = new GranitXmlToObjectBinder("example.xml");
+      var x2o = new GranitXmlToAdapterBinder("example.xml");
 
       long previous_id = -1;
       foreach ( var id in x2o.GranitXDocument.Root.Elements(Constants.Transaction).Select(x=>x.Attribute(Constants.TransactionIdAttribute).Value))
