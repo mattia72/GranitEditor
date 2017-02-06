@@ -219,6 +219,16 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap magnifier {
+            get {
+                object obj = ResourceManager.GetObject("magnifier", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The following specified text not found:
         ///{0}.
         /// </summary>
@@ -234,6 +244,16 @@ namespace GranitXMLEditor.Properties {
         internal static string OriginatorHeaderText {
             get {
                 return ResourceManager.GetString("OriginatorHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap redo_blue {
+            get {
+                object obj = ResourceManager.GetObject("redo_blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -261,6 +281,16 @@ namespace GranitXMLEditor.Properties {
         internal static string RequestedExecutionDateHeaderText {
             get {
                 return ResourceManager.GetString("RequestedExecutionDateHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap undo_blue {
+            get {
+                object obj = ResourceManager.GetObject("undo_blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

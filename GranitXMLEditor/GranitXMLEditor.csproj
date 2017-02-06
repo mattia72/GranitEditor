@@ -126,15 +126,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Properties\DataSources\TransactionAdapter.datasource" />
     <None Include="Properties\DataSources\TransactionAdapter1.datasource" />
-    <None Include="Properties\DataSources\Xml2CSharp.Account.datasource" />
-    <None Include="Properties\DataSources\Xml2CSharp.Amount.datasource" />
-    <None Include="Properties\DataSources\Xml2CSharp.Beneficiary.datasource" />
-    <None Include="Properties\DataSources\Xml2CSharp.HUFTransactions.datasource" />
-    <None Include="Properties\DataSources\Xml2CSharp.Originator.datasource" />
-    <None Include="Properties\DataSources\Xml2CSharp.RemittanceInfo.datasource" />
-    <None Include="Properties\DataSources\Xml2CSharp.Transaction.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -155,6 +147,10 @@
     <Content Include="ReadMe.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\magnifier.png" />
+    <None Include="Resources\undo_blue.png" />
+    <None Include="Resources\redo_blue.png" />
+    <None Include="Resources\toolbarFind.bmp" />
     <None Include="Resources\GranitBankIcon.ico" />
     <None Include="Resources\GranitBankIcon.png" />
   </ItemGroup>

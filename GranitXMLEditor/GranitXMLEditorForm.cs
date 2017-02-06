@@ -49,7 +49,7 @@ namespace GranitXMLEditor
 
     private void SetTextResources()
     {
-      isSelectedDataGridViewCheckBoxColumn.HeaderText = Resources.IsActiveHeaderText;
+      IsSelectedDataGridViewTextBoxColumn.HeaderText = Resources.IsActiveHeaderText;
       originatorDataGridViewTextBoxColumn.HeaderText = Resources.OriginatorHeaderText;
       beneficiaryNameDataGridViewTextBoxColumn.HeaderText = Resources.BeneficiaryNameHeader;
       beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = Resources.BeneficiaryAccountHeader;

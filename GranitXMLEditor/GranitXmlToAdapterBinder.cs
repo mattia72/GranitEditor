@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
 using GenericUndoRedo;
-using System;
 
 namespace GranitXMLEditor
 {
@@ -17,7 +16,6 @@ namespace GranitXMLEditor
     {
       GranitXDocument = new XDocument();
       GranitXDocument.Add(new XElement(Constants.HUFTransactions));
-      //HUFTransaction = new HUFTransaction();
       ReCreateAdapter();
       History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
     }
@@ -25,7 +23,6 @@ namespace GranitXMLEditor
     public GranitXmlToAdapterBinder(string xmlFilePath) 
     {
       GranitXDocument = XDocument.Load(xmlFilePath);
-      //HUFTransaction = CreateObjectFromXDocument(GranitXDocument);
       SetTransactionIdAttribute();
       ReCreateAdapter();
       History = new UndoRedoHistory<IGranitXDocumentOwner>(this);

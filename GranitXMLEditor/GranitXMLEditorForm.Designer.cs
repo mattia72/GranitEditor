@@ -29,12 +29,36 @@
         private void InitializeComponent()
         {
       this.components = new System.ComponentModel.Container();
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GranitXMLEditorForm));
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GranitXMLEditorForm));
       this.panel1 = new System.Windows.Forms.Panel();
+      this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+      this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+      this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+      this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+      this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
+      this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+      this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
+      this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
+      this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
+      this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+      this.findToolStripButton = new System.Windows.Forms.ToolStripButton();
+      this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+      this.undoToolStripButton = new System.Windows.Forms.ToolStripButton();
+      this.redoToolStripButton = new System.Windows.Forms.ToolStripButton();
+      this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+      this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
       this.dataGridView1 = new System.Windows.Forms.DataGridView();
+      this.IsSelectedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+      this.originatorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.beneficiaryNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.beneficiaryAccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.amountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.currencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.executionDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.remittanceInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.transactionAdapterBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,15 +103,8 @@
       this.duplicateRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
       this.deleteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.isSelectedDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-      this.originatorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.beneficiaryNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.beneficiaryAccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.amountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.currencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.executionDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.remittanceInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.panel1.SuspendLayout();
+      this.toolStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).BeginInit();
       this.menuStrip1.SuspendLayout();
@@ -100,14 +117,163 @@
       this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+      this.panel1.Controls.Add(this.toolStrip1);
       this.panel1.Controls.Add(this.dataGridView1);
       this.panel1.Location = new System.Drawing.Point(12, 31);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(1154, 389);
+      this.panel1.Size = new System.Drawing.Size(1157, 389);
       this.panel1.TabIndex = 2;
+      // 
+      // toolStrip1
+      // 
+      this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+      this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripButton,
+            this.openToolStripButton,
+            this.saveToolStripButton,
+            this.printToolStripButton,
+            this.toolStripSeparator10,
+            this.cutToolStripButton,
+            this.copyToolStripButton,
+            this.pasteToolStripButton,
+            this.toolStripSeparator11,
+            this.findToolStripButton,
+            this.toolStripSeparator13,
+            this.undoToolStripButton,
+            this.redoToolStripButton,
+            this.toolStripSeparator12,
+            this.helpToolStripButton});
+      this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+      this.toolStrip1.Name = "toolStrip1";
+      this.toolStrip1.Size = new System.Drawing.Size(1157, 27);
+      this.toolStrip1.TabIndex = 1;
+      this.toolStrip1.Text = "toolStrip1";
+      // 
+      // newToolStripButton
+      // 
+      this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
+      this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.newToolStripButton.Name = "newToolStripButton";
+      this.newToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.newToolStripButton.Text = "&New";
+      // 
+      // openToolStripButton
+      // 
+      this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
+      this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.openToolStripButton.Name = "openToolStripButton";
+      this.openToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.openToolStripButton.Text = "&Open";
+      // 
+      // saveToolStripButton
+      // 
+      this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
+      this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.saveToolStripButton.Name = "saveToolStripButton";
+      this.saveToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.saveToolStripButton.Text = "&Save";
+      // 
+      // printToolStripButton
+      // 
+      this.printToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.printToolStripButton.Enabled = false;
+      this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
+      this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.printToolStripButton.Name = "printToolStripButton";
+      this.printToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.printToolStripButton.Text = "&Print";
+      // 
+      // toolStripSeparator10
+      // 
+      this.toolStripSeparator10.Name = "toolStripSeparator10";
+      this.toolStripSeparator10.Size = new System.Drawing.Size(6, 27);
+      // 
+      // cutToolStripButton
+      // 
+      this.cutToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.cutToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripButton.Image")));
+      this.cutToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.cutToolStripButton.Name = "cutToolStripButton";
+      this.cutToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.cutToolStripButton.Text = "C&ut";
+      // 
+      // copyToolStripButton
+      // 
+      this.copyToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.copyToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripButton.Image")));
+      this.copyToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.copyToolStripButton.Name = "copyToolStripButton";
+      this.copyToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.copyToolStripButton.Text = "&Copy";
+      // 
+      // pasteToolStripButton
+      // 
+      this.pasteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.pasteToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripButton.Image")));
+      this.pasteToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.pasteToolStripButton.Name = "pasteToolStripButton";
+      this.pasteToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.pasteToolStripButton.Text = "&Paste";
+      // 
+      // toolStripSeparator11
+      // 
+      this.toolStripSeparator11.Name = "toolStripSeparator11";
+      this.toolStripSeparator11.Size = new System.Drawing.Size(6, 27);
+      // 
+      // findToolStripButton
+      // 
+      this.findToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.findToolStripButton.Image = global::GranitXMLEditor.Properties.Resources.magnifier;
+      this.findToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.findToolStripButton.Name = "findToolStripButton";
+      this.findToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.findToolStripButton.Text = "&Find";
+      // 
+      // toolStripSeparator13
+      // 
+      this.toolStripSeparator13.Name = "toolStripSeparator13";
+      this.toolStripSeparator13.Size = new System.Drawing.Size(6, 27);
+      // 
+      // undoToolStripButton
+      // 
+      this.undoToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.undoToolStripButton.Image = global::GranitXMLEditor.Properties.Resources.undo_blue;
+      this.undoToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.undoToolStripButton.Name = "undoToolStripButton";
+      this.undoToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.undoToolStripButton.Text = "Undo";
+      // 
+      // redoToolStripButton
+      // 
+      this.redoToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.redoToolStripButton.Image = global::GranitXMLEditor.Properties.Resources.redo_blue;
+      this.redoToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.redoToolStripButton.Name = "redoToolStripButton";
+      this.redoToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.redoToolStripButton.Text = "Redo";
+      // 
+      // toolStripSeparator12
+      // 
+      this.toolStripSeparator12.Name = "toolStripSeparator12";
+      this.toolStripSeparator12.Size = new System.Drawing.Size(6, 27);
+      // 
+      // helpToolStripButton
+      // 
+      this.helpToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.helpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripButton.Image")));
+      this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.helpToolStripButton.Name = "helpToolStripButton";
+      this.helpToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.helpToolStripButton.Text = "He&lp";
       // 
       // dataGridView1
       // 
+      this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.dataGridView1.AutoGenerateColumns = false;
       this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
       dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -120,7 +286,7 @@
       this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
       this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.isSelectedDataGridViewCheckBoxColumn,
+            this.IsSelectedDataGridViewTextBoxColumn,
             this.originatorDataGridViewTextBoxColumn,
             this.beneficiaryNameDataGridViewTextBoxColumn,
             this.beneficiaryAccountDataGridViewTextBoxColumn,
@@ -137,8 +303,7 @@
       dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
       dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
       this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
-      this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+      this.dataGridView1.Location = new System.Drawing.Point(0, 30);
       this.dataGridView1.Name = "dataGridView1";
       dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
       dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
@@ -149,7 +314,7 @@
       dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
       this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
       this.dataGridView1.RowTemplate.Height = 24;
-      this.dataGridView1.Size = new System.Drawing.Size(1154, 389);
+      this.dataGridView1.Size = new System.Drawing.Size(1154, 356);
       this.dataGridView1.TabIndex = 0;
       this.dataGridView1.VirtualMode = true;
       this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
@@ -162,6 +327,56 @@
       this.dataGridView1.Sorted += new System.EventHandler(this.dataGridView1_Sorted);
       this.dataGridView1.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_UserAddedNewRow);
       this.dataGridView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseClick);
+      // 
+      // IsSelectedDataGridViewTextBoxColumn
+      // 
+      this.IsSelectedDataGridViewTextBoxColumn.DataPropertyName = "IsSelected";
+      this.IsSelectedDataGridViewTextBoxColumn.HeaderText = "Selected";
+      this.IsSelectedDataGridViewTextBoxColumn.Name = "IsSelectedDataGridViewTextBoxColumn";
+      this.IsSelectedDataGridViewTextBoxColumn.ToolTipText = "Selected transactions to save.";
+      // 
+      // originatorDataGridViewTextBoxColumn
+      // 
+      this.originatorDataGridViewTextBoxColumn.DataPropertyName = "Originator";
+      this.originatorDataGridViewTextBoxColumn.HeaderText = "Originator";
+      this.originatorDataGridViewTextBoxColumn.Name = "originatorDataGridViewTextBoxColumn";
+      this.originatorDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+      // 
+      // beneficiaryNameDataGridViewTextBoxColumn
+      // 
+      this.beneficiaryNameDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryName";
+      this.beneficiaryNameDataGridViewTextBoxColumn.HeaderText = "BeneficiaryName";
+      this.beneficiaryNameDataGridViewTextBoxColumn.Name = "beneficiaryNameDataGridViewTextBoxColumn";
+      // 
+      // beneficiaryAccountDataGridViewTextBoxColumn
+      // 
+      this.beneficiaryAccountDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryAccount";
+      this.beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = "BeneficiaryAccount";
+      this.beneficiaryAccountDataGridViewTextBoxColumn.Name = "beneficiaryAccountDataGridViewTextBoxColumn";
+      // 
+      // amountDataGridViewTextBoxColumn
+      // 
+      this.amountDataGridViewTextBoxColumn.DataPropertyName = "Amount";
+      this.amountDataGridViewTextBoxColumn.HeaderText = "Amount";
+      this.amountDataGridViewTextBoxColumn.Name = "amountDataGridViewTextBoxColumn";
+      // 
+      // currencyDataGridViewTextBoxColumn
+      // 
+      this.currencyDataGridViewTextBoxColumn.DataPropertyName = "Currency";
+      this.currencyDataGridViewTextBoxColumn.HeaderText = "Currency";
+      this.currencyDataGridViewTextBoxColumn.Name = "currencyDataGridViewTextBoxColumn";
+      // 
+      // executionDateDataGridViewTextBoxColumn
+      // 
+      this.executionDateDataGridViewTextBoxColumn.DataPropertyName = "ExecutionDate";
+      this.executionDateDataGridViewTextBoxColumn.HeaderText = "ExecutionDate";
+      this.executionDateDataGridViewTextBoxColumn.Name = "executionDateDataGridViewTextBoxColumn";
+      // 
+      // remittanceInfoDataGridViewTextBoxColumn
+      // 
+      this.remittanceInfoDataGridViewTextBoxColumn.DataPropertyName = "RemittanceInfo";
+      this.remittanceInfoDataGridViewTextBoxColumn.HeaderText = "RemittanceInfo";
+      this.remittanceInfoDataGridViewTextBoxColumn.Name = "remittanceInfoDataGridViewTextBoxColumn";
       // 
       // transactionAdapterBindingSource
       // 
@@ -239,7 +454,7 @@
       // 
       this.saveAsToolStripMenuItem1.Name = "saveAsToolStripMenuItem1";
       this.saveAsToolStripMenuItem1.Size = new System.Drawing.Size(173, 26);
-      this.saveAsToolStripMenuItem1.Text = "Save &As";
+      this.saveAsToolStripMenuItem1.Text = "Save &As...";
       this.saveAsToolStripMenuItem1.Click += new System.EventHandler(this.saveAsToolStripMenuItem1_Click);
       // 
       // toolStripSeparator1
@@ -515,56 +730,6 @@
       this.deleteRowToolStripMenuItem.Text = "Delete Selected";
       this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.deleteRowToolStripMenuItem_Click);
       // 
-      // IsSelected
-      // 
-      this.isSelectedDataGridViewCheckBoxColumn.DataPropertyName = "IsSelected";
-      this.isSelectedDataGridViewCheckBoxColumn.HeaderText = "Selected";
-      this.isSelectedDataGridViewCheckBoxColumn.Name = "IsSelected";
-      this.isSelectedDataGridViewCheckBoxColumn.ToolTipText = "Selected transactions to save.";
-      // 
-      // originatorDataGridViewTextBoxColumn
-      // 
-      this.originatorDataGridViewTextBoxColumn.DataPropertyName = "Originator";
-      this.originatorDataGridViewTextBoxColumn.HeaderText = "Originator";
-      this.originatorDataGridViewTextBoxColumn.Name = "originatorDataGridViewTextBoxColumn";
-      this.originatorDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-      // 
-      // beneficiaryNameDataGridViewTextBoxColumn
-      // 
-      this.beneficiaryNameDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryName";
-      this.beneficiaryNameDataGridViewTextBoxColumn.HeaderText = "BeneficiaryName";
-      this.beneficiaryNameDataGridViewTextBoxColumn.Name = "beneficiaryNameDataGridViewTextBoxColumn";
-      // 
-      // beneficiaryAccountDataGridViewTextBoxColumn
-      // 
-      this.beneficiaryAccountDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryAccount";
-      this.beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = "BeneficiaryAccount";
-      this.beneficiaryAccountDataGridViewTextBoxColumn.Name = "beneficiaryAccountDataGridViewTextBoxColumn";
-      // 
-      // amountDataGridViewTextBoxColumn
-      // 
-      this.amountDataGridViewTextBoxColumn.DataPropertyName = "Amount";
-      this.amountDataGridViewTextBoxColumn.HeaderText = "Amount";
-      this.amountDataGridViewTextBoxColumn.Name = "amountDataGridViewTextBoxColumn";
-      // 
-      // currencyDataGridViewTextBoxColumn
-      // 
-      this.currencyDataGridViewTextBoxColumn.DataPropertyName = "Currency";
-      this.currencyDataGridViewTextBoxColumn.HeaderText = "Currency";
-      this.currencyDataGridViewTextBoxColumn.Name = "currencyDataGridViewTextBoxColumn";
-      // 
-      // executionDateDataGridViewTextBoxColumn
-      // 
-      this.executionDateDataGridViewTextBoxColumn.DataPropertyName = "ExecutionDate";
-      this.executionDateDataGridViewTextBoxColumn.HeaderText = "ExecutionDate";
-      this.executionDateDataGridViewTextBoxColumn.Name = "executionDateDataGridViewTextBoxColumn";
-      // 
-      // remittanceInfoDataGridViewTextBoxColumn
-      // 
-      this.remittanceInfoDataGridViewTextBoxColumn.DataPropertyName = "RemittanceInfo";
-      this.remittanceInfoDataGridViewTextBoxColumn.HeaderText = "RemittanceInfo";
-      this.remittanceInfoDataGridViewTextBoxColumn.Name = "remittanceInfoDataGridViewTextBoxColumn";
-      // 
       // GranitXMLEditorForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -577,6 +742,9 @@
       this.Name = "GranitXMLEditorForm";
       this.Text = "GránitXmlEditor";
       this.panel1.ResumeLayout(false);
+      this.panel1.PerformLayout();
+      this.toolStrip1.ResumeLayout(false);
+      this.toolStrip1.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).EndInit();
       this.menuStrip1.ResumeLayout(false);
@@ -635,7 +803,23 @@
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
     private System.Windows.Forms.ToolStripMenuItem deleteRowToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem1;
-    private System.Windows.Forms.DataGridViewCheckBoxColumn isSelectedDataGridViewCheckBoxColumn;
+    private System.Windows.Forms.ToolStrip toolStrip1;
+    private System.Windows.Forms.ToolStripButton newToolStripButton;
+    private System.Windows.Forms.ToolStripButton openToolStripButton;
+    private System.Windows.Forms.ToolStripButton saveToolStripButton;
+    private System.Windows.Forms.ToolStripButton printToolStripButton;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+    private System.Windows.Forms.ToolStripButton cutToolStripButton;
+    private System.Windows.Forms.ToolStripButton copyToolStripButton;
+    private System.Windows.Forms.ToolStripButton pasteToolStripButton;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+    private System.Windows.Forms.ToolStripButton undoToolStripButton;
+    private System.Windows.Forms.ToolStripButton redoToolStripButton;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+    private System.Windows.Forms.ToolStripButton helpToolStripButton;
+    private System.Windows.Forms.ToolStripButton findToolStripButton;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+    private System.Windows.Forms.DataGridViewCheckBoxColumn IsSelectedDataGridViewTextBoxColumn;
     private System.Windows.Forms.DataGridViewTextBoxColumn originatorDataGridViewTextBoxColumn;
     private System.Windows.Forms.DataGridViewTextBoxColumn beneficiaryNameDataGridViewTextBoxColumn;
     private System.Windows.Forms.DataGridViewTextBoxColumn beneficiaryAccountDataGridViewTextBoxColumn;
