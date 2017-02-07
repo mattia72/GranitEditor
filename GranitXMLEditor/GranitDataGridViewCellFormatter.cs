@@ -19,6 +19,7 @@ namespace GranitXMLEditor
       }
       else if (dataGridView1.Columns[e.ColumnIndex].HeaderText == Resources.AmountHeaderText)
       {
+        //TODO Formatter
         decimal value = (decimal)e.Value;
         if (value < 0 || Math.Round(value) != value)
         {

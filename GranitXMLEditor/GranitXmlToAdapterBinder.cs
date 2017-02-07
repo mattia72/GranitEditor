@@ -11,6 +11,18 @@ namespace GranitXMLEditor
     public HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
     public XDocument GranitXDocument { get; set; }
     public UndoRedoHistory<IGranitXDocumentOwner> History { get; set; }
+    public decimal SumAmount {
+      get
+      {
+        return HUFTransactionsAdapter.TransactionAdapters.Aggregate(0m, (total, next) => total + next.Amount);
+      }
+    }
+    public int TransactionCount {
+      get
+      {
+        return GranitXDocument.Root.Elements(Constants.Transaction).Count();
+      }
+    }
 
     public GranitXmlToAdapterBinder()
     {

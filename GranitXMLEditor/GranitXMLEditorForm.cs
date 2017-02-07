@@ -380,6 +380,8 @@ namespace GranitXMLEditor
       Debug.WriteLine(e.RowCount + " rows added at index: " + e.RowIndex);
       TransactionAdapter ta = (TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem;
       Debug.WriteLine("Adapter: " + (ta != null ? ta.ToString() : "null"));
+      allStatusLabel.Text = "Count: " + _xmlToObjectBinder.TransactionCount; 
+      allAmountStatus.Text = "Sum: " + _xmlToObjectBinder.SumAmount;
     }
 
     private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -606,6 +608,22 @@ namespace GranitXMLEditor
     private void saveToolStripButton_Click(object sender, EventArgs e)
     {
       AskAndSaveFile();
+    }
+
+    private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+    {
+      decimal sum = 0;
+      int count = 0;
+      foreach (DataGridViewCell cell in dataGridView1.SelectedCells)
+      {
+        if(cell.Value is decimal)
+        {
+          sum += (decimal)cell.Value;
+          count++;
+        }
+      }
+      selectedAmountStatus.Text = "Sum of Selected: " + sum.ToString();
+      selectedStatusLabel.Text = "Selected: " + count;
     }
   }
 }
