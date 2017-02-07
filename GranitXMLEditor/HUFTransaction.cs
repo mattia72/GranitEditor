@@ -198,7 +198,7 @@ namespace GranitXMLEditor
 
     public bool IsBindedWith(XElement t)
     {
-      return (TransactionId == long.Parse(t.Attribute(Constants.TransactionIdAttribute).Value));
+      return (TransactionId == long.Parse(t.Attribute(Constants.TransactionIdAttribute)?.Value));
     }
 
     public object Clone()

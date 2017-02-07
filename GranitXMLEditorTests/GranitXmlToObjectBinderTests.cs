@@ -18,7 +18,6 @@ namespace GranitXMLEditor.Tests
     {
       var x2o = new GranitXmlToAdapterBinder();
       Assert.IsNotNull(x2o.GranitXDocument);
-      //Assert.IsNotNull(x2o.HUFTransaction);
       Assert.IsNotNull(x2o.HUFTransactionsAdapter);
     }
 

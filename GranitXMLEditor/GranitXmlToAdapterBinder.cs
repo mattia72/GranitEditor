@@ -16,8 +16,12 @@ namespace GranitXMLEditor
     {
       GranitXDocument = new XDocument();
       GranitXDocument.Add(new XElement(Constants.HUFTransactions));
+      XElement transactionXelem = new TransactionXElementParser().ParsedElement;
+      GranitXDocument.Root.Add(transactionXelem);
+      SetTransactionIdAttribute();
       ReCreateAdapter();
       History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
+     
     }
 
     public GranitXmlToAdapterBinder(string xmlFilePath) 

@@ -157,6 +157,7 @@
       this.newToolStripButton.Name = "newToolStripButton";
       this.newToolStripButton.Size = new System.Drawing.Size(24, 24);
       this.newToolStripButton.Text = "&New";
+      this.newToolStripButton.Click += new System.EventHandler(this.newToolStripButton_Click);
       // 
       // openToolStripButton
       // 
@@ -166,6 +167,7 @@
       this.openToolStripButton.Name = "openToolStripButton";
       this.openToolStripButton.Size = new System.Drawing.Size(24, 24);
       this.openToolStripButton.Text = "&Open";
+      this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
       // 
       // saveToolStripButton
       // 
@@ -175,6 +177,7 @@
       this.saveToolStripButton.Name = "saveToolStripButton";
       this.saveToolStripButton.Size = new System.Drawing.Size(24, 24);
       this.saveToolStripButton.Text = "&Save";
+      this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
       // 
       // printToolStripButton
       // 
@@ -231,6 +234,7 @@
       this.findToolStripButton.Name = "findToolStripButton";
       this.findToolStripButton.Size = new System.Drawing.Size(24, 24);
       this.findToolStripButton.Text = "&Find";
+      this.findToolStripButton.Click += new System.EventHandler(this.findToolStripButton_Click);
       // 
       // toolStripSeparator13
       // 
@@ -245,6 +249,7 @@
       this.undoToolStripButton.Name = "undoToolStripButton";
       this.undoToolStripButton.Size = new System.Drawing.Size(24, 24);
       this.undoToolStripButton.Text = "Undo";
+      this.undoToolStripButton.Click += new System.EventHandler(this.undoToolStripButton_Click);
       // 
       // redoToolStripButton
       // 
@@ -254,6 +259,7 @@
       this.redoToolStripButton.Name = "redoToolStripButton";
       this.redoToolStripButton.Size = new System.Drawing.Size(24, 24);
       this.redoToolStripButton.Text = "Redo";
+      this.redoToolStripButton.Click += new System.EventHandler(this.redoToolStripButton_Click);
       // 
       // toolStripSeparator12
       // 
@@ -268,6 +274,7 @@
       this.helpToolStripButton.Name = "helpToolStripButton";
       this.helpToolStripButton.Size = new System.Drawing.Size(24, 24);
       this.helpToolStripButton.Text = "He&lp";
+      this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
       // 
       // dataGridView1
       // 
@@ -323,6 +330,7 @@
       this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
       this.dataGridView1.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView1_CellValidating);
       this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
+      this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
       this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_RowsRemoved);
       this.dataGridView1.Sorted += new System.EventHandler(this.dataGridView1_Sorted);
       this.dataGridView1.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_UserAddedNewRow);

@@ -5,8 +5,6 @@ using System.ComponentModel;
 using GranitXMLEditor.Properties;
 using System.Diagnostics;
 using System.Linq;
-using GenericUndoRedo;
-using System.Collections.Generic;
 
 namespace GranitXMLEditor
 {
@@ -39,7 +37,7 @@ namespace GranitXMLEditor
       SetTextResources();
       ApplySettings();
       //after sorting has to be reset...
-      _docHasPendingChanges = false;
+      DocHasPendingChanges = false;
     }
 
     private void autoSizeMenu_Clicked(DataGridViewAutoSizeColumnsMode mode)
@@ -96,6 +94,30 @@ namespace GranitXMLEditor
       }
     }
 
+    public bool DocHasPendingChanges
+    {
+      get
+      {
+        return _docHasPendingChanges;
+      }
+
+      set
+      {
+        _docHasPendingChanges = value;
+        saveToolStripButton.Enabled = _docHasPendingChanges;
+        saveToolStripMenuItem.Enabled = _docHasPendingChanges;
+        if (_docHasPendingChanges)
+        {
+          undoToolStripButton.Enabled = _xmlToObjectBinder.History.CanUndo;
+          redoToolStripButton.Enabled = _xmlToObjectBinder.History.CanRedo;
+        }
+        else
+        {
+          undoToolStripButton.Enabled = redoToolStripButton.Enabled = false;
+        }
+      }
+    }
+
     private void ApplySettings()
     {
       //if (!string.IsNullOrEmpty(Settings.Default.SortedColumn))
@@ -134,7 +156,7 @@ namespace GranitXMLEditor
       if (transactionIdTodelete != null)
       {
         _xmlToObjectBinder.RemoveTransactionRowById((long)transactionIdTodelete, e.RowIndex);
-        _docHasPendingChanges = true;
+        DocHasPendingChanges = true;
       }
     }
 
@@ -208,7 +230,7 @@ namespace GranitXMLEditor
       string xmlFilePath = Path.GetFullPath(fileName);
       _xmlToObjectBinder.SaveToFile(xmlFilePath);
       LastOpenedFilePath = xmlFilePath;
-      _docHasPendingChanges = false;
+      DocHasPendingChanges = false;
     }
 
     private void LoadDocument(string xmlFilePath)
@@ -216,7 +238,7 @@ namespace GranitXMLEditor
       _xmlToObjectBinder = new GranitXmlToAdapterBinder(xmlFilePath);
       RebindBindingList();
       LastOpenedFilePath = xmlFilePath;
-      _docHasPendingChanges = false;
+      DocHasPendingChanges = false;
     }
 
     private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
@@ -251,14 +273,14 @@ namespace GranitXMLEditor
     private void dataGridView1_Sorted(object sender, EventArgs e)
     {
       _xmlToObjectBinder.Sort(dataGridView1.SortedColumn.HeaderText, dataGridView1.SortOrder);
-      _docHasPendingChanges = true;
+      DocHasPendingChanges = true;
     }
 
     private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
     {
       Debug.WriteLine("CellValueChanged called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
       if ( e.RowIndex != -1 ) // not on first load 
-        _docHasPendingChanges = true;
+        DocHasPendingChanges = true;
     }
 
     private void openToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -268,9 +290,9 @@ namespace GranitXMLEditor
 
     protected override void OnClosing(CancelEventArgs e)
     {
-      Debug.WriteLine("OnClosing called. docHasPendingChanges: {0}", _docHasPendingChanges);
+      Debug.WriteLine("OnClosing called. docHasPendingChanges: {0}", DocHasPendingChanges);
 
-      if (_docHasPendingChanges || LastOpenedFilePath == string.Empty)
+      if (DocHasPendingChanges || LastOpenedFilePath == string.Empty)
         e.Cancel = AskAndSaveFile(MessageBoxButtons.YesNoCancel) == DialogResult.Cancel;
 
       if(!e.Cancel)
@@ -285,6 +307,11 @@ namespace GranitXMLEditor
     }
 
     private void findAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      ShowFindAndReplaceDlg();
+    }
+
+    private void ShowFindAndReplaceDlg()
     {
       CreateFindDialog();
 
@@ -312,6 +339,11 @@ namespace GranitXMLEditor
 
     private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
     {
+      About();
+    }
+
+    private void About()
+    {
       if (_aboutBox == null)
       {
         _aboutBox = new AboutBox();
@@ -334,11 +366,20 @@ namespace GranitXMLEditor
     private void dataGridView1_UserAddedNewRow(object sender, DataGridViewRowEventArgs e)
     {
       var bindingList = ((SortableBindingList<TransactionAdapter>)dataGridView1.DataSource);
-      //delete last (non working) adapter and create a new...
-      bindingList.RemoveAt(bindingList.Count - 1);
-      bindingList.Add(_xmlToObjectBinder.AddEmptyTransactionRow());
-      //dataGridView1.CurrentCell = e.Row.Cells[1]; 
-      //dataGridView1.BeginEdit(false);
+      //Commit the first character
+      dataGridView1.EndEdit();
+      //change binding list item to our Adapter
+      var ta = bindingList[bindingList.Count - 1];
+      bindingList[bindingList.Count - 1] = _xmlToObjectBinder.AddTransactionRow(ta);
+      Debug.WriteLine("User Added Adapter: " + (ta != null ? ta.ToString() : "null"));
+      dataGridView1.BeginEdit(false);
+    }
+
+    private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+    {
+      Debug.WriteLine(e.RowCount + " rows added at index: " + e.RowIndex);
+      TransactionAdapter ta = (TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+      Debug.WriteLine("Adapter: " + (ta != null ? ta.ToString() : "null"));
     }
 
     private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -349,11 +390,16 @@ namespace GranitXMLEditor
 
     private void newToolStripMenuItem_Click(object sender, EventArgs e)
     {
+      New();
+    }
+
+    private void New()
+    {
       DialogResult answere = DialogResult.OK; ;
-      if (_docHasPendingChanges)
+      if (DocHasPendingChanges)
         answere = AskAndSaveFile(MessageBoxButtons.YesNoCancel);
 
-      if(answere != DialogResult.Cancel)
+      if (answere != DialogResult.Cancel)
         OpenNewDocument();
     }
 
@@ -377,13 +423,23 @@ namespace GranitXMLEditor
       _xmlToObjectBinder = new GranitXmlToAdapterBinder();
       LastOpenedFilePath = string.Empty;
       RebindBindingList();
+      DocHasPendingChanges = true;
     }
 
-    private DialogResult AskAndSaveFile(MessageBoxButtons buttons)
+    /// <summary>
+    /// Asks if parameter != null, else saves without any question
+    /// </summary>
+    /// <param name="buttons"></param>
+    /// <returns></returns>
+    private DialogResult AskAndSaveFile(MessageBoxButtons? buttons = null)
     {
-      var answ = MessageBox.Show(
-        string.Format(Resources.DoYouWantToSave, Path.GetFileName(LastOpenedFilePath)),
-        Application.ProductName, buttons, MessageBoxIcon.Question);
+      DialogResult answ = DialogResult.Yes;
+      if (buttons != null)
+      {
+        answ = MessageBox.Show(
+          string.Format(Resources.DoYouWantToSave, Path.GetFileName(LastOpenedFilePath)),
+          Application.ProductName, (MessageBoxButtons)buttons, MessageBoxIcon.Question);
+      }
 
       if (answ == DialogResult.Yes)
       {
@@ -405,7 +461,7 @@ namespace GranitXMLEditor
 
     private void saveToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      AskAndSaveFile(MessageBoxButtons.YesNo);
+      AskAndSaveFile();
     }
 
     private void saveAsToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -431,15 +487,16 @@ namespace GranitXMLEditor
     private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
     {
       //TODO text resource
+      EnableAllcontextMenuItem(false);
       if (dataGridView1.SelectedRows.Count > 1)
       {
-        EnableAllcontextMenuItem(false);
         deleteRowToolStripMenuItem.Text = "Delete Selected";
         deleteRowToolStripMenuItem.Enabled = true;
       }
       else
       {
-        EnableAllcontextMenuItem(true);
+        if(!dataGridView1.IsCurrentCellInEditMode)
+          EnableAllcontextMenuItem(true);
         deleteRowToolStripMenuItem.Text = "Delete";
       }
     }
@@ -480,20 +537,34 @@ namespace GranitXMLEditor
 
     private void undoToolStripMenuItem_Click(object sender, EventArgs e)
     {
+      Undo();
+    }
+
+    private void Undo()
+    {
       if (_xmlToObjectBinder.History.CanUndo)
       {
         _xmlToObjectBinder.History_Undo();
         RebindBindingList();
       }
+      undoToolStripButton.Enabled = _xmlToObjectBinder.History.CanUndo;
+      redoToolStripButton.Enabled = _xmlToObjectBinder.History.CanRedo;
     }
 
     private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      Redo();
+    }
+
+    private void Redo()
     {
       if (_xmlToObjectBinder.History.CanRedo)
       {
         _xmlToObjectBinder.History_Redo();
         RebindBindingList();
       }
+      undoToolStripButton.Enabled = _xmlToObjectBinder.History.CanUndo;
+      redoToolStripButton.Enabled = _xmlToObjectBinder.History.CanRedo;
     }
 
     private void editToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
@@ -502,5 +573,39 @@ namespace GranitXMLEditor
       redoToolStripMenuItem.Enabled = _xmlToObjectBinder.History.CanRedo;
     }
 
+    private void findToolStripButton_Click(object sender, EventArgs e)
+    {
+      ShowFindAndReplaceDlg();
+    }
+
+    private void undoToolStripButton_Click(object sender, EventArgs e)
+    {
+      Undo();
+    }
+
+    private void redoToolStripButton_Click(object sender, EventArgs e)
+    {
+      Redo();
+    }
+
+    private void openToolStripButton_Click(object sender, EventArgs e)
+    {
+      OpenGranitXmlFile();
+    }
+
+    private void newToolStripButton_Click(object sender, EventArgs e)
+    {
+      New();
+    }
+
+    private void helpToolStripButton_Click(object sender, EventArgs e)
+    {
+      About();
+    }
+
+    private void saveToolStripButton_Click(object sender, EventArgs e)
+    {
+      AskAndSaveFile();
+    }
   }
 }
