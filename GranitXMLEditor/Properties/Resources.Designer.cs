@@ -106,6 +106,15 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date is in the past..
+        /// </summary>
+        internal static string DateInThePastError {
+            get {
+                return ResourceManager.GetString("DateInThePastError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want to save {0}?.
         /// </summary>
         internal static string DoYouWantToSave {
@@ -163,7 +172,7 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Amount has to be a valid number..
+        ///   Looks up a localized string similar to Amount has to be a positive whole number..
         /// </summary>
         internal static string InvalidAmountError {
             get {

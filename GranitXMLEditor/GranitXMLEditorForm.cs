@@ -249,9 +249,9 @@ namespace GranitXMLEditor
         return;
       }
 
-      string headerText = dataGridView1.Columns[e.ColumnIndex].HeaderText;
+      string propertyName = dataGridView1.Columns[e.ColumnIndex].DataPropertyName;
 
-      _cellVallidator.Validate(ref e, headerText);
+      _cellVallidator.Validate(ref e, propertyName);
 
     }
 
@@ -272,7 +272,7 @@ namespace GranitXMLEditor
 
     private void dataGridView1_Sorted(object sender, EventArgs e)
     {
-      _xmlToObjectBinder.Sort(dataGridView1.SortedColumn.HeaderText, dataGridView1.SortOrder);
+      _xmlToObjectBinder.Sort(dataGridView1.SortedColumn.DataPropertyName, dataGridView1.SortOrder);
       DocHasPendingChanges = true;
     }
 
@@ -483,7 +483,6 @@ namespace GranitXMLEditor
     private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
     {
       GranitDataGridViewCellFormatter.Format(dataGridView1, ref e);
-
     }
 
     private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)

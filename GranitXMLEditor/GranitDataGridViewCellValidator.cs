@@ -15,90 +15,100 @@ namespace GranitXMLEditor
       this.dataGridView1 = dataGridView1;
     }
 
-    internal void Validate(ref DataGridViewCellValidatingEventArgs e, string headerText)
+    internal void Validate(ref DataGridViewCellValidatingEventArgs e, string propertyName)
     {
+      switch (propertyName)
+      {
+        case Constants.OriginatorPropertyName:
+          ValidateAccountNum(e);
+          break;
+        case Constants.BeneficiaryAccountPropertyName:
+          ValidateAccountNum(e);
+          break;
+        case Constants.CurrencyPropertyName:
+          ValidateCurrency(e);
+          break;
+        case Constants.RemittanceInfoPropertyName:
+          ValidateRemittanceInfo(e);
+          break;
+        case Constants.AmountPropertyName:
+          ValidateAmount(e);
+          break;
+        case Constants.ExecutionDatePropertyName:
+          ValidateRequestedExecutionDate(e);
+          break;
+        default:
+          e.Cancel = false;
+          break;
+      }
+    }
 
-      if (headerText == Resources.OriginatorHeaderText 
-        || headerText == Resources.BeneficiaryAccountHeader)
+    private void ValidateRequestedExecutionDate(DataGridViewCellValidatingEventArgs e)
+    {
+      try
       {
-        string value = (string)e.FormattedValue;
-        if (!IsAccountNumberValid(value))
-        {
-          dataGridView1.Rows[e.RowIndex].ErrorText = Resources.InvalidAccountError;
-          e.Cancel = true;
-        }
+        DateTime.Parse((string)e.FormattedValue);
       }
-      else if (headerText == Resources.CurrencyHeader)
+      catch (System.Exception)
       {
-        string value = (string)e.FormattedValue;
-        if (value != "HUF")
-        {
-          dataGridView1.Rows[e.RowIndex].ErrorText = Resources.InvalidCurrencyError;
-          e.Cancel = true;
-        }
+        dataGridView1.Rows[e.RowIndex].ErrorText = Resources.InvalidDateError;
+        e.Cancel = true;
       }
-      else if (headerText == Resources.RemittanceInfoHeaderText)
-      {
-        string value = (string)e.FormattedValue;
-        string line = string.Empty;
-        if (!IsRemittanceInfoValid(value, ref line))
-        {
-          if (line != string.Empty)
-            dataGridView1.Rows[e.RowIndex].ErrorText += string.Format(Resources.RemittanceInfoLineTooLongError, line);
-          dataGridView1.Rows[e.RowIndex].ErrorText += "\n\n" + Resources.InvalidRemittanceInfoError;
-          e.Cancel = true;
-        }
-      }
-      else if (headerText == Resources.AmountHeaderText)
-      {
-        string value = (string)e.FormattedValue;
-        decimal number;
-        if ((decimal.TryParse(value, out number) && (number < 0)) || Math.Round(number) != number)
-        {
-          dataGridView1.Rows[e.RowIndex].ErrorText = Resources.InvalidAmountError;
-          e.Cancel = true;
-        }
-      }
-      else if (headerText == Resources.RequestedExecutionDateHeaderText)
-      {
-        string value = (string)e.FormattedValue;
-        try
-        {
-          DateTime.Parse(value);
-        }
-        catch (System.Exception)
-        {
-          dataGridView1.Rows[e.RowIndex].ErrorText = Resources.InvalidDateError;
-          e.Cancel = true;
-        }
+    }
 
-      }
-      else
+    private void ValidateAmount(DataGridViewCellValidatingEventArgs e)
+    {
+      decimal number;
+      string value = (string)e.FormattedValue;
+      if ((decimal.TryParse(value, out number) && (number < 0))) //|| Math.Round(number) != number)
       {
-        e.Cancel = false;
+        dataGridView1.Rows[e.RowIndex].ErrorText = Resources.InvalidAmountError;
+        e.Cancel = true;
+      }
+    }
+
+    private void ValidateCurrency(DataGridViewCellValidatingEventArgs e)
+    {
+      if ((string)e.FormattedValue != "HUF")
+      {
+        dataGridView1.Rows[e.RowIndex].ErrorText = Resources.InvalidCurrencyError;
+        e.Cancel = true;
+      }
+    }
+
+    private void ValidateRemittanceInfo(DataGridViewCellValidatingEventArgs e) 
+    {
+      string value = (string)e.FormattedValue;
+      string line = string.Empty;
+      if (!IsRemittanceInfoValid(value, ref line) &&
+        dataGridView1.Rows[e.RowIndex].ErrorText == string.Empty)
+      {
+        if (line != string.Empty)
+          dataGridView1.Rows[e.RowIndex].ErrorText += string.Format(Resources.RemittanceInfoLineTooLongError, line);
+        dataGridView1.Rows[e.RowIndex].ErrorText += "\n\n" + Resources.InvalidRemittanceInfoError;
+        e.Cancel = true;
+      }
+    }
+
+    private void ValidateAccountNum(DataGridViewCellValidatingEventArgs e)
+    {
+      string value = (string)e.FormattedValue;
+      if (!IsAccountNumberValid(value))
+      {
+        dataGridView1.Rows[e.RowIndex].ErrorText = Resources.InvalidAccountError;
+        e.Cancel = true;
       }
     }
 
     private bool IsRemittanceInfoValid(string value, ref string lineOfError)
     {
       string[] lines = value.Split('|');
-
-      if (lines.Length > 4)
-        return false;
-      else foreach (var line in lines)
-        {
-          if (line.Length > 32)
-          {
-            lineOfError = line;
-            return false;
-          }
-        }
-      return true;
+      return (lines.Length <= 4);
     }
 
     private static bool IsAccountNumberValid(string value)
     {
-      return value.Length == 26 && Regex.Match(value, @"(\d{8}-){2}\d{8}").Success;
+      return (Regex.Match(value, @"\d{8}-?\d{8}-?(\d{8})?").Success);
     }
   }
 }

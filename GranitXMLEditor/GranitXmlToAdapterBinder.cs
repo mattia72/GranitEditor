@@ -142,42 +142,42 @@ namespace GranitXMLEditor
                select new XAttribute(a.Name.LocalName, a.Value)) : null);
     }
 
-    public void Sort(string columnHeaderText, SortOrder sortOrder)
+    public void Sort(string propertyName, SortOrder sortOrder)
     {
       History?.Do(new TransactionPoolMemento(GranitXDocument));
 
-      switch (columnHeaderText)
+      switch (propertyName)
       {
-        case Constants.IsSelected:
+        case Constants.IsSelectedPropertyName:
           GranitXDocument.SortElementsByXPathEvaluate(Constants.Transaction, "/@" + Constants.TransactionIdAttribute, 
             sortOrder);
           break;
-        case Constants.Originator:
+        case Constants.OriginatorPropertyName:
           GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
             string.Join("/", new string[] { Constants.Originator, Constants.Account, Constants.AccountNumber }), 
             sortOrder);
           break;
-        case Constants.BeneficiaryName:
+        case Constants.BeneficiaryNamePropertyName:
           GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
             string.Join("/", new string[] { Constants.Beneficiary, Constants.Name }), sortOrder);
           break;
-        case Constants.BeneficiaryAccount:
+        case Constants.BeneficiaryAccountPropertyName:
           GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction,
             string.Join("/", new string[] { Constants.Beneficiary, Constants.Account, Constants.AccountNumber }),
             sortOrder);
           break;
-        case Constants.Amount:
+        case Constants.AmountPropertyName:
           GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, Constants.Amount, sortOrder);
           break;
-        case Constants.Currency:
+        case Constants.CurrencyPropertyName:
           GranitXDocument.SortElementsByXPathEvaluate(Constants.Transaction, 
             Constants.Amount + "/@" + Constants.Currency, sortOrder);
           break;
-        case Constants.RequestedExecutionDate:
+        case Constants.ExecutionDatePropertyName:
           GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
             Constants.RequestedExecutionDate, sortOrder);
           break;
-        case Constants.RemittanceInfo:
+        case Constants.RemittanceInfoPropertyName:
           //TODO sort by all Text field
           GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
             Constants.RemittanceInfo + "/" + Constants.Text, sortOrder);

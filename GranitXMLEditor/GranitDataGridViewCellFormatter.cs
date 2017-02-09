@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace GranitXMLEditor
@@ -12,24 +13,90 @@ namespace GranitXMLEditor
     {
       if (e.Value == null) return;
 
-      if (dataGridView1.Columns[e.ColumnIndex].HeaderText == Resources.OriginatorHeaderText
-        || dataGridView1.Columns[e.ColumnIndex].HeaderText == Resources.BeneficiaryAccountHeader)
+      switch (dataGridView1.Columns[e.ColumnIndex].DataPropertyName)
       {
-        FormatAccountNumber(e);
+        case Constants.OriginatorPropertyName:
+          FormatAccountNumber(e);
+          break;
+        case Constants.BeneficiaryAccountPropertyName:
+          FormatAccountNumber(e);
+          break;
+        case Constants.AmountPropertyName:
+          FormatAmount(dataGridView1, e);
+          break;
+        case Constants.ExecutionDatePropertyName:
+          FormatDateField(dataGridView1, e);
+          break;
+        default:
+          e.FormattingApplied = false;
+          break;
       }
-      else if (dataGridView1.Columns[e.ColumnIndex].HeaderText == Resources.AmountHeaderText)
+    }
+
+    private static void FormatDateField(DataGridView dgv, DataGridViewCellFormattingEventArgs e)
+    {
+      if (e.Value != null)
       {
-        //TODO Formatter
-        decimal value = (decimal)e.Value;
-        if (value < 0 || Math.Round(value) != value)
+        try
         {
-          e.CellStyle.BackColor = Color.Red;
-          e.CellStyle.SelectionBackColor = Color.DarkRed;
+          DateTime value = DateTime.Parse(e.Value.ToString());
+          if (value < DateTime.Today)
+          {
+            SetErrorBackground(dgv, e, Resources.DateInThePastError);
+          }
+          else
+          {
+            SetErrorBackground(dgv, e);
+          }
+
+          e.Value = FormatDateTime(value);
+          e.FormattingApplied = true;
+        }
+        catch (Exception)
+        {
+          e.FormattingApplied = false;
         }
       }
-      else if (dataGridView1.Columns[e.ColumnIndex].HeaderText == Resources.RequestedExecutionDateHeaderText)
+    }
+
+    private static void SetErrorBackground(DataGridView dgv, DataGridViewCellFormattingEventArgs e, string errorText = null)
+    {
+      if (errorText != null)
       {
-        //ShortFormDateFormat(e);
+        e.CellStyle.BackColor = Color.LightPink;
+        e.CellStyle.SelectionBackColor = Color.HotPink;
+        dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Resources.DateInThePastError;
+      }
+      else
+      {
+        e.CellStyle.BackColor = SystemColors.Window;
+        e.CellStyle.SelectionBackColor = SystemColors.Highlight;
+        dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "";
+      }
+    }
+
+    private static void FormatAmount(DataGridView dgv, DataGridViewCellFormattingEventArgs e)
+    {
+      if (e.Value != null)
+      {
+        try
+        {
+          decimal value = (decimal)e.Value;
+          if (value < 0 || Math.Round(value) != value)
+          {
+            SetErrorBackground(dgv, e, Resources.InvalidAmountError);
+          }
+          else
+          {
+            SetErrorBackground(dgv, e); 
+          }
+          e.Value = value.ToString("N2");
+          e.FormattingApplied = true;
+        }
+        catch (Exception)
+        {
+          e.FormattingApplied = false;
+        }
       }
     }
 
@@ -41,6 +108,7 @@ namespace GranitXMLEditor
         {
           StringBuilder accountString = new StringBuilder();
           string value = (string)e.Value;
+          value = Regex.Replace(value, "-", "");
           string fragment = Constants.NullAccountFragment;
 
           if(value.Length > 7)
@@ -77,32 +145,17 @@ namespace GranitXMLEditor
       }
     }
 
-    //Even though the date internaly stores the year as YYYY, using formatting, the
-    //UI can have the format in YY.  
-    private static void ShortFormDateFormat(DataGridViewCellFormattingEventArgs formatting)
+    private static string FormatDateTime(DateTime date)
     {
-      if (formatting.Value != null)
-      {
-        try
-        {
-          System.Text.StringBuilder dateString = new System.Text.StringBuilder();
-          DateTime theDate = DateTime.Parse(formatting.Value.ToString());
+      StringBuilder dateString = new StringBuilder();
 
-          dateString.Append(theDate.Year.ToString().Substring(2));
-          dateString.Append("/");
-          dateString.Append(theDate.Month);
-          dateString.Append("/");
-          dateString.Append(theDate.Day);
-          formatting.Value = dateString.ToString();
-          formatting.FormattingApplied = true;
-        }
-        catch (FormatException)
-        {
-          // Set to false in case there are other handlers interested trying to
-          // format this DataGridViewCellFormattingEventArgs instance.
-          formatting.FormattingApplied = false;
-        }
-      }
+      dateString.Append(date.Year.ToString().Substring(2));
+      dateString.Append(".");
+      dateString.Append(date.Month.ToString("00"));
+      dateString.Append(".");
+      dateString.Append(date.Day.ToString("00"));
+      dateString.Append(".");
+      return dateString.ToString();
     }
   }
 }
