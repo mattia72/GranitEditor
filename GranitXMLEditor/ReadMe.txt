@@ -1,10 +1,4 @@
-﻿//
-//
-//  This is the the content of the animated TextBox
-//
-//
-
-XML Import description:
+﻿XML Import description:
 https://netbank.granitbank.hu/eibpublic_granit/help/hu/IMPXML.html
 
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, 

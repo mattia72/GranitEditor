@@ -200,4 +200,16 @@ Continue search from the beginning?</value>
   <data name="DateInThePastError" xml:space="preserve">
     <value>Date is in the past.</value>
   </data>
+  <data name="ErrorText" xml:space="preserve">
+    <value>error</value>
+  </data>
+  <data name="ValidationErrorMsg" xml:space="preserve">
+    <value>Validation {0} at {1}:
+{2}
+
+A new document will be opened.</value>
+  </data>
+  <data name="WarningText" xml:space="preserve">
+    <value>warning</value>
+  </data>
 </root>

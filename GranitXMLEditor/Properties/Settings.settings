@@ -14,5 +14,8 @@
     <Setting Name="MruListItemLength" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">60</Value>
     </Setting>
+    <Setting Name="SchemaFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HUFTransactions.xsd</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

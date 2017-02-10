@@ -69,5 +69,17 @@ namespace GranitXMLEditor.Properties {
                 this["MruListItemLength"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("HUFTransactions.xsd")]
+        public string SchemaFile {
+            get {
+                return ((string)(this["SchemaFile"]));
+            }
+            set {
+                this["SchemaFile"] = value;
+            }
+        }
     }
 }

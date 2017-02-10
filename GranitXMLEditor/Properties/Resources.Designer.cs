@@ -124,6 +124,15 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to error.
+        /// </summary>
+        internal static string ErrorText {
+            get {
+                return ResourceManager.GetString("ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File does not exists! .
         /// </summary>
         internal static string FileDoesntExists {
@@ -300,6 +309,27 @@ namespace GranitXMLEditor.Properties {
             get {
                 object obj = ResourceManager.GetObject("undo_blue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validation {0} at {1}:
+        ///{2}
+        ///
+        ///A new document will be opened..
+        /// </summary>
+        internal static string ValidationErrorMsg {
+            get {
+                return ResourceManager.GetString("ValidationErrorMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to warning.
+        /// </summary>
+        internal static string WarningText {
+            get {
+                return ResourceManager.GetString("WarningText", resourceCulture);
             }
         }
     }

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using GranitXMLEditor.Properties;
 using System.Diagnostics;
 using System.Linq;
+using System.Xml.Schema;
 
 namespace GranitXMLEditor
 {
@@ -235,9 +236,29 @@ namespace GranitXMLEditor
 
     private void LoadDocument(string xmlFilePath)
     {
-      _xmlToObjectBinder = new GranitXmlToAdapterBinder(xmlFilePath);
+      _xmlToObjectBinder = new GranitXmlToAdapterBinder(xmlFilePath, true);
+      if (_xmlToObjectBinder.XmlReadingErrorOccured)
+      {
+        XmlSchemaException e = _xmlToObjectBinder.ValidationEventArgs.Exception;
+
+        MessageBox.Show(string.Format(
+          Resources.ValidationErrorMsg,
+          _xmlToObjectBinder.ValidationEventArgs.Severity == XmlSeverityType.Error ? Resources.ErrorText : Resources.WarningText,
+          xmlFilePath + " (" + e.LineNumber + ", " + e.LinePosition + ")",
+          _xmlToObjectBinder.ValidationEventArgs.Message),
+          Application.ProductName,
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Error);
+
+        _xmlToObjectBinder = new GranitXmlToAdapterBinder();
+        LastOpenedFilePath = string.Empty;
+      }
+      else
+      {
+        LastOpenedFilePath = xmlFilePath;
+      }
+
       RebindBindingList();
-      LastOpenedFilePath = xmlFilePath;
       DocHasPendingChanges = false;
     }
 

@@ -51,6 +51,15 @@
       this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
       this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
       this.dataGridView1 = new System.Windows.Forms.DataGridView();
+      this.IsSelectedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+      this.originatorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.beneficiaryNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.beneficiaryAccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.amountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.currencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.executionDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.remittanceInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+      this.transactionAdapterBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,26 +105,17 @@
       this.deleteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
       this.allStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-      this.selectedStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
       this.allAmountStatus = new System.Windows.Forms.ToolStripStatusLabel();
+      this.selectedStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
       this.selectedAmountStatus = new System.Windows.Forms.ToolStripStatusLabel();
-      this.IsSelectedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-      this.originatorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.beneficiaryNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.beneficiaryAccountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.amountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.currencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.executionDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.remittanceInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.transactionAdapterBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.panel1.SuspendLayout();
       this.toolStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).BeginInit();
       this.menuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
       this.contextMenuStrip1.SuspendLayout();
       this.statusStrip1.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).BeginInit();
       this.SuspendLayout();
       // 
       // panel1
@@ -127,7 +127,7 @@
       this.panel1.Controls.Add(this.dataGridView1);
       this.panel1.Location = new System.Drawing.Point(12, 31);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(710, 242);
+      this.panel1.Size = new System.Drawing.Size(1026, 315);
       this.panel1.TabIndex = 2;
       // 
       // toolStrip1
@@ -151,7 +151,7 @@
             this.helpToolStripButton});
       this.toolStrip1.Location = new System.Drawing.Point(0, 0);
       this.toolStrip1.Name = "toolStrip1";
-      this.toolStrip1.Size = new System.Drawing.Size(710, 27);
+      this.toolStrip1.Size = new System.Drawing.Size(1026, 27);
       this.toolStrip1.TabIndex = 1;
       this.toolStrip1.Text = "toolStrip1";
       // 
@@ -327,7 +327,7 @@
       dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
       this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
       this.dataGridView1.RowTemplate.Height = 24;
-      this.dataGridView1.Size = new System.Drawing.Size(707, 196);
+      this.dataGridView1.Size = new System.Drawing.Size(1023, 269);
       this.dataGridView1.TabIndex = 0;
       this.dataGridView1.VirtualMode = true;
       this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
@@ -343,6 +343,60 @@
       this.dataGridView1.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_UserAddedNewRow);
       this.dataGridView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseClick);
       // 
+      // IsSelectedDataGridViewTextBoxColumn
+      // 
+      this.IsSelectedDataGridViewTextBoxColumn.DataPropertyName = "IsSelected";
+      this.IsSelectedDataGridViewTextBoxColumn.HeaderText = "Selected";
+      this.IsSelectedDataGridViewTextBoxColumn.Name = "IsSelectedDataGridViewTextBoxColumn";
+      this.IsSelectedDataGridViewTextBoxColumn.ToolTipText = "Selected transactions to save.";
+      // 
+      // originatorDataGridViewTextBoxColumn
+      // 
+      this.originatorDataGridViewTextBoxColumn.DataPropertyName = "Originator";
+      this.originatorDataGridViewTextBoxColumn.HeaderText = "Originator";
+      this.originatorDataGridViewTextBoxColumn.Name = "originatorDataGridViewTextBoxColumn";
+      this.originatorDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+      // 
+      // beneficiaryNameDataGridViewTextBoxColumn
+      // 
+      this.beneficiaryNameDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryName";
+      this.beneficiaryNameDataGridViewTextBoxColumn.HeaderText = "BeneficiaryName";
+      this.beneficiaryNameDataGridViewTextBoxColumn.Name = "beneficiaryNameDataGridViewTextBoxColumn";
+      // 
+      // beneficiaryAccountDataGridViewTextBoxColumn
+      // 
+      this.beneficiaryAccountDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryAccount";
+      this.beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = "BeneficiaryAccount";
+      this.beneficiaryAccountDataGridViewTextBoxColumn.Name = "beneficiaryAccountDataGridViewTextBoxColumn";
+      // 
+      // amountDataGridViewTextBoxColumn
+      // 
+      this.amountDataGridViewTextBoxColumn.DataPropertyName = "Amount";
+      this.amountDataGridViewTextBoxColumn.HeaderText = "Amount";
+      this.amountDataGridViewTextBoxColumn.Name = "amountDataGridViewTextBoxColumn";
+      // 
+      // currencyDataGridViewTextBoxColumn
+      // 
+      this.currencyDataGridViewTextBoxColumn.DataPropertyName = "Currency";
+      this.currencyDataGridViewTextBoxColumn.HeaderText = "Currency";
+      this.currencyDataGridViewTextBoxColumn.Name = "currencyDataGridViewTextBoxColumn";
+      // 
+      // executionDateDataGridViewTextBoxColumn
+      // 
+      this.executionDateDataGridViewTextBoxColumn.DataPropertyName = "ExecutionDate";
+      this.executionDateDataGridViewTextBoxColumn.HeaderText = "ExecutionDate";
+      this.executionDateDataGridViewTextBoxColumn.Name = "executionDateDataGridViewTextBoxColumn";
+      // 
+      // remittanceInfoDataGridViewTextBoxColumn
+      // 
+      this.remittanceInfoDataGridViewTextBoxColumn.DataPropertyName = "RemittanceInfo";
+      this.remittanceInfoDataGridViewTextBoxColumn.HeaderText = "RemittanceInfo";
+      this.remittanceInfoDataGridViewTextBoxColumn.Name = "remittanceInfoDataGridViewTextBoxColumn";
+      // 
+      // transactionAdapterBindingSource
+      // 
+      this.transactionAdapterBindingSource.DataSource = typeof(GranitXMLEditor.TransactionAdapter);
+      // 
       // menuStrip1
       // 
       this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -353,7 +407,7 @@
             this.helpToolStripMenuItem1});
       this.menuStrip1.Location = new System.Drawing.Point(0, 0);
       this.menuStrip1.Name = "menuStrip1";
-      this.menuStrip1.Size = new System.Drawing.Size(731, 28);
+      this.menuStrip1.Size = new System.Drawing.Size(1047, 28);
       this.menuStrip1.TabIndex = 1;
       this.menuStrip1.Text = "menuStrip1";
       // 
@@ -699,9 +753,9 @@
             this.allAmountStatus,
             this.selectedStatusLabel,
             this.selectedAmountStatus});
-      this.statusStrip1.Location = new System.Drawing.Point(0, 260);
+      this.statusStrip1.Location = new System.Drawing.Point(0, 333);
       this.statusStrip1.Name = "statusStrip1";
-      this.statusStrip1.Size = new System.Drawing.Size(731, 25);
+      this.statusStrip1.Size = new System.Drawing.Size(1047, 25);
       this.statusStrip1.TabIndex = 3;
       this.statusStrip1.Text = "statusStrip1";
       // 
@@ -711,17 +765,17 @@
       this.allStatusLabel.Size = new System.Drawing.Size(63, 20);
       this.allStatusLabel.Text = "Count: 0";
       // 
-      // selectedStatusLabel
-      // 
-      this.selectedStatusLabel.Name = "selectedStatusLabel";
-      this.selectedStatusLabel.Size = new System.Drawing.Size(81, 20);
-      this.selectedStatusLabel.Text = "Selected: 0";
-      // 
       // allAmountStatus
       // 
       this.allAmountStatus.Name = "allAmountStatus";
       this.allAmountStatus.Size = new System.Drawing.Size(53, 20);
       this.allAmountStatus.Text = "Sum: 0";
+      // 
+      // selectedStatusLabel
+      // 
+      this.selectedStatusLabel.Name = "selectedStatusLabel";
+      this.selectedStatusLabel.Size = new System.Drawing.Size(81, 20);
+      this.selectedStatusLabel.Text = "Selected: 0";
       // 
       // selectedAmountStatus
       // 
@@ -729,65 +783,11 @@
       this.selectedAmountStatus.Size = new System.Drawing.Size(132, 20);
       this.selectedAmountStatus.Text = "Sum of Selected: 0";
       // 
-      // IsSelectedDataGridViewTextBoxColumn
-      // 
-      this.IsSelectedDataGridViewTextBoxColumn.DataPropertyName = "IsSelected";
-      this.IsSelectedDataGridViewTextBoxColumn.HeaderText = "Selected";
-      this.IsSelectedDataGridViewTextBoxColumn.Name = "IsSelectedDataGridViewTextBoxColumn";
-      this.IsSelectedDataGridViewTextBoxColumn.ToolTipText = "Selected transactions to save.";
-      // 
-      // originatorDataGridViewTextBoxColumn
-      // 
-      this.originatorDataGridViewTextBoxColumn.DataPropertyName = "Originator";
-      this.originatorDataGridViewTextBoxColumn.HeaderText = "Originator";
-      this.originatorDataGridViewTextBoxColumn.Name = "originatorDataGridViewTextBoxColumn";
-      this.originatorDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-      // 
-      // beneficiaryNameDataGridViewTextBoxColumn
-      // 
-      this.beneficiaryNameDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryName";
-      this.beneficiaryNameDataGridViewTextBoxColumn.HeaderText = "BeneficiaryName";
-      this.beneficiaryNameDataGridViewTextBoxColumn.Name = "beneficiaryNameDataGridViewTextBoxColumn";
-      // 
-      // beneficiaryAccountDataGridViewTextBoxColumn
-      // 
-      this.beneficiaryAccountDataGridViewTextBoxColumn.DataPropertyName = "BeneficiaryAccount";
-      this.beneficiaryAccountDataGridViewTextBoxColumn.HeaderText = "BeneficiaryAccount";
-      this.beneficiaryAccountDataGridViewTextBoxColumn.Name = "beneficiaryAccountDataGridViewTextBoxColumn";
-      // 
-      // amountDataGridViewTextBoxColumn
-      // 
-      this.amountDataGridViewTextBoxColumn.DataPropertyName = "Amount";
-      this.amountDataGridViewTextBoxColumn.HeaderText = "Amount";
-      this.amountDataGridViewTextBoxColumn.Name = "amountDataGridViewTextBoxColumn";
-      // 
-      // currencyDataGridViewTextBoxColumn
-      // 
-      this.currencyDataGridViewTextBoxColumn.DataPropertyName = "Currency";
-      this.currencyDataGridViewTextBoxColumn.HeaderText = "Currency";
-      this.currencyDataGridViewTextBoxColumn.Name = "currencyDataGridViewTextBoxColumn";
-      // 
-      // executionDateDataGridViewTextBoxColumn
-      // 
-      this.executionDateDataGridViewTextBoxColumn.DataPropertyName = "ExecutionDate";
-      this.executionDateDataGridViewTextBoxColumn.HeaderText = "ExecutionDate";
-      this.executionDateDataGridViewTextBoxColumn.Name = "executionDateDataGridViewTextBoxColumn";
-      // 
-      // remittanceInfoDataGridViewTextBoxColumn
-      // 
-      this.remittanceInfoDataGridViewTextBoxColumn.DataPropertyName = "RemittanceInfo";
-      this.remittanceInfoDataGridViewTextBoxColumn.HeaderText = "RemittanceInfo";
-      this.remittanceInfoDataGridViewTextBoxColumn.Name = "remittanceInfoDataGridViewTextBoxColumn";
-      // 
-      // transactionAdapterBindingSource
-      // 
-      this.transactionAdapterBindingSource.DataSource = typeof(GranitXMLEditor.TransactionAdapter);
-      // 
       // GranitXMLEditorForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(731, 285);
+      this.ClientSize = new System.Drawing.Size(1047, 358);
       this.Controls.Add(this.statusStrip1);
       this.Controls.Add(this.menuStrip1);
       this.Controls.Add(this.panel1);
@@ -800,13 +800,13 @@
       this.toolStrip1.ResumeLayout(false);
       this.toolStrip1.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).EndInit();
       this.menuStrip1.ResumeLayout(false);
       this.menuStrip1.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
       this.contextMenuStrip1.ResumeLayout(false);
       this.statusStrip1.ResumeLayout(false);
       this.statusStrip1.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.transactionAdapterBindingSource)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 

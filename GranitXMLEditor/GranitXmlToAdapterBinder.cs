@@ -3,6 +3,10 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
 using GenericUndoRedo;
+using System;
+using System.Xml.Schema;
+using System.IO;
+using GranitXMLEditor.Properties;
 
 namespace GranitXMLEditor
 {
@@ -24,6 +28,23 @@ namespace GranitXMLEditor
       }
     }
 
+    public bool XmlReadingErrorOccured { get; private set; }
+
+    private ValidationEventArgs validationEventArgs = null;
+
+    public ValidationEventArgs ValidationEventArgs
+    {
+      get
+      {
+        return validationEventArgs;
+      }
+
+      set
+      {
+        validationEventArgs = value;
+      }
+    }
+
     public GranitXmlToAdapterBinder()
     {
       GranitXDocument = new XDocument();
@@ -33,15 +54,27 @@ namespace GranitXMLEditor
       SetTransactionIdAttribute();
       ReCreateAdapter();
       History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
-     
     }
 
-    public GranitXmlToAdapterBinder(string xmlFilePath) 
+    public GranitXmlToAdapterBinder(string xmlFilePath, bool validate = false) 
     {
-      GranitXDocument = XDocument.Load(xmlFilePath);
-      SetTransactionIdAttribute();
-      ReCreateAdapter();
-      History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
+      XmlReadingErrorOccured = false; 
+      if (validate)
+      {
+        GranitXDocument = new XDocument();
+        GranitXDocument = GranitXDocument.ValidateAndLoad(xmlFilePath, Settings.Default.SchemaFile, ref validationEventArgs);
+        XmlReadingErrorOccured = validationEventArgs != null;
+      }
+      else
+        GranitXDocument = XDocument.Load(xmlFilePath);
+
+      if (!XmlReadingErrorOccured)
+      {
+        validationEventArgs = null;
+        SetTransactionIdAttribute();
+        ReCreateAdapter();
+        History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
+      }
     }
 
     private void HUFTransactionsAdapter_PropertyChanging(object sender, System.ComponentModel.PropertyChangingEventArgs e)

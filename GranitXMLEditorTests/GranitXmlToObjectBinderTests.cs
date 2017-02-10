@@ -14,7 +14,7 @@ namespace GranitXMLEditor.Tests
   public class GranitXmlToObjectBinderTests
   {
     [TestMethod()]
-    public void GranitXmlToObjectBinderTest()
+    public void GranitXmlToObjectBinder_Test()
     {
       var x2o = new GranitXmlToAdapterBinder();
       Assert.IsNotNull(x2o.GranitXDocument);
@@ -22,9 +22,24 @@ namespace GranitXMLEditor.Tests
     }
 
     [TestMethod()]
+    public void Validation_Fails_On_Errorneous_XML_Test()
+    {
+      // TODO errorneous xml
+      var x2o = new GranitXmlToAdapterBinder("example.xml", true);
+      Assert.AreNotEqual(x2o.XmlReadingErrorOccured, true);
+    }
+
+    [TestMethod()]
+    public void Validation_Succeded_Test()
+    {
+      var x2o = new GranitXmlToAdapterBinder("example.xml", true);
+      Assert.AreNotEqual(x2o.XmlReadingErrorOccured, true);
+    }
+
+    [TestMethod()]
     public void TransactionId_Uniq_Test()
     {
-      var x2o = new GranitXmlToAdapterBinder("example.xml");
+      var x2o = new GranitXmlToAdapterBinder("example.xml", true);
 
       long previous_id = -1;
       foreach ( var id in x2o.GranitXDocument.Root.Elements(Constants.Transaction).Select(x=>x.Attribute(Constants.TransactionIdAttribute).Value))
@@ -32,7 +47,6 @@ namespace GranitXMLEditor.Tests
         Assert.AreNotEqual(previous_id, long.Parse(id));
         previous_id = long.Parse(id);
       }
-
     }
   }
 }
