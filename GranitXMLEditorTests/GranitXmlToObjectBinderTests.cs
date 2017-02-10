@@ -24,9 +24,8 @@ namespace GranitXMLEditor.Tests
     [TestMethod()]
     public void Validation_Fails_On_Errorneous_XML_Test()
     {
-      // TODO errorneous xml
-      var x2o = new GranitXmlToAdapterBinder("example.xml", true);
-      Assert.AreNotEqual(x2o.XmlReadingErrorOccured, true);
+      var x2o = new GranitXmlToAdapterBinder("bad_example.xml", true);
+      Assert.AreNotEqual(x2o.XmlReadingErrorOccured, false);
     }
 
     [TestMethod()]
