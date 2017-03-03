@@ -28,20 +28,20 @@ namespace GranitXMLEditor
       }
     }
 
-    public bool XmlReadingErrorOccured { get; private set; }
+    public bool XmlValidationErrorOccured { get; private set; }
 
-    private ValidationEventArgs validationEventArgs = null;
+    private ValidationEventArgs _validationEventArgs = null;
 
     public ValidationEventArgs ValidationEventArgs
     {
       get
       {
-        return validationEventArgs;
+        return _validationEventArgs;
       }
 
       set
       {
-        validationEventArgs = value;
+        _validationEventArgs = value;
       }
     }
 
@@ -58,19 +58,19 @@ namespace GranitXMLEditor
 
     public GranitXmlToAdapterBinder(string xmlFilePath, bool validate = false) 
     {
-      XmlReadingErrorOccured = false; 
+      XmlValidationErrorOccured = false; 
       if (validate)
       {
         GranitXDocument = new XDocument();
-        GranitXDocument = GranitXDocument.ValidateAndLoad(xmlFilePath, Settings.Default.SchemaFile, ref validationEventArgs);
-        XmlReadingErrorOccured = validationEventArgs != null;
+        GranitXDocument = GranitXDocument.ValidateAndLoad(xmlFilePath, Settings.Default.SchemaFile, ref _validationEventArgs);
+        XmlValidationErrorOccured = _validationEventArgs != null;
       }
       else
         GranitXDocument = XDocument.Load(xmlFilePath);
 
-      if (!XmlReadingErrorOccured)
+      if (!XmlValidationErrorOccured)
       {
-        validationEventArgs = null;
+        _validationEventArgs = null;
         SetTransactionIdAttribute();
         ReCreateAdapter();
         History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
@@ -145,7 +145,7 @@ namespace GranitXMLEditor
     {
       var xDocToSave = new XDocument(new XElement(Constants.HUFTransactions));
 
-      foreach (var item in GranitXDocument.Root.Elements().
+      foreach (var item in GranitXDocument.Root.Elements().InDocumentOrder().
         Where(x => x.Attribute(Constants.TransactionSelectedAttribute) == null || 
         x.Attribute(Constants.TransactionSelectedAttribute).Value == "true"))
       {

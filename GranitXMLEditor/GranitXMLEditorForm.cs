@@ -237,7 +237,7 @@ namespace GranitXMLEditor
     private void LoadDocument(string xmlFilePath)
     {
       _xmlToObjectBinder = new GranitXmlToAdapterBinder(xmlFilePath, true);
-      if (_xmlToObjectBinder.XmlReadingErrorOccured)
+      if (_xmlToObjectBinder.XmlValidationErrorOccured)
       {
         XmlSchemaException e = _xmlToObjectBinder.ValidationEventArgs.Exception;
 

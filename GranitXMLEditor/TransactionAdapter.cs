@@ -120,7 +120,7 @@ namespace GranitXMLEditor
       Transaction = new Transaction();
     }
 
-    public TransactionAdapter(Transaction t, System.Xml.Linq.XDocument xdoc)
+    public TransactionAdapter(Transaction t, XDocument xdoc)
     {                                
       Transaction = t;
       GranitXDocument = xdoc;

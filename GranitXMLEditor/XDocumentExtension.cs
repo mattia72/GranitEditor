@@ -40,7 +40,7 @@ namespace GranitXMLEditor
     /// <summary>
     /// Sorts immediate child elements by XPath to an attribute or a value
     /// </summary>
-    public static void SortElementsByXPathEvaluate(this System.Xml.Linq.XDocument x, string nameOfElementToSort, string xPathToValueSortBy, SortOrder sortOrder)
+    public static void SortElementsByXPathEvaluate(this XDocument x, string nameOfElementToSort, string xPathToValueSortBy, SortOrder sortOrder)
     {
       IEnumerable<XElement> sortedElements = null;
       if (sortOrder == SortOrder.Ascending)
@@ -106,14 +106,14 @@ namespace GranitXMLEditor
              select elem;
     }
 
-    private static IEnumerable<XElement> SortElementsDescendingByXPathEvaluate(System.Xml.Linq.XDocument x, string nameOfElementToSort, string xPathToValueSortBy)
+    private static IEnumerable<XElement> SortElementsDescendingByXPathEvaluate(XDocument x, string nameOfElementToSort, string xPathToValueSortBy)
     {
       return x.Root.Elements(nameOfElementToSort)
         .OrderByDescending(
         elem => elem.XPathEvaluate("string(" + xPathToValueSortBy +")") as string );
     }
 
-    private static IEnumerable<XElement> SortElementsAscendingByXPathEvaluate(System.Xml.Linq.XDocument x, string nameOfElementToSort, string xPathToValueSortBy)
+    private static IEnumerable<XElement> SortElementsAscendingByXPathEvaluate(XDocument x, string nameOfElementToSort, string xPathToValueSortBy)
     {
       return from elem in x.Root.Elements(nameOfElementToSort)
              orderby elem.XPathEvaluate("string(" + xPathToValueSortBy +")") as string
