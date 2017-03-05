@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -14,24 +15,32 @@ namespace GranitXMLEditor
 {
   public static class XDocumentExtension
   {
-    public static bool IsEmpty(this System.Xml.Linq.XDocument element)
+    public static bool IsEmpty(this XDocument element)
     {
       return element.Elements().Count() == 0;
     }
+
     /// <summary>
-    /// Sorts immediate child elements by XPath to a value
+    /// Sorts immediate child elements by XPath to a string value
     /// </summary>
-    public static void SortElementsByXPathElementValue(this System.Xml.Linq.XDocument x, string nameOfElementToSort, string xPathToValueSortBy, SortOrder sortOrder)
+    public static void SortElementsByXPathToStringValue(this XDocument x, string nameOfElementToSort, string xPathToValueSortBy, SortOrder sortOrder)
     {
       IEnumerable<XElement> sortedElements = null;
-      if (sortOrder == SortOrder.Ascending)
-      {
-        sortedElements = SortElementsAscendingByXPathElementValue(x, nameOfElementToSort, xPathToValueSortBy);
-      }
-      else if (sortOrder == SortOrder.Descending)
-      {
-        sortedElements = SortElementsDescendingByXPathElementValue(x, nameOfElementToSort, xPathToValueSortBy);
-      }
+      sortedElements = SortElementsByXPathElementStringValue(
+        x, nameOfElementToSort, xPathToValueSortBy, sortOrder);
+
+      if (sortedElements != null)
+        sortedElements.First().Parent.ReplaceNodes(sortedElements); // and now we lost comments from parent node... BUG 15
+    }
+
+    /// <summary>
+    /// Sorts immediate child elements by XPath to a string value
+    /// </summary>
+    public static void SortElementsByXPathToDecimalValue(this XDocument x, string nameOfElementToSort, string xPathToValueSortBy, SortOrder sortOrder)
+    {
+      IEnumerable<XElement> sortedElements = null;
+      sortedElements = SortElementsByXPathElementDecimalValue(
+        x, nameOfElementToSort, xPathToValueSortBy, sortOrder);
 
       if (sortedElements != null)
         sortedElements.First().Parent.ReplaceNodes(sortedElements); // and now we lost comments from parent node... BUG 15
@@ -43,20 +52,14 @@ namespace GranitXMLEditor
     public static void SortElementsByXPathEvaluate(this XDocument x, string nameOfElementToSort, string xPathToValueSortBy, SortOrder sortOrder)
     {
       IEnumerable<XElement> sortedElements = null;
-      if (sortOrder == SortOrder.Ascending)
-      {
-        sortedElements = SortElementsAscendingByXPathEvaluate(x, nameOfElementToSort, xPathToValueSortBy);
-      }
-      else if (sortOrder == SortOrder.Descending)
-      {
-        sortedElements = SortElementsDescendingByXPathEvaluate(x, nameOfElementToSort, xPathToValueSortBy);
-      }
+      sortedElements = SortElementsDescendingByXPathEvaluateString(
+        x, nameOfElementToSort, xPathToValueSortBy, sortOrder);
 
       if (sortedElements != null)
         sortedElements.First().Parent.ReplaceNodes(sortedElements); // and now we lost comments from parent node... BUG 15
     }
 
-    public static XDocument ValidateAndLoad( this XDocument x, string xmlPath, string schemaPath, ref ValidationEventArgs validationEventArgs)
+    public static XDocument ValidateAndLoad(this XDocument x, string xmlPath, string schemaPath, ref ValidationEventArgs validationEventArgs)
     {
       validationEventArgs = Validate(schemaPath, xmlPath);
       return XDocument.Load(xmlPath);
@@ -92,34 +95,45 @@ namespace GranitXMLEditor
       return eventArgs;
     }
 
-    private static IEnumerable<XElement> SortElementsDescendingByXPathElementValue(System.Xml.Linq.XDocument x, string nameOfElementToSort, string xPathToValueSortBy)
+    private static IEnumerable<XElement> SortElementsByXPathElementStringValue(
+      XDocument x, string nameOfElementToSort, string xPathToValueSortBy, SortOrder sortOrder)
     {
-      return x.Root.Elements(nameOfElementToSort)
-        .OrderByDescending(
-        elem => elem.XPathSelectElement(xPathToValueSortBy).Value);
+      if (sortOrder == SortOrder.Descending)
+        return x.Root.Elements(nameOfElementToSort)
+          .OrderByDescending(
+          elem => elem.XPathSelectElement(xPathToValueSortBy).Value);
+      else
+        return from elems in x.Root.Elements(nameOfElementToSort)
+               orderby elems.XPathSelectElement(xPathToValueSortBy).Value
+               select elems;
     }
 
-    private static IEnumerable<XElement> SortElementsAscendingByXPathElementValue(System.Xml.Linq.XDocument x, string nameOfElementToSort, string xPathToValueSortBy)
+    private static IEnumerable<XElement> SortElementsByXPathElementDecimalValue(
+      XDocument x, string nameOfElementToSort, string xPathToValueSortBy, SortOrder sortOrder)
     {
-      return from elem in x.Root.Elements(nameOfElementToSort)
-             orderby elem.XPathSelectElement(xPathToValueSortBy).Value
-             select elem;
+      if (sortOrder == SortOrder.Descending)
+        return x.Root.Elements(nameOfElementToSort)
+          .OrderByDescending(
+            elem => decimal.Parse(elem.XPathSelectElement(xPathToValueSortBy).Value,
+          NumberStyles.Number, CultureInfo.InvariantCulture));
+      else
+        return from elems in x.Root.Elements(nameOfElementToSort)
+               orderby decimal.Parse(elems.XPathSelectElement(xPathToValueSortBy).Value,
+                         NumberStyles.Number, CultureInfo.InvariantCulture)
+               select elems;
     }
 
-    private static IEnumerable<XElement> SortElementsDescendingByXPathEvaluate(XDocument x, string nameOfElementToSort, string xPathToValueSortBy)
+    private static IEnumerable<XElement> SortElementsDescendingByXPathEvaluateString(
+      XDocument x, string nameOfElementToSort, string xPathToValueSortBy, SortOrder sortOrder)
     {
-      return x.Root.Elements(nameOfElementToSort)
-        .OrderByDescending(
-        elem => elem.XPathEvaluate("string(" + xPathToValueSortBy +")") as string );
+      if (sortOrder == SortOrder.Descending)
+        return x.Root.Elements(nameOfElementToSort)
+          .OrderByDescending(
+          elem => elem.XPathEvaluate("string(" + xPathToValueSortBy + ")") as string);
+      else
+        return from elem in x.Root.Elements(nameOfElementToSort)
+               orderby elem.XPathEvaluate("string(" + xPathToValueSortBy + ")") as string
+               select elem;
     }
-
-    private static IEnumerable<XElement> SortElementsAscendingByXPathEvaluate(XDocument x, string nameOfElementToSort, string xPathToValueSortBy)
-    {
-      return from elem in x.Root.Elements(nameOfElementToSort)
-             orderby elem.XPathEvaluate("string(" + xPathToValueSortBy +")") as string
-             select elem;
-    }
-
-
   }
 }

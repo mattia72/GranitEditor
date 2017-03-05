@@ -12,9 +12,9 @@ namespace GranitXMLEditor.Tests
   public class TransactionAdapterTests
   {
     [TestMethod()]
-    public void UpdateGranitXDocumentTest()
+    public void UpdateGranitXDocument_Test()
     {
-      System.Xml.Linq.XDocument xt;
+      XDocument xt;
       TransactionAdapter ta;
       FillTransactionAdapter(out xt, out ta);
 

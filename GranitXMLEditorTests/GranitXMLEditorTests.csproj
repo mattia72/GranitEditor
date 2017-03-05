@@ -59,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransactionAdapterTests.cs" />
     <Compile Include="TransactionTests.cs" />
+    <Compile Include="XDocumentExtensionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GranitXMLEditor\GranitXMLEditor.csproj">

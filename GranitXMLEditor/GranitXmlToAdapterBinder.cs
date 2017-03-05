@@ -186,33 +186,33 @@ namespace GranitXMLEditor
             sortOrder);
           break;
         case Constants.OriginatorPropertyName:
-          GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
+          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction, 
             string.Join("/", new string[] { Constants.Originator, Constants.Account, Constants.AccountNumber }), 
             sortOrder);
           break;
         case Constants.BeneficiaryNamePropertyName:
-          GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
+          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction, 
             string.Join("/", new string[] { Constants.Beneficiary, Constants.Name }), sortOrder);
           break;
         case Constants.BeneficiaryAccountPropertyName:
-          GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction,
+          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction,
             string.Join("/", new string[] { Constants.Beneficiary, Constants.Account, Constants.AccountNumber }),
             sortOrder);
           break;
         case Constants.AmountPropertyName:
-          GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, Constants.Amount, sortOrder);
+          GranitXDocument.SortElementsByXPathToDecimalValue(Constants.Transaction, Constants.Amount, sortOrder);
           break;
         case Constants.CurrencyPropertyName:
           GranitXDocument.SortElementsByXPathEvaluate(Constants.Transaction, 
             Constants.Amount + "/@" + Constants.Currency, sortOrder);
           break;
         case Constants.ExecutionDatePropertyName:
-          GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
+          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction, 
             Constants.RequestedExecutionDate, sortOrder);
           break;
         case Constants.RemittanceInfoPropertyName:
           //TODO sort by all Text field
-          GranitXDocument.SortElementsByXPathElementValue(Constants.Transaction, 
+          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction, 
             Constants.RemittanceInfo + "/" + Constants.Text, sortOrder);
           break;
       }

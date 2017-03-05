@@ -89,9 +89,9 @@ namespace GranitXMLEditor.Tests
     public void CompareTo_Amount_NotEqual_Test()
     {
       //arrange
-      var xt1 = System.Xml.Linq.XDocument.Parse(TestConstants.TransactionXml);
-      var transactionXml2 = TestConstants.TransactionXml.Replace("1000.00", "1111.11");
-      var xt2 = System.Xml.Linq.XDocument.Parse(transactionXml2);
+      var xt1 = XDocument.Parse(TestConstants.TransactionXml);
+      var transactionXml2 = TestConstants.TransactionXml.Replace("100.00", "1111.11");
+      var xt2 = XDocument.Parse(transactionXml2);
 
       var ser = new XmlSerializer(typeof(Transaction));
       Transaction t1 = (Transaction)ser.Deserialize(xt1.CreateReader());

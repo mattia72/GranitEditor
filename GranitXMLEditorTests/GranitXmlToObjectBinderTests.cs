@@ -85,25 +85,25 @@ namespace GranitXMLEditor.Tests
         public void Sort_AmountAscending_Test()
         {
             foreach (var xml in good_examples)
-                Sort_amount_Test(xml, SortOrder.Ascending);
+                Sort_Amount_Test(xml, SortOrder.Ascending);
         }
 
         [TestMethod()]
         public void Sort_AmountDescending_Test()
         {
             foreach (var xml in good_examples)
-                Sort_amount_Test(xml, SortOrder.Descending);
+                Sort_Amount_Test(xml, SortOrder.Descending);
         }
 
-        private static void Sort_amount_Test(string xml, SortOrder order)
+        private static void Sort_Amount_Test(string xml, SortOrder order)
         {
             var x2o = new GranitXmlToAdapterBinder(xml, true);
 
             x2o.Sort(Constants.AmountPropertyName, order);
             decimal maxAmount = x2o.HUFTransactionsAdapter.TransactionAdapters.Max(ta => ta.Amount);
             decimal minAmount = x2o.HUFTransactionsAdapter.TransactionAdapters.Min(ta => ta.Amount);
-            string firstAmount = x2o.GranitXDocument.Root.Elements(Constants.Transaction).InDocumentOrder().First().Element(Constants.Amount).Value;
-            string lastAmount = x2o.GranitXDocument.Root.Elements(Constants.Transaction).InDocumentOrder().Last().Element(Constants.Amount).Value;
+            string firstAmount = x2o.GranitXDocument.Root.Elements(Constants.Transaction).First().Element(Constants.Amount).Value;
+            string lastAmount = x2o.GranitXDocument.Root.Elements(Constants.Transaction).Last().Element(Constants.Amount).Value;
 
             if (order == SortOrder.Descending)
             {
