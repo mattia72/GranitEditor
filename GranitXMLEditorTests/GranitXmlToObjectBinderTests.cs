@@ -10,8 +10,8 @@ namespace GranitXMLEditor.Tests
     [TestClass()]
     public class GranitXmlToObjectBinderTests
     {
-        //static string[] good_examples = { "example.xml" }; //, "fizu_adok_1701.xml" };
-        static string[] good_examples = { "fizu_adok_1701.xml" };
+        static string[] good_examples = { "example.xml", "test.xml" };
+        //static string[] good_examples = { "fizu_adok_1701.xml" };
 
         [TestMethod()]
         public void GranitXmlToObjectBinder_Test()

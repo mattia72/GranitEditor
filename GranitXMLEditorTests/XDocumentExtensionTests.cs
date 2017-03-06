@@ -16,16 +16,16 @@ namespace GranitXMLEditor.Tests
     public void SortElementsByXPathElementValue_Test()
     {
       string[] HUFTransactionXmls = {
-        //@" 
-        //<HUFTransactions> " +
-        //  TestConstants.TransactionXElem2 +
-        //  TestConstants.TransactionXml +
-        //  TestConstants.TransactionXElem4 +
-        //  TestConstants.TransactionXElem1 +
-        //  TestConstants.TransactionXElem3 + @"
-        //</HUFTransactions> ",
-        //File.ReadAllText("example.xml"),
-        File.ReadAllText("fizu_adok_1702.xml") };
+        @" 
+        <HUFTransactions> " +
+          TestConstants.TransactionXElem2 +
+          TestConstants.TransactionXml +
+          TestConstants.TransactionXElem4 +
+          TestConstants.TransactionXElem1 +
+          TestConstants.TransactionXElem3 + @"
+        </HUFTransactions> ",
+        File.ReadAllText("example.xml"),
+        File.ReadAllText("test.xml") };
 
       foreach (string HUFTransactionXml in HUFTransactionXmls)
       {
