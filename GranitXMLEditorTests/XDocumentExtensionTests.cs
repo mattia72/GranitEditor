@@ -29,12 +29,18 @@ namespace GranitXMLEditor.Tests
 
       foreach (string HUFTransactionXml in HUFTransactionXmls)
       {
-        Sort_Test(HUFTransactionXml, Constants.Transaction, Constants.AmountPropertyName, SortOrder.Ascending);
-        Sort_Test(HUFTransactionXml, Constants.Transaction, Constants.AmountPropertyName, SortOrder.Descending);
+        SortDecimal_Test(HUFTransactionXml, Constants.Transaction, Constants.AmountPropertyName, SortOrder.Ascending);
+        SortDecimal_Test(HUFTransactionXml, Constants.Transaction, Constants.AmountPropertyName, SortOrder.Descending);
+      }
+
+      foreach (string HUFTransactionXml in HUFTransactionXmls)
+      {
+        SortString_Test(HUFTransactionXml, Constants.Transaction, Constants.RequestedExecutionDate, SortOrder.Ascending);
+        SortString_Test(HUFTransactionXml, Constants.Transaction, Constants.RequestedExecutionDate, SortOrder.Descending);
       }
     }
 
-    private static void Sort_Test(string xml, string elements, string byElement, SortOrder sortOrder)
+    private static void SortString_Test(string xml, string elements, string byElement, SortOrder sortOrder)
     {
       var xdoc = XDocument.Parse(xml);
 
@@ -49,9 +55,38 @@ namespace GranitXMLEditor.Tests
       var ordered = sortOrder == SortOrder.Descending ?
         elementArray.OrderByDescending(x => x) : elementArray.OrderBy(x => x);
 
-      Debug.WriteLine("elements=" + string.Join(", ", elementArray));
-      Debug.WriteLine("sorted  =" + string.Join(", ", sortedElementArray));
-      Debug.WriteLine("ordered =" + string.Join(", ", ordered));
+      //Debug.WriteLine("------\nxml=" + xml);
+      //Debug.WriteLine("elements=" + string.Join(", ", elementArray));
+      //Debug.WriteLine("sorted  =" + string.Join(", ", sortedElementArray));
+      //Debug.WriteLine("ordered =" + string.Join(", ", ordered));
+
+      string s1 = string.Join(",", ordered);
+      string s2 = string.Join(",", sortedElementArray);
+
+      Assert.AreEqual(s1, s2);
+    }
+
+    private static void SortDecimal_Test(string xml, string elements, string byElement, SortOrder sortOrder)
+    {
+      var xdoc = XDocument.Parse(xml);
+
+      decimal[] elementArray = xdoc.Root.Elements(elements)
+        .Elements(byElement).Select(t => 
+        decimal.Parse(t.Value, NumberStyles.Number, CultureInfo.InvariantCulture)).ToArray();
+
+      xdoc.SortElementsByXPathToDecimalValue(elements, byElement, sortOrder);
+
+      decimal[] sortedElementArray = xdoc.Root.Elements(elements)
+        .Elements(byElement).Select(t => 
+        decimal.Parse(t.Value, NumberStyles.Number, CultureInfo.InvariantCulture)).ToArray();
+
+      var ordered = sortOrder == SortOrder.Descending ?
+        elementArray.OrderByDescending(x => x) : elementArray.OrderBy(x => x);
+
+      //Debug.WriteLine("------\nxml=" + xml);
+      //Debug.WriteLine("elements=" + string.Join(", ", elementArray));
+      //Debug.WriteLine("sorted  =" + string.Join(", ", sortedElementArray));
+      //Debug.WriteLine("ordered =" + string.Join(", ", ordered));
 
       string s1 = string.Join(",", ordered);
       string s2 = string.Join(",", sortedElementArray);
