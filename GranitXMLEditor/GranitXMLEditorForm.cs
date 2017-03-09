@@ -6,6 +6,7 @@ using GranitXMLEditor.Properties;
 using System.Diagnostics;
 using System.Linq;
 using System.Xml.Schema;
+using System.Collections.Generic;
 
 namespace GranitXMLEditor
 {
@@ -60,17 +61,24 @@ namespace GranitXMLEditor
 
     private void mruMenu_Clicked(int number, string filename)
     {
-      if (File.Exists(filename))
+      DialogResult answere = DialogResult.OK; ;
+      if (DocHasPendingChanges)
+        answere = AskAndSaveFile(MessageBoxButtons.YesNoCancel);
+
+      if (answere != DialogResult.Cancel)
       {
-        LoadDocument(filename);
-        _mruMenu.SetFirstFile(number);
-      }
-      else
-      {
-        MessageBox.Show(
-        string.Format(Resources.FileDoesntExists, Path.GetFileName(filename)),
-        Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-        _mruMenu.RemoveFile(number);
+        if (File.Exists(filename))
+        {
+          LoadDocument(filename);
+          _mruMenu.SetFirstFile(number);
+        }
+        else
+        {
+          MessageBox.Show(
+          string.Format(Resources.FileDoesntExists, Path.GetFileName(filename)),
+          Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+          _mruMenu.RemoveFile(number);
+        }
       }
     }
 
@@ -306,7 +314,13 @@ namespace GranitXMLEditor
 
     private void openToolStripMenuItem1_Click(object sender, EventArgs e)
     {
-      OpenGranitXmlFile();
+
+      DialogResult answere = DialogResult.OK; ;
+      if (DocHasPendingChanges)
+        answere = AskAndSaveFile(MessageBoxButtons.YesNoCancel);
+
+      if (answere != DialogResult.Cancel)
+        OpenGranitXmlFile();
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -401,8 +415,8 @@ namespace GranitXMLEditor
       Debug.WriteLine(e.RowCount + " rows added at index: " + e.RowIndex);
       TransactionAdapter ta = (TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem;
       Debug.WriteLine("Adapter: " + (ta != null ? ta.ToString() : "null"));
-      allStatusLabel.Text = "Count: " + _xmlToObjectBinder.TransactionCount; 
-      allAmountStatus.Text = "Sum: " + _xmlToObjectBinder.SumAmount;
+      allStatusLabel.Text = "Count: " + _xmlToObjectBinder.TransactionCount;
+      allAmountStatus.Text = "Sum: " + _xmlToObjectBinder.SumAmount + " Ft";
     }
 
     private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -633,17 +647,17 @@ namespace GranitXMLEditor
     private void dataGridView1_SelectionChanged(object sender, EventArgs e)
     {
       decimal sum = 0;
-      int count = 0;
+      HashSet<int> selectedRowIndexes = new HashSet<int>();
       foreach (DataGridViewCell cell in dataGridView1.SelectedCells)
       {
-        if(cell.Value is decimal)
-        {
-          sum += (decimal)cell.Value;
-          count++;
-        }
+        selectedRowIndexes.Add(cell.OwningRow.Index);
       }
-      selectedAmountStatus.Text = "Sum of Selected: " + sum.ToString();
-      selectedStatusLabel.Text = "Selected: " + count;
+      foreach (int index in selectedRowIndexes)
+      {
+        sum += (decimal)dataGridView1.Rows[index].Cells["amountDataGridViewTextBoxColumn"].Value;
+      }
+      selectedAmountStatus.Text = "Sum of Selected: " + sum.ToString() + " Ft";
+      selectedStatusLabel.Text = "Selected: " + selectedRowIndexes.Count;
     }
   }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-2"?>
 <!DOCTYPE HUFTransactions SYSTEM "HUFTransactions.dtd">
 <HUFTransactions>
-  <!-- Utólagos -->
+  <!-- Comment 1 -->
   <Transaction>
     <Originator>
       <Account>
@@ -17,7 +17,7 @@
     <Amount Currency="HUF">1000.00</Amount>
     <RequestedExecutionDate>2016-12-02</RequestedExecutionDate>
     <RemittanceInfo>
-      <Text>Utólagos elszámolásra</Text>
+      <Text>Közlemény</Text>
     </RemittanceInfo>
   </Transaction>
   <!-- 290: Adóelőleg -->
@@ -41,7 +41,7 @@
       <Text>Dátum: 2016 november</Text>
     </RemittanceInfo>
   </Transaction>
-  <!-- 152: Egészségügyi hozzájárulás (nem minden hónapban!) -->
+  <!-- 152: Egészségügyi hozzájárulás  -->
   <Transaction>
     <Originator>
       <Account>

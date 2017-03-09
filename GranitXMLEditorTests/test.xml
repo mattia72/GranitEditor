@@ -16,7 +16,7 @@
     <Amount Currency="HUF">10.00</Amount>
     <RequestedExecutionDate>2016-12-02</RequestedExecutionDate>
     <RemittanceInfo>
-      <Text>Utólagos elszámolásra</Text>
+      <Text>Közlemény</Text>
     </RemittanceInfo>
   </Transaction>
   <!-- 290: Adóelõleg -->

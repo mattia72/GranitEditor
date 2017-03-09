@@ -46,7 +46,8 @@ namespace GranitXMLEditor.Tests
         var x2o = new GranitXmlToAdapterBinder(xml, true);
 
         long previous_id = -1;
-        foreach (var id in x2o.GranitXDocument.Root.Elements(Constants.Transaction).Select(x => x.Attribute(Constants.TransactionIdAttribute).Value))
+        foreach (var id in x2o.GranitXDocument.Root
+          .Elements(Constants.Transaction).Select(x => x.Attribute(Constants.TransactionIdAttribute).Value))
         {
           Assert.AreNotEqual(previous_id, long.Parse(id));
           previous_id = long.Parse(id);
@@ -85,17 +86,19 @@ namespace GranitXMLEditor.Tests
     public void Sort_AmountAscending_Test()
     {
       foreach (var xml in good_examples)
-        Sort_Amount_Test(xml, SortOrder.Ascending);
+      {
+        Amount_Sort_and_MinMax_Test(xml, SortOrder.Ascending);
+      }
     }
 
     [TestMethod()]
     public void Sort_AmountDescending_Test()
     {
       foreach (var xml in good_examples)
-        Sort_Amount_Test(xml, SortOrder.Descending);
+        Amount_Sort_and_MinMax_Test(xml, SortOrder.Descending);
     }
 
-    private static void Sort_Amount_Test(string xml, SortOrder order)
+    private static void Amount_Sort_and_MinMax_Test(string xml, SortOrder order)
     {
       var x2o = new GranitXmlToAdapterBinder(xml, true);
 
@@ -105,12 +108,22 @@ namespace GranitXMLEditor.Tests
       string firstAmount = x2o.GranitXDocument.Root.Elements(Constants.Transaction).First().Element(Constants.Amount).Value;
       string lastAmount = x2o.GranitXDocument.Root.Elements(Constants.Transaction).Last().Element(Constants.Amount).Value;
 
+      string[] amounts = x2o.GranitXDocument.Root.Elements(Constants.Transaction).Elements(Constants.Amount).Select(t=>t.Value).ToArray();
+      string s_before = amounts[0];
+
       if (order == SortOrder.Descending)
       {
         Assert.AreEqual(decimal.Parse(firstAmount, NumberStyles.Number, CultureInfo.InvariantCulture),
             maxAmount);
         Assert.AreEqual(decimal.Parse(lastAmount, NumberStyles.Number, CultureInfo.InvariantCulture),
             minAmount);
+        foreach (var s in amounts)
+        {
+          Assert.IsTrue(
+            decimal.Parse(s_before, NumberStyles.Number, CultureInfo.InvariantCulture) >=
+            decimal.Parse(s, NumberStyles.Number, CultureInfo.InvariantCulture));
+          s_before = s;
+        }                                                                 
       }
       else
       {
@@ -118,6 +131,15 @@ namespace GranitXMLEditor.Tests
             minAmount);
         Assert.AreEqual(decimal.Parse(lastAmount, NumberStyles.Number, CultureInfo.InvariantCulture),
             maxAmount);
+        foreach (var s in amounts)
+        {
+          Assert.IsTrue(
+            decimal.Parse(s_before, NumberStyles.Number, CultureInfo.InvariantCulture) <=
+            decimal.Parse(s, NumberStyles.Number, CultureInfo.InvariantCulture));
+          s_before = s;
+        }                                                                 
+
+
       }
     }
 
