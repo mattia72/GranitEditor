@@ -40,6 +40,9 @@ namespace GranitXMLEditor
       ApplySettings();
       //after sorting has to be reset...
       DocHasPendingChanges = false;
+      //Drag & Drop support
+      AllowDrop = true;
+      dataGridView1.AllowDrop = true;
     }
 
     private void autoSizeMenu_Clicked(DataGridViewAutoSizeColumnsMode mode)
@@ -61,9 +64,7 @@ namespace GranitXMLEditor
 
     private void mruMenu_Clicked(int number, string filename)
     {
-      DialogResult answere = DialogResult.OK; ;
-      if (DocHasPendingChanges)
-        answere = AskAndSaveFile(MessageBoxButtons.YesNoCancel);
+      DialogResult answere = CheckPendingChangesAndSaveIfNecessary();
 
       if (answere != DialogResult.Cancel)
       {
@@ -314,13 +315,18 @@ namespace GranitXMLEditor
 
     private void openToolStripMenuItem1_Click(object sender, EventArgs e)
     {
-
-      DialogResult answere = DialogResult.OK; ;
-      if (DocHasPendingChanges)
-        answere = AskAndSaveFile(MessageBoxButtons.YesNoCancel);
+      DialogResult answere = CheckPendingChangesAndSaveIfNecessary();
 
       if (answere != DialogResult.Cancel)
         OpenGranitXmlFile();
+    }
+
+    private DialogResult CheckPendingChangesAndSaveIfNecessary()
+    {
+      DialogResult answere = DialogResult.OK; ;
+      if (DocHasPendingChanges)
+        answere = AskAndSaveFile(MessageBoxButtons.YesNoCancel);
+      return answere;
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -432,9 +438,7 @@ namespace GranitXMLEditor
 
     private void New()
     {
-      DialogResult answere = DialogResult.OK; ;
-      if (DocHasPendingChanges)
-        answere = AskAndSaveFile(MessageBoxButtons.YesNoCancel);
+      DialogResult answere = CheckPendingChangesAndSaveIfNecessary();
 
       if (answere != DialogResult.Cancel)
         OpenNewDocument();
@@ -658,6 +662,64 @@ namespace GranitXMLEditor
       }
       selectedAmountStatus.Text = "Sum of Selected: " + sum.ToString() + " Ft";
       selectedStatusLabel.Text = "Selected: " + selectedRowIndexes.Count;
+    }
+
+    private void dataGridView1_DragEnter(object sender, DragEventArgs e)
+    {
+      Debug.WriteLine("DragEnter");
+      string filename;
+      bool validData = ValidateDropFile(out filename, e);
+      if (validData)
+        e.Effect = DragDropEffects.Copy;
+      else
+        e.Effect = DragDropEffects.None;
+    }
+
+    private void dataGridView1_DragDrop(object sender, DragEventArgs e)
+    {
+      DialogResult answere = CheckPendingChangesAndSaveIfNecessary();
+      if (answere != DialogResult.Cancel)
+      {
+        string[] files = (string[])(e.Data.GetData(DataFormats.FileDrop, false));
+        LoadDocument(Path.GetFullPath(files[0]).ToString());
+        //foreach (string file in files)
+        //{
+        //  throw new NotImplementedException("Drop more then one files not supported (yet)!");
+        //}
+      }
+    }
+
+    private void dataGridView1_DragLeave(object sender, EventArgs e)
+    {
+
+    }
+
+    private void dataGridView1_DragOver(object sender, DragEventArgs e)
+    {
+
+    }
+    protected bool ValidateDropFile(out string filename, DragEventArgs e)
+    {
+      bool ret = false;
+      filename = string.Empty;
+
+      if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy)
+      {
+        Array data = ((IDataObject)e.Data).GetData("FileName") as Array;
+        if (data != null)
+        {
+          if ((data.Length == 1) && (data.GetValue(0) is string))
+          {
+            filename = ((string[])data)[0];
+            string ext = Path.GetExtension(filename).ToLower();
+            if ((ext == ".xml") )//|| (ext == ".png") || (ext == ".bmp"))
+            {
+              ret = true;
+            }
+          }
+        }
+      }
+      return ret;
     }
   }
 }
