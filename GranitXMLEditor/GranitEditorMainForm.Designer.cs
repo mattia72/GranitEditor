@@ -60,6 +60,7 @@
       this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
       this.customizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.contentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.indexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,7 +89,9 @@
       this.allAmountStatus = new System.Windows.Forms.ToolStripStatusLabel();
       this.selectedStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
       this.selectedAmountStatus = new System.Windows.Forms.ToolStripStatusLabel();
-      this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.cascadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.tileHorizontalyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.tileVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip1.SuspendLayout();
       this.toolStrip1.SuspendLayout();
       this.statusStrip1.SuspendLayout();
@@ -359,6 +362,16 @@
       this.optionsToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
       this.optionsToolStripMenuItem.Text = "&Options";
       // 
+      // windowToolStripMenuItem
+      // 
+      this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cascadeToolStripMenuItem,
+            this.tileHorizontalyToolStripMenuItem,
+            this.tileVerticallyToolStripMenuItem});
+      this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
+      this.windowToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
+      this.windowToolStripMenuItem.Text = "&Window";
+      // 
       // helpToolStripMenuItem1
       // 
       this.helpToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -375,32 +388,32 @@
       // 
       this.contentsToolStripMenuItem.Enabled = false;
       this.contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
-      this.contentsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.contentsToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
       this.contentsToolStripMenuItem.Text = "&Contents";
       // 
       // indexToolStripMenuItem
       // 
       this.indexToolStripMenuItem.Enabled = false;
       this.indexToolStripMenuItem.Name = "indexToolStripMenuItem";
-      this.indexToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.indexToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
       this.indexToolStripMenuItem.Text = "&Index";
       // 
       // searchToolStripMenuItem
       // 
       this.searchToolStripMenuItem.Enabled = false;
       this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-      this.searchToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.searchToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
       this.searchToolStripMenuItem.Text = "&Search";
       // 
       // toolStripSeparator5
       // 
       this.toolStripSeparator5.Name = "toolStripSeparator5";
-      this.toolStripSeparator5.Size = new System.Drawing.Size(178, 6);
+      this.toolStripSeparator5.Size = new System.Drawing.Size(139, 6);
       // 
       // aboutToolStripMenuItem1
       // 
       this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-      this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
+      this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(142, 26);
       this.aboutToolStripMenuItem1.Text = "&About...";
       this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
       // 
@@ -605,11 +618,26 @@
       this.selectedAmountStatus.Size = new System.Drawing.Size(132, 20);
       this.selectedAmountStatus.Text = "Sum of Selected: 0";
       // 
-      // windowToolStripMenuItem
+      // cascadeToolStripMenuItem
       // 
-      this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
-      this.windowToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
-      this.windowToolStripMenuItem.Text = "Window";
+      this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
+      this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.cascadeToolStripMenuItem.Text = "Cascade";
+      this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.cascadeToolStripMenuItem_Click);
+      // 
+      // tileHorizontalyToolStripMenuItem
+      // 
+      this.tileHorizontalyToolStripMenuItem.Name = "tileHorizontalyToolStripMenuItem";
+      this.tileHorizontalyToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+      this.tileHorizontalyToolStripMenuItem.Text = "Tile Horizontaly";
+      this.tileHorizontalyToolStripMenuItem.Click += new System.EventHandler(this.tileHorizontalyToolStripMenuItem_Click);
+      // 
+      // tileVerticallyToolStripMenuItem
+      // 
+      this.tileVerticallyToolStripMenuItem.Name = "tileVerticallyToolStripMenuItem";
+      this.tileVerticallyToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+      this.tileVerticallyToolStripMenuItem.Text = "Tile Vertically";
+      this.tileVerticallyToolStripMenuItem.Click += new System.EventHandler(this.tileVerticallyToolStripMenuItem_Click);
       // 
       // GranitEditorMainForm
       // 
@@ -699,5 +727,8 @@
     private System.Windows.Forms.ToolStripStatusLabel selectedStatusLabel;
     private System.Windows.Forms.ToolStripStatusLabel selectedAmountStatus;
     private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem cascadeToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem tileHorizontalyToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem tileVerticallyToolStripMenuItem;
   }
 }

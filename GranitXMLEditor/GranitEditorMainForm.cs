@@ -176,6 +176,10 @@ namespace GranitXMLEditor
       pasteToolStripMenuItem.Enabled = enabled;
       cutToolStripButton.Enabled = enabled;
       cutToolStripMenuItem.Enabled = enabled;
+
+      cascadeToolStripMenuItem.Enabled = enabled;
+      tileHorizontalyToolStripMenuItem.Enabled = enabled;
+      tileVerticallyToolStripMenuItem.Enabled = enabled; 
     }
 
     private void ApplySettings()
@@ -290,6 +294,7 @@ namespace GranitXMLEditor
     {
       EnableMenuItemsForActiveForm();
       EnableToolBoxItemsForActiveForm();
+
       if (ActiveXmlForm != null)
       {
         ActiveXmlForm.ActualizeStatusLabelsOfAll();
@@ -298,6 +303,7 @@ namespace GranitXMLEditor
       else
       {
         InitStatusLabels();
+        EnableAllXmlFormContextFunction(false);
       }
     }
 
@@ -524,6 +530,10 @@ namespace GranitXMLEditor
       selectAllToolStripMenuItem.Enabled = ActiveXmlForm != null;
       deleteSelectedToolStripMenuItem.Enabled = ActiveXmlForm != null;
       findAndReplaceToolStripMenuItem.Enabled = ActiveXmlForm != null;
+
+      cascadeToolStripMenuItem.Enabled = ActiveXmlForm != null;
+      tileHorizontalyToolStripMenuItem.Enabled =ActiveXmlForm != null;
+      tileVerticallyToolStripMenuItem.Enabled = ActiveXmlForm != null;
     }
 
     private void EnableToolBoxItemsForActiveForm()
@@ -602,6 +612,21 @@ namespace GranitXMLEditor
     private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
     {
       About();
+    }
+
+    private void cascadeToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      LayoutMdi(MdiLayout.Cascade);
+    }
+
+    private void tileHorizontalyToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      LayoutMdi(MdiLayout.TileHorizontal);
+    }
+
+    private void tileVerticallyToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      LayoutMdi(MdiLayout.TileVertical);
     }
   }
 }
