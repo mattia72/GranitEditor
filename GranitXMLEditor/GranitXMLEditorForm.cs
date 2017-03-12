@@ -436,8 +436,12 @@ namespace GranitXMLEditor
     public void SelectAll()
     {
       dataGridView1.EndEdit();
-      //_xmlToObject.HUFTransactionAdapter.Transactions.Where(t => !t.IsActive).All(x => { return x.IsActive = true;});
       dataGridView1.SelectAll();
+      if (dataGridView1.RowCount > 0)
+      {
+        var lastRow = dataGridView1.Rows[dataGridView1.RowCount - 1];
+        lastRow.Selected = false;
+      }
     }
 
     private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -528,7 +532,8 @@ namespace GranitXMLEditor
       }
       foreach (int index in selectedRowIndexes)
       {
-        sum += (decimal)dataGridView1.Rows[index].Cells["amountDataGridViewTextBoxColumn"].Value;
+        object o = dataGridView1.Rows[index].Cells["amountDataGridViewTextBoxColumn"].Value;
+        sum += o == null ? 0 : (decimal)o;
       }
       MainForm?.SetStatusLabelItemText("selectedAmountStatus",
         Resources.StatusSumSelectedText + sum.ToString() + " Ft");

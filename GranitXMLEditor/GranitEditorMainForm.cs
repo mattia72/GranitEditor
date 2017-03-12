@@ -1,8 +1,10 @@
 ﻿using GranitXMLEditor.Properties;
 using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace GranitXMLEditor
@@ -110,18 +112,20 @@ namespace GranitXMLEditor
       InitializeComponent();
       _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, MostRecentMenu_Clicked, 10);
       _gridAlignMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
-      //EnableAllContextMenu(false);
-      OpenLastOpenedFileIfExists();
       ApplySettings();
     }
 
-    private void OpenLastOpenedFileIfExists()
+    private void OpenLastOpenedFilesIfExists()
     {
-      LastOpenedFilePath = Settings.Default.LastOpenedFilePath;
-      if (LastOpenedFilePath != string.Empty && File.Exists(LastOpenedFilePath))
-        CreateNewForm(LastOpenedFilePath);
+      if (Settings.Default.LastOpenedFilePaths.Count > 0)
+        foreach (string file in Settings.Default.LastOpenedFilePaths)
+        {
+          LastOpenedFilePath = file;
+          if (LastOpenedFilePath != string.Empty && File.Exists(LastOpenedFilePath))
+            CreateNewForm(LastOpenedFilePath);
+        }
       else
-        CreateNewForm(GetNextNewDocumentName());
+        EnableAllXmlFormContextFunction(false);
     }
 
     private void About()
@@ -151,7 +155,7 @@ namespace GranitXMLEditor
         ActiveXmlForm.DataGrid.AutoSizeColumnsMode = mode == 0 ? DataGridViewAutoSizeColumnsMode.None : mode;
     }
 
-    private void EnableAllContextMenu(bool enabled = true)
+    private void EnableAllXmlFormContextFunction(bool enabled = true)
     {
       saveToolStripButton.Enabled = enabled;
       saveToolStripMenuItem.Enabled = enabled;
@@ -163,11 +167,20 @@ namespace GranitXMLEditor
       selectAllToolStripMenuItem.Enabled = enabled;
       deleteSelectedToolStripMenuItem.Enabled = enabled;
       findAndReplaceToolStripMenuItem.Enabled = enabled;
+      findToolStripButton.Enabled = enabled;
       alignTableToolStripMenuItem.Enabled = enabled;
+
+      copyToolStripButton.Enabled = enabled;
+      copyToolStripMenuItem.Enabled = enabled;
+      pasteToolStripButton.Enabled = enabled;
+      pasteToolStripMenuItem.Enabled = enabled;
+      cutToolStripButton.Enabled = enabled;
+      cutToolStripMenuItem.Enabled = enabled;
     }
 
     private void ApplySettings()
     {
+      OpenLastOpenedFilesIfExists();
       _mruMenu.MaxShortenPathLength = Settings.Default.MruListItemLength;
       if (Settings.Default.RecentFileList != null)
         foreach (string item in Settings.Default.RecentFileList)
@@ -213,7 +226,11 @@ namespace GranitXMLEditor
     private void GranitEditorMainForm_MdiChildActivate(object sender, EventArgs e)
     {
       if (this.ActiveMdiChild == null)
+      {
         tabForms.Visible = false; // If no any child form, hide tabControl
+        InitStatusLabels();
+        EnableAllXmlFormContextFunction(false);
+      }
       else
       {
         this.ActiveMdiChild.WindowState = FormWindowState.Maximized; // Child form always maximized
@@ -472,15 +489,26 @@ namespace GranitXMLEditor
 
     private void SaveSettings()
     {
-      //Settings.Default.AlignTable = dataGridView1.AutoSizeColumnsMode;
-      Settings.Default.LastOpenedFilePath = LastOpenedFilePath;
-      if (Settings.Default.RecentFileList != null)
-        Settings.Default.RecentFileList.Clear();
-      else
-        Settings.Default.RecentFileList = new System.Collections.Specialized.StringCollection();
-      var files = _mruMenu.GetFiles();
-      Settings.Default.RecentFileList.AddRange(files);
+      if (ActiveXmlForm != null)
+        Settings.Default.AlignTable = ActiveXmlForm.DataGrid.AutoSizeColumnsMode;
+
+      var lastOpenedPaths = 
+        MdiChildren.Select(f => f is GranitXMLEditorForm ? (f as GranitXMLEditorForm).LastOpenedFilePath : "").ToArray();
+
+      FillSettingsList(Settings.Default.LastOpenedFilePaths, lastOpenedPaths);
+      FillSettingsList(Settings.Default.RecentFileList, _mruMenu.GetFiles());
+
       Settings.Default.Save();
+    }
+
+    private void FillSettingsList(StringCollection settingList, string[] values)
+    {
+      if (settingList != null)
+        settingList.Clear();
+      else
+        settingList = new StringCollection();
+
+      settingList.AddRange(values);
     }
 
     private void editToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
