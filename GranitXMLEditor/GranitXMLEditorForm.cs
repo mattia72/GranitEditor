@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Xml.Schema;
 using System.Collections.Generic;
+using GenericUndoRedo;
 
 namespace GranitXMLEditor
 {
@@ -15,25 +16,34 @@ namespace GranitXMLEditor
     private GranitXmlToAdapterBinder _xmlToObjectBinder;
     private OpenFileDialog _openFileDialog;
     private SaveFileDialog _saveFileDialog;
-    private AboutBox _aboutBox;
     private FindReplaceDlg _findReplaceDlg;
     private string _lastOpenedFilePath;
     private bool _docHasPendingChanges=false;
-    private MruStripMenu _mruMenu;
-    private EnumStripMenu<DataGridViewAutoSizeColumnsMode> _autoSizeMenu;
     private GranitDataGridViewCellValidator _cellVallidator;
     private GranitDataGridViewContextMenuHandler _contextMenuHandler;
     private SortableBindingList<TransactionAdapter> _bindingList;
 
-    //private UndoRedoHistory<TransactionPool> _history;
+    internal UndoRedoHistory<IGranitXDocumentOwner> History
+    {
+      get
+      {
+        return _xmlToObjectBinder?.History;
+      }
+    }
 
-    public GranitXMLEditorForm()
+    internal DataGridView DataGrid
+    {
+      get
+      {
+        return dataGridView1;
+      }
+    }
+
+    public GranitXMLEditorForm(string xmlFilePath)
     {
       InitializeComponent();
-      _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, mruMenu_Clicked, 10);
-      _autoSizeMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
-      OpenLastOpenedFileIfExists();
-      //_history = new UndoRedoHistory<TransactionPool>(_transactionPool);
+      OpenNewDocument(); 
+      LastOpenedFilePath = xmlFilePath;
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
       _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, _xmlToObjectBinder);
       SetTextResources();
@@ -43,11 +53,8 @@ namespace GranitXMLEditor
       //Drag & Drop support
       AllowDrop = true;
       dataGridView1.AllowDrop = true;
-    }
-
-    private void autoSizeMenu_Clicked(DataGridViewAutoSizeColumnsMode mode)
-    {
-      dataGridView1.AutoSizeColumnsMode = mode == 0 ? DataGridViewAutoSizeColumnsMode.None : mode;
+      if(File.Exists(LastOpenedFilePath))
+        LoadDocument(LastOpenedFilePath);
     }
 
     private void SetTextResources()
@@ -62,34 +69,12 @@ namespace GranitXMLEditor
       remittanceInfoDataGridViewTextBoxColumn.HeaderText = Resources.RemittanceInfoHeaderText;
     }
 
-    private void mruMenu_Clicked(int number, string filename)
+    internal GranitDataGridViewContextMenuHandler ContextMenuHandler
     {
-      DialogResult answere = CheckPendingChangesAndSaveIfNecessary();
-
-      if (answere != DialogResult.Cancel)
+      get
       {
-        if (File.Exists(filename))
-        {
-          LoadDocument(filename);
-          _mruMenu.SetFirstFile(number);
-        }
-        else
-        {
-          MessageBox.Show(
-          string.Format(Resources.FileDoesntExists, Path.GetFileName(filename)),
-          Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-          _mruMenu.RemoveFile(number);
-        }
+        return _contextMenuHandler;
       }
-    }
-
-    private void OpenLastOpenedFileIfExists()
-    {
-      LastOpenedFilePath = Settings.Default.LastOpenedFilePath;
-      if (LastOpenedFilePath != string.Empty && File.Exists(LastOpenedFilePath))
-        LoadDocument(LastOpenedFilePath);
-      else
-        OpenNewDocument();
     }
 
     public string LastOpenedFilePath
@@ -98,9 +83,8 @@ namespace GranitXMLEditor
       set
       {
         _lastOpenedFilePath = value;
-        Text = Application.ProductName + " - " + Path.GetFileName(_lastOpenedFilePath);
-        if(!string.IsNullOrEmpty(_lastOpenedFilePath))
-          _mruMenu.AddFile(_lastOpenedFilePath);
+        Text = Path.GetFileName(value);
+        MainForm?.SetLastOpenedFilePath(value);
       }
     }
 
@@ -114,41 +98,26 @@ namespace GranitXMLEditor
       set
       {
         _docHasPendingChanges = value;
-        saveToolStripButton.Enabled = _docHasPendingChanges;
-        saveToolStripMenuItem.Enabled = _docHasPendingChanges;
-        if (_docHasPendingChanges)
-        {
-          undoToolStripButton.Enabled = _xmlToObjectBinder.History.CanUndo;
-          redoToolStripButton.Enabled = _xmlToObjectBinder.History.CanRedo;
-        }
-        else
-        {
-          undoToolStripButton.Enabled = redoToolStripButton.Enabled = false;
-        }
+        if(_docHasPendingChanges)
+          MainForm?.SetDocsHavePendingChanges(value);
+      }
+    }
+
+    private GranitEditorMainForm MainForm
+    {
+      get
+      {
+        return (ParentForm as GranitEditorMainForm);
       }
     }
 
     private void ApplySettings()
     {
-      //if (!string.IsNullOrEmpty(Settings.Default.SortedColumn))
-      //{
-      //  DataGridViewColumn sortedColumn = FindColumnByHeaderText(Settings.Default.SortedColumn);
-      //  dataGridView1.Sort(sortedColumn,
-      //    Settings.Default.SortOrder == SortOrder.Ascending ? ListSortDirection.Ascending : ListSortDirection.Descending);
-      //  sortedColumn.HeaderCell.SortGlyphDirection = 
-      //    Settings.Default.SortOrder == SortOrder.Ascending ? SortOrder.Ascending : SortOrder.Descending;
-      //}
       if (Settings.Default.AlignTable != 0)
       {
         dataGridView1.AutoSizeColumnsMode = Settings.Default.AlignTable;
-        _autoSizeMenu.SetCheckedByMode(dataGridView1.AutoSizeColumnsMode);
+        MainForm?.GridAlignMenu.SetCheckedByMode(dataGridView1.AutoSizeColumnsMode);
       }
-      _mruMenu.MaxShortenPathLength = Settings.Default.MruListItemLength;
-      if (Settings.Default.RecentFileList != null)
-        foreach (string item in Settings.Default.RecentFileList)
-        {
-          _mruMenu.AddFile(item);
-        }
     }
 
     /// <summary>
@@ -183,17 +152,7 @@ namespace GranitXMLEditor
 
     private void SaveSettings()
     {
-      //Settings.Default.SortedColumn = dataGridView1.SortedColumn != null ? dataGridView1.SortedColumn.HeaderText : "";
-      //Settings.Default.SortOrder = dataGridView1.SortOrder;
-      Settings.Default.AlignTable = dataGridView1.AutoSizeColumnsMode;
-      Settings.Default.LastOpenedFilePath = LastOpenedFilePath;
-      if (Settings.Default.RecentFileList != null)
-        Settings.Default.RecentFileList.Clear();
-      else
-        Settings.Default.RecentFileList = new System.Collections.Specialized.StringCollection();
-      var files = _mruMenu.GetFiles();
-      Settings.Default.RecentFileList.AddRange(files);
-      Settings.Default.Save();
+      //Settings.Default.Save();
     }
 
     private DataGridViewColumn FindColumnByHeaderText(string headerText)
@@ -211,7 +170,7 @@ namespace GranitXMLEditor
       _openFileDialog = _openFileDialog == null ? new OpenFileDialog() : _openFileDialog;
       _openFileDialog.InitialDirectory = Application.StartupPath;
       _openFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-      _openFileDialog.FilterIndex = 2;
+      _openFileDialog.FilterIndex = 1;
       _openFileDialog.RestoreDirectory = true;
 
       if (_openFileDialog.ShowDialog() == DialogResult.OK)
@@ -226,8 +185,12 @@ namespace GranitXMLEditor
         _saveFileDialog = _saveFileDialog == null ? new SaveFileDialog() : _saveFileDialog;
         _saveFileDialog.InitialDirectory = Application.StartupPath;
         _saveFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-        _saveFileDialog.FilterIndex = 2;
+        _saveFileDialog.FilterIndex = 1;
         _saveFileDialog.RestoreDirectory = true;
+        _saveFileDialog.AddExtension = true;
+        _saveFileDialog.DefaultExt = "xml";
+        _saveFileDialog.FileName = LastOpenedFilePath;
+
 
         if (_saveFileDialog.ShowDialog() == DialogResult.OK)
           filename = _saveFileDialog.FileName;
@@ -235,7 +198,7 @@ namespace GranitXMLEditor
       return filename;
     }
 
-    private void SaveDocument(string fileName)
+    public void SaveDocument(string fileName)
     {
       string xmlFilePath = Path.GetFullPath(fileName);
       _xmlToObjectBinder.SaveToFile(xmlFilePath);
@@ -243,7 +206,7 @@ namespace GranitXMLEditor
       DocHasPendingChanges = false;
     }
 
-    private void LoadDocument(string xmlFilePath)
+    public void LoadDocument(string xmlFilePath)
     {
       _xmlToObjectBinder = new GranitXmlToAdapterBinder(xmlFilePath, true);
       if (_xmlToObjectBinder.XmlValidationErrorOccured)
@@ -260,7 +223,7 @@ namespace GranitXMLEditor
           MessageBoxIcon.Error);
 
         _xmlToObjectBinder = new GranitXmlToAdapterBinder();
-        LastOpenedFilePath = string.Empty;
+        //LastOpenedFilePath = string.Empty;
       }
       else
       {
@@ -313,7 +276,7 @@ namespace GranitXMLEditor
         DocHasPendingChanges = true;
     }
 
-    private void openToolStripMenuItem1_Click(object sender, EventArgs e)
+    public void Open(object sender, EventArgs e)
     {
       DialogResult answere = CheckPendingChangesAndSaveIfNecessary();
 
@@ -321,7 +284,7 @@ namespace GranitXMLEditor
         OpenGranitXmlFile();
     }
 
-    private DialogResult CheckPendingChangesAndSaveIfNecessary()
+    public DialogResult CheckPendingChangesAndSaveIfNecessary()
     {
       DialogResult answere = DialogResult.OK; ;
       if (DocHasPendingChanges)
@@ -333,7 +296,7 @@ namespace GranitXMLEditor
     {
       Debug.WriteLine("OnClosing called. docHasPendingChanges: {0}", DocHasPendingChanges);
 
-      if (DocHasPendingChanges || LastOpenedFilePath == string.Empty)
+      if (DocHasPendingChanges || !File.Exists(LastOpenedFilePath))
         e.Cancel = AskAndSaveFile(MessageBoxButtons.YesNoCancel) == DialogResult.Cancel;
 
       if(!e.Cancel)
@@ -342,17 +305,12 @@ namespace GranitXMLEditor
       base.OnClosing(e);
     }
 
-    private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      Close();
-    }
-
     private void findAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
     {
       ShowFindAndReplaceDlg();
     }
 
-    private void ShowFindAndReplaceDlg()
+    public void ShowFindAndReplaceDlg()
     {
       CreateFindDialog();
 
@@ -377,33 +335,7 @@ namespace GranitXMLEditor
       if (_findReplaceDlg.IsDisposed)
         _findReplaceDlg = new FindReplaceDlg(dataGridView1);
     }
-
-    private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
-    {
-      About();
-    }
-
-    private void About()
-    {
-      if (_aboutBox == null)
-      {
-        _aboutBox = new AboutBox();
-      }
-
-      if (_aboutBox.IsDisposed)
-        _aboutBox = new AboutBox();
-
-      if (!_aboutBox.Visible)
-      {
-        _aboutBox.Show();
-        _aboutBox.BringToFront();
-      }
-      else
-      {
-        _aboutBox.Hide();
-      }
-    }
-
+   
     private void dataGridView1_UserAddedNewRow(object sender, DataGridViewRowEventArgs e)
     {
       var bindingList = ((SortableBindingList<TransactionAdapter>)dataGridView1.DataSource);
@@ -421,8 +353,15 @@ namespace GranitXMLEditor
       Debug.WriteLine(e.RowCount + " rows added at index: " + e.RowIndex);
       TransactionAdapter ta = (TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem;
       Debug.WriteLine("Adapter: " + (ta != null ? ta.ToString() : "null"));
-      allStatusLabel.Text = "Count: " + _xmlToObjectBinder.TransactionCount;
-      allAmountStatus.Text = "Sum: " + _xmlToObjectBinder.SumAmount + " Ft";
+      ActualizeStatusLabelsOfAll();
+    }
+
+    public void ActualizeStatusLabelsOfAll()
+    {
+      MainForm?.SetStatusLabelItemText("allStatusLabel",
+        Resources.StatusCountAllText + _xmlToObjectBinder.TransactionCount);
+      MainForm?.SetStatusLabelItemText("allAmountStatus",
+        Resources.StatusSumAllText + _xmlToObjectBinder.SumAmount + " Ft");
     }
 
     private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -431,12 +370,7 @@ namespace GranitXMLEditor
       _findReplaceDlg.IsFirstInitNecessary = true;
     }
 
-    private void newToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      New();
-    }
-
-    private void New()
+    public void New()
     {
       DialogResult answere = CheckPendingChangesAndSaveIfNecessary();
 
@@ -451,10 +385,10 @@ namespace GranitXMLEditor
       _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObjectBinder.HUFTransactionsAdapter.TransactionAdapters);
       dataGridView1.DataSource = _bindingList;
       if (_bindingList.RaiseListChangedEvents)
-        _bindingList.ListChanged += _bindingList_ListChanged;
+        _bindingList.ListChanged += bindingList_ListChanged;
     }
 
-    private void _bindingList_ListChanged(object sender, ListChangedEventArgs e)
+    private void bindingList_ListChanged(object sender, ListChangedEventArgs e)
     {
       Debug.WriteLine("BindingList changed " + e.ListChangedType + " " + e.PropertyDescriptor);
     }
@@ -462,7 +396,6 @@ namespace GranitXMLEditor
     private void OpenNewDocument()
     {
       _xmlToObjectBinder = new GranitXmlToAdapterBinder();
-      LastOpenedFilePath = string.Empty;
       RebindBindingList();
       DocHasPendingChanges = true;
     }
@@ -472,7 +405,7 @@ namespace GranitXMLEditor
     /// </summary>
     /// <param name="buttons"></param>
     /// <returns></returns>
-    private DialogResult AskAndSaveFile(MessageBoxButtons? buttons = null)
+    public DialogResult AskAndSaveFile(MessageBoxButtons? buttons = null)
     {
       DialogResult answ = DialogResult.Yes;
       if (buttons != null)
@@ -484,14 +417,14 @@ namespace GranitXMLEditor
 
       if (answ == DialogResult.Yes)
       {
-        if (LastOpenedFilePath != string.Empty)
+        if (File.Exists(LastOpenedFilePath))
         {
           SaveDocument(LastOpenedFilePath);
         }
         else
         {
           string f = GetFileNameToSaveByOpeningSaveFileDialog();
-          if (f != null)
+          if (f != null && f != string.Empty)
             SaveDocument(f);
           else
             return DialogResult.Cancel;
@@ -500,19 +433,7 @@ namespace GranitXMLEditor
       return answ;
     }
 
-    private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      AskAndSaveFile();
-    }
-
-    private void saveAsToolStripMenuItem1_Click(object sender, EventArgs e)
-    {
-      string f = GetFileNameToSaveByOpeningSaveFileDialog();
-      SaveDocument(f);
-    }
-
-
-    private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+    public void SelectAll()
     {
       dataGridView1.EndEdit();
       //_xmlToObject.HUFTransactionAdapter.Transactions.Where(t => !t.IsActive).All(x => { return x.IsActive = true;});
@@ -526,18 +447,17 @@ namespace GranitXMLEditor
 
     private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
     {
-      //TODO text resource
       EnableAllcontextMenuItem(false);
       if (dataGridView1.SelectedRows.Count > 1)
       {
-        deleteRowToolStripMenuItem.Text = "Delete Selected";
+        deleteRowToolStripMenuItem.Text = Resources.ContextMenuDeleteSelected;
         deleteRowToolStripMenuItem.Enabled = true;
       }
       else
       {
         if(!dataGridView1.IsCurrentCellInEditMode)
           EnableAllcontextMenuItem(true);
-        deleteRowToolStripMenuItem.Text = "Delete";
+        deleteRowToolStripMenuItem.Text = Resources.ContextMenuDeleteRow; 
       }
     }
 
@@ -575,80 +495,30 @@ namespace GranitXMLEditor
       _contextMenuHandler.grid_AddNewRow(sender, e);
     }
 
-    private void undoToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      Undo();
-    }
-
-    private void Undo()
+    public void Undo()
     {
       if (_xmlToObjectBinder.History.CanUndo)
       {
         _xmlToObjectBinder.History_Undo();
         RebindBindingList();
       }
-      undoToolStripButton.Enabled = _xmlToObjectBinder.History.CanUndo;
-      redoToolStripButton.Enabled = _xmlToObjectBinder.History.CanRedo;
     }
 
-    private void redoToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      Redo();
-    }
-
-    private void Redo()
+    public void Redo()
     {
       if (_xmlToObjectBinder.History.CanRedo)
       {
         _xmlToObjectBinder.History_Redo();
         RebindBindingList();
       }
-      undoToolStripButton.Enabled = _xmlToObjectBinder.History.CanUndo;
-      redoToolStripButton.Enabled = _xmlToObjectBinder.History.CanRedo;
-    }
-
-    private void editToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
-    {
-      undoToolStripMenuItem.Enabled = _xmlToObjectBinder.History.CanUndo;
-      redoToolStripMenuItem.Enabled = _xmlToObjectBinder.History.CanRedo;
-    }
-
-    private void findToolStripButton_Click(object sender, EventArgs e)
-    {
-      ShowFindAndReplaceDlg();
-    }
-
-    private void undoToolStripButton_Click(object sender, EventArgs e)
-    {
-      Undo();
-    }
-
-    private void redoToolStripButton_Click(object sender, EventArgs e)
-    {
-      Redo();
-    }
-
-    private void openToolStripButton_Click(object sender, EventArgs e)
-    {
-      OpenGranitXmlFile();
-    }
-
-    private void newToolStripButton_Click(object sender, EventArgs e)
-    {
-      New();
-    }
-
-    private void helpToolStripButton_Click(object sender, EventArgs e)
-    {
-      About();
-    }
-
-    private void saveToolStripButton_Click(object sender, EventArgs e)
-    {
-      AskAndSaveFile();
     }
 
     private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+    {
+      ActualizeStatusLabelsOfSelected();
+    }
+
+    public void ActualizeStatusLabelsOfSelected()
     {
       decimal sum = 0;
       HashSet<int> selectedRowIndexes = new HashSet<int>();
@@ -660,8 +530,10 @@ namespace GranitXMLEditor
       {
         sum += (decimal)dataGridView1.Rows[index].Cells["amountDataGridViewTextBoxColumn"].Value;
       }
-      selectedAmountStatus.Text = "Sum of Selected: " + sum.ToString() + " Ft";
-      selectedStatusLabel.Text = "Selected: " + selectedRowIndexes.Count;
+      MainForm?.SetStatusLabelItemText("selectedAmountStatus",
+        Resources.StatusSumSelectedText + sum.ToString() + " Ft");
+      MainForm?.SetStatusLabelItemText("selectedStatusLabel",
+       Resources.StatusCountSeletedText + selectedRowIndexes.Count);
     }
 
     private void dataGridView1_DragEnter(object sender, DragEventArgs e)
@@ -720,6 +592,14 @@ namespace GranitXMLEditor
         }
       }
       return ret;
+    }
+
+    private void GranitXMLEditorForm_Shown(object sender, EventArgs e)
+    {
+      // Work-around for error in WinForms that causes MDI children to be loaded with the default .NET icon when opened maximised.
+      Icon = Icon.Clone() as System.Drawing.Icon;
+      WindowState = FormWindowState.Normal;
+      WindowState = FormWindowState.Maximized;
     }
   }
 }

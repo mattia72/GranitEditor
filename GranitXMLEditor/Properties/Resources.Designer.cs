@@ -97,6 +97,24 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Row.
+        /// </summary>
+        internal static string ContextMenuDeleteRow {
+            get {
+                return ResourceManager.GetString("ContextMenuDeleteRow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Selected.
+        /// </summary>
+        internal static string ContextMenuDeleteSelected {
+            get {
+                return ResourceManager.GetString("ContextMenuDeleteSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Currency.
         /// </summary>
         internal static string CurrencyHeader {
@@ -247,6 +265,15 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to new {0}.
+        /// </summary>
+        internal static string NewDocumentName {
+            get {
+                return ResourceManager.GetString("NewDocumentName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The following specified text not found:
         ///{0}.
         /// </summary>
@@ -299,6 +326,42 @@ namespace GranitXMLEditor.Properties {
         internal static string RequestedExecutionDateHeaderText {
             get {
                 return ResourceManager.GetString("RequestedExecutionDateHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Count: .
+        /// </summary>
+        internal static string StatusCountAllText {
+            get {
+                return ResourceManager.GetString("StatusCountAllText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected: .
+        /// </summary>
+        internal static string StatusCountSeletedText {
+            get {
+                return ResourceManager.GetString("StatusCountSeletedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sum: .
+        /// </summary>
+        internal static string StatusSumAllText {
+            get {
+                return ResourceManager.GetString("StatusSumAllText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sum of Selected: .
+        /// </summary>
+        internal static string StatusSumSelectedText {
+            get {
+                return ResourceManager.GetString("StatusSumSelectedText", resourceCulture);
             }
         }
         

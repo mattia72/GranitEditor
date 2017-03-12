@@ -212,4 +212,25 @@ A new document will be opened.</value>
   <data name="WarningText" xml:space="preserve">
     <value>warning</value>
   </data>
+  <data name="ContextMenuDeleteRow" xml:space="preserve">
+    <value>Delete Row</value>
+  </data>
+  <data name="ContextMenuDeleteSelected" xml:space="preserve">
+    <value>Delete Selected</value>
+  </data>
+  <data name="NewDocumentName" xml:space="preserve">
+    <value>new {0}</value>
+  </data>
+  <data name="StatusCountAllText" xml:space="preserve">
+    <value>Count: </value>
+  </data>
+  <data name="StatusCountSeletedText" xml:space="preserve">
+    <value>Selected: </value>
+  </data>
+  <data name="StatusSumAllText" xml:space="preserve">
+    <value>Sum: </value>
+  </data>
+  <data name="StatusSumSelectedText" xml:space="preserve">
+    <value>Sum of Selected: </value>
+  </data>
 </root>

@@ -15,13 +15,15 @@ namespace GranitXMLEditor
     public HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
     public XDocument GranitXDocument { get; set; }
     public UndoRedoHistory<IGranitXDocumentOwner> History { get; set; }
-    public decimal SumAmount {
+    public decimal SumAmount
+    {
       get
       {
         return HUFTransactionsAdapter.TransactionAdapters.Aggregate(0m, (total, next) => total + next.Amount);
       }
     }
-    public int TransactionCount {
+    public int TransactionCount
+    {
       get
       {
         return GranitXDocument.Root.Elements(Constants.Transaction).Count();
@@ -56,17 +58,20 @@ namespace GranitXMLEditor
       History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
     }
 
-    public GranitXmlToAdapterBinder(string xmlFilePath, bool validate = false) 
+    public GranitXmlToAdapterBinder(string xmlFilePath, bool validate = false)
     {
-      XmlValidationErrorOccured = false; 
-      if (validate)
+      XmlValidationErrorOccured = false;
+      if (File.Exists(xmlFilePath))
       {
-        GranitXDocument = new XDocument();
-        GranitXDocument = GranitXDocument.ValidateAndLoad(xmlFilePath, Settings.Default.SchemaFile, ref _validationEventArgs);
-        XmlValidationErrorOccured = _validationEventArgs != null;
+        if (validate)
+        {
+          GranitXDocument = new XDocument();
+          GranitXDocument = GranitXDocument.ValidateAndLoad(xmlFilePath, Settings.Default.SchemaFile, ref _validationEventArgs);
+          XmlValidationErrorOccured = _validationEventArgs != null;
+        }
+        else
+          GranitXDocument = XDocument.Load(xmlFilePath);
       }
-      else
-        GranitXDocument = XDocument.Load(xmlFilePath);
 
       if (!XmlValidationErrorOccured)
       {
@@ -97,7 +102,7 @@ namespace GranitXMLEditor
       return ReCreateAdapter();
     }
 
-    public void RemoveTransactionRowById( long transactionId, int rowIndex)
+    public void RemoveTransactionRowById(long transactionId, int rowIndex)
     {
       Debug.WriteLine("Remove transactionId: " + transactionId + " from index: " + rowIndex);
 
@@ -146,7 +151,7 @@ namespace GranitXMLEditor
       var xDocToSave = new XDocument(new XElement(Constants.HUFTransactions));
 
       foreach (var item in GranitXDocument.Root.Elements().InDocumentOrder().
-        Where(x => x.Attribute(Constants.TransactionSelectedAttribute) == null || 
+        Where(x => x.Attribute(Constants.TransactionSelectedAttribute) == null ||
         x.Attribute(Constants.TransactionSelectedAttribute).Value == "true"))
       {
         RemoveTransactionAttributes(item);
@@ -182,16 +187,16 @@ namespace GranitXMLEditor
       switch (propertyName)
       {
         case Constants.IsSelectedPropertyName:
-          GranitXDocument.SortElementsByXPathEvaluate(Constants.Transaction, "/@" + Constants.TransactionIdAttribute, 
+          GranitXDocument.SortElementsByXPathEvaluate(Constants.Transaction, "/@" + Constants.TransactionIdAttribute,
             sortOrder);
           break;
         case Constants.OriginatorPropertyName:
-          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction, 
-            string.Join("/", new string[] { Constants.Originator, Constants.Account, Constants.AccountNumber }), 
+          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction,
+            string.Join("/", new string[] { Constants.Originator, Constants.Account, Constants.AccountNumber }),
             sortOrder);
           break;
         case Constants.BeneficiaryNamePropertyName:
-          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction, 
+          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction,
             string.Join("/", new string[] { Constants.Beneficiary, Constants.Name }), sortOrder);
           break;
         case Constants.BeneficiaryAccountPropertyName:
@@ -203,16 +208,16 @@ namespace GranitXMLEditor
           GranitXDocument.SortElementsByXPathToDecimalValue(Constants.Transaction, Constants.Amount, sortOrder);
           break;
         case Constants.CurrencyPropertyName:
-          GranitXDocument.SortElementsByXPathEvaluate(Constants.Transaction, 
+          GranitXDocument.SortElementsByXPathEvaluate(Constants.Transaction,
             Constants.Amount + "/@" + Constants.Currency, sortOrder);
           break;
         case Constants.ExecutionDatePropertyName:
-          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction, 
+          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction,
             Constants.RequestedExecutionDate, sortOrder);
           break;
         case Constants.RemittanceInfoPropertyName:
           //TODO sort by all Text field
-          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction, 
+          GranitXDocument.SortElementsByXPathToStringValue(Constants.Transaction,
             Constants.RemittanceInfo + "/" + Constants.Text, sortOrder);
           break;
       }

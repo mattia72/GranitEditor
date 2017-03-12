@@ -49,6 +49,19 @@ namespace GranitXMLEditor
       set { selectionRadioButton.Checked = value; }
     }
 
+    internal DataGridView DataGrid
+    {
+      get
+      {
+        return dgv;
+      }
+
+      set
+      {
+        dgv = value;
+      }
+    }
+
     private void findButton_Click(object sender, EventArgs e)
     {
       AddToRecentSearches();
@@ -337,9 +350,8 @@ namespace GranitXMLEditor
 
     private void ReplaceCellText(Match match)
     {
-      string text = dgv.EditingControl.Text;
-
       dgv.BeginEdit(false);
+      string text = dgv.EditingControl.Text;
       dgv.EditingControl.Text = _regexToSearch.Replace(text, replaceComboBox.Text);
       dgv.EndEdit();
       ResetDgvState();

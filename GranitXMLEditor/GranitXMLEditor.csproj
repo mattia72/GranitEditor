@@ -102,6 +102,12 @@
       <DependentUpon>FindReplaceDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="GranitDataGridViewContextMenuHandler.cs" />
+    <Compile Include="GranitEditorMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GranitEditorMainForm.Designer.cs">
+      <DependentUpon>GranitEditorMainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GranitXMLEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FindReplaceDlg.resx">
       <DependentUpon>FindReplaceDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GranitEditorMainForm.resx">
+      <DependentUpon>GranitEditorMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GranitXMLEditorForm.resx">
       <DependentUpon>GranitXMLEditorForm.cs</DependentUpon>
