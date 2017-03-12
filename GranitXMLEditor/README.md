@@ -1,7 +1,7 @@
 ## GranitEditor
 This is a transaction group template generator for the hungarian GRÁNIT Bank: https://granitbank.hu/
 
-*Read this in other languages: [Magyar](ReadMe.hu.md), ...*
+*Read this in other languages: [Magyar](README.hu.md), ...*
 
 ### Template description 
 https://netbank.granitbank.hu/eibpublic_granit/help/en/IMPXML.html

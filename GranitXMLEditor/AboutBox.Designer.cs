@@ -132,7 +132,6 @@
       // textBoxDescription
       // 
       this.textBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.textBoxDescription.Font = new System.Drawing.Font("Monotype Corsiva", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
       this.textBoxDescription.Location = new System.Drawing.Point(209, 152);
       this.textBoxDescription.Margin = new System.Windows.Forms.Padding(8, 4, 4, 4);
       this.textBoxDescription.Multiline = true;
