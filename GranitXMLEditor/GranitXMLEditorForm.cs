@@ -134,7 +134,8 @@ namespace GranitXMLEditor
 
       if (transactionIdTodelete != null)
       {
-        _xmlToObjectBinder.RemoveTransactionRowById((long)transactionIdTodelete, e.RowIndex);
+        Debug.WriteLine("Remove transactionId: " + transactionIdTodelete + " from index: " + e.RowIndex);
+        _xmlToObjectBinder.RemoveTransactionRowById((long)transactionIdTodelete);
         DocHasPendingChanges = true;
       }
     }

@@ -1,12 +1,11 @@
-﻿using System.Xml.Linq;
+﻿using GenericUndoRedo;
+using GranitXMLEditor.Properties;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Diagnostics;
-using GenericUndoRedo;
-using System;
+using System.Xml.Linq;
 using System.Xml.Schema;
-using System.IO;
-using GranitXMLEditor.Properties;
 
 namespace GranitXMLEditor
 {
@@ -99,13 +98,13 @@ namespace GranitXMLEditor
 
       XElement transactionXelem = new TransactionXElementParser().ParsedElement;
       GranitXDocument.Root.Add(transactionXelem);
-      return ReCreateAdapter();
+      TransactionAdapter ta = ReCreateAdapter();
+      AddDefaultAttributes(ta.TransactionId, transactionXelem);
+      return ta;
     }
 
-    public void RemoveTransactionRowById(long transactionId, int rowIndex)
+    public void RemoveTransactionRowById(long transactionId)
     {
-      Debug.WriteLine("Remove transactionId: " + transactionId + " from index: " + rowIndex);
-
       History?.Do(new TransactionPoolMemento(GranitXDocument));
 
       HUFTransactionsAdapter.TransactionAdapters.RemoveAll(t => t.TransactionId == transactionId);

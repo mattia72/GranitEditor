@@ -79,6 +79,9 @@ namespace GranitXMLEditor.Tests
         TransactionAdapter newTa = x2o.AddEmptyTransactionRow();
         foreach (var ta in x2o.HUFTransactionsAdapter.TransactionAdapters)
           Assert.IsTrue(newTa.TransactionId >= ta.TransactionId);
+
+        Assert.AreEqual(x2o.GranitXDocument.Root.Elements(Constants.Transaction)
+        .Where(t => t.Attribute(Constants.TransactionIdAttribute).Value == newTa.TransactionId.ToString()).Count(), 1);
       }
     }
 
@@ -192,6 +195,22 @@ namespace GranitXMLEditor.Tests
 
         Assert.AreEqual(x2o.GranitXDocument.Root.Elements().ToList().Count, origCount + 1);
       }
+    }
+    [TestMethod()]
+    public void RemoveTransactionRowById_Test()
+    {
+      foreach (var xml in good_examples)
+      {
+        var x2o = new GranitXmlToAdapterBinder(xml, true);
+
+        int origCount = x2o.TransactionCount;
+        x2o.RemoveTransactionRowById(1);
+
+        Assert.AreEqual(x2o.GranitXDocument.Root.Elements().ToList().Count, origCount-1);
+        Assert.AreEqual(x2o.TransactionCount, origCount-1);
+      }
+
+
     }
   }
 }

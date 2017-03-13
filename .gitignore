@@ -42,4 +42,6 @@ Thumbs.db
 _UpgradeReport_Files/
 _ReSharper.*/
 publish/
+install/
 # !publish/*.*
+# !install/*.*
