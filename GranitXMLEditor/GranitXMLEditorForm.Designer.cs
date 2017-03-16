@@ -160,8 +160,6 @@ namespace GranitXMLEditor
       this.dataGridView1.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_UserAddedNewRow);
       this.dataGridView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragDrop);
       this.dataGridView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragEnter);
-      this.dataGridView1.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragOver);
-      this.dataGridView1.DragLeave += new System.EventHandler(this.dataGridView1_DragLeave);
       this.dataGridView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseClick);
       // 
       // IsSelectedDataGridViewTextBoxColumn
@@ -227,7 +225,7 @@ namespace GranitXMLEditor
       this.Controls.Add(this.dataGridView1);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.Name = "GranitXMLEditorForm";
-      this.Text = "GránitXmlEditor";
+      this.Text = "GranitXmlEditor";
       this.Shown += new System.EventHandler(this.GranitXMLEditorForm_Shown);
       ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
       this.contextMenuStrip1.ResumeLayout(false);

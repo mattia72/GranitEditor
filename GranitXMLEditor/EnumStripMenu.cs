@@ -9,31 +9,23 @@ namespace GranitXMLEditor
     protected ToolStripMenuItem parentMenuItem;
     public delegate void ClickedHandler(T enumItem);
 
-    public virtual ToolStripItemCollection MenuItems
-    {
-      get
-      {
-        return parentMenuItem.DropDownItems;
-      }
-    }
+    public virtual ToolStripItemCollection MenuItems => parentMenuItem.DropDownItems;
+    public EnumStripMenuItem<T> CheckedMenuItem;
 
     private ClickedHandler clickedHandler;
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
     public EnumStripMenu(ToolStripMenuItem parentMenuItem, ClickedHandler clickedHandler)
     {
-      if (parentMenuItem == null)
-        throw new ArgumentNullException("parentMenuItem");
-
-      this.parentMenuItem = parentMenuItem;
+      this.parentMenuItem = parentMenuItem ?? throw new ArgumentNullException("parentMenuItem");
       this.parentMenuItem.Checked = false;
       this.parentMenuItem.Enabled = true;
 
       this.clickedHandler = clickedHandler;
-      foreach (T item in Enum.GetValues(typeof(T)))
+      foreach (T enumValue in Enum.GetValues(typeof(T)))
       {
         //if (item == 0) continue;
-        EnumStripMenuItem<T> menuItem = new EnumStripMenuItem<T>(item, new System.EventHandler(OnClick));
+        EnumStripMenuItem<T> menuItem = new EnumStripMenuItem<T>(enumValue, new System.EventHandler(OnClick));
         MenuItems.Insert(0, menuItem);
       }
 
@@ -44,6 +36,7 @@ namespace GranitXMLEditor
       EnumStripMenuItem<T> menuItem = (EnumStripMenuItem<T>)sender;
       clickedHandler((T)menuItem.Tag);
       ClearAllCheckedState();
+      CheckedMenuItem = menuItem;
       menuItem.Checked = true;
     }
 
@@ -55,14 +48,15 @@ namespace GranitXMLEditor
       }
     }
 
-    public void SetCheckedByMode(T mode)
+    public void SetCheckedByValue(T value)
     {
       ClearAllCheckedState();
       foreach (EnumStripMenuItem<T> item in MenuItems)
       {
-        if ( mode.ToString() == item.Tag.ToString() )
+        if ( value.ToString() == item.Tag.ToString() )
         {
           item.Checked = true;
+          CheckedMenuItem = item;
           break;
         }
       }
@@ -82,13 +76,13 @@ namespace GranitXMLEditor
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public EnumStripMenuItem(T tag, EventHandler clickEventHandler)
+    public EnumStripMenuItem(T enumValue, EventHandler clickEventHandler)
     {
       if (!typeof(T).IsEnum)
         throw new ArgumentException("T must be an enumerated type");
 
-      Text = GetTextOfEnumValue(tag);
-      Tag = tag;
+      Text = GetTextOfEnumValue(enumValue);
+      Tag = enumValue;
       //ToolTipText = text;
       Click += clickEventHandler;
     }
@@ -97,6 +91,11 @@ namespace GranitXMLEditor
     {
       //TODO usage of text resources 
       return tag.ToString();
+    }
+
+    public T GetEnumValueFromText(string value)
+    {
+         return (T)Enum.Parse(typeof(T), value);
     }
   }
 }

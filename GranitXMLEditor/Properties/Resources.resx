@@ -233,4 +233,7 @@ A new document will be opened.</value>
   <data name="StatusSumSelectedText" xml:space="preserve">
     <value>Sum of Selected: </value>
   </data>
+  <data name="InvalidWindowLayout" xml:space="preserve">
+    <value>Invalid window layout specified, default value applies.</value>
+  </data>
 </root>

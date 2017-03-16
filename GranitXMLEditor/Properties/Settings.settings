@@ -20,5 +20,8 @@
     <Setting Name="SchemaFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">HUFTransactions.xsd</Value>
     </Setting>
+    <Setting Name="WindowLayout" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

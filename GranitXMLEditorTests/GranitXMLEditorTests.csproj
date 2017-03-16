@@ -62,9 +62,9 @@
     <Compile Include="XDocumentExtensionTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GranitXMLEditor\GranitXMLEditor.csproj">
+    <ProjectReference Include="..\GranitXMLEditor\GranitEditor.csproj">
       <Project>{030E3907-E433-4F66-96AB-160C4128875D}</Project>
-      <Name>GranitXMLEditor</Name>
+      <Name>GranitEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

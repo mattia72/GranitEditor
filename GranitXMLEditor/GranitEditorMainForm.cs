@@ -3,45 +3,31 @@ using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using static GranitXMLEditor.Constants;
 
 namespace GranitXMLEditor
 {
   public partial class GranitEditorMainForm : Form
   {
-    private AboutBox _aboutBox;
     private MruStripMenu _mruMenu;
-    private string _lastOpenedFilePath;
-    private FindReplaceDlg _findReplaceDlg;
+    private string _activeFilePath;
     private EnumStripMenu<DataGridViewAutoSizeColumnsMode> _gridAlignMenu;
     private bool _docsHavePendingChanges = false;
+
+    private AboutBox _aboutBox;
     private OpenFileDialog _openFileDialog;
     private SaveFileDialog _saveFileDialog;
+    private FindReplaceDlg _findReplaceDlg;
+    private EnumStripMenu<Constants.WindowLayout> _windowLayoutMenu;
+    private Constants.WindowLayout _windowLayout;
 
-    public GranitXMLEditorForm ActiveXmlForm
-    {
-      get
-      {
-        return ActiveMdiChild as GranitXMLEditorForm;
-      }
-    }
-
-    public string LastOpenedFilePath
-    {
-      get { return _lastOpenedFilePath; }
-      set
-      {
-        _lastOpenedFilePath = value;
-        var filePath = _lastOpenedFilePath == string.Empty ? GetNextNewDocumentName() : _lastOpenedFilePath;
-
-        Text = Path.GetFullPath(filePath) + " - " + Application.ProductName;
-
-        if (!string.IsNullOrEmpty(_lastOpenedFilePath))
-          _mruMenu.AddFile(_lastOpenedFilePath);
-      }
-    }
+    public GranitXMLEditorForm ActiveXmlForm => ActiveMdiChild as GranitXMLEditorForm;
+    public string ActiveFilePath { get => _activeFilePath; set => _activeFilePath = value; }
 
     public string GetNextNewDocumentName()
     {
@@ -52,11 +38,17 @@ namespace GranitXMLEditor
       {
         found = false;
         newName = string.Format(Resources.NewDocumentName, i++);
-        foreach (var f in MdiChildren)
+        foreach (var child in MdiChildren)
         {
-          if (f is GranitXMLEditorForm)
+          if(File.Exists(newName))
           {
-            if ((f as GranitXMLEditorForm).LastOpenedFilePath.EndsWith(newName))
+            found = true;
+            break;
+          }
+          if (child is GranitXMLEditorForm)
+          {
+            var form = child as GranitXMLEditorForm;
+            if (form.LastOpenedFilePath != null && form.LastOpenedFilePath.EndsWith(newName))
             {
               found = true;
               break;
@@ -68,10 +60,16 @@ namespace GranitXMLEditor
       return newName;
     }
 
-    public void SetLastOpenedFilePath(string value)
+    public void SetActiveFilePath(string value)
     {
-      LastOpenedFilePath = value;
-      (ActiveXmlForm?.Tag as TabPage).Text = Path.GetFileName(value);
+      ActiveFilePath = value;
+
+      //in case of save as, change tab text too...
+      if(ActiveMdiChild?.Tag != null)
+        (ActiveMdiChild.Tag as TabPage).Text = Path.GetFileName(_activeFilePath);
+
+      if (!string.IsNullOrEmpty(_activeFilePath))
+          _mruMenu.AddFile(_activeFilePath);
     }
 
     public bool DocsHavePendingChanges
@@ -107,12 +105,83 @@ namespace GranitXMLEditor
       }
     }
 
+    public OpenFileDialog OpenFileDialog
+    {
+      get
+      {
+        if (_openFileDialog == null)
+        {
+          _openFileDialog = new OpenFileDialog();
+          _openFileDialog.InitialDirectory = Application.StartupPath;
+          _openFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+          _openFileDialog.FilterIndex = 1;
+          _openFileDialog.RestoreDirectory = true;
+        }
+        _openFileDialog.InitialDirectory = 
+          ActiveFilePath == null ? Application.StartupPath : Path.GetFileName(ActiveFilePath);
+        return _openFileDialog;
+      }
+    }
+    public SaveFileDialog SaveFileDialog
+    {
+      get
+      {
+        if (_saveFileDialog == null)
+        {
+          _saveFileDialog = new SaveFileDialog();
+          _saveFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+          _saveFileDialog.FilterIndex = 1;
+          _saveFileDialog.RestoreDirectory = true;
+          _saveFileDialog.AddExtension = true;
+          _saveFileDialog.DefaultExt = "xml";
+        }
+
+        return _saveFileDialog;
+      }
+    }
+
+    public FindReplaceDlg FindReplaceDlg { get => _findReplaceDlg; set => _findReplaceDlg = value; }
+
     public GranitEditorMainForm()
     {
       InitializeComponent();
       _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, MostRecentMenu_Clicked, 10);
       _gridAlignMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
+      _windowLayoutMenu = new EnumStripMenu<WindowLayout>(layoutToolStripMenuItem, windowLayoutMenu_Clicked);
+      OpenLastOpenedFilesIfExists();
       ApplySettings();
+    }
+
+    private void windowLayoutMenu_Clicked(Constants.WindowLayout enumItem)
+    {
+      switch (enumItem)
+      {
+        case Constants.WindowLayout.Cascade:
+          formsTabControl.Visible = false;
+          LayoutMdi(MdiLayout.Cascade);
+          break;
+        case Constants.WindowLayout.TileHorizontal:
+          formsTabControl.Visible = false;
+          LayoutMdi(MdiLayout.TileHorizontal);
+          break;
+        case Constants.WindowLayout.TileVertical:
+          formsTabControl.Visible = false;
+          LayoutMdi(MdiLayout.TileVertical);
+          break;
+        case Constants.WindowLayout.Tabbed:
+          if (ActiveMdiChild != null)
+          {
+            formsTabControl.Visible = true;
+            ActiveMdiChild.WindowState = FormWindowState.Maximized;
+          }
+          break;
+        default:
+          windowLayoutMenu_Clicked(WindowLayout.Tabbed);
+          MessageBox.Show( Resources.InvalidWindowLayout, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+          break;
+      }
+      _windowLayout = enumItem;
+      _windowLayoutMenu.SetCheckedByValue(enumItem);
     }
 
     private void OpenLastOpenedFilesIfExists()
@@ -120,12 +189,17 @@ namespace GranitXMLEditor
       if (Settings.Default.LastOpenedFilePaths.Count > 0)
         foreach (string file in Settings.Default.LastOpenedFilePaths)
         {
-          LastOpenedFilePath = file;
-          if (LastOpenedFilePath != string.Empty && File.Exists(LastOpenedFilePath))
-            CreateNewForm(LastOpenedFilePath);
+          ActiveFilePath = file;
+          if (ActiveFilePath != string.Empty && File.Exists(ActiveFilePath))
+          {
+            OpenNewFormWith(ActiveFilePath);
+          }
         }
       else
         EnableAllXmlFormContextFunction(false);
+
+      // Childs fills this...
+      Settings.Default.LastOpenedFilePaths.Clear();
     }
 
     private void About()
@@ -177,27 +251,14 @@ namespace GranitXMLEditor
       cutToolStripButton.Enabled = enabled;
       cutToolStripMenuItem.Enabled = enabled;
 
-      cascadeToolStripMenuItem.Enabled = enabled;
-      tileHorizontalyToolStripMenuItem.Enabled = enabled;
-      tileVerticallyToolStripMenuItem.Enabled = enabled; 
-    }
-
-    private void ApplySettings()
-    {
-      OpenLastOpenedFilesIfExists();
-      _mruMenu.MaxShortenPathLength = Settings.Default.MruListItemLength;
-      if (Settings.Default.RecentFileList != null)
-        foreach (string item in Settings.Default.RecentFileList)
-        {
-          _mruMenu.AddFile(item);
-        }
+      layoutToolStripMenuItem.Enabled = enabled;
     }
 
     private void MostRecentMenu_Clicked(int number, string filename)
     {
       if (File.Exists(filename))
       {
-        CreateNewForm(filename);
+        OpenNewFormWith(filename);
         _mruMenu.SetFirstFile(number);
       }
       else
@@ -209,50 +270,48 @@ namespace GranitXMLEditor
       }
     }
 
-    private string GetFileNameToSaveByOpeningSaveFileDialog()
+    public string GetFileNameToSaveByOpeningSaveFileDialog()
     {
       string filename = null;
-      if ((tabForms.SelectedTab != null) && (tabForms.SelectedTab.Tag != null))
+      if ((formsTabControl.SelectedTab != null) && (formsTabControl.SelectedTab.Tag != null))
       {
-        _saveFileDialog = _saveFileDialog == null ? new SaveFileDialog() : _saveFileDialog;
-        _saveFileDialog.InitialDirectory =
-          LastOpenedFilePath == null ? Application.StartupPath : Path.GetDirectoryName(LastOpenedFilePath);
-        _saveFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-        _saveFileDialog.FilterIndex = 1;
-        _saveFileDialog.RestoreDirectory = true;
+        SaveFileDialog.InitialDirectory =
+          ActiveFilePath == null ? Application.StartupPath : Path.GetDirectoryName(ActiveFilePath);
+        SaveFileDialog.FileName = 
+          ActiveFilePath == null ? "" : Path.GetFileName(ActiveFilePath);
 
-        if (_saveFileDialog.ShowDialog() == DialogResult.OK)
-          filename = _saveFileDialog.FileName;
+        if (SaveFileDialog.ShowDialog() == DialogResult.OK)
+          filename = SaveFileDialog.FileName;
       }
       return filename;
     }
 
     private void GranitEditorMainForm_MdiChildActivate(object sender, EventArgs e)
     {
-      if (this.ActiveMdiChild == null)
+      if (ActiveMdiChild == null)
       {
-        tabForms.Visible = false; // If no any child form, hide tabControl
+        formsTabControl.Visible = false; // If no any child form, hide tabControl
         InitStatusLabels();
         EnableAllXmlFormContextFunction(false);
       }
       else
       {
-        this.ActiveMdiChild.WindowState = FormWindowState.Maximized; // Child form always maximized
-
-        // If child form is new and no has tabPage, create new tabPage
-        if (this.ActiveMdiChild.Tag == null)
+        ActiveMdiChild.WindowState = FormWindowState.Maximized; // Child form always maximized
+        if (ActiveMdiChild.Tag == null)
         {
           // Add a tabPage to tabControl with child form caption
           TabPage tp = new TabPage(this.ActiveMdiChild.Text);
-          tp.Tag = this.ActiveMdiChild;
-          tp.Parent = tabForms;
-          tabForms.SelectedTab = tp;
-
-          this.ActiveMdiChild.Tag = tp;
-          this.ActiveMdiChild.FormClosed += new FormClosedEventHandler(ActiveMdiChild_FormClosed);
+          tp.Tag = ActiveMdiChild;
+          tp.Parent = formsTabControl;
+          tp.ToolTipText = ActiveXmlForm.LastOpenedFilePath;
+          ActiveMdiChild.Tag = tp;
+          ActiveMdiChild.FormClosed += new FormClosedEventHandler(ActiveMdiChild_FormClosed);
+          formsTabControl.SelectedTab = tp;
         }
 
-        if (!tabForms.Visible) tabForms.Visible = true;
+        ActualizeMenuToolBarAndStatusLabels();
+        SetActiveFilePath(ActiveXmlForm.LastOpenedFilePath);
+        //if (!formsTabControl.Visible) formsTabControl.Visible = true;
       }
     }
 
@@ -261,33 +320,33 @@ namespace GranitXMLEditor
       ((sender as Form).Tag as TabPage).Dispose();
     }
 
-    private void tabForms_SelectedIndexChanged(object sender, EventArgs e)
+    private void formsTabControl_SelectedIndexChanged(object sender, EventArgs e)
     {
-      if ((tabForms.SelectedTab != null) && (tabForms.SelectedTab.Tag != null))
+      if ((formsTabControl.SelectedTab != null) && (formsTabControl.SelectedTab.Tag != null))
       {
         // Minimize flicker when switching between tabs, by suspending layout
         SuspendLayout();
-        (tabForms.SelectedTab.Tag as Form).SuspendLayout();
+        (formsTabControl.SelectedTab.Tag as Form).SuspendLayout();
         Form activeMdiChild = this.ActiveMdiChild;
         if (activeMdiChild != null)
           activeMdiChild.SuspendLayout();
 
         // Minimize flicker when switching between tabs, by changing to minimized state first
-        if ((tabForms.SelectedTab.Tag as Form).WindowState != FormWindowState.Maximized)
-          (tabForms.SelectedTab.Tag as Form).WindowState = FormWindowState.Minimized;
+        if ((formsTabControl.SelectedTab.Tag as Form).WindowState != FormWindowState.Maximized)
+          (formsTabControl.SelectedTab.Tag as Form).WindowState = FormWindowState.Minimized;
 
-        (tabForms.SelectedTab.Tag as Form).Select();
+        (formsTabControl.SelectedTab.Tag as Form).Select();
 
         // Resume layout again
         if (activeMdiChild != null && !activeMdiChild.IsDisposed)
           activeMdiChild.ResumeLayout();
-        (tabForms.SelectedTab.Tag as Form).ResumeLayout();
+        (formsTabControl.SelectedTab.Tag as Form).ResumeLayout();
         ResumeLayout();
-        (tabForms.SelectedTab.Tag as Form).Refresh();
+        (formsTabControl.SelectedTab.Tag as Form).Refresh();
       }
 
-      ActualizeMenuToolBarAndStatusLabels();
-
+      //ActualizeMenuToolBarAndStatusLabels();
+      //SetActiveFilePath(ActiveXmlForm.LastOpenedFilePath);
     }
 
     private void ActualizeMenuToolBarAndStatusLabels()
@@ -309,44 +368,47 @@ namespace GranitXMLEditor
 
     private void InitStatusLabels()
     {
+      decimal amount = 0;
       SetStatusLabelItemText("selectedAmountStatus",
-        Resources.StatusSumSelectedText + "0.00 Ft");
+        string.Format("{0}{1} Ft",
+        Resources.StatusSumSelectedText, 
+        amount.ToString(Constants.AmountFormatString, CultureInfo.InvariantCulture)));
       SetStatusLabelItemText("selectedStatusLabel",
        Resources.StatusCountSeletedText + "0");
       SetStatusLabelItemText("allStatusLabel",
         Resources.StatusCountAllText + "0");
       SetStatusLabelItemText("allAmountStatus",
-        Resources.StatusSumAllText + "0.00 Ft");
+        string.Format("{0}{1} Ft",
+        Resources.StatusSumSelectedText, 
+        amount.ToString(Constants.AmountFormatString, CultureInfo.InvariantCulture)));
     }
 
     private void newToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      CreateNewForm(GetNextNewDocumentName());
+      OpenNewFormWith(GetNextNewDocumentName());
     }
 
-    private void CreateNewForm(string xmlFilePath)
+    public void OpenNewFormWith(string xmlFilePath)
     {
-      GranitXMLEditorForm f = new GranitXMLEditorForm(xmlFilePath);
-      f.MdiParent = this;
+      GranitXMLEditorForm f = new GranitXMLEditorForm(xmlFilePath, OpenFileDialog, SaveFileDialog)
+      {
+        MdiParent = this
+      };
       f.Show();
+      bool succeded = f.LastOpenedFilePath != null;
+      if (!succeded)
+        f.LastOpenedFilePath = GetNextNewDocumentName();
     }
 
 
     private void OpenGranitXmlFile()
     {
-      _openFileDialog = _openFileDialog == null ? new OpenFileDialog() : _openFileDialog;
-      _openFileDialog.InitialDirectory = Application.StartupPath;
-      _openFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-      _openFileDialog.FilterIndex = 1;
-      _openFileDialog.RestoreDirectory = true;
-
-      if (_openFileDialog.ShowDialog() == DialogResult.OK)
+      if (OpenFileDialog.ShowDialog() == DialogResult.OK)
       {
-        GranitXMLEditorForm f = new GranitXMLEditorForm(_openFileDialog.FileName);
-        f.MdiParent = this;
-        f.Show();
+        OpenNewFormWith(OpenFileDialog.FileName);
       }
     }
+
     private void openToolStripMenuItem1_Click(object sender, EventArgs e)
     {
       OpenGranitXmlFile();
@@ -389,20 +451,20 @@ namespace GranitXMLEditor
     {
       CreateFindDialog();
 
-      if (_findReplaceDlg == null)
+      if (FindReplaceDlg == null)
         return;
 
-      if (!_findReplaceDlg.Visible)
+      if (!FindReplaceDlg.Visible)
       {
         if (ActiveXmlForm.DataGrid.SelectedCells.Count > 1)
-          _findReplaceDlg.IsSelectionChecked = true;
+          FindReplaceDlg.IsSelectionChecked = true;
 
-        _findReplaceDlg.Show(this);
-        _findReplaceDlg.BringToFront();
+        FindReplaceDlg.Show(this);
+        FindReplaceDlg.BringToFront();
       }
       else
       {
-        _findReplaceDlg.Hide();
+        FindReplaceDlg.Hide();
       }
     }
 
@@ -455,27 +517,31 @@ namespace GranitXMLEditor
 
     protected override void OnClosing(CancelEventArgs e)
     {
-      Debug.WriteLine("OnClosing called. docHasPendingChanges: {0}", DocsHavePendingChanges);
+      Debug.WriteLine("OnClosing called on MainForm. docHasPendingChanges: {0}", DocsHavePendingChanges);
 
-      if (DocsHavePendingChanges || LastOpenedFilePath == string.Empty)
-        e.Cancel = AskAndSaveFiles(MessageBoxButtons.YesNoCancel) == DialogResult.Cancel;
+      //if (DocsHavePendingChanges || ActiveFilePath == string.Empty)
+      //  e.Cancel = AskAndSaveFiles(MessageBoxButtons.YesNoCancel) == DialogResult.Cancel;
 
-      if (!e.Cancel)
+      //if (!e.Cancel)
         SaveSettings();
 
       base.OnClosing(e);
     }
 
-    private void CreateFindDialog()
+    public FindReplaceDlg CreateFindDialog( DataGridView dgv = null)
     {
       if (ActiveMdiChild is GranitXMLEditorForm)
       {
-        if (_findReplaceDlg == null)
-          _findReplaceDlg = new FindReplaceDlg(ActiveXmlForm.DataGrid);
+        if (FindReplaceDlg == null)
+          FindReplaceDlg = new FindReplaceDlg(ActiveXmlForm.DataGrid);
+        else if (FindReplaceDlg.IsDisposed)
+          FindReplaceDlg = new FindReplaceDlg(ActiveXmlForm.DataGrid);
+        else
+          FindReplaceDlg.DataGrid = dgv;
 
-        if (_findReplaceDlg.IsDisposed)
-          _findReplaceDlg = new FindReplaceDlg(ActiveXmlForm.DataGrid);
+        return FindReplaceDlg;
       }
+      return null;
     }
 
     private DialogResult AskAndSaveFiles(MessageBoxButtons yesNoCancel)
@@ -495,27 +561,41 @@ namespace GranitXMLEditor
 
     private void SaveSettings()
     {
-      if (ActiveXmlForm != null)
-        Settings.Default.AlignTable = ActiveXmlForm.DataGrid.AutoSizeColumnsMode;
+      string layout = _windowLayoutMenu?.CheckedMenuItem?.Tag.ToString();
+      Settings.Default.WindowLayout = layout == null ? "" : layout;
 
-      var lastOpenedPaths = 
-        MdiChildren.Select(f => f is GranitXMLEditorForm ? (f as GranitXMLEditorForm).LastOpenedFilePath : "").ToArray();
-
-      FillSettingsList(Settings.Default.LastOpenedFilePaths, lastOpenedPaths);
       FillSettingsList(Settings.Default.RecentFileList, _mruMenu.GetFiles());
 
       Settings.Default.Save();
     }
 
-    private void FillSettingsList(StringCollection settingList, string[] values)
+    public void FillSettingsList(StringCollection settingList, string[] values)
     {
-      if (settingList != null)
-        settingList.Clear();
-      else
+      if (settingList == null)
         settingList = new StringCollection();
+
+      foreach (var i in settingList)
+        if (i == values[0])
+          return;
 
       settingList.AddRange(values);
     }
+
+    private void ApplySettings()
+    {
+      _mruMenu.MaxShortenPathLength = Settings.Default.MruListItemLength;
+      if (Settings.Default.RecentFileList != null)
+        foreach (string item in Settings.Default.RecentFileList)
+        {
+          _mruMenu.AddFile(item);
+        }
+
+      _windowLayout = WindowLayout.Tabbed;
+      string layout = Settings.Default.WindowLayout;
+      if(layout != null && layout != string.Empty)
+        Enum.TryParse<WindowLayout>(layout, out _windowLayout);
+    }
+
 
     private void editToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
     {
@@ -531,9 +611,7 @@ namespace GranitXMLEditor
       deleteSelectedToolStripMenuItem.Enabled = ActiveXmlForm != null;
       findAndReplaceToolStripMenuItem.Enabled = ActiveXmlForm != null;
 
-      cascadeToolStripMenuItem.Enabled = ActiveXmlForm != null;
-      tileHorizontalyToolStripMenuItem.Enabled =ActiveXmlForm != null;
-      tileVerticallyToolStripMenuItem.Enabled = ActiveXmlForm != null;
+      layoutToolStripMenuItem.Enabled = ActiveXmlForm != null;
     }
 
     private void EnableToolBoxItemsForActiveForm()
@@ -571,7 +649,7 @@ namespace GranitXMLEditor
 
     private void findAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      ActiveXmlForm?.ShowFindAndReplaceDlg();
+      ShowFindAndReplaceDlg();
     }
 
     private void newToolStripButton_Click(object sender, EventArgs e)
@@ -614,19 +692,48 @@ namespace GranitXMLEditor
       About();
     }
 
-    private void cascadeToolStripMenuItem_Click(object sender, EventArgs e)
+    private void GranitEditorMainForm_DragDrop(object sender, DragEventArgs e)
     {
-      LayoutMdi(MdiLayout.Cascade);
+        string[] files = (string[])(e.Data.GetData(DataFormats.FileDrop, false));
+        OpenNewFormWith(Path.GetFullPath(files[0]).ToString());
     }
 
-    private void tileHorizontalyToolStripMenuItem_Click(object sender, EventArgs e)
+    private void GranitEditorMainForm_DragEnter(object sender, DragEventArgs e)
     {
-      LayoutMdi(MdiLayout.TileHorizontal);
+      Debug.WriteLine("DragEnter");
+      string filename = GetDropFileName(e);
+      if (filename != string.Empty)
+        e.Effect = DragDropEffects.Copy;
+      else
+        e.Effect = DragDropEffects.None;
     }
 
-    private void tileVerticallyToolStripMenuItem_Click(object sender, EventArgs e)
+    public string GetDropFileName(DragEventArgs e)
     {
-      LayoutMdi(MdiLayout.TileVertical);
+      string fileName = string.Empty;
+
+      if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy)
+      {
+        Array data = ((IDataObject)e.Data).GetData("FileName") as Array;
+        if (data != null)
+        {
+          if ((data.Length == 1) && (data.GetValue(0) is string))
+          {
+            fileName = ((string[])data)[0];
+            string ext = Path.GetExtension(fileName).ToLower();
+            if ((ext == ".xml"))//|| (ext == ".png") || (ext == ".bmp"))
+            {
+              return fileName;
+            }
+          }
+        }
+      }
+      return fileName;
+    }
+
+    private void GranitEditorMainForm_Shown(object sender, EventArgs e)
+    {
+      windowLayoutMenu_Clicked(_windowLayout);
     }
   }
 }

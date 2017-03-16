@@ -236,6 +236,15 @@ namespace GranitXMLEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid window layout specified, default value applies..
+        /// </summary>
+        internal static string InvalidWindowLayout {
+            get {
+                return ResourceManager.GetString("InvalidWindowLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Selected.
         /// </summary>
         internal static string IsActiveHeaderText {

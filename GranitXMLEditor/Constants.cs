@@ -1,4 +1,6 @@
-﻿namespace GranitXMLEditor
+﻿using System.Windows.Forms;
+
+namespace GranitXMLEditor
 {
   public class Constants
   {
@@ -33,6 +35,14 @@
     public const string CurrencyPropertyName = "Currency"; 
     public const string RemittanceInfoPropertyName  = "RemittanceInfo";      
     public const string IsSelectedPropertyName = "IsSelected";
+
+    public enum WindowLayout
+    {
+      Cascade = MdiLayout.Cascade,
+      TileHorizontal = MdiLayout.TileHorizontal,
+      TileVertical = MdiLayout.TileVertical,
+      Tabbed,
+    }
       
   }
 }

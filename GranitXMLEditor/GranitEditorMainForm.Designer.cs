@@ -61,6 +61,7 @@
       this.customizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.layoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.contentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.indexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,15 +84,12 @@
       this.redoToolStripButton = new System.Windows.Forms.ToolStripButton();
       this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
       this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
-      this.tabForms = new System.Windows.Forms.TabControl();
+      this.formsTabControl = new System.Windows.Forms.TabControl();
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
       this.allStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
       this.allAmountStatus = new System.Windows.Forms.ToolStripStatusLabel();
       this.selectedStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
       this.selectedAmountStatus = new System.Windows.Forms.ToolStripStatusLabel();
-      this.cascadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.tileHorizontalyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.tileVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip1.SuspendLayout();
       this.toolStrip1.SuspendLayout();
       this.statusStrip1.SuspendLayout();
@@ -365,12 +363,16 @@
       // windowToolStripMenuItem
       // 
       this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cascadeToolStripMenuItem,
-            this.tileHorizontalyToolStripMenuItem,
-            this.tileVerticallyToolStripMenuItem});
+            this.layoutToolStripMenuItem});
       this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
       this.windowToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
       this.windowToolStripMenuItem.Text = "&Window";
+      // 
+      // layoutToolStripMenuItem
+      // 
+      this.layoutToolStripMenuItem.Name = "layoutToolStripMenuItem";
+      this.layoutToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
+      this.layoutToolStripMenuItem.Text = "Layout";
       // 
       // helpToolStripMenuItem1
       // 
@@ -569,16 +571,17 @@
       this.helpToolStripButton.Text = "He&lp";
       this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
       // 
-      // tabForms
+      // formsTabControl
       // 
-      this.tabForms.Dock = System.Windows.Forms.DockStyle.Top;
-      this.tabForms.Location = new System.Drawing.Point(0, 55);
-      this.tabForms.Name = "tabForms";
-      this.tabForms.SelectedIndex = 0;
-      this.tabForms.Size = new System.Drawing.Size(867, 24);
-      this.tabForms.TabIndex = 4;
-      this.tabForms.Visible = false;
-      this.tabForms.SelectedIndexChanged += new System.EventHandler(this.tabForms_SelectedIndexChanged);
+      this.formsTabControl.Dock = System.Windows.Forms.DockStyle.Top;
+      this.formsTabControl.Location = new System.Drawing.Point(0, 55);
+      this.formsTabControl.Name = "formsTabControl";
+      this.formsTabControl.SelectedIndex = 0;
+      this.formsTabControl.ShowToolTips = true;
+      this.formsTabControl.Size = new System.Drawing.Size(867, 24);
+      this.formsTabControl.TabIndex = 4;
+      this.formsTabControl.Visible = false;
+      this.formsTabControl.SelectedIndexChanged += new System.EventHandler(this.formsTabControl_SelectedIndexChanged);
       // 
       // statusStrip1
       // 
@@ -618,34 +621,14 @@
       this.selectedAmountStatus.Size = new System.Drawing.Size(132, 20);
       this.selectedAmountStatus.Text = "Sum of Selected: 0";
       // 
-      // cascadeToolStripMenuItem
-      // 
-      this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-      this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-      this.cascadeToolStripMenuItem.Text = "Cascade";
-      this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.cascadeToolStripMenuItem_Click);
-      // 
-      // tileHorizontalyToolStripMenuItem
-      // 
-      this.tileHorizontalyToolStripMenuItem.Name = "tileHorizontalyToolStripMenuItem";
-      this.tileHorizontalyToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
-      this.tileHorizontalyToolStripMenuItem.Text = "Tile Horizontaly";
-      this.tileHorizontalyToolStripMenuItem.Click += new System.EventHandler(this.tileHorizontalyToolStripMenuItem_Click);
-      // 
-      // tileVerticallyToolStripMenuItem
-      // 
-      this.tileVerticallyToolStripMenuItem.Name = "tileVerticallyToolStripMenuItem";
-      this.tileVerticallyToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
-      this.tileVerticallyToolStripMenuItem.Text = "Tile Vertically";
-      this.tileVerticallyToolStripMenuItem.Click += new System.EventHandler(this.tileVerticallyToolStripMenuItem_Click);
-      // 
       // GranitEditorMainForm
       // 
+      this.AllowDrop = true;
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(867, 397);
       this.Controls.Add(this.statusStrip1);
-      this.Controls.Add(this.tabForms);
+      this.Controls.Add(this.formsTabControl);
       this.Controls.Add(this.toolStrip1);
       this.Controls.Add(this.menuStrip1);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -654,6 +637,9 @@
       this.Name = "GranitEditorMainForm";
       this.Text = "GranitEditor";
       this.MdiChildActivate += new System.EventHandler(this.GranitEditorMainForm_MdiChildActivate);
+      this.Shown += new System.EventHandler(this.GranitEditorMainForm_Shown);
+      this.DragDrop += new System.Windows.Forms.DragEventHandler(this.GranitEditorMainForm_DragDrop);
+      this.DragEnter += new System.Windows.Forms.DragEventHandler(this.GranitEditorMainForm_DragEnter);
       this.menuStrip1.ResumeLayout(false);
       this.menuStrip1.PerformLayout();
       this.toolStrip1.ResumeLayout(false);
@@ -720,15 +706,13 @@
     private System.Windows.Forms.ToolStripButton redoToolStripButton;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
     private System.Windows.Forms.ToolStripButton helpToolStripButton;
-    private System.Windows.Forms.TabControl tabForms;
+    private System.Windows.Forms.TabControl formsTabControl;
     private System.Windows.Forms.StatusStrip statusStrip1;
     private System.Windows.Forms.ToolStripStatusLabel allStatusLabel;
     private System.Windows.Forms.ToolStripStatusLabel allAmountStatus;
     private System.Windows.Forms.ToolStripStatusLabel selectedStatusLabel;
     private System.Windows.Forms.ToolStripStatusLabel selectedAmountStatus;
     private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem cascadeToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem tileHorizontalyToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem tileVerticallyToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem layoutToolStripMenuItem;
   }
 }

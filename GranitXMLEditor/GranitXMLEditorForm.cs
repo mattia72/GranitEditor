@@ -16,7 +16,7 @@ namespace GranitXMLEditor
     private GranitXmlToAdapterBinder _xmlToObjectBinder;
     private OpenFileDialog _openFileDialog;
     private SaveFileDialog _saveFileDialog;
-    private FindReplaceDlg _findReplaceDlg;
+
     private string _lastOpenedFilePath;
     private bool _docHasPendingChanges=false;
     private GranitDataGridViewCellValidator _cellVallidator;
@@ -39,11 +39,12 @@ namespace GranitXMLEditor
       }
     }
 
-    public GranitXMLEditorForm(string xmlFilePath)
+    public GranitXMLEditorForm(string xmlFilePath, OpenFileDialog ofDlg, SaveFileDialog sfDlg)
     {
       InitializeComponent();
       OpenNewDocument(); 
-      LastOpenedFilePath = xmlFilePath;
+      _openFileDialog = ofDlg;
+      _saveFileDialog = sfDlg;
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
       _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, _xmlToObjectBinder);
       SetTextResources();
@@ -53,8 +54,10 @@ namespace GranitXMLEditor
       //Drag & Drop support
       AllowDrop = true;
       dataGridView1.AllowDrop = true;
-      if(File.Exists(LastOpenedFilePath))
-        LoadDocument(LastOpenedFilePath);
+      if(File.Exists(xmlFilePath))
+        LoadDocument(xmlFilePath);
+      else
+        LastOpenedFilePath = xmlFilePath;
     }
 
     private void SetTextResources()
@@ -69,32 +72,22 @@ namespace GranitXMLEditor
       remittanceInfoDataGridViewTextBoxColumn.HeaderText = Resources.RemittanceInfoHeaderText;
     }
 
-    internal GranitDataGridViewContextMenuHandler ContextMenuHandler
-    {
-      get
-      {
-        return _contextMenuHandler;
-      }
-    }
+    internal GranitDataGridViewContextMenuHandler ContextMenuHandler => _contextMenuHandler;
 
     public string LastOpenedFilePath
     {
-      get { return _lastOpenedFilePath; }
+      get => _lastOpenedFilePath;
       set
       {
         _lastOpenedFilePath = value;
         Text = Path.GetFileName(value);
-        MainForm?.SetLastOpenedFilePath(value);
+        MainForm?.SetActiveFilePath(value);
       }
     }
 
     public bool DocHasPendingChanges
     {
-      get
-      {
-        return _docHasPendingChanges;
-      }
-
+      get => _docHasPendingChanges;
       set
       {
         _docHasPendingChanges = value;
@@ -103,20 +96,14 @@ namespace GranitXMLEditor
       }
     }
 
-    private GranitEditorMainForm MainForm
-    {
-      get
-      {
-        return (ParentForm as GranitEditorMainForm);
-      }
-    }
+    private GranitEditorMainForm MainForm { get => (ParentForm as GranitEditorMainForm); }
 
     private void ApplySettings()
     {
       if (Settings.Default.AlignTable != 0)
       {
         dataGridView1.AutoSizeColumnsMode = Settings.Default.AlignTable;
-        MainForm?.GridAlignMenu.SetCheckedByMode(dataGridView1.AutoSizeColumnsMode);
+        MainForm?.GridAlignMenu.SetCheckedByValue(dataGridView1.AutoSizeColumnsMode);
       }
     }
 
@@ -153,7 +140,9 @@ namespace GranitXMLEditor
 
     private void SaveSettings()
     {
-      //Settings.Default.Save();
+      Settings.Default.AlignTable = DataGrid.AutoSizeColumnsMode;
+      MainForm.FillSettingsList(Settings.Default.LastOpenedFilePaths, new string[]{ LastOpenedFilePath });
+      Settings.Default.Save();
     }
 
     private DataGridViewColumn FindColumnByHeaderText(string headerText)
@@ -164,39 +153,6 @@ namespace GranitXMLEditor
           return col;
       }
       return null;
-    }
-
-    private void OpenGranitXmlFile()
-    {
-      _openFileDialog = _openFileDialog == null ? new OpenFileDialog() : _openFileDialog;
-      _openFileDialog.InitialDirectory = Application.StartupPath;
-      _openFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-      _openFileDialog.FilterIndex = 1;
-      _openFileDialog.RestoreDirectory = true;
-
-      if (_openFileDialog.ShowDialog() == DialogResult.OK)
-        LoadDocument(_openFileDialog.FileName);
-    }
-
-    private string GetFileNameToSaveByOpeningSaveFileDialog()
-    {
-      string filename = null;
-      if (_xmlToObjectBinder != null)
-      {
-        _saveFileDialog = _saveFileDialog == null ? new SaveFileDialog() : _saveFileDialog;
-        _saveFileDialog.InitialDirectory = Application.StartupPath;
-        _saveFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-        _saveFileDialog.FilterIndex = 1;
-        _saveFileDialog.RestoreDirectory = true;
-        _saveFileDialog.AddExtension = true;
-        _saveFileDialog.DefaultExt = "xml";
-        _saveFileDialog.FileName = LastOpenedFilePath;
-
-
-        if (_saveFileDialog.ShowDialog() == DialogResult.OK)
-          filename = _saveFileDialog.FileName;
-      }
-      return filename;
     }
 
     public void SaveDocument(string fileName)
@@ -224,7 +180,8 @@ namespace GranitXMLEditor
           MessageBoxIcon.Error);
 
         _xmlToObjectBinder = new GranitXmlToAdapterBinder();
-        //LastOpenedFilePath = string.Empty;
+
+        LastOpenedFilePath = MainForm?.GetNextNewDocumentName();
       }
       else
       {
@@ -277,14 +234,6 @@ namespace GranitXMLEditor
         DocHasPendingChanges = true;
     }
 
-    public void Open(object sender, EventArgs e)
-    {
-      DialogResult answere = CheckPendingChangesAndSaveIfNecessary();
-
-      if (answere != DialogResult.Cancel)
-        OpenGranitXmlFile();
-    }
-
     public DialogResult CheckPendingChangesAndSaveIfNecessary()
     {
       DialogResult answere = DialogResult.OK; ;
@@ -308,33 +257,7 @@ namespace GranitXMLEditor
 
     private void findAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      ShowFindAndReplaceDlg();
-    }
-
-    public void ShowFindAndReplaceDlg()
-    {
-      CreateFindDialog();
-
-      if (!_findReplaceDlg.Visible)
-      {
-        if (dataGridView1.SelectedCells.Count > 1)
-          _findReplaceDlg.IsSelectionChecked = true;
-        _findReplaceDlg.Show(this);
-        _findReplaceDlg.BringToFront();
-      }
-      else
-      {
-        _findReplaceDlg.Hide();
-      }
-    }
-
-    private void CreateFindDialog()
-    {
-      if (_findReplaceDlg == null)
-        _findReplaceDlg = new FindReplaceDlg(dataGridView1);
-
-      if (_findReplaceDlg.IsDisposed)
-        _findReplaceDlg = new FindReplaceDlg(dataGridView1);
+      MainForm.ShowFindAndReplaceDlg();
     }
    
     private void dataGridView1_UserAddedNewRow(object sender, DataGridViewRowEventArgs e)
@@ -367,8 +290,8 @@ namespace GranitXMLEditor
 
     private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
     {
-      CreateFindDialog();
-      _findReplaceDlg.IsFirstInitNecessary = true;
+      var dlg = MainForm.CreateFindDialog(DataGrid);
+      dlg.IsFirstInitNecessary = true;
     }
 
     public void New()
@@ -424,7 +347,7 @@ namespace GranitXMLEditor
         }
         else
         {
-          string f = GetFileNameToSaveByOpeningSaveFileDialog();
+          string f = MainForm.GetFileNameToSaveByOpeningSaveFileDialog();
           if (f != null && f != string.Empty)
             SaveDocument(f);
           else
@@ -544,10 +467,8 @@ namespace GranitXMLEditor
 
     private void dataGridView1_DragEnter(object sender, DragEventArgs e)
     {
-      Debug.WriteLine("DragEnter");
-      string filename;
-      bool validData = ValidateDropFile(out filename, e);
-      if (validData)
+      string filename = MainForm.GetDropFileName(e);
+      if (filename != string.Empty)
         e.Effect = DragDropEffects.Copy;
       else
         e.Effect = DragDropEffects.None;
@@ -555,49 +476,8 @@ namespace GranitXMLEditor
 
     private void dataGridView1_DragDrop(object sender, DragEventArgs e)
     {
-      DialogResult answere = CheckPendingChangesAndSaveIfNecessary();
-      if (answere != DialogResult.Cancel)
-      {
-        string[] files = (string[])(e.Data.GetData(DataFormats.FileDrop, false));
-        LoadDocument(Path.GetFullPath(files[0]).ToString());
-        //foreach (string file in files)
-        //{
-        //  throw new NotImplementedException("Drop more then one files not supported (yet)!");
-        //}
-      }
-    }
-
-    private void dataGridView1_DragLeave(object sender, EventArgs e)
-    {
-
-    }
-
-    private void dataGridView1_DragOver(object sender, DragEventArgs e)
-    {
-
-    }
-    protected bool ValidateDropFile(out string filename, DragEventArgs e)
-    {
-      bool ret = false;
-      filename = string.Empty;
-
-      if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy)
-      {
-        Array data = ((IDataObject)e.Data).GetData("FileName") as Array;
-        if (data != null)
-        {
-          if ((data.Length == 1) && (data.GetValue(0) is string))
-          {
-            filename = ((string[])data)[0];
-            string ext = Path.GetExtension(filename).ToLower();
-            if ((ext == ".xml") )//|| (ext == ".png") || (ext == ".bmp"))
-            {
-              ret = true;
-            }
-          }
-        }
-      }
-      return ret;
+      string[] files = (string[])(e.Data.GetData(DataFormats.FileDrop, false));
+      MainForm.OpenNewFormWith(Path.GetFullPath(files[0]).ToString());
     }
 
     private void GranitXMLEditorForm_Shown(object sender, EventArgs e)

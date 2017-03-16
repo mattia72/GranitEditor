@@ -153,8 +153,9 @@ namespace GranitXMLEditor
         Where(x => x.Attribute(Constants.TransactionSelectedAttribute) == null ||
         x.Attribute(Constants.TransactionSelectedAttribute).Value == "true"))
       {
-        RemoveTransactionAttributes(item);
-        xDocToSave.Root.Add(RemoveAllNamespaces(item));
+        XElement copy = new XElement(item);
+        RemoveTransactionAttributes(copy);
+        xDocToSave.Root.Add(RemoveAllNamespaces(copy));
       }
       xDocToSave.Save(xmlFilePath);
     }

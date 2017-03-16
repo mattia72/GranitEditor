@@ -10,7 +10,7 @@ namespace GranitXMLEditor.Tests
   [TestClass()]
   public class GranitXmlToObjectBinderTests
   {
-    static string[] good_examples = { "example.xml", "test.xml" };
+    static string[] goodXmlExamples = { "example.xml", "test.xml" };
     //static string[] good_examples = { "fizu_adok_1701.xml" };
 
     [TestMethod()]
@@ -31,7 +31,7 @@ namespace GranitXMLEditor.Tests
     [TestMethod()]
     public void Validation_Succeded_Test()
     {
-      foreach (var xml in good_examples)
+      foreach (var xml in goodXmlExamples)
       {
         var x2o = new GranitXmlToAdapterBinder(xml, true);
         Assert.AreEqual(x2o.XmlValidationErrorOccured, false);
@@ -41,7 +41,7 @@ namespace GranitXMLEditor.Tests
     [TestMethod()]
     public void TransactionId_Uniq_Test()
     {
-      foreach (var xml in good_examples)
+      foreach (var xml in goodXmlExamples)
       {
         var x2o = new GranitXmlToAdapterBinder(xml, true);
 
@@ -58,7 +58,7 @@ namespace GranitXMLEditor.Tests
     [TestMethod()]
     public void AddEmptyTransactionRow_Test()
     {
-      foreach (var xml in good_examples)
+      foreach (var xml in goodXmlExamples)
       {
         var x2o = new GranitXmlToAdapterBinder(xml, true);
 
@@ -72,7 +72,7 @@ namespace GranitXMLEditor.Tests
     [TestMethod()]
     public void AddEmptyTransactionRow_ReturnsWithTheLargestId_Test()
     {
-      foreach (var xml in good_examples)
+      foreach (var xml in goodXmlExamples)
       {
         var x2o = new GranitXmlToAdapterBinder(xml, true);
 
@@ -88,7 +88,7 @@ namespace GranitXMLEditor.Tests
     [TestMethod()]
     public void Sort_AmountAscending_Test()
     {
-      foreach (var xml in good_examples)
+      foreach (var xml in goodXmlExamples)
       {
         Amount_Sort_and_MinMax_Test(xml, SortOrder.Ascending);
       }
@@ -97,7 +97,7 @@ namespace GranitXMLEditor.Tests
     [TestMethod()]
     public void Sort_AmountDescending_Test()
     {
-      foreach (var xml in good_examples)
+      foreach (var xml in goodXmlExamples)
         Amount_Sort_and_MinMax_Test(xml, SortOrder.Descending);
     }
 
@@ -149,14 +149,14 @@ namespace GranitXMLEditor.Tests
     [TestMethod()]
     public void Sort_ReqDateAscending_Test()
     {
-      foreach (var xml in good_examples)
+      foreach (var xml in goodXmlExamples)
         Sort_ReqDate_Test(xml, SortOrder.Ascending);
     }
 
     [TestMethod()]
     public void Sort_ReqDateDescending_Test()
     {
-      foreach (var xml in good_examples)
+      foreach (var xml in goodXmlExamples)
         Sort_ReqDate_Test(xml, SortOrder.Descending);
     }
 
@@ -186,20 +186,27 @@ namespace GranitXMLEditor.Tests
     [TestMethod()]
     public void AddTransactionRow_WithParameter_Test()
     {
-      foreach (var xml in good_examples)
+      foreach (var xml in goodXmlExamples)
       {
         var x2o = new GranitXmlToAdapterBinder(xml, true);
 
         int origCount = x2o.TransactionCount;
-        x2o.AddTransactionRow(new TransactionAdapter());
+        var newTa = new TransactionAdapter();
+        x2o.AddTransactionRow(newTa);
 
         Assert.AreEqual(x2o.GranitXDocument.Root.Elements().ToList().Count, origCount + 1);
+
+        foreach (var ta in x2o.HUFTransactionsAdapter.TransactionAdapters)
+          Assert.IsTrue(newTa.TransactionId >= ta.TransactionId);
+
+        Assert.AreEqual(x2o.GranitXDocument.Root.Elements(Constants.Transaction)
+        .Where(t => t.Attribute(Constants.TransactionIdAttribute).Value == newTa.TransactionId.ToString()).Count(), 1);
       }
     }
     [TestMethod()]
     public void RemoveTransactionRowById_Test()
     {
-      foreach (var xml in good_examples)
+      foreach (var xml in goodXmlExamples)
       {
         var x2o = new GranitXmlToAdapterBinder(xml, true);
 
