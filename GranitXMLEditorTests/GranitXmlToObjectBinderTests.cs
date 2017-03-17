@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Globalization;
+using System.IO;
 
 namespace GranitXMLEditor.Tests
 {
@@ -203,6 +204,7 @@ namespace GranitXMLEditor.Tests
         .Where(t => t.Attribute(Constants.TransactionIdAttribute).Value == newTa.TransactionId.ToString()).Count(), 1);
       }
     }
+
     [TestMethod()]
     public void RemoveTransactionRowById_Test()
     {
@@ -213,11 +215,26 @@ namespace GranitXMLEditor.Tests
         int origCount = x2o.TransactionCount;
         x2o.RemoveTransactionRowById(1);
 
-        Assert.AreEqual(x2o.GranitXDocument.Root.Elements().ToList().Count, origCount-1);
-        Assert.AreEqual(x2o.TransactionCount, origCount-1);
+        Assert.AreEqual(x2o.GranitXDocument.Root.Elements().ToList().Count, origCount - 1);
+        Assert.AreEqual(x2o.TransactionCount, origCount - 1);
       }
+    }
 
-
+    [TestMethod()]
+    public void SaveToFile_Test()
+    {
+      string tempXml = "unittest.temp.xml";
+      foreach (var xml in goodXmlExamples)
+      {
+        var orig = new GranitXmlToAdapterBinder(xml, validate:true);
+        orig.SaveToFile(tempXml);
+        var saved = new GranitXmlToAdapterBinder(tempXml, validate:true);
+        int i = 0;
+        foreach (var t in saved.HUFTransactionsAdapter.TransactionAdapters)
+        {
+          Assert.AreEqual(t.CompareTo(orig.HUFTransactionsAdapter.TransactionAdapters[i++]), 0);
+        }
+      }
     }
   }
 }
