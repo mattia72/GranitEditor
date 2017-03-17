@@ -49,8 +49,6 @@ namespace GranitXMLEditor
       _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, _xmlToObjectBinder);
       SetTextResources();
       ApplySettings();
-      //after sorting has to be reset...
-      DocHasPendingChanges = false;
       //Drag & Drop support
       AllowDrop = true;
       dataGridView1.AllowDrop = true;
@@ -292,14 +290,6 @@ namespace GranitXMLEditor
     {
       var dlg = MainForm.CreateFindDialog(DataGrid);
       dlg.IsFirstInitNecessary = true;
-    }
-
-    public void New()
-    {
-      DialogResult answere = CheckPendingChangesAndSaveIfNecessary();
-
-      if (answere != DialogResult.Cancel)
-        OpenNewDocument();
     }
 
     public void RebindBindingList()
