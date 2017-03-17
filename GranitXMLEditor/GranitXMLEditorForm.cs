@@ -23,21 +23,9 @@ namespace GranitXMLEditor
     private GranitDataGridViewContextMenuHandler _contextMenuHandler;
     private SortableBindingList<TransactionAdapter> _bindingList;
 
-    internal UndoRedoHistory<IGranitXDocumentOwner> History
-    {
-      get
-      {
-        return _xmlToObjectBinder?.History;
-      }
-    }
+    internal UndoRedoHistory<IGranitXDocumentOwner> History => _xmlToObjectBinder?.History;
 
-    internal DataGridView DataGrid
-    {
-      get
-      {
-        return dataGridView1;
-      }
-    }
+    internal DataGridView DataGrid => dataGridView1;
 
     public GranitXMLEditorForm(string xmlFilePath, OpenFileDialog ofDlg, SaveFileDialog sfDlg)
     {
@@ -396,21 +384,29 @@ namespace GranitXMLEditor
     private void deleteRowToolStripMenuItem_Click(object sender, EventArgs e)
     {
       _contextMenuHandler.grid_DeleteSelectedRows(sender, e);
+      DocHasPendingChanges = true;
     }
 
     private void duplicateRowToolStripMenuItem_Click(object sender, EventArgs e)
     {
+      History?.Do(new TransactionPoolMemento(_xmlToObjectBinder.GranitXDocument));
+
       _contextMenuHandler.grid_DuplicateRow(sender, e);
+      DocHasPendingChanges = true;
     }
 
     private void deleteSelectedToolStripMenuItem_Click(object sender, EventArgs e)
     {
+      History?.Do(new TransactionPoolMemento(_xmlToObjectBinder.GranitXDocument));
       _contextMenuHandler.grid_DeleteSelectedRows(sender, e);
+      DocHasPendingChanges = true;
     }
 
     private void newToolStripMenuItem1_Click(object sender, EventArgs e)
     {
+      History?.Do(new TransactionPoolMemento(_xmlToObjectBinder.GranitXDocument));
       _contextMenuHandler.grid_AddNewRow(sender, e);
+      DocHasPendingChanges = true;
     }
 
     public void Undo()

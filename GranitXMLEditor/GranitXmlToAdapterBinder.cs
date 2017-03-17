@@ -14,20 +14,8 @@ namespace GranitXMLEditor
     public HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
     public XDocument GranitXDocument { get; set; }
     public UndoRedoHistory<IGranitXDocumentOwner> History { get; set; }
-    public decimal SumAmount
-    {
-      get
-      {
-        return HUFTransactionsAdapter.TransactionAdapters.Aggregate(0m, (total, next) => total + next.Amount);
-      }
-    }
-    public int TransactionCount
-    {
-      get
-      {
-        return GranitXDocument.Root.Elements(Constants.Transaction).Count();
-      }
-    }
+    public decimal SumAmount => HUFTransactionsAdapter.TransactionAdapters.Aggregate(0m, (total, next) => total + next.Amount);
+    public int TransactionCount => GranitXDocument.Root.Elements(Constants.Transaction).Count();
 
     public bool XmlValidationErrorOccured { get; private set; }
 
@@ -35,15 +23,9 @@ namespace GranitXMLEditor
 
     public ValidationEventArgs ValidationEventArgs
     {
-      get
-      {
-        return _validationEventArgs;
-      }
+      get => _validationEventArgs;
 
-      set
-      {
-        _validationEventArgs = value;
-      }
+      set => _validationEventArgs = value;
     }
 
     public GranitXmlToAdapterBinder()
