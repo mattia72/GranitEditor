@@ -8,10 +8,8 @@ namespace GranitXMLEditor
 
     protected ToolStripMenuItem parentMenuItem;
     public delegate void ClickedHandler(T enumItem);
-
     public virtual ToolStripItemCollection MenuItems => parentMenuItem.DropDownItems;
     public EnumStripMenuItem<T> CheckedMenuItem;
-
     private ClickedHandler clickedHandler;
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -28,7 +26,6 @@ namespace GranitXMLEditor
         EnumStripMenuItem<T> menuItem = new EnumStripMenuItem<T>(enumValue, new System.EventHandler(OnClick));
         MenuItems.Insert(0, menuItem);
       }
-
     }
 
     private void OnClick(object sender, EventArgs e)
@@ -62,8 +59,6 @@ namespace GranitXMLEditor
       }
     }
   }
-
-
 
   public class EnumStripMenuItem<T> : ToolStripMenuItem where T : struct, IConvertible 
   {
