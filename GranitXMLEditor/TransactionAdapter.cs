@@ -271,9 +271,14 @@ namespace GranitXMLEditor
       TransactionAdapter clone = new TransactionAdapter((Transaction)Transaction.Clone(), GranitXDocument);
       return clone;
     }
+
     public override string ToString()
     {
-      return string.Format("Id: {0} xDoc: {1}", TransactionId, GranitXDocument == null ? "null" : GranitXDocument.ToString(SaveOptions.DisableFormatting));
+      var xt = GranitXDocument?.Root.Elements(Constants.Transaction)
+          .Where(x => this.IsBindedWith(x)).ToList()
+          .FirstOrDefault();
+
+      return string.Format("Id: {0}, {1}", TransactionId, xt == null ? "null" : xt.ToString());
     }
   }
 }

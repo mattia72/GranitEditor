@@ -262,6 +262,7 @@ namespace GranitXMLEditor
     {
       Debug.WriteLine(e.RowCount + " rows added at index: " + e.RowIndex);
       TransactionAdapter ta = (TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+
       Debug.WriteLine("Adapter: " + (ta != null ? ta.ToString() : "null"));
       ActualizeStatusLabelsOfAll();
     }
@@ -349,6 +350,13 @@ namespace GranitXMLEditor
     private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
     {
       GranitDataGridViewCellFormatter.Format(dataGridView1, ref e);
+      if (e.ColumnIndex == dataGridView1.Columns[0].Index)
+      {
+        var cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+        TransactionAdapter ta = (TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+        if (ta != null)
+          cell.ToolTipText = ta.ToString();
+      }
     }
 
     private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
