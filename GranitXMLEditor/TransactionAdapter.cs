@@ -113,7 +113,7 @@ namespace GranitXMLEditor
 
     public long TransactionId { get { return Transaction.TransactionId;} }
 
-    private XDocument GranitXDocument { get; set; }
+    public XDocument GranitXDocument { get; set; }
 
     public TransactionAdapter()
     {
