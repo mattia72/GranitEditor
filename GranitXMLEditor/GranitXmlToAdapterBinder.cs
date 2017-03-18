@@ -21,12 +21,7 @@ namespace GranitXMLEditor
 
     private ValidationEventArgs _validationEventArgs = null;
 
-    public ValidationEventArgs ValidationEventArgs
-    {
-      get => _validationEventArgs;
-
-      set => _validationEventArgs = value;
-    }
+    public ValidationEventArgs ValidationEventArgs { get => _validationEventArgs; set => _validationEventArgs = value; }
 
     public GranitXmlToAdapterBinder()
     {
