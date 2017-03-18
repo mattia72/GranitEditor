@@ -1,4 +1,4 @@
-﻿using GranitXMLEditor.Properties;
+﻿using GranitEditor.Properties;
 using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -8,9 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using static GranitXMLEditor.Constants;
+using static GranitEditor.Constants;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   public partial class GranitEditorMainForm : Form
   {

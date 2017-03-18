@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   public class Constants
   {

@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   [XmlRoot(ElementName = "Account")]
   public class Account : IComparable<Account>, ICloneable

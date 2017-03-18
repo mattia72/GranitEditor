@@ -1,11 +1,11 @@
-﻿using GranitXMLEditor.Properties;
+﻿using GranitEditor.Properties;
 using System;
 using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   internal class GranitDataGridViewCellFormatter
   {

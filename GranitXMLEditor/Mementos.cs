@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Linq;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   abstract class TransactionMemento : IMemento<List<Transaction>>
   {

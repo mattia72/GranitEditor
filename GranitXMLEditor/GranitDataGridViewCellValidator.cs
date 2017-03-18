@@ -1,10 +1,10 @@
-﻿using GranitXMLEditor.Properties;
+﻿using GranitEditor.Properties;
 using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   internal class GranitDataGridViewCellValidator
   {

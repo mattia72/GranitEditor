@@ -4,9 +4,9 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using GranitXMLEditor.Properties;
+using GranitEditor.Properties;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   public partial class FindReplaceDlg : Form
   {

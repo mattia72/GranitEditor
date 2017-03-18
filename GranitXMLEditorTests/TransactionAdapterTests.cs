@@ -1,4 +1,4 @@
-﻿using GranitXMLEditor;
+﻿using GranitEditor;
 using GranitXMLEditorTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace GranitXMLEditor.Tests
+namespace GranitEditor.Tests
 {
   [TestClass()]
   public class TransactionAdapterTests

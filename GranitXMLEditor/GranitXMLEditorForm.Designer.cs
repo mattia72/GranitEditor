@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
     partial class GranitXMLEditorForm
     {
@@ -214,7 +214,7 @@ namespace GranitXMLEditor
       // 
       // transactionAdapterBindingSource
       // 
-      this.transactionAdapterBindingSource.DataSource = typeof(GranitXMLEditor.TransactionAdapter);
+      this.transactionAdapterBindingSource.DataSource = typeof(GranitEditor.TransactionAdapter);
       // 
       // GranitXMLEditorForm
       // 

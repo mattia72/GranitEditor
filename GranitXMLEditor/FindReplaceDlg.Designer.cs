@@ -1,4 +1,4 @@
-﻿namespace GranitXMLEditor
+﻿namespace GranitEditor
 {
   partial class FindReplaceDlg
   {

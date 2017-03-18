@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   public partial class AboutBox : Form
   {

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.Threading;
 using Microsoft.Win32;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   /// <summary>
   /// Represents a most recently used (MRU) menu.

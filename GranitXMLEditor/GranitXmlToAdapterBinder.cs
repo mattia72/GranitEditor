@@ -1,5 +1,5 @@
 ﻿using GenericUndoRedo;
-using GranitXMLEditor.Properties;
+using GranitEditor.Properties;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Schema;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   public class GranitXmlToAdapterBinder : IGranitXDocumentOwner
   {

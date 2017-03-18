@@ -7,7 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Diagnostics;
 
-namespace GranitXMLEditor.Tests
+namespace GranitEditor.Tests
 {
   [TestClass()]
   public class XDocumentExtensionTests

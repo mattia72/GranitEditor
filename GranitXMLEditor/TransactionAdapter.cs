@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections.Generic;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   public class TransactionAdapter : IComparable<XElement>,
     IComparable<Transaction>,

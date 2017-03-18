@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   public class HUFTransactionsAdapter : INotifyPropertyChanged, INotifyPropertyChanging
   {

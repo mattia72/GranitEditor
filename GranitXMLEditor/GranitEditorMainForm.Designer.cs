@@ -1,4 +1,4 @@
-﻿namespace GranitXMLEditor
+﻿namespace GranitEditor
 {
   partial class GranitEditorMainForm
   {
@@ -524,7 +524,7 @@
       // findToolStripButton
       // 
       this.findToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.findToolStripButton.Image = global::GranitXMLEditor.Properties.Resources.magnifier;
+      this.findToolStripButton.Image = global::GranitEditor.Properties.Resources.magnifier;
       this.findToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.findToolStripButton.Name = "findToolStripButton";
       this.findToolStripButton.Size = new System.Drawing.Size(24, 24);
@@ -539,7 +539,7 @@
       // undoToolStripButton
       // 
       this.undoToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.undoToolStripButton.Image = global::GranitXMLEditor.Properties.Resources.undo_blue;
+      this.undoToolStripButton.Image = global::GranitEditor.Properties.Resources.undo_blue;
       this.undoToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.undoToolStripButton.Name = "undoToolStripButton";
       this.undoToolStripButton.Size = new System.Drawing.Size(24, 24);
@@ -549,7 +549,7 @@
       // redoToolStripButton
       // 
       this.redoToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.redoToolStripButton.Image = global::GranitXMLEditor.Properties.Resources.redo_blue;
+      this.redoToolStripButton.Image = global::GranitEditor.Properties.Resources.redo_blue;
       this.redoToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.redoToolStripButton.Name = "redoToolStripButton";
       this.redoToolStripButton.Size = new System.Drawing.Size(24, 24);

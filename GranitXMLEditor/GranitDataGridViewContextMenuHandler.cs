@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   class GranitDataGridViewContextMenuHandler
   {

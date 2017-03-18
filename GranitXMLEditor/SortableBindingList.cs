@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   public class SortableBindingList<T> : BindingList<T>
     {

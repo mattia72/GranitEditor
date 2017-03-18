@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Globalization;
 using System.IO;
 
-namespace GranitXMLEditor.Tests
+namespace GranitEditor.Tests
 {
   [TestClass()]
   public class GranitXmlToObjectBinderTests

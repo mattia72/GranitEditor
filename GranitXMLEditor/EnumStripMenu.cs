@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   public class EnumStripMenu<T> where T : struct, IConvertible
   {

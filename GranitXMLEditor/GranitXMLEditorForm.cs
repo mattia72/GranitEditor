@@ -2,14 +2,14 @@
 using System.IO;
 using System.Windows.Forms;
 using System.ComponentModel;
-using GranitXMLEditor.Properties;
+using GranitEditor.Properties;
 using System.Diagnostics;
 using System.Linq;
 using System.Xml.Schema;
 using System.Collections.Generic;
 using GenericUndoRedo;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   public partial class GranitXMLEditorForm : Form
   {

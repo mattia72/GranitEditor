@@ -1,4 +1,4 @@
-﻿using GranitXMLEditor.Properties;
+﻿using GranitEditor.Properties;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -11,7 +11,7 @@ using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.XPath;
 
-namespace GranitXMLEditor
+namespace GranitEditor
 {
   public static class XDocumentExtension
   {

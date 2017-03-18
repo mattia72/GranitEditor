@@ -7,7 +7,7 @@
     <ProjectGuid>{030E3907-E433-4F66-96AB-160C4128875D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GranitXMLEditor</RootNamespace>
+    <RootNamespace>GranitEditor</RootNamespace>
     <AssemblyName>GranitEditor</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -56,7 +56,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>GranitXMLEditor.Program</StartupObject>
+    <StartupObject>GranitEditor.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\GranitBankIcon.ico</ApplicationIcon>
@@ -97,6 +97,7 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClipboardHandler.cs" />
     <Compile Include="EnumStripMenu.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GranitDataGridViewCellFormatter.cs" />

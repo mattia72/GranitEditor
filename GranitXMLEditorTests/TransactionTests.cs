@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace GranitXMLEditor.Tests
+namespace GranitEditor.Tests
 {
   [TestClass()]
   public class TransactionTests
