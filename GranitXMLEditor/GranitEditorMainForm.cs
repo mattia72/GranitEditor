@@ -106,6 +106,7 @@ namespace GranitEditor
       _windowLayoutMenu = new EnumStripMenu<WindowLayout>(layoutToolStripMenuItem, windowLayoutMenu_Clicked);
       OpenLastOpenedFilesIfExists();
       ApplySettings();
+      ActualizeMenuToolBarAndStatusLabels();
     }
 
     public string GetNextNewDocumentName()
@@ -622,7 +623,7 @@ namespace GranitEditor
       pasteToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.HasSelectedCells && ActiveXmlForm.ClipboardHandler.ClipboardHasContent;
 
       copyToolStripButton.Enabled =  copyToolStripMenuItem.Enabled ;
-      cutToolStripMenuItem.Enabled = cutToolStripButton.Enabled;
+      cutToolStripButton.Enabled = cutToolStripMenuItem.Enabled;
       pasteToolStripButton.Enabled = pasteToolStripMenuItem.Enabled;
     }
 
@@ -751,7 +752,7 @@ namespace GranitEditor
     private void cutToolStripButton_Click(object sender, EventArgs e)
     {
       //Copy to clipboard
-      _clipboardHandler.CopyToClipboard(ActiveXmlForm.DataGrid);
+      copyToolStripButton_Click(sender, e);
 
       //Clear selected cells
       foreach (DataGridViewCell dgvCell in ActiveXmlForm.DataGrid.SelectedCells)
