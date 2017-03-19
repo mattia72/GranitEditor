@@ -351,7 +351,7 @@ namespace GranitEditor
 
     private void ActualizeMenuToolBarAndStatusLabels()
     {
-      EnableMenuItemsForActiveForm();
+      UpdateMenuItemsForActiveForm();
       EnableToolBoxItemsForActiveForm();
 
       if (ActiveXmlForm != null)
@@ -599,10 +599,10 @@ namespace GranitEditor
 
     private void editToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
     {
-      EnableMenuItemsForActiveForm();
+      UpdateMenuItemsForActiveForm();
     }
 
-    private void EnableMenuItemsForActiveForm()
+    private void UpdateMenuItemsForActiveForm()
     {
       UpdateCopyPasteItems();
 
@@ -612,6 +612,9 @@ namespace GranitEditor
       selectAllToolStripMenuItem.Enabled = ActiveXmlForm != null;
       deleteSelectedToolStripMenuItem.Enabled = ActiveXmlForm != null;
       findAndReplaceToolStripMenuItem.Enabled = ActiveXmlForm != null;
+      
+      if(ActiveXmlForm != null)
+        GridAlignMenu.SetCheckedByValue(ActiveXmlForm.DataGrid.AutoSizeColumnsMode);
 
       layoutToolStripMenuItem.Enabled = ActiveXmlForm != null;
     }
@@ -636,7 +639,7 @@ namespace GranitEditor
 
     private void toolsToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
     {
-      alignTableToolStripMenuItem.Enabled = ActiveXmlForm == null;
+      alignTableToolStripMenuItem.Enabled = ActiveXmlForm != null;
     }
 
     private void fileToolStripMenuItem1_DropDownOpened(object sender, EventArgs e)

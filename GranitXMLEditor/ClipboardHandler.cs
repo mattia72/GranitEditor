@@ -62,11 +62,28 @@ namespace GranitEditor
 
             //Copy to selected cells if 'PasteToSelectedCellsOnly' is checked
             if ((PasteToSelectedCellsOnly && cell.Selected) || (!PasteToSelectedCellsOnly))
-              cell.Value = cbValue[rowKey][cellKey];
+              SetCellValue(cbValue, rowKey, cellKey, cell);
           }
           iColIndex++;
         }
         iRowIndex++;
+      }
+    }
+
+    private static void SetCellValue(Dictionary<int, Dictionary<int, string>> cbValue, int rowKey, int cellKey, DataGridViewCell cell)
+    {
+      switch (cell.ValueType.FullName)
+      {
+        case "System.Decimal":
+          decimal parsedValue = 0;
+          if(Decimal.TryParse(cbValue[rowKey][cellKey], out parsedValue))
+            cell.Value = parsedValue;
+          else
+            throw new FormatException("Paste this type of value not implemented!");
+          break;
+        default: //string
+          cell.Value = cbValue[rowKey][cellKey];
+          break;
       }
     }
 
