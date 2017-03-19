@@ -176,7 +176,7 @@ namespace GranitEditor
       Originator = new Originator();
       Beneficiary = new Beneficiary();
       Amount = new Amount();
-      RequestedExecutionDate = "";
+      RequestedExecutionDate = DateTime.Today.ToString(Constants.DateFormat);
       RemittanceInfo = new RemittanceInfo();
     }
 

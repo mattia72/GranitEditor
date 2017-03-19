@@ -71,12 +71,8 @@ namespace GranitEditor
 
     public TransactionAdapter AddEmptyTransactionRow()
     {
-      History?.Do(new TransactionPoolMemento(GranitXDocument));
-
-      XElement transactionXelem = new TransactionXElementParser().ParsedElement;
-      GranitXDocument.Root.Add(transactionXelem);
-      TransactionAdapter ta = ReCreateAdapter();
-      AddDefaultAttributes(ta.TransactionId, transactionXelem);
+      var ta = new TransactionAdapter();
+      AddTransactionRow(ta);
       return ta;
     }
 
@@ -96,7 +92,9 @@ namespace GranitEditor
 
       XElement transactionXelem = new TransactionXElementParser(ta).ParsedElement;
       GranitXDocument.Root.Add(transactionXelem);
-      return ReCreateAdapter();
+      TransactionAdapter taRetVal = ReCreateAdapter();
+      AddDefaultAttributes(taRetVal.TransactionId, transactionXelem);
+      return taRetVal;
     }
 
     private void SetTransactionIdAttribute()
