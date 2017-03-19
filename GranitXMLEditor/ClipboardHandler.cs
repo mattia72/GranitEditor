@@ -4,36 +4,48 @@ using System.Windows.Forms;
 
 namespace GranitEditor
 {
-  class ClipboardHandler
+
+  /// <summary>
+  /// https://www.codeproject.com/Tips/208281/Copy-Paste-in-Datagridview-Control
+  /// </summary>
+  public class ClipboardHandler
   {
     private DataGridView dataGridView1;
+    public DataGridView DataGridView { get => dataGridView1; set => dataGridView1 = value; }
+    public bool ClipboardHasContent { get => dataGridView1?.GetClipboardContent() != null; } 
+    public bool PasteToSelectedCellsOnly { get; set; }
 
-    public bool PasteToSelectedCellsOnly { get; private set; }
-
-    public ClipboardHandler(DataGridView dataGridView1)
+    public ClipboardHandler()
     {
-      this.dataGridView1 = dataGridView1;
     }
 
-    public void CopyToClipboard()
+    public ClipboardHandler(DataGridView dataGridView)
     {
+      this.DataGridView = dataGridView;
+    }
+
+    public void CopyToClipboard(DataGridView dataGridView)
+    {
+      DataGridView = dataGridView;
       //Copy to clipboard
-      DataObject dataObj = dataGridView1.GetClipboardContent();
+      DataObject dataObj = DataGridView.GetClipboardContent();
       if (dataObj != null)
         Clipboard.SetDataObject(dataObj);
     }
 
-    public void PasteClipboardValue()
+    public void PasteClipboardValue(DataGridView dataGridView)
     {
+      DataGridView = dataGridView;
+
       //Show Error if no cell is selected
-      if (dataGridView1.SelectedCells.Count == 0)
+      if (DataGridView.SelectedCells.Count == 0)
       {
         MessageBox.Show("Please select a cell", "Paste", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         return;
       }
 
       //Get the satring Cell
-      DataGridViewCell startCell = GetStartCell(dataGridView1);
+      DataGridViewCell startCell = GetStartCell(DataGridView);
       //Get the clipboard value in a dictionary
       Dictionary<int, Dictionary<int, string>> cbValue = ClipBoardValues(Clipboard.GetText());
 
@@ -44,9 +56,9 @@ namespace GranitEditor
         foreach (int cellKey in cbValue[rowKey].Keys)
         {
           //Check if the index is with in the limit
-          if (iColIndex <= dataGridView1.Columns.Count - 1 && iRowIndex <= dataGridView1.Rows.Count - 1)
+          if (iColIndex <= DataGridView.Columns.Count - 1 && iRowIndex <= DataGridView.Rows.Count - 1)
           {
-            DataGridViewCell cell = dataGridView1[iColIndex, iRowIndex];
+            DataGridViewCell cell = DataGridView[iColIndex, iRowIndex];
 
             //Copy to selected cells if 'PasteToSelectedCellsOnly' is checked
             if ((PasteToSelectedCellsOnly && cell.Selected) || (!PasteToSelectedCellsOnly))

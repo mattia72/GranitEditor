@@ -24,10 +24,89 @@ namespace GranitEditor
     private SaveFileDialog _saveFileDialog;
     private FindReplaceDlg _findReplaceDlg;
     private EnumStripMenu<Constants.WindowLayout> _windowLayoutMenu;
-    private Constants.WindowLayout _windowLayout;
+    private WindowLayout _windowLayout;
 
     public GranitXMLEditorForm ActiveXmlForm => ActiveMdiChild as GranitXMLEditorForm;
     public string ActiveFilePath { get => _activeFilePath; set => _activeFilePath = value; }
+
+    private ClipboardHandler _clipboardHandler;
+
+    public bool DocsHavePendingChanges
+    {
+      get => _docsHavePendingChanges;
+      set
+      {
+        _docsHavePendingChanges = value;
+        saveToolStripButton.Enabled = _docsHavePendingChanges;
+        saveToolStripMenuItem.Enabled = _docsHavePendingChanges;
+        UpdateUndoRedoItems();
+      }
+    }
+
+    public void SetDocsHavePendingChanges(bool value)
+    {
+      DocsHavePendingChanges = value;
+    }
+
+    public EnumStripMenu<DataGridViewAutoSizeColumnsMode> GridAlignMenu { get => _gridAlignMenu; set => _gridAlignMenu = value; }
+
+    public OpenFileDialog OpenFileDialog
+    {
+      get
+      {
+        if (_openFileDialog == null)
+        {
+          _openFileDialog = new OpenFileDialog();
+          _openFileDialog.InitialDirectory = Application.StartupPath;
+          _openFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+          _openFileDialog.FilterIndex = 1;
+          _openFileDialog.RestoreDirectory = true;
+        }
+        _openFileDialog.InitialDirectory = 
+          ActiveFilePath == null ? Application.StartupPath : Path.GetFileName(ActiveFilePath);
+        return _openFileDialog;
+      }
+    }
+
+    public SaveFileDialog SaveFileDialog
+    {
+      get
+      {
+        if (_saveFileDialog == null)
+        {
+          _saveFileDialog = new SaveFileDialog();
+          _saveFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+          _saveFileDialog.FilterIndex = 1;
+          _saveFileDialog.RestoreDirectory = true;
+          _saveFileDialog.AddExtension = true;
+          _saveFileDialog.DefaultExt = "xml";
+        }
+
+        return _saveFileDialog;
+      }
+    }
+
+    public FindReplaceDlg FindReplaceDlg { get => _findReplaceDlg; set => _findReplaceDlg = value; }
+
+    private ClipboardHandler ClipboardHandler {
+      get
+      {
+        if (_clipboardHandler == null)
+          _clipboardHandler = new ClipboardHandler();
+        return _clipboardHandler;
+      }
+      set => _clipboardHandler = value;
+    }
+
+    public GranitEditorMainForm()
+    {
+      InitializeComponent();
+      _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, MostRecentMenu_Clicked, 10);
+      _gridAlignMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
+      _windowLayoutMenu = new EnumStripMenu<WindowLayout>(layoutToolStripMenuItem, windowLayoutMenu_Clicked);
+      OpenLastOpenedFilesIfExists();
+      ApplySettings();
+    }
 
     public string GetNextNewDocumentName()
     {
@@ -70,86 +149,6 @@ namespace GranitEditor
 
       if (!string.IsNullOrEmpty(_activeFilePath))
           _mruMenu.AddFile(_activeFilePath);
-    }
-
-    public bool DocsHavePendingChanges
-    {
-      get
-      {
-        return _docsHavePendingChanges;
-      }
-      set
-      {
-        _docsHavePendingChanges = value;
-        saveToolStripButton.Enabled = _docsHavePendingChanges;
-        saveToolStripMenuItem.Enabled = _docsHavePendingChanges;
-        EnableUndoRedoItems();
-      }
-    }
-
-    public void SetDocsHavePendingChanges(bool value)
-    {
-      DocsHavePendingChanges = value;
-    }
-
-    public EnumStripMenu<DataGridViewAutoSizeColumnsMode> GridAlignMenu
-    {
-      get
-      {
-        return _gridAlignMenu;
-      }
-
-      set
-      {
-        _gridAlignMenu = value;
-      }
-    }
-
-    public OpenFileDialog OpenFileDialog
-    {
-      get
-      {
-        if (_openFileDialog == null)
-        {
-          _openFileDialog = new OpenFileDialog();
-          _openFileDialog.InitialDirectory = Application.StartupPath;
-          _openFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-          _openFileDialog.FilterIndex = 1;
-          _openFileDialog.RestoreDirectory = true;
-        }
-        _openFileDialog.InitialDirectory = 
-          ActiveFilePath == null ? Application.StartupPath : Path.GetFileName(ActiveFilePath);
-        return _openFileDialog;
-      }
-    }
-    public SaveFileDialog SaveFileDialog
-    {
-      get
-      {
-        if (_saveFileDialog == null)
-        {
-          _saveFileDialog = new SaveFileDialog();
-          _saveFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-          _saveFileDialog.FilterIndex = 1;
-          _saveFileDialog.RestoreDirectory = true;
-          _saveFileDialog.AddExtension = true;
-          _saveFileDialog.DefaultExt = "xml";
-        }
-
-        return _saveFileDialog;
-      }
-    }
-
-    public FindReplaceDlg FindReplaceDlg { get => _findReplaceDlg; set => _findReplaceDlg = value; }
-
-    public GranitEditorMainForm()
-    {
-      InitializeComponent();
-      _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, MostRecentMenu_Clicked, 10);
-      _gridAlignMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
-      _windowLayoutMenu = new EnumStripMenu<WindowLayout>(layoutToolStripMenuItem, windowLayoutMenu_Clicked);
-      OpenLastOpenedFilesIfExists();
-      ApplySettings();
     }
 
     private void windowLayoutMenu_Clicked(Constants.WindowLayout enumItem)
@@ -390,7 +389,7 @@ namespace GranitEditor
 
     public void OpenNewFormWith(string xmlFilePath)
     {
-      GranitXMLEditorForm f = new GranitXMLEditorForm(xmlFilePath, OpenFileDialog, SaveFileDialog)
+      GranitXMLEditorForm f = new GranitXMLEditorForm(xmlFilePath, OpenFileDialog, SaveFileDialog, ClipboardHandler)
       {
         MdiParent = this
       };
@@ -437,10 +436,10 @@ namespace GranitEditor
     private void undoToolStripMenuItem_Click(object sender, EventArgs e)
     {
       ActiveXmlForm?.Undo();
-      EnableUndoRedoItems();
+      UpdateUndoRedoItems();
     }
 
-    private void EnableUndoRedoItems()
+    private void UpdateUndoRedoItems()
     {
       var hist = ActiveXmlForm?.History;
       undoToolStripButton.Enabled = hist == null ? false : hist.CanUndo;
@@ -604,6 +603,8 @@ namespace GranitEditor
 
     private void EnableMenuItemsForActiveForm()
     {
+      UpdateCopyPasteItems();
+
       saveToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.DocHasPendingChanges;
       undoToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.History.CanUndo;
       redoToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.History.CanRedo;
@@ -614,10 +615,21 @@ namespace GranitEditor
       layoutToolStripMenuItem.Enabled = ActiveXmlForm != null;
     }
 
+    public void UpdateCopyPasteItems()
+    {
+      copyToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.HasSelectedCells;
+      cutToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.HasSelectedCells;
+      pasteToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.HasSelectedCells && ActiveXmlForm.ClipboardHandler.ClipboardHasContent;
+
+      copyToolStripButton.Enabled =  copyToolStripMenuItem.Enabled ;
+      cutToolStripMenuItem.Enabled = cutToolStripButton.Enabled;
+      pasteToolStripButton.Enabled = pasteToolStripMenuItem.Enabled;
+    }
+
     private void EnableToolBoxItemsForActiveForm()
     {
-      saveToolStripButton.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.DocHasPendingChanges;
-      EnableUndoRedoItems();
+      UpdateCopyPasteItems();
+      UpdateUndoRedoItems();
       findToolStripButton.Enabled = ActiveXmlForm != null;
     }
 
@@ -634,7 +646,7 @@ namespace GranitEditor
     private void redoToolStripMenuItem_Click(object sender, EventArgs e)
     {
       ActiveXmlForm?.Redo();
-      EnableUndoRedoItems();
+      UpdateUndoRedoItems();
     }
 
     private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -734,6 +746,43 @@ namespace GranitEditor
     private void GranitEditorMainForm_Shown(object sender, EventArgs e)
     {
       windowLayoutMenu_Clicked(_windowLayout);
+    }
+
+    private void cutToolStripButton_Click(object sender, EventArgs e)
+    {
+      //Copy to clipboard
+      _clipboardHandler.CopyToClipboard(ActiveXmlForm.DataGrid);
+
+      //Clear selected cells
+      foreach (DataGridViewCell dgvCell in ActiveXmlForm.DataGrid.SelectedCells)
+        dgvCell.Value = string.Empty;
+    }
+
+    private void copyToolStripButton_Click(object sender, EventArgs e)
+    {
+      _clipboardHandler.CopyToClipboard(ActiveXmlForm.DataGrid);
+      UpdateCopyPasteItems();
+    }
+
+    private void pasteToolStripButton_Click(object sender, EventArgs e)
+    {
+      _clipboardHandler.PasteClipboardValue(ActiveXmlForm.DataGrid);
+    }
+
+    private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      cutToolStripButton_Click(sender, e);
+      UpdateCopyPasteItems();
+    }
+
+    private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      copyToolStripButton_Click(sender, e);
+    }
+
+    private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      pasteToolStripButton_Click(sender, e);
     }
   }
 }

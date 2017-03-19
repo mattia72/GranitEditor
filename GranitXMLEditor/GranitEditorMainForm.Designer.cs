@@ -269,6 +269,7 @@
       this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
       this.cutToolStripMenuItem.Size = new System.Drawing.Size(256, 26);
       this.cutToolStripMenuItem.Text = "Cu&t";
+      this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
       // 
       // copyToolStripMenuItem
       // 
@@ -279,6 +280,7 @@
       this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
       this.copyToolStripMenuItem.Size = new System.Drawing.Size(256, 26);
       this.copyToolStripMenuItem.Text = "&Copy";
+      this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
       // 
       // pasteToolStripMenuItem
       // 
@@ -289,6 +291,7 @@
       this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
       this.pasteToolStripMenuItem.Size = new System.Drawing.Size(256, 26);
       this.pasteToolStripMenuItem.Text = "&Paste";
+      this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
       // 
       // toolStripSeparator4
       // 
@@ -497,6 +500,7 @@
       this.cutToolStripButton.Name = "cutToolStripButton";
       this.cutToolStripButton.Size = new System.Drawing.Size(24, 24);
       this.cutToolStripButton.Text = "C&ut";
+      this.cutToolStripButton.Click += new System.EventHandler(this.cutToolStripButton_Click);
       // 
       // copyToolStripButton
       // 
@@ -506,6 +510,7 @@
       this.copyToolStripButton.Name = "copyToolStripButton";
       this.copyToolStripButton.Size = new System.Drawing.Size(24, 24);
       this.copyToolStripButton.Text = "&Copy";
+      this.copyToolStripButton.Click += new System.EventHandler(this.copyToolStripButton_Click);
       // 
       // pasteToolStripButton
       // 
@@ -515,6 +520,7 @@
       this.pasteToolStripButton.Name = "pasteToolStripButton";
       this.pasteToolStripButton.Size = new System.Drawing.Size(24, 24);
       this.pasteToolStripButton.Text = "&Paste";
+      this.pasteToolStripButton.Click += new System.EventHandler(this.pasteToolStripButton_Click);
       // 
       // toolStripSeparator11
       // 

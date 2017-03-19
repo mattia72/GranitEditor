@@ -26,20 +26,31 @@ namespace GranitEditor
     internal UndoRedoHistory<IGranitXDocumentOwner> History => _xmlToObjectBinder?.History;
 
     internal DataGridView DataGrid => dataGridView1;
+    internal bool HasSelectedCells => dataGridView1.SelectedCells.Count > 0;
 
-    public GranitXMLEditorForm(string xmlFilePath, OpenFileDialog ofDlg, SaveFileDialog sfDlg)
+    public GranitXMLEditorForm(string xmlFilePath, 
+      OpenFileDialog ofDlg, 
+      SaveFileDialog sfDlg, 
+      ClipboardHandler clip)
     {
       InitializeComponent();
+
       OpenNewDocument(); 
       _openFileDialog = ofDlg;
       _saveFileDialog = sfDlg;
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
       _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, _xmlToObjectBinder);
+
+      dataGridView1.KeyDown += new KeyEventHandler(this.DataGridView1_KeyDown);
+      ClipboardHandler = clip;
+
       SetTextResources();
       ApplySettings();
+
       //Drag & Drop support
       AllowDrop = true;
       dataGridView1.AllowDrop = true;
+      
       if(File.Exists(xmlFilePath))
         LoadDocument(xmlFilePath);
       else
@@ -83,6 +94,7 @@ namespace GranitEditor
     }
 
     private GranitEditorMainForm MainForm { get => (ParentForm as GranitEditorMainForm); }
+    public ClipboardHandler ClipboardHandler { get;  set; }
 
     private void ApplySettings()
     {
@@ -223,7 +235,7 @@ namespace GranitEditor
     public DialogResult CheckPendingChangesAndSaveIfNecessary()
     {
       DialogResult answere = DialogResult.OK; ;
-      if (DocHasPendingChanges)
+      if (DocHasPendingChanges && History.CanUndo)
         answere = AskAndSaveFile(MessageBoxButtons.YesNoCancel);
       return answere;
     }
@@ -232,7 +244,7 @@ namespace GranitEditor
     {
       Debug.WriteLine("OnClosing called. docHasPendingChanges: {0}", DocHasPendingChanges);
 
-      if (DocHasPendingChanges || !File.Exists(LastOpenedFilePath))
+      if ((DocHasPendingChanges && History.CanUndo)|| !File.Exists(LastOpenedFilePath))
         e.Cancel = AskAndSaveFile(MessageBoxButtons.YesNoCancel) == DialogResult.Cancel;
 
       if(!e.Cancel)
@@ -438,6 +450,7 @@ namespace GranitEditor
     private void dataGridView1_SelectionChanged(object sender, EventArgs e)
     {
       ActualizeStatusLabelsOfSelected();
+      MainForm.UpdateCopyPasteItems();
     }
 
     public void ActualizeStatusLabelsOfSelected()
@@ -480,6 +493,40 @@ namespace GranitEditor
       Icon = Icon.Clone() as System.Drawing.Icon;
       WindowState = FormWindowState.Normal;
       WindowState = FormWindowState.Maximized;
+    }
+
+    private void DataGridView1_KeyDown(object sender, KeyEventArgs e)
+    {
+      try
+      {
+        if (e.Modifiers == Keys.Control)
+        {
+          switch (e.KeyCode)
+          {
+            case Keys.C:
+            case Keys.Insert:
+              ClipboardHandler.CopyToClipboard(dataGridView1);
+              break;
+
+            case Keys.V:
+              ClipboardHandler.PasteClipboardValue(dataGridView1);
+              break;
+          }
+        }
+        if (e.Modifiers == Keys.Shift)
+        {
+          switch (e.KeyCode)
+          {
+            case Keys.Insert:
+              ClipboardHandler.PasteClipboardValue(dataGridView1);
+              break;
+          }
+        }
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show("Copy/paste operation failed. " + ex.Message, "Copy/Paste", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+      }
     }
   }
 }
