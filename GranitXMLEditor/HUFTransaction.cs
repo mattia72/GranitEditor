@@ -18,7 +18,7 @@ namespace GranitEditor
     public string AccountNumber { get; set; }
     public Account()
     {
-      AccountNumber = "";
+      AccountNumber = "000000000000000000000000";
     }
 
     public int CompareTo(Account other)
@@ -92,7 +92,7 @@ namespace GranitEditor
 
     public Amount()
     {
-      Value = 0;
+      Value = 1;
       Currency = "HUF";
     }
 

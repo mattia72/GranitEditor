@@ -27,10 +27,11 @@ namespace GranitEditor
     {
       GranitXDocument = new XDocument();
       GranitXDocument.Add(new XElement(Constants.HUFTransactions));
-      XElement transactionXelem = new TransactionXElementParser().ParsedElement;
-      GranitXDocument.Root.Add(transactionXelem);
-      SetTransactionIdAttribute();
-      ReCreateAdapter();
+      AddEmptyTransactionRow();
+      //XElement transactionXelem = new TransactionXElementParser().ParsedElement;
+      //GranitXDocument.Root.Add(transactionXelem);
+      //SetTransactionIdAttribute();
+      //ReCreateAdapter();
       History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
     }
 
@@ -87,7 +88,6 @@ namespace GranitEditor
 
     public TransactionAdapter AddTransactionRow(TransactionAdapter ta)
     {
-
       History?.Do(new TransactionPoolMemento(GranitXDocument));
 
       XElement transactionXelem = new TransactionXElementParser(ta).ParsedElement;

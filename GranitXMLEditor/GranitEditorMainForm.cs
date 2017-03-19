@@ -676,7 +676,7 @@ namespace GranitEditor
 
     private void saveToolStripButton_Click(object sender, EventArgs e)
     {
-      saveAsToolStripMenuItem1_Click(sender, e);
+      saveToolStripMenuItem_Click(sender, e);
     }
 
     private void findToolStripButton_Click(object sender, EventArgs e)
