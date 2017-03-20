@@ -4,7 +4,6 @@ using System.Windows.Forms;
 
 namespace GranitEditor
 {
-
   /// <summary>
   /// https://www.codeproject.com/Tips/208281/Copy-Paste-in-Datagridview-Control
   /// </summary>
@@ -12,7 +11,7 @@ namespace GranitEditor
   {
     private DataGridView dataGridView1;
     public DataGridView DataGridView { get => dataGridView1; set => dataGridView1 = value; }
-    public bool ClipboardHasContent { get => dataGridView1?.GetClipboardContent() != null; } 
+    public bool ClipboardHasContent { get => dataGridView1?.GetClipboardContent() != null; }
     public bool PasteToSelectedCellsOnly { get; set; }
 
     public ClipboardHandler()
@@ -62,21 +61,44 @@ namespace GranitEditor
 
             //Copy to selected cells if 'PasteToSelectedCellsOnly' is checked
             if ((PasteToSelectedCellsOnly && cell.Selected) || (!PasteToSelectedCellsOnly))
+            {
               SetCellValue(cbValue, rowKey, cellKey, cell);
+            }
           }
           iColIndex++;
         }
         iRowIndex++;
+
+        if (iRowIndex >= DataGridView.Rows.Count - 1)
+        {
+          if (DataGridView.Parent is GranitXMLEditorForm)
+          {
+            GranitXMLEditorForm form = DataGridView.Parent as GranitXMLEditorForm;
+            form.ContextMenuHandler.AddNewEmptyRow();
+          }
+        }
       }
     }
 
-    private static void SetCellValue(Dictionary<int, Dictionary<int, string>> cbValue, int rowKey, int cellKey, DataGridViewCell cell)
+    private void SetCellValue(Dictionary<int, Dictionary<int, string>> cbValue, int rowKey, int cellKey, DataGridViewCell cell)
     {
       switch (cell.ValueType.FullName)
       {
+        case "System.Boolean":
+          {
+            bool parsedBoolValue = false;
+            if (Boolean.TryParse(cbValue[rowKey][cellKey], out parsedBoolValue))
+            {
+              cell.Value = parsedBoolValue;
+              DataGridView.RefreshEdit();
+            }
+            else
+              throw new FormatException("Paste this type of value not implemented!");
+            break;
+          }
         case "System.Decimal":
           decimal parsedValue = 0;
-          if(Decimal.TryParse(cbValue[rowKey][cellKey], out parsedValue))
+          if (Decimal.TryParse(cbValue[rowKey][cellKey], out parsedValue))
             cell.Value = parsedValue;
           else
             throw new FormatException("Paste this type of value not implemented!");

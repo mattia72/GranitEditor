@@ -61,6 +61,7 @@ namespace GranitEditor
           _openFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
           _openFileDialog.FilterIndex = 1;
           _openFileDialog.RestoreDirectory = true;
+          _openFileDialog.Multiselect = true;
         }
         _openFileDialog.InitialDirectory = 
           ActiveFilePath == null ? Application.StartupPath : Path.GetFileName(ActiveFilePath);
@@ -103,7 +104,7 @@ namespace GranitEditor
       InitializeComponent();
       _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, MostRecentMenu_Clicked, 10);
       _gridAlignMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
-      _windowLayoutMenu = new EnumStripMenu<WindowLayout>(layoutToolStripMenuItem, windowLayoutMenu_Clicked);
+      _windowLayoutMenu = new EnumStripMenu<WindowLayout>(layoutToolStripMenuItem, ChangeWindowLayout);
       OpenLastOpenedFilesIfExists();
       ApplySettings();
       ActualizeMenuToolBarAndStatusLabels();
@@ -152,7 +153,7 @@ namespace GranitEditor
           _mruMenu.AddFile(_activeFilePath);
     }
 
-    private void windowLayoutMenu_Clicked(Constants.WindowLayout enumItem)
+    private void ChangeWindowLayout(Constants.WindowLayout enumItem)
     {
       switch (enumItem)
       {
@@ -176,7 +177,7 @@ namespace GranitEditor
           }
           break;
         default:
-          windowLayoutMenu_Clicked(WindowLayout.Tabbed);
+          ChangeWindowLayout(WindowLayout.Tabbed);
           MessageBox.Show( Resources.InvalidWindowLayout, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
           break;
       }
@@ -398,6 +399,8 @@ namespace GranitEditor
       bool succeded = f.LastOpenedFilePath != null;
       if (!succeded)
         f.LastOpenedFilePath = GetNextNewDocumentName();
+
+      ChangeWindowLayout(_windowLayout);
     }
 
 
@@ -405,7 +408,8 @@ namespace GranitEditor
     {
       if (OpenFileDialog.ShowDialog() == DialogResult.OK)
       {
-        OpenNewFormWith(OpenFileDialog.FileName);
+        foreach(string file in OpenFileDialog.FileNames)
+          OpenNewFormWith(file);
       }
     }
 
@@ -749,7 +753,7 @@ namespace GranitEditor
 
     private void GranitEditorMainForm_Shown(object sender, EventArgs e)
     {
-      windowLayoutMenu_Clicked(_windowLayout);
+      ChangeWindowLayout(_windowLayout);
     }
 
     private void cutToolStripButton_Click(object sender, EventArgs e)

@@ -86,13 +86,20 @@ namespace GranitEditor
       return row;
     }
 
-    private void AddNewRow(TransactionAdapter ta)
+    public void AddNewEmptyRow()
+    {
+        AddNewRow(new TransactionAdapter());
+    }
+
+    public void AddNewRow(TransactionAdapter ta)
     {
       var bindingList = ((SortableBindingList<TransactionAdapter>)_dataGridView.DataSource);
+
       if(ta == null || ta.GranitXDocument == null)
         bindingList.Add(_xmlToObject.AddEmptyTransactionRow());
       else
         bindingList.Add(_xmlToObject.AddTransactionRow(ta));
+
       SelectLastRow();
     }
 
