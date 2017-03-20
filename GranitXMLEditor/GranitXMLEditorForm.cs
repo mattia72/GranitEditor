@@ -252,11 +252,6 @@ namespace GranitEditor
       base.OnClosing(e);
     }
 
-    private void findAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      MainForm.ShowFindAndReplaceDlg();
-    }
-   
     private void dataGridView1_UserAddedNewRow(object sender, DataGridViewRowEventArgs e)
     {
       var bindingList = ((SortableBindingList<TransactionAdapter>)dataGridView1.DataSource);

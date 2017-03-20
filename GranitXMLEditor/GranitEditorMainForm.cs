@@ -454,7 +454,7 @@ namespace GranitEditor
 
     public void ShowFindAndReplaceDlg()
     {
-      CreateFindDialog();
+      CreateFindDialog(ActiveXmlForm.DataGrid);
 
       if (FindReplaceDlg == null)
         return;

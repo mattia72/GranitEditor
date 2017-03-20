@@ -46,10 +46,10 @@ namespace GranitEditor
       //Get the satring Cell
       DataGridViewCell startCell = GetStartCell(DataGridView);
       //Get the clipboard value in a dictionary
-      Dictionary<int, Dictionary<int, string>> cbValue = ClipBoardValues(Clipboard.GetText());
+      Dictionary<int, Dictionary<int, string>> cbValue = PutClipboardToDictionary();
 
       int gridRowIndex = startCell.RowIndex;
-      for(int rowKey = 0; rowKey < cbValue.Keys.Count; rowKey++ )
+      for (int rowKey = 0; rowKey < cbValue.Keys.Count; rowKey++)
       {
         int gridColIndex = startCell.ColumnIndex;
         foreach (int cellKey in cbValue[rowKey].Keys)
@@ -78,6 +78,23 @@ namespace GranitEditor
       }
     }
 
+    private Dictionary<int, Dictionary<int, string>> PutClipboardToDictionary()
+    {
+      string clipBoardContent = Clipboard.GetText();
+      List<string> lineList = new List<string>();
+
+      var lines = clipBoardContent.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+      foreach (string line in lines)
+      {
+        if (line.StartsWith("\t"))
+          lineList.Add(line.Remove(0, 1));
+        else
+          lineList.Add(line);
+      }
+      Dictionary<int, Dictionary<int, string>> cbValue = ClipBoardValues(string.Join(Environment.NewLine, lineList.ToArray()));
+      return cbValue;
+    }
+
     private void AddRow()
     {
       if (DataGridView.Parent is GranitXMLEditorForm)
@@ -89,30 +106,41 @@ namespace GranitEditor
 
     private void SetCellValue(Dictionary<int, Dictionary<int, string>> cbValue, int rowKey, int cellKey, DataGridViewCell cell)
     {
-      switch (cell.ValueType.FullName)
+      DataGridViewCellFormattingEventArgs e =
+        new DataGridViewCellFormattingEventArgs(cell.ColumnIndex, cell.RowIndex, cbValue[rowKey][cellKey], cell.ValueType, cell.Style);
+
+      GranitDataGridViewCellFormatter.UnFormat(DataGridView, ref e);
+      if (e.FormattingApplied)
       {
-        case "System.Boolean":
-          {
-            bool parsedBoolValue = false;
-            if (Boolean.TryParse(cbValue[rowKey][cellKey], out parsedBoolValue))
+        cell.Value = e.Value;
+      }
+      else
+      {
+        switch (cell.ValueType.FullName)
+        {
+          case "System.Boolean":
             {
-              cell.Value = parsedBoolValue;
-              DataGridView.RefreshEdit();
+              bool parsedBoolValue = false;
+              if (Boolean.TryParse(cbValue[rowKey][cellKey], out parsedBoolValue))
+              {
+                cell.Value = parsedBoolValue;
+                DataGridView.RefreshEdit();
+              }
+              else
+                throw new FormatException("Paste this type of value not implemented!");
+              break;
             }
+          case "System.Decimal":
+            decimal parsedValue = 0;
+            if (Decimal.TryParse(cbValue[rowKey][cellKey], out parsedValue))
+              cell.Value = parsedValue;
             else
               throw new FormatException("Paste this type of value not implemented!");
             break;
-          }
-        case "System.Decimal":
-          decimal parsedValue = 0;
-          if (Decimal.TryParse(cbValue[rowKey][cellKey], out parsedValue))
-            cell.Value = parsedValue;
-          else
-            throw new FormatException("Paste this type of value not implemented!");
-          break;
-        default: //string
-          cell.Value = cbValue[rowKey][cellKey];
-          break;
+          default: //string
+            cell.Value = cbValue[rowKey][cellKey];
+            break;
+        }
       }
     }
 

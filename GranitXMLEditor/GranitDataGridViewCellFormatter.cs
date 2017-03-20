@@ -145,6 +145,78 @@ namespace GranitEditor
       }
     }
 
+    internal static void UnFormat(DataGridView dataGridView, ref DataGridViewCellFormattingEventArgs e)
+    {
+      if (e.Value == null) return;
+
+      switch (dataGridView.Columns[e.ColumnIndex].DataPropertyName)
+      {
+        case Constants.OriginatorPropertyName:
+          UnFormatAccountNumber(e);
+          break;
+        case Constants.BeneficiaryAccountPropertyName:
+          UnFormatAccountNumber(e);
+          break;
+        case Constants.AmountPropertyName:
+          UnFormatAmount(dataGridView, e);
+          break;
+        case Constants.ExecutionDatePropertyName:
+          UnFormatDateField(dataGridView, e);
+          break;
+        default:
+          e.FormattingApplied = false;
+          break;
+      }
+    }
+
+    private static void UnFormatDateField(DataGridView dataGridView, DataGridViewCellFormattingEventArgs e)
+    {
+      if (e.Value != null)
+      {
+        DateTime d = DateTime.Parse((string)e.Value);
+        e.Value = d;
+        e.FormattingApplied = true;
+      }
+    }
+
+    private static void UnFormatAmount(DataGridView dataGridView, DataGridViewCellFormattingEventArgs e)
+    {
+
+      if (e.Value != null)
+      {
+        decimal parsedValue = 0;
+        if (Decimal.TryParse((string)e.Value, out parsedValue))
+        {
+          e.Value = parsedValue;
+          e.FormattingApplied = true;
+        }
+      }
+    }
+
+    private static void UnFormatAccountNumber(DataGridViewCellFormattingEventArgs e)
+    {
+      if (e.Value != null)
+      {
+        try
+        {
+          string value = (string)e.Value;
+          value = Regex.Replace(value, "-", "");
+          StringBuilder accountString = new StringBuilder(value);
+          while (value.Length < 24)
+            accountString.Append("0");
+
+          e.Value = accountString.ToString();
+          e.FormattingApplied = true;
+        }
+        catch (Exception)
+        {
+          // Set to false in case there are other handlers interested trying to
+          // format this DataGridViewCellFormattingEventArgs instance.
+          e.FormattingApplied = false;
+        }
+      }
+    }
+
     private static string FormatDateTime(DateTime date)
     {
       StringBuilder dateString = new StringBuilder();
