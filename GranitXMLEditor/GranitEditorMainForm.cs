@@ -1,5 +1,6 @@
 ﻿using GranitEditor.Properties;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -103,7 +104,7 @@ namespace GranitEditor
     {
       InitializeComponent();
       _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, MostRecentMenu_Clicked, 10);
-      _gridAlignMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, autoSizeMenu_Clicked);
+      _gridAlignMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, AutoSizeMenu_Clicked);
       _windowLayoutMenu = new EnumStripMenu<WindowLayout>(layoutToolStripMenuItem, ChangeWindowLayout);
       OpenLastOpenedFilesIfExists();
       ApplySettings();
@@ -224,7 +225,7 @@ namespace GranitEditor
       }
     }
 
-    private void autoSizeMenu_Clicked(DataGridViewAutoSizeColumnsMode mode)
+    private void AutoSizeMenu_Clicked(DataGridViewAutoSizeColumnsMode mode)
     {
       if (ActiveMdiChild is GranitXMLEditorForm)
         ActiveXmlForm.DataGrid.AutoSizeColumnsMode = mode == 0 ? DataGridViewAutoSizeColumnsMode.None : mode;
@@ -321,7 +322,7 @@ namespace GranitEditor
       ((sender as Form).Tag as TabPage).Dispose();
     }
 
-    private void formsTabControl_SelectedIndexChanged(object sender, EventArgs e)
+    private void FormsTabControl_SelectedIndexChanged(object sender, EventArgs e)
     {
       if ((formsTabControl.SelectedTab != null) && (formsTabControl.SelectedTab.Tag != null))
       {
@@ -568,21 +569,18 @@ namespace GranitEditor
       string layout = _windowLayoutMenu?.CheckedMenuItem?.Tag.ToString();
       Settings.Default.WindowLayout = layout == null ? "" : layout;
 
-      FillSettingsList(Settings.Default.RecentFileList, _mruMenu.GetFiles());
+      Settings.Default.RecentFileList = new StringCollection();
+      Settings.Default.RecentFileList.AddRange(_mruMenu.GetFiles());
+      List<string> paths = new List<string>();
+      foreach (var f in MdiChildren)
+      {
+        if (f is GranitXMLEditorForm)
+          paths.Add((f as GranitXMLEditorForm).LastOpenedFilePath);
+      }
+      Settings.Default.LastOpenedFilePaths = new StringCollection();
+      Settings.Default.LastOpenedFilePaths.AddRange(paths.ToArray());
 
       Settings.Default.Save();
-    }
-
-    public void FillSettingsList(StringCollection settingList, string[] values)
-    {
-      if (settingList == null)
-        settingList = new StringCollection();
-
-      foreach (var i in settingList)
-        if (i == values[0])
-          return;
-
-      settingList.AddRange(values);
     }
 
     private void ApplySettings()

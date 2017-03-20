@@ -587,7 +587,7 @@
       this.formsTabControl.Size = new System.Drawing.Size(867, 24);
       this.formsTabControl.TabIndex = 4;
       this.formsTabControl.Visible = false;
-      this.formsTabControl.SelectedIndexChanged += new System.EventHandler(this.formsTabControl_SelectedIndexChanged);
+      this.formsTabControl.SelectedIndexChanged += new System.EventHandler(this.FormsTabControl_SelectedIndexChanged);
       // 
       // statusStrip1
       // 

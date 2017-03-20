@@ -139,7 +139,6 @@ namespace GranitEditor
     private void SaveSettings()
     {
       Settings.Default.AlignTable = DataGrid.AutoSizeColumnsMode;
-      MainForm.FillSettingsList(Settings.Default.LastOpenedFilePaths, new string[]{ LastOpenedFilePath });
       Settings.Default.Save();
     }
 

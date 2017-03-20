@@ -48,16 +48,22 @@ namespace GranitEditor
       //Get the clipboard value in a dictionary
       Dictionary<int, Dictionary<int, string>> cbValue = ClipBoardValues(Clipboard.GetText());
 
-      int iRowIndex = startCell.RowIndex;
-      foreach (int rowKey in cbValue.Keys)
+      int gridRowIndex = startCell.RowIndex;
+      for(int rowKey = 0; rowKey < cbValue.Keys.Count; rowKey++ )
       {
-        int iColIndex = startCell.ColumnIndex;
+        int gridColIndex = startCell.ColumnIndex;
         foreach (int cellKey in cbValue[rowKey].Keys)
         {
-          //Check if the index is with in the limit
-          if (iColIndex <= DataGridView.Columns.Count - 1 && iRowIndex <= DataGridView.Rows.Count - 1)
+          // add new row if necessary
+          if (gridRowIndex == DataGridView.Rows.Count)
           {
-            DataGridViewCell cell = DataGridView[iColIndex, iRowIndex];
+            AddRow();
+          }
+
+          //Check if the index is with in the limit
+          if (gridColIndex < DataGridView.Columns.Count && gridRowIndex < DataGridView.Rows.Count)
+          {
+            DataGridViewCell cell = DataGridView[gridColIndex, gridRowIndex];
 
             //Copy to selected cells if 'PasteToSelectedCellsOnly' is checked
             if ((PasteToSelectedCellsOnly && cell.Selected) || (!PasteToSelectedCellsOnly))
@@ -65,18 +71,19 @@ namespace GranitEditor
               SetCellValue(cbValue, rowKey, cellKey, cell);
             }
           }
-          iColIndex++;
+          gridColIndex++;
         }
-        iRowIndex++;
+        gridRowIndex++;
 
-        if (iRowIndex >= DataGridView.Rows.Count - 1)
-        {
-          if (DataGridView.Parent is GranitXMLEditorForm)
-          {
-            GranitXMLEditorForm form = DataGridView.Parent as GranitXMLEditorForm;
-            form.ContextMenuHandler.AddNewEmptyRow();
-          }
-        }
+      }
+    }
+
+    private void AddRow()
+    {
+      if (DataGridView.Parent is GranitXMLEditorForm)
+      {
+        GranitXMLEditorForm form = DataGridView.Parent as GranitXMLEditorForm;
+        form.ContextMenuHandler.AddNewEmptyRow();
       }
     }
 
