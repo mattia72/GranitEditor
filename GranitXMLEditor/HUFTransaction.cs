@@ -92,7 +92,7 @@ namespace GranitEditor
 
     public Amount()
     {
-      Value = 1;
+      Value = 1.00m;
       Currency = "HUF";
     }
 
@@ -152,7 +152,7 @@ namespace GranitEditor
     [XmlIgnore()]
     public static long NextTransactionId { get; set; }
 
-    [XmlIgnore()]
+    [XmlAttribute(AttributeName = "is_selected")]
     public bool IsSelected { get; set; }
 
     [XmlElement(ElementName = "Originator")]

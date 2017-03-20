@@ -73,8 +73,7 @@ namespace GranitEditor
     public TransactionAdapter AddEmptyTransactionRow()
     {
       var ta = new TransactionAdapter();
-      AddTransactionRow(ta);
-      return ta;
+      return AddTransactionRow(ta);
     }
 
     public void RemoveTransactionRowById(long transactionId)
@@ -93,7 +92,6 @@ namespace GranitEditor
       XElement transactionXelem = new TransactionXElementParser(ta).ParsedElement;
       GranitXDocument.Root.Add(transactionXelem);
       TransactionAdapter taRetVal = ReCreateAdapter();
-      AddDefaultAttributes(taRetVal.TransactionId, transactionXelem);
       return taRetVal;
     }
 

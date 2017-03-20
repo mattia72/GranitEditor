@@ -88,7 +88,7 @@ namespace GranitEditor
 
     public void AddNewEmptyRow()
     {
-        AddNewRow(new TransactionAdapter());
+        AddNewRow(null);
     }
 
     public void AddNewRow(TransactionAdapter ta)
