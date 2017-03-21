@@ -136,6 +136,20 @@
     <Compile Include="XDocumentExtension.cs" />
     <Compile Include="HUFTransaction.cs" />
     <Compile Include="GranitXmlToAdapterBinder.cs" />
+    <None Include="Resources\subtract_24.png" />
+    <None Include="Resources\add_24.png" />
+    <None Include="Resources\search_binoculars_find.png" />
+    <None Include="Resources\find.png" />
+    <None Include="Resources\table_row_insert.png" />
+    <None Include="Resources\table_row_delete.png" />
+    <None Include="Resources\subtract.png" />
+    <None Include="Resources\add.png" />
+    <None Include="Resources\table_select_row.ico" />
+    <None Include="Resources\table_row_insert.ico" />
+    <None Include="Resources\table_row_delete.ico" />
+    <None Include="Resources\subtract.ico" />
+    <None Include="Resources\magnifier.ico" />
+    <None Include="Resources\add.ico" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>

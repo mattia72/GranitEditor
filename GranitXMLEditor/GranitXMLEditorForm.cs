@@ -365,31 +365,6 @@ namespace GranitEditor
       }
     }
 
-    private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-    {
-      EnableAllcontextMenuItem(false);
-      if (dataGridView1.SelectedRows.Count > 1)
-      {
-        deleteRowToolStripMenuItem.Text = Resources.ContextMenuDeleteSelected;
-        deleteRowToolStripMenuItem.Enabled = true;
-      }
-      else
-      {
-        if(!dataGridView1.IsCurrentCellInEditMode)
-          EnableAllcontextMenuItem(true);
-        deleteRowToolStripMenuItem.Text = Resources.ContextMenuDeleteRow; 
-      }
-    }
-
-    private void EnableAllcontextMenuItem(bool v)
-    {
-      foreach (ToolStripItem item in contextMenuStrip1.Items)
-      {
-        if (item is ToolStripMenuItem)
-          item.Enabled = v;
-      }
-    }
-
     private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
     {
       _contextMenuHandler.grid_MouseClick(sender, e);
@@ -397,8 +372,7 @@ namespace GranitEditor
 
     private void deleteRowToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      _contextMenuHandler.grid_DeleteSelectedRows(sender, e);
-      DocHasPendingChanges = true;
+      DeleteRowToolStripMenuItem_Click(sender, e);
     }
 
     private void duplicateRowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -409,14 +383,7 @@ namespace GranitEditor
       DocHasPendingChanges = true;
     }
 
-    private void deleteSelectedToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      History?.Do(new TransactionPoolMemento(_xmlToObjectBinder.GranitXDocument));
-      _contextMenuHandler.grid_DeleteSelectedRows(sender, e);
-      DocHasPendingChanges = true;
-    }
-
-    private void newToolStripMenuItem1_Click(object sender, EventArgs e)
+    private void AddRowToolStripMenuItem_Click(object sender, EventArgs e)
     {
       History?.Do(new TransactionPoolMemento(_xmlToObjectBinder.GranitXDocument));
       _contextMenuHandler.grid_AddNewRow(sender, e);
@@ -521,6 +488,13 @@ namespace GranitEditor
       {
         MessageBox.Show("Copy/paste operation failed. " + ex.Message, "Copy/Paste", MessageBoxButtons.OK, MessageBoxIcon.Warning);
       }
+    }
+
+    public void DeleteRowToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      History?.Do(new TransactionPoolMemento(_xmlToObjectBinder.GranitXDocument));
+      _contextMenuHandler.Grid_DeleteSelectedRows(sender, e);
+      DocHasPendingChanges = true;
     }
   }
 }

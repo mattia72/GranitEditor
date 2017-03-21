@@ -1,7 +1,9 @@
-﻿using System;
+﻿using GranitEditor.Properties;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace GranitEditor
 {
@@ -15,21 +17,61 @@ namespace GranitEditor
     public GranitDataGridViewContextMenuHandler(DataGridView dgv, ContextMenuStrip contextMenuStrip, GranitXmlToAdapterBinder xml2Obj)
     {
       _contextMenuStrip = contextMenuStrip;
+      _contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(ContextMenuStrip_Opening);
       _dataGridView = dgv;
       _xmlToObject = xml2Obj;
     }
+
+    private void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
+    {
+      if (_dataGridView.SelectedRows.Count > 1)
+      {
+        EnableMenuItem("deleteRowToolStripMenuItem");
+      }
+      else
+      {
+        EnableMenuItem();
+      }
+    }
+
+    private void EnableMenuItem(string name = null)
+    {
+      foreach (ToolStripItem item in _contextMenuStrip.Items)
+      {
+        if (item is ToolStripMenuItem )
+        {
+          if (item.Name == name || name == null)
+            item.Enabled = true;
+          else
+            item.Enabled = false;
+        }
+      }
+    }
+
     internal void grid_MouseClick(object sender, MouseEventArgs e)
     {
       if (e.Button == MouseButtons.Right)
       {
-        _currentMouseOverRow = _dataGridView.HitTest(e.X, e.Y).RowIndex;
+        DataGridView.HitTestInfo hit = _dataGridView.HitTest(e.X, e.Y);
+        if (hit.Type == DataGridViewHitTestType.Cell)
+        {
+          _currentMouseOverRow = hit.RowIndex;
+          Debug.WriteLine("Mouse on row: " + _currentMouseOverRow);
+          var currentRow = _dataGridView.Rows[(int)_currentMouseOverRow];
 
-        Debug.WriteLine("Mouse on row: " + _currentMouseOverRow);
-        _contextMenuStrip.Show(_dataGridView, new Point(e.X, e.Y));
+          if (_dataGridView.SelectedRows.Count == 0 || !_dataGridView.SelectedRows.Contains(currentRow))
+          {
+            _dataGridView.ClearSelection();
+            currentRow.Selected = true;
+            currentRow.Cells[0].Selected = true;
+          }
+
+          _contextMenuStrip.Show(_dataGridView, new Point(e.X, e.Y));
+        }
       }
     }
 
-    internal void grid_DeleteSelectedRows(object sender, EventArgs e)
+    internal void Grid_DeleteSelectedRows(object sender, EventArgs e)
     {
       if (_dataGridView.SelectedRows.Count > 0)
         foreach (DataGridViewRow item in this._dataGridView.SelectedRows)
@@ -46,7 +88,8 @@ namespace GranitEditor
 
     private void grid_DeleteActiveRow()
     {
-      if (_currentMouseOverRow != null && _currentMouseOverRow > -1 && _currentMouseOverRow <= _dataGridView.RowCount - 2) // last committed line
+      if (_currentMouseOverRow != null && _currentMouseOverRow > -1 
+        && _currentMouseOverRow <= _dataGridView.RowCount - (_dataGridView.AllowUserToAddRows ? 2 : 1)) // last committed line
       {
         //Transaction t = (Transaction)_dataGridView.Rows[(int)_currentMouseOverRow].DataBoundItem;
         //if(t != null)

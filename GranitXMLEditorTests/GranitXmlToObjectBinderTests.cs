@@ -64,8 +64,11 @@ namespace GranitEditor.Tests
         var x2o = new GranitXmlToAdapterBinder(xml, true);
 
         int origCount = x2o.TransactionCount;
+        Assert.AreEqual(x2o.History.UndoCount, 0);
+
         x2o.AddEmptyTransactionRow();
 
+        Assert.AreEqual(x2o.History.UndoCount, 1);
         Assert.AreEqual(x2o.GranitXDocument.Root.Elements().ToList().Count, origCount + 1);
       }
     }
@@ -193,7 +196,12 @@ namespace GranitEditor.Tests
 
         int origCount = x2o.TransactionCount;
         var newTa = new TransactionAdapter();
+
+        Assert.AreEqual(x2o.History.UndoCount, 0);
+
         x2o.AddTransactionRow(newTa);
+
+        Assert.AreEqual(x2o.History.UndoCount, 1);
 
         Assert.AreEqual(x2o.GranitXDocument.Root.Elements().ToList().Count, origCount + 1);
 
@@ -213,8 +221,11 @@ namespace GranitEditor.Tests
         var x2o = new GranitXmlToAdapterBinder(xml, true);
 
         int origCount = x2o.TransactionCount;
+        Assert.AreEqual(x2o.History.UndoCount, 0);
+
         x2o.RemoveTransactionRowById(1);
 
+        Assert.AreEqual(x2o.History.UndoCount, 1);
         Assert.AreEqual(x2o.GranitXDocument.Root.Elements().ToList().Count, origCount - 1);
         Assert.AreEqual(x2o.TransactionCount, origCount - 1);
       }

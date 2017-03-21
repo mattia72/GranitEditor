@@ -244,7 +244,7 @@ namespace GranitEditor
       deleteSelectedToolStripMenuItem.Enabled = enabled;
       findAndReplaceToolStripMenuItem.Enabled = enabled;
       findToolStripButton.Enabled = enabled;
-      addRowToolStripButton.Enabled = enabled;
+      addRowToolStripButton.Enabled = enabled;                                 
       deleteRowToolStripButton.Enabled = enabled;
       alignTableToolStripMenuItem.Enabled = enabled;
 
@@ -638,7 +638,7 @@ namespace GranitEditor
 
     private void deleteSelectedToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      ActiveXmlForm?.ContextMenuHandler.grid_DeleteSelectedRows(sender, e);
+      ActiveXmlForm?.ContextMenuHandler.Grid_DeleteSelectedRows(sender, e);
     }
 
     private void findAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -774,7 +774,7 @@ namespace GranitEditor
 
     private void DeleteRowToolStripButton_Click(object sender, EventArgs e)
     {
-      ActiveXmlForm?.ContextMenuHandler.grid_DeleteSelectedRows(sender, e);
+      ActiveXmlForm?.DeleteRowToolStripMenuItem_Click(sender, e);
     }
   }
 }

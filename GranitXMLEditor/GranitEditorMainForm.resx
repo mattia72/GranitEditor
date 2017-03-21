@@ -357,11 +357,11 @@
   <data name="deleteRowToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADsSURBVGhD7dY9C0FxFMfxO5CnoizyMCiKWCjJgO7Iyiij
-        TMqiDAabd8DkLfAOGNQdKAZKSpLSLZPdcFy6iwxnPfT71K+7nm93+SsAAAAAAAB/YVYMDGZ5/934ktgV
-        /EPz3G+v4x+jDNEkTzQVuHH2HWGe++0VoPcSdOsnxY4NuHZipHfjYscGnFsRurSjYscGHBthOjXljg3Y
-        14J0qMsdG7Ct+GhXlTs2YF3y0qYsd2zAUvXQSnWLHRug5Vyk5ZxixwYs0nZapGxixwbMk1aaJyxiZ7yF
-        jD8RcpgnfzLqfvsxBwAAAAAA8DsU5Qk5wS6fxb7DqAAAAABJRU5ErkJggg==
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADsSURBVGhD7dY9C0FxFMfxO5CnoizyMCiK7l0oSXnIyMoo
+        o0zKogwGm3fA5C3wDhiUgWKgpCQpKZPdcFy6iwxnPfT71K+7nm93+SsAAAAAAAB/YZLz9SZp713/kthl
+        vX3j3G+v4x+DBNEoQzQWuGHyHWGc++0VcO2odOtqYscGXFoRurajYscGnBohOjfDYscGHGpBOtbljg3Y
+        Vfy0r8odG7ApeWhbljs2YFVw07ood2zAIu+iZd4pdmzAPOWgecoudmzALG6lWcwidmzAVDPTVDWJnf4W
+        0v9EwGac/Emv++3HHAAAAAAAwO9QlCc35y6RO/qzTwAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="helpToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
