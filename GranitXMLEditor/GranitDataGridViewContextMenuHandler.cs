@@ -107,7 +107,7 @@ namespace GranitEditor
     {
       _dataGridView.ClearSelection();//If you want
 
-      int nRowIndex = _dataGridView.Rows.Count - 2; // last uncommitted row
+      int nRowIndex = _dataGridView.Rows.Count - ( _dataGridView.AllowUserToAddRows ? 2 : 1); // last uncommitted row
       int nColumnIndex = 0;
 
       _dataGridView.Rows[nRowIndex].Selected = true;

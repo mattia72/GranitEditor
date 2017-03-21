@@ -244,6 +244,8 @@ namespace GranitEditor
       deleteSelectedToolStripMenuItem.Enabled = enabled;
       findAndReplaceToolStripMenuItem.Enabled = enabled;
       findToolStripButton.Enabled = enabled;
+      addRowToolStripButton.Enabled = enabled;
+      deleteRowToolStripButton.Enabled = enabled;
       alignTableToolStripMenuItem.Enabled = enabled;
 
       copyToolStripButton.Enabled = enabled;
@@ -354,7 +356,7 @@ namespace GranitEditor
     private void ActualizeMenuToolBarAndStatusLabels()
     {
       UpdateMenuItemsForActiveForm();
-      EnableToolBoxItemsForActiveForm();
+      EnableToolbarItemsForActiveForm();
 
       if (ActiveXmlForm != null)
       {
@@ -492,34 +494,6 @@ namespace GranitEditor
       }
     }
 
-    public void SetToolBarItemEnabled(string name, bool enabled)
-    {
-      switch (name)
-      {
-        case "saveToolStripButton":
-          saveToolStripButton.Enabled = enabled;
-          break;
-        case "cutToolStripButton":
-          cutToolStripButton.Enabled = enabled;
-          break;
-        case "copyToolStripButton":
-          copyToolStripButton.Enabled = enabled;
-          break;
-        case "pasteToolStripButton":
-          pasteToolStripButton.Enabled = enabled;
-          break;
-        case "findToolStripButton":
-          findToolStripButton.Enabled = enabled;
-          break;
-        case "undoToolStripButton":
-          undoToolStripButton.Enabled = enabled;
-          break;
-        case "redoToolStripButton":
-          redoToolStripButton.Enabled = enabled;
-          break;
-      }
-    }
-
     protected override void OnClosing(CancelEventArgs e)
     {
       Debug.WriteLine("OnClosing called on MainForm. docHasPendingChanges: {0}", DocsHavePendingChanges);
@@ -632,10 +606,12 @@ namespace GranitEditor
       pasteToolStripButton.Enabled = pasteToolStripMenuItem.Enabled;
     }
 
-    private void EnableToolBoxItemsForActiveForm()
+    private void EnableToolbarItemsForActiveForm()
     {
       UpdateCopyPasteItems();
       UpdateUndoRedoItems();
+      addRowToolStripButton.Enabled = ActiveXmlForm != null;
+      deleteRowToolStripButton.Enabled = ActiveXmlForm != null;
       findToolStripButton.Enabled = ActiveXmlForm != null;
     }
 
@@ -789,6 +765,16 @@ namespace GranitEditor
     private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
     {
       pasteToolStripButton_Click(sender, e);
+    }
+
+    private void AddRowToolStripButton_Click(object sender, EventArgs e)
+    {
+      ActiveXmlForm?.ContextMenuHandler.AddNewEmptyRow();
+    }
+
+    private void DeleteRowToolStripButton_Click(object sender, EventArgs e)
+    {
+      ActiveXmlForm?.ContextMenuHandler.grid_DeleteSelectedRows(sender, e);
     }
   }
 }

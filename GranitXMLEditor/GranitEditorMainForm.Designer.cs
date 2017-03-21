@@ -83,6 +83,9 @@
       this.undoToolStripButton = new System.Windows.Forms.ToolStripButton();
       this.redoToolStripButton = new System.Windows.Forms.ToolStripButton();
       this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+      this.addRowToolStripButton = new System.Windows.Forms.ToolStripButton();
+      this.deleteRowToolStripButton = new System.Windows.Forms.ToolStripButton();
+      this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
       this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
       this.formsTabControl = new System.Windows.Forms.TabControl();
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -440,6 +443,9 @@
             this.undoToolStripButton,
             this.redoToolStripButton,
             this.toolStripSeparator12,
+            this.addRowToolStripButton,
+            this.deleteRowToolStripButton,
+            this.toolStripSeparator9,
             this.helpToolStripButton});
       this.toolStrip1.Location = new System.Drawing.Point(0, 28);
       this.toolStrip1.Name = "toolStrip1";
@@ -566,6 +572,31 @@
       // 
       this.toolStripSeparator12.Name = "toolStripSeparator12";
       this.toolStripSeparator12.Size = new System.Drawing.Size(6, 27);
+      // 
+      // addRowToolStripButton
+      // 
+      this.addRowToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.addRowToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("addRowToolStripButton.Image")));
+      this.addRowToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.addRowToolStripButton.Name = "addRowToolStripButton";
+      this.addRowToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.addRowToolStripButton.Text = "Add Row";
+      this.addRowToolStripButton.Click += new System.EventHandler(this.AddRowToolStripButton_Click);
+      // 
+      // deleteRowToolStripButton
+      // 
+      this.deleteRowToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.deleteRowToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteRowToolStripButton.Image")));
+      this.deleteRowToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.deleteRowToolStripButton.Name = "deleteRowToolStripButton";
+      this.deleteRowToolStripButton.Size = new System.Drawing.Size(24, 24);
+      this.deleteRowToolStripButton.Text = "Delete Row";
+      this.deleteRowToolStripButton.Click += new System.EventHandler(this.DeleteRowToolStripButton_Click);
+      // 
+      // toolStripSeparator9
+      // 
+      this.toolStripSeparator9.Name = "toolStripSeparator9";
+      this.toolStripSeparator9.Size = new System.Drawing.Size(6, 27);
       // 
       // helpToolStripButton
       // 
@@ -720,5 +751,8 @@
     private System.Windows.Forms.ToolStripStatusLabel selectedAmountStatus;
     private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem layoutToolStripMenuItem;
+    private System.Windows.Forms.ToolStripButton addRowToolStripButton;
+    private System.Windows.Forms.ToolStripButton deleteRowToolStripButton;
+    private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
   }
 }
