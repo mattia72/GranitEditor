@@ -31,15 +31,19 @@ namespace GranitEditor
         private void InitializeComponent()
         {
       this.components = new System.ComponentModel.Container();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GranitXMLEditorForm));
       this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
       this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-      this.addRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.duplicateRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.addRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.deleteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+      this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.dataGridView1 = new System.Windows.Forms.DataGridView();
       this.IsSelectedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
       this.originatorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,10 +54,6 @@ namespace GranitEditor
       this.executionDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.remittanceInfoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.transactionAdapterBindingSource = new System.Windows.Forms.BindingSource(this.components);
-      this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.deleteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
       this.contextMenuStrip1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -68,15 +68,22 @@ namespace GranitEditor
       // 
       this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
       this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.duplicateRowToolStripMenuItem,
             this.addRowToolStripMenuItem,
             this.deleteRowToolStripMenuItem,
+            this.duplicateRowToolStripMenuItem,
             this.toolStripSeparator9,
-            this.copyToolStripMenuItem,
             this.cutToolStripMenuItem,
+            this.copyToolStripMenuItem,
             this.pasteToolStripMenuItem});
       this.contextMenuStrip1.Name = "contextMenuStrip1";
       this.contextMenuStrip1.Size = new System.Drawing.Size(182, 194);
+      // 
+      // duplicateRowToolStripMenuItem
+      // 
+      this.duplicateRowToolStripMenuItem.Name = "duplicateRowToolStripMenuItem";
+      this.duplicateRowToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.duplicateRowToolStripMenuItem.Text = "&Duplicate Row";
+      this.duplicateRowToolStripMenuItem.Click += new System.EventHandler(this.duplicateRowToolStripMenuItem_Click);
       // 
       // addRowToolStripMenuItem
       // 
@@ -86,17 +93,43 @@ namespace GranitEditor
       this.addRowToolStripMenuItem.Text = "&Add Row";
       this.addRowToolStripMenuItem.Click += new System.EventHandler(this.AddRowToolStripMenuItem_Click);
       // 
-      // duplicateRowToolStripMenuItem
+      // deleteRowToolStripMenuItem
       // 
-      this.duplicateRowToolStripMenuItem.Name = "duplicateRowToolStripMenuItem";
-      this.duplicateRowToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-      this.duplicateRowToolStripMenuItem.Text = "&Duplicate Row";
-      this.duplicateRowToolStripMenuItem.Click += new System.EventHandler(this.duplicateRowToolStripMenuItem_Click);
+      this.deleteRowToolStripMenuItem.Image = global::GranitEditor.Properties.Resources.subtract_24;
+      this.deleteRowToolStripMenuItem.Name = "deleteRowToolStripMenuItem";
+      this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.deleteRowToolStripMenuItem.Text = "Delete Row(s)";
+      this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.DeleteRowToolStripMenuItem_Click);
       // 
       // toolStripSeparator9
       // 
       this.toolStripSeparator9.Name = "toolStripSeparator9";
       this.toolStripSeparator9.Size = new System.Drawing.Size(178, 6);
+      // 
+      // cutToolStripMenuItem
+      // 
+      this.cutToolStripMenuItem.Image = global::GranitEditor.Properties.Resources.cut;
+      this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+      this.cutToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.cutToolStripMenuItem.Text = "Cu&t";
+      this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
+      // 
+      // copyToolStripMenuItem
+      // 
+      this.copyToolStripMenuItem.Image = global::GranitEditor.Properties.Resources.copy;
+      this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+      this.copyToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.copyToolStripMenuItem.Text = "&Copy";
+      this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+      // 
+      // pasteToolStripMenuItem
+      // 
+      this.pasteToolStripMenuItem.Image = global::GranitEditor.Properties.Resources.paste;
+      this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+      this.pasteToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.pasteToolStripMenuItem.Text = "&Paste";
+      this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
       // 
       // dataGridView1
       // 
@@ -107,14 +140,14 @@ namespace GranitEditor
             | System.Windows.Forms.AnchorStyles.Right)));
       this.dataGridView1.AutoGenerateColumns = false;
       this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-      dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-      dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-      dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-      dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-      dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-      dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-      dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-      this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+      dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+      dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+      dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+      dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+      dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+      dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+      this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
       this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IsSelectedDataGridViewTextBoxColumn,
@@ -126,24 +159,24 @@ namespace GranitEditor
             this.executionDateDataGridViewTextBoxColumn,
             this.remittanceInfoDataGridViewTextBoxColumn});
       this.dataGridView1.DataSource = this.transactionAdapterBindingSource;
-      dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-      dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-      dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-      dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-      dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-      dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-      dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-      this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle5;
+      dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+      dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+      dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+      dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+      dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+      dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+      dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+      this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
       this.dataGridView1.Location = new System.Drawing.Point(12, 12);
       this.dataGridView1.Name = "dataGridView1";
-      dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-      dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-      dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-      dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-      dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-      dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-      dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-      this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+      dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+      dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+      dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+      dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+      dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+      dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+      this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
       this.dataGridView1.RowTemplate.Height = 24;
       this.dataGridView1.Size = new System.Drawing.Size(503, 190);
       this.dataGridView1.TabIndex = 0;
@@ -216,32 +249,6 @@ namespace GranitEditor
       // transactionAdapterBindingSource
       // 
       this.transactionAdapterBindingSource.DataSource = typeof(GranitEditor.TransactionAdapter);
-      // 
-      // copyToolStripMenuItem
-      // 
-      this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-      this.copyToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-      this.copyToolStripMenuItem.Text = "&Copy";
-      // 
-      // cutToolStripMenuItem
-      // 
-      this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-      this.cutToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-      this.cutToolStripMenuItem.Text = "Cu&t";
-      // 
-      // pasteToolStripMenuItem
-      // 
-      this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-      this.pasteToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-      this.pasteToolStripMenuItem.Text = "&Paste";
-      // 
-      // deleteRowToolStripMenuItem
-      // 
-      this.deleteRowToolStripMenuItem.Image = global::GranitEditor.Properties.Resources.subtract_24;
-      this.deleteRowToolStripMenuItem.Name = "deleteRowToolStripMenuItem";
-      this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-      this.deleteRowToolStripMenuItem.Text = "Delete Row(s)";
-      this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.DeleteRowToolStripMenuItem_Click);
       // 
       // GranitXMLEditorForm
       // 

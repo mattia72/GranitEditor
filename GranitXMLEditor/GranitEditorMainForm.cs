@@ -90,7 +90,7 @@ namespace GranitEditor
 
     public FindReplaceDlg FindReplaceDlg { get => _findReplaceDlg; set => _findReplaceDlg = value; }
 
-    private ClipboardHandler ClipboardHandler {
+    public ClipboardHandler ClipboardHandler {
       get
       {
         if (_clipboardHandler == null)
@@ -732,8 +732,13 @@ namespace GranitEditor
 
     private void cutToolStripButton_Click(object sender, EventArgs e)
     {
+      Cut();
+    }
+
+    public void Cut()
+    {
       //Copy to clipboard
-      copyToolStripButton_Click(sender, e);
+      Copy();
 
       //Clear selected cells
       foreach (DataGridViewCell dgvCell in ActiveXmlForm.DataGrid.SelectedCells)
@@ -742,11 +747,21 @@ namespace GranitEditor
 
     private void copyToolStripButton_Click(object sender, EventArgs e)
     {
+      Copy();
+    }
+
+    public void Copy()
+    {
       _clipboardHandler.CopyToClipboard(ActiveXmlForm.DataGrid);
       UpdateCopyPasteItems();
     }
 
     private void pasteToolStripButton_Click(object sender, EventArgs e)
+    {
+      Paste();
+    }
+
+    public void Paste()
     {
       _clipboardHandler.PasteClipboardValue(ActiveXmlForm.DataGrid);
     }

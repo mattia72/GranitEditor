@@ -136,6 +136,9 @@
     <Compile Include="XDocumentExtension.cs" />
     <Compile Include="HUFTransaction.cs" />
     <Compile Include="GranitXmlToAdapterBinder.cs" />
+    <None Include="Resources\paste.png" />
+    <None Include="Resources\cut.png" />
+    <None Include="Resources\copy.png" />
     <None Include="Resources\subtract_24.png" />
     <None Include="Resources\add_24.png" />
     <None Include="Resources\search_binoculars_find.png" />

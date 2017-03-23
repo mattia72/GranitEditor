@@ -496,5 +496,21 @@ namespace GranitEditor
       _contextMenuHandler.Grid_DeleteSelectedRows(sender, e);
       DocHasPendingChanges = true;
     }
+
+    private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      MainForm.Copy();
+
+    }
+
+    private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      MainForm.Cut();
+    }
+
+    private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      MainForm.Paste();
+    }
   }
 }
