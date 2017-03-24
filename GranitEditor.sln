@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitEditor", "GranitXMLEditor\GranitEditor.csproj", "{030E3907-E433-4F66-96AB-160C4128875D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitXMLEditorTests", "GranitXMLEditorTests\GranitXMLEditorTests.csproj", "{1EF2EC31-D8F0-42DD-968F-477FB81674C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericUndoRedo", "GenericUndoRedo\GenericUndoRedo.csproj", "{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{030E3907-E433-4F66-96AB-160C4128875D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{030E3907-E433-4F66-96AB-160C4128875D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{030E3907-E433-4F66-96AB-160C4128875D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{030E3907-E433-4F66-96AB-160C4128875D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{030E3907-E433-4F66-96AB-160C4128875D}.Debug|x86.Build.0 = Debug|Any CPU
+		{030E3907-E433-4F66-96AB-160C4128875D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{030E3907-E433-4F66-96AB-160C4128875D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{030E3907-E433-4F66-96AB-160C4128875D}.Release|x86.ActiveCfg = Release|Any CPU
+		{030E3907-E433-4F66-96AB-160C4128875D}.Release|x86.Build.0 = Release|Any CPU
+		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|x86.Build.0 = Debug|Any CPU
+		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Release|x86.ActiveCfg = Release|Any CPU
+		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Release|x86.Build.0 = Release|Any CPU
+		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Debug|x86.Build.0 = Debug|Any CPU
+		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Release|x86.ActiveCfg = Release|Any CPU
+		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
