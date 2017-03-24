@@ -37,9 +37,9 @@ namespace GranitEditor
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GranitXMLEditorForm));
       this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
       this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-      this.duplicateRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.addRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.deleteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.duplicateRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
       this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,14 +76,7 @@ namespace GranitEditor
             this.copyToolStripMenuItem,
             this.pasteToolStripMenuItem});
       this.contextMenuStrip1.Name = "contextMenuStrip1";
-      this.contextMenuStrip1.Size = new System.Drawing.Size(182, 194);
-      // 
-      // duplicateRowToolStripMenuItem
-      // 
-      this.duplicateRowToolStripMenuItem.Name = "duplicateRowToolStripMenuItem";
-      this.duplicateRowToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-      this.duplicateRowToolStripMenuItem.Text = "&Duplicate Row";
-      this.duplicateRowToolStripMenuItem.Click += new System.EventHandler(this.duplicateRowToolStripMenuItem_Click);
+      this.contextMenuStrip1.Size = new System.Drawing.Size(182, 166);
       // 
       // addRowToolStripMenuItem
       // 
@@ -100,6 +93,13 @@ namespace GranitEditor
       this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
       this.deleteRowToolStripMenuItem.Text = "Delete Row(s)";
       this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.DeleteRowToolStripMenuItem_Click);
+      // 
+      // duplicateRowToolStripMenuItem
+      // 
+      this.duplicateRowToolStripMenuItem.Name = "duplicateRowToolStripMenuItem";
+      this.duplicateRowToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+      this.duplicateRowToolStripMenuItem.Text = "&Duplicate Row";
+      this.duplicateRowToolStripMenuItem.Click += new System.EventHandler(this.duplicateRowToolStripMenuItem_Click);
       // 
       // toolStripSeparator9
       // 
@@ -187,6 +187,7 @@ namespace GranitEditor
       this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
       this.dataGridView1.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView1_CellValidating);
       this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
+      this.dataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView1_DataError);
       this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
       this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_RowsRemoved);
       this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);

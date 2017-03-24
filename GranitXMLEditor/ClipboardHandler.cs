@@ -112,7 +112,10 @@ namespace GranitEditor
       GranitDataGridViewCellFormatter.UnFormat(DataGridView, ref e);
       if (e.FormattingApplied)
       {
+        //TODO call validator
+        DataGridView.BeginEdit(false);  
         cell.Value = e.Value;
+        DataGridView.EndEdit();
       }
       else
       {
