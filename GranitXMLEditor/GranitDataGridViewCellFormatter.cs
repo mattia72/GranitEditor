@@ -200,9 +200,9 @@ namespace GranitEditor
         try
         {
           string value = (string)e.Value;
-          value = Regex.Replace(value, "-", "");
+          value = Regex.Replace(value, "[ -]", "");
           StringBuilder accountString = new StringBuilder(value);
-          while (value.Length < 24)
+          while (accountString.Length < 24)
             accountString.Append("0");
 
           e.Value = accountString.ToString();

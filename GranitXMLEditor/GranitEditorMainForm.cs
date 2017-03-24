@@ -604,6 +604,10 @@ namespace GranitEditor
       copyToolStripButton.Enabled =  copyToolStripMenuItem.Enabled ;
       cutToolStripButton.Enabled = cutToolStripMenuItem.Enabled;
       pasteToolStripButton.Enabled = pasteToolStripMenuItem.Enabled;
+
+      ActiveXmlForm?.ContextMenuHandler.EnableMenuItem("copyToolStripMenuItem", copyToolStripMenuItem.Enabled);
+      ActiveXmlForm?.ContextMenuHandler.EnableMenuItem("cutToolStripMenuItem", cutToolStripMenuItem.Enabled);
+      ActiveXmlForm?.ContextMenuHandler.EnableMenuItem("pasteToolStripMenuItem", pasteToolStripMenuItem.Enabled);
     }
 
     private void EnableToolbarItemsForActiveForm()

@@ -28,22 +28,18 @@ namespace GranitEditor
       {
         EnableMenuItem("deleteRowToolStripMenuItem");
       }
-      else
-      {
-        EnableMenuItem();
-      }
     }
 
-    private void EnableMenuItem(string name = null)
+    public void EnableMenuItem(string name = null, bool value = true)
     {
       foreach (ToolStripItem item in _contextMenuStrip.Items)
       {
         if (item is ToolStripMenuItem )
         {
-          if (item.Name == name || name == null)
-            item.Enabled = true;
-          else
-            item.Enabled = false;
+          if(name == null)
+            item.Enabled = value;
+          else if (item.Name == name )
+            item.Enabled = value;
         }
       }
     }
@@ -62,8 +58,8 @@ namespace GranitEditor
           if (_dataGridView.SelectedRows.Count == 0 || !_dataGridView.SelectedRows.Contains(currentRow))
           {
             _dataGridView.ClearSelection();
-            currentRow.Selected = true;
-            currentRow.Cells[0].Selected = true;
+            currentRow.Cells[hit.ColumnIndex].Selected = true;
+            //currentRow.Selected = true;
           }
 
           _contextMenuStrip.Show(_dataGridView, new Point(e.X, e.Y));
