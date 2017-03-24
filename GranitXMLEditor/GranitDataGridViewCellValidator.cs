@@ -15,6 +15,11 @@ namespace GranitEditor
       this.dataGridView1 = dataGridView1;
     }
 
+    internal void ValidateCell(ref DataGridViewCellValidatingEventArgs e, DataGridViewCell cell)
+    {
+      Validate(ref e, cell.OwningColumn.DataPropertyName);
+    }
+
     internal void Validate(ref DataGridViewCellValidatingEventArgs e, string propertyName)
     {
       switch (propertyName)
@@ -108,7 +113,7 @@ namespace GranitEditor
 
     private static bool IsAccountNumberValid(string value)
     {
-      return (Regex.Match(value, @"\d{8}-?\d{8}-?(\d{8})?").Success);
+      return (Regex.Match(value, @"^\d{8}-?\d{8}-?(\d{8})?$").Success);
     }
   }
 }
