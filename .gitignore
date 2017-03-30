@@ -41,6 +41,7 @@ Thumbs.db
 [Tt]est[Rr]esults/
 _UpgradeReport_Files/
 _ReSharper.*/
+*.pfx
 publish/
 install/
 # !publish/*.*

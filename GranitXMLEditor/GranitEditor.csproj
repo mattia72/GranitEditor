@@ -28,7 +28,7 @@
     <SupportUrl>https://github.com/mattia72/GranitEditor</SupportUrl>
     <ErrorReportUrl>https://github.com/mattia72/GranitEditor/issues</ErrorReportUrl>
     <ProductName>GranitEditor</ProductName>
-    <ApplicationRevision>11</ApplicationRevision>
+    <ApplicationRevision>14</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -62,10 +62,10 @@
     <ApplicationIcon>Resources\GranitBankIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>76020DCD5344084F14548DF3E13C8867E31E144B</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F25ABDE0609CB0F1961724A1F9EE50BE21441CC2</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>GranitXMLEditor_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>GranitEditor_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -75,6 +75,12 @@
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>GranitEditor_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -136,6 +142,7 @@
     <Compile Include="XDocumentExtension.cs" />
     <Compile Include="HUFTransaction.cs" />
     <Compile Include="GranitXmlToAdapterBinder.cs" />
+    <None Include="GranitEditor_TemporaryKey.pfx" />
     <None Include="Resources\paste.png" />
     <None Include="Resources\cut.png" />
     <None Include="Resources\copy.png" />
@@ -247,4 +254,7 @@ xcopy /Y /R "$(TargetDir)LICENSE" "$(SolutionDir)"</PostBuildEvent>
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterCompile" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Exec Command="&quot;C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe&quot; sign /f &quot;C:\Users\akmattia\root\msys64\home\akmattia\dev\visual studio 2015\Projects\GranitXMLEditor_vs2017\GranitXMLEditor\GranitEditor_TemporaryKey.pfx&quot; /p &quot;&quot; /v &quot;$(ProjectDir)obj\$(ConfigurationName)\$(TargetFileName)&quot;" />
+  </Target>
 </Project>

@@ -51,6 +51,9 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>GenericUndoRedo.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
