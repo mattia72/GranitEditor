@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="GranitEditor.exe" version="1.0.0.15" publicKeyToken="8ccf292acbd5c0ed" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="Resources\GranitBankIcon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="GranitEditor" version="1.0.0.0" publicKeyToken="8CCF292ACBD5C0ED" language="neutral" processorArchitecture="msil" />
+    <commandLine file="GranitEditor.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GenericUndoRedo.dll" size="7168">
+      <assemblyIdentity name="GenericUndoRedo" version="1.0.1.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>0zutl/VSaWEV/EFNKiyHqZvgIbqieI794nE6O3sHg50=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GranitEditor.exe" size="348088">
+      <assemblyIdentity name="GranitEditor" version="1.0.0.0" publicKeyToken="8CCF292ACBD5C0ED" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>W0cVCIC0y9Lqxe6ba6ni8runvrO9KMoQg92trnOHSJs=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="example.xml" size="5457" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>i8y2908RN9M6RhIq2CtKttwvJwwOuOJXVjfNzGsd2xA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="GranitEditor.exe.config" size="1858">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>6a/3eB/gOVibdx7v0iHtoEJJnGzXWfjHHZv/uylf/mE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="HUFTransactions.dtd" size="2208">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>+9QuDbKR+tIteVfgmL2+5WiHBmXl97WSaDPKhBZhB2E=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="HUFTransactions.xsd" size="4394">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>k5CJRgFp/n1RH/6zcom+/6RZiD7Sfua7NP4F/ghXPlM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="LICENSE" size="1086">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>LUoMigBR+HHd5TUZ0GZqudkTLIrZwX8GjTjo2qyIVvw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="README.hu.md" size="270">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>NqiMtq+D6HcIGW5P9NiufiVn4BvJsw3PrmoHXPwXJn4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="README.md" size="703">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>4R9chIFtBT4+qr0H4MKepFvnrQtkT/HMTZt3xpwFUG8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\GranitBankIcon.ico" size="32038">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>FhDQqjm66fG6ruylE8BSzx1R43R5O2V5vhC/uXnnE9o=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=TS-EU\akmattia" issuerKeyHash="b1270a87061b57d6b01e5fb882138f12807bd316" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>HnwT4OM9BQcpzvXxzw1Ir7aquit9OE/VJuyJfbYPPwY=</DigestValue></Reference></SignedInfo><SignatureValue>rw+lBDuSYuDlFY1q1MIKwrSGTTD5O2blc4vER6cqFLaGkdNEDV0NRI3QT+c0gUUJCHRK4ehWLAwqv0OOpfmTdukP5MwXJrvGvMxyEjLFfDrWFwSOAwUPjg7G2fuTa3HqV9krBoutD1RQR3+aSeSXkqTsbaopvn1UK895264xKf0=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>wQHtV9F7WrYoKMR+dwn8Cja7MUm4zsNk0kg4/IFY5x8HkySiZNmxorD6Qlv4PfhsjMnTO6w2egctMg+F4uRoTKuKJ4DICavlVI1aWuDDmKKjSrwAZRLf+wOvgpL7jBonvevEv6WcMr68999IUETMU1lilfpBU/i2Zxe85bjYVns=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="063f0fb67d89ec26d54f387d2bbaaab6af480dcff1f5ce2907053de3e0137c1e" Description="" Url=""><as:assemblyIdentity name="GranitEditor.exe" version="1.0.0.15" publicKeyToken="8ccf292acbd5c0ed" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=TS-EU\akmattia</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>M1OPPF1TTTQtxXivm12Ch+jSzCtS73mUG+czDsjMzx0=</DigestValue></Reference></SignedInfo><SignatureValue>tRq3XxbL+lFlCO4fXDs/QvlzktBg+8SDNjCPfakqe7uYXxiqeic9RPFjClWoBJ8gj9FSOFOyrSRs8SvOAMvg9N67BG9K+VDi4FiyhOs2kdz08QQpQ4CkTMk+H6HpSQGc7JYGuW1+Wg6ZC9cd8G5TyTQ0G9Gj5hL9yBhib1Bp714=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>wQHtV9F7WrYoKMR+dwn8Cja7MUm4zsNk0kg4/IFY5x8HkySiZNmxorD6Qlv4PfhsjMnTO6w2egctMg+F4uRoTKuKJ4DICavlVI1aWuDDmKKjSrwAZRLf+wOvgpL7jBonvevEv6WcMr68999IUETMU1lilfpBU/i2Zxe85bjYVns=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB0TCCATqgAwIBAgIQYXR1wS50dbtJD06mQCXMhzANBgkqhkiG9w0BAQsFADAnMSUwIwYDVQQDHhwAVABTAC0ARQBVAFwAYQBrAG0AYQB0AHQAaQBhMB4XDTE3MDMzMDE3MzY1MVoXDTE4MDMzMDIzMzY1MVowJzElMCMGA1UEAx4cAFQAUwAtAEUAVQBcAGEAawBtAGEAdAB0AGkAYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAwQHtV9F7WrYoKMR+dwn8Cja7MUm4zsNk0kg4/IFY5x8HkySiZNmxorD6Qlv4PfhsjMnTO6w2egctMg+F4uRoTKuKJ4DICavlVI1aWuDDmKKjSrwAZRLf+wOvgpL7jBonvevEv6WcMr68999IUETMU1lilfpBU/i2Zxe85bjYVnsCAwEAATANBgkqhkiG9w0BAQsFAAOBgQBKFTa3Nx/yTlN/7LOasb1IfTisYNiT2z8PPboFrzjY8WFQ0UcyRqC41/azFAUCNJ10CgAUJPoMucsaWeVYXIZXss7i3PZISL+4rQqR9/neX6iXKCZHK0OOelhhvlkud6Foz/+y8lrKMm3oGx7/iw9puFVH77d/nN+bAKnI4lXGGw==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
