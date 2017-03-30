@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--<!DOCTYPE HUFTransactions [--> 
+<!ELEMENT HUFTransactions ( CreationDateAndTime?, ScheduledDate?, Transaction* ) >
+<!ATTLIST HUFTransactions version CDATA #FIXED "1.01"> <!-- ennek a DTD-nek, azaz az adatformátumnak a verziószáma: "1.01" > -->
+<!ELEMENT CreationDateAndTime ( #PCDATA ) > <!-- ISO 8601 (ccyy-mm-ddThh:mm:ss), az adat elkészítésének időpontja > -->
+<!ELEMENT ScheduledDate ( #PCDATA ) > <!-- ISO 8601 (ccyy-mm-dd), az elküldés tervezett dátuma > -->
+<!ELEMENT Transaction ( Originator, Beneficiary, Amount, RequestedExecutionDate?, RemittanceInfo?, CustomerSpecifiedReference? , StatisticalInfo? ) >
+<!ATTLIST Transaction ProcessingMode (VIBER) #IMPLIED > <!-- a banki feldolgozás módja > -->
+<!ELEMENT Originator ( Name?, Account ) > <!-- a terhelendő számla és a megbízó adatai > -->
+<!ELEMENT Name ( #PCDATA ) > <!-- (A32) név (pl. megbízó vagy kedvezményezett neve) > -->
+<!ELEMENT Account ( AccountNumber ) >
+<!ELEMENT AccountNumber ( #PCDATA ) > <!-- számla száma (pl. 16/24 karakteres GIRO számlaszám) > -->
+<!ATTLIST AccountNumber Type (GIRO|IBAN) #IMPLIED > <!-- számlaszám típusa > -->
+<!ELEMENT Beneficiary ( Name, CountryOfRegistration?, Account ) > <!-- kedvezményezett adatai > -->
+<!ELEMENT CountryOfRegistration ( CountryCode?, Country? ) > <!-- bejegyzés országa > -->
+<!ELEMENT CountryCode ( #PCDATA ) > <!-- (A2) országkód (nagybetűvel) > -->
+<!ELEMENT Country ( #PCDATA ) > <!-- az ország megnevezése > -->
+<!ELEMENT Amount ( #PCDATA ) > <!-- (N15 vagy 999999999999999,99) átutalandó összeg > -->
+<!ATTLIST Amount Currency CDATA #FIXED "HUF" > <!-- ISO 4217, az összeg devizaneme: kötelezően HUF > -->
+<!ELEMENT RequestedExecutionDate ( #PCDATA ) > <!-- ISO 8601 (ccyy-mm-dd), értéknap (esedékesség napja) > -->
+<!ELEMENT RemittanceInfo ( Text* ) > <!-- (4 x A32) közlemény > -->
+<!ELEMENT Text ( #PCDATA ) > <!-- szabad formátumú szöveg > -->
+<!ELEMENT CustomerSpecifiedReference ( #PCDATA ) > <!-- (A6) bizonylatszám > -->
+<!ELEMENT StatisticalInfo ( StatisticalCode ) >
+<!ELEMENT StatisticalCode ( #PCDATA ) > <!-- (A3) jogcímkód > -->
+<!--]>--> 
