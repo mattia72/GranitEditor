@@ -24,11 +24,11 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>https://raw.githubusercontent.com/mattia72/GranitEditor/master/install/</InstallUrl>
-    <UpdateUrl>https://raw.githubusercontent.com/mattia72/GranitEditor/master/publish/</UpdateUrl>
+    <UpdateUrl>https://raw.githubusercontent.com/mattia72/GranitEditor/master/install/</UpdateUrl>
     <SupportUrl>https://github.com/mattia72/GranitEditor</SupportUrl>
     <ErrorReportUrl>https://github.com/mattia72/GranitEditor/issues</ErrorReportUrl>
     <ProductName>GranitEditor</ProductName>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>7</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
