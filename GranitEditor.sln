@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitEditor", "GranitXMLEditor\GranitEditor.csproj", "{030E3907-E433-4F66-96AB-160C4128875D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitXMLEditorTests", "GranitXMLEditorTests\GranitXMLEditorTests.csproj", "{1EF2EC31-D8F0-42DD-968F-477FB81674C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericUndoRedo", "GenericUndoRedo\GenericUndoRedo.csproj", "{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "GranitEditorSetup", "GranitEditorSetup\GranitEditorSetup.vdproj", "{E1EA0DC3-94A3-45B9-AF87-0A75FCFCC655}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,11 @@ Global
 		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Release|x86.ActiveCfg = Release|Any CPU
 		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Release|x86.Build.0 = Release|Any CPU
+		{E1EA0DC3-94A3-45B9-AF87-0A75FCFCC655}.Debug|Any CPU.ActiveCfg = Debug
+		{E1EA0DC3-94A3-45B9-AF87-0A75FCFCC655}.Debug|x86.ActiveCfg = Debug
+		{E1EA0DC3-94A3-45B9-AF87-0A75FCFCC655}.Release|Any CPU.ActiveCfg = Release
+		{E1EA0DC3-94A3-45B9-AF87-0A75FCFCC655}.Release|Any CPU.Build.0 = Release
+		{E1EA0DC3-94A3-45B9-AF87-0A75FCFCC655}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
