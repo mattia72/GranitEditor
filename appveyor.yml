@@ -2,11 +2,20 @@ version: '{build}'
 branches:
   only:
   - master
-skip_non_tags: true
+
+#skip_non_tags: true
+
+# Including commits with particular message or from specific user
+only_commits:
+  message: /build/                # Start a new build if message contains 'build'
+
 image: Visual Studio 2017
+
 install:
   - ps: (new-object net.webclient).DownloadFile('https://visualstudiogallery.msdn.microsoft.com/fd136a01-a0c8-475f-94dd-240136f86746/file/247375/3/InstallerProjects.vsix', 'InstallerProjects.vsix')
+  - ps: Get-ChildItem -Path 'C:\Program Files (x86)' -Filter VSIXInstaller.exe -Recurse
   - ps: & 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VSIXInstaller.exe' /quiet InstallerProjects.vsix
+
 configuration:
 - Release
 - Debug
