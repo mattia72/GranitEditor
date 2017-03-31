@@ -1,0 +1,27 @@
+version: '{build}'
+branches:
+  only:
+  - master
+skip_non_tags: true
+image: Visual Studio 2017
+install:
+  - ps: (new-object net.webclient).DownloadFile('https://visualstudiogallery.msdn.microsoft.com/fd136a01-a0c8-475f-94dd-240136f86746/file/247375/3/InstallerProjects.vsix', 'InstallerProjects.vsix')
+  - ps: VSIXInstaller.exe /quiet InstallerProjects.vsix
+configuration:
+- Release
+- Debug
+platform: Any CPU
+build:
+  verbosity: normal
+artifacts:
+- path: GranitEditorSetup\Release
+  name: GranitEditor Installer
+- path: GranitXMLEditor\bin\Release
+  name: GranitEditor Release Deployment
+- path: GranitXMLEditor\bin\Debug
+  name: GranitEditor Debug Deployment
+deploy:
+- provider: Environment
+  name: GranitEditor Releases Environment
+  on:
+    branch: master
