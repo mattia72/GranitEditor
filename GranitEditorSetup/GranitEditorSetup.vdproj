@@ -45,6 +45,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_6C9C86B3A300426AA1A64701FB2EDD73"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_6D0BD12BFE346320B8E71CD13F93E316"
         "OwnerKey" = "8:_0D568782CE4D4F3182F0306A3AA44CD9"
         "MsmSig" = "8:_UNDEFINED"
@@ -115,6 +121,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -131,6 +145,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -235,6 +265,26 @@
             {
             "SourcePath" = "8:..\\GranitXMLEditor\\LICENSE"
             "TargetName" = "8:LICENSE"
+            "Tag" = "8:"
+            "Folder" = "8:_E9CCC64F46914C8F824DFFCD7B8600F2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6C9C86B3A300426AA1A64701FB2EDD73"
+            {
+            "SourcePath" = "8:..\\GranitXMLEditor\\Resources\\GranitBankIcon.ico"
+            "TargetName" = "8:GranitBankIcon.ico"
             "Tag" = "8:"
             "Folder" = "8:_E9CCC64F46914C8F824DFFCD7B8600F2"
             "Condition" = "8:"
@@ -410,7 +460,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GranitEditor"
         "ProductCode" = "8:{10D51CBA-6BA6-433D-A56D-9B41650BD278}"
-        "PackageCode" = "8:{E35ED01E-B221-4DB9-9D29-215953874C53}"
+        "PackageCode" = "8:{8B6652BF-16DD-4344-A9B6-AC63AFD71364}"
         "UpgradeCode" = "8:{1AD150C9-F336-488D-9C9C-933E2011B152}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -536,12 +586,12 @@
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:32512"
+            "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
             "Target" = "8:_0D568782CE4D4F3182F0306A3AA44CD9"
             "Folder" = "8:_E6F234C9929C4A3AB4A634CC73D727A0"
             "WorkingFolder" = "8:_E9CCC64F46914C8F824DFFCD7B8600F2"
-            "Icon" = "8:_0D568782CE4D4F3182F0306A3AA44CD9"
+            "Icon" = "8:_6C9C86B3A300426AA1A64701FB2EDD73"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_BBE91ED0BC7042F4B02EF7DC2045DD86"
@@ -550,12 +600,12 @@
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:32512"
+            "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
             "Target" = "8:_0D568782CE4D4F3182F0306A3AA44CD9"
             "Folder" = "8:_33BBC93C01394BE3AA810CECB74CDA70"
             "WorkingFolder" = "8:_E9CCC64F46914C8F824DFFCD7B8600F2"
-            "Icon" = "8:_0D568782CE4D4F3182F0306A3AA44CD9"
+            "Icon" = "8:_6C9C86B3A300426AA1A64701FB2EDD73"
             "Feature" = "8:"
             }
         }

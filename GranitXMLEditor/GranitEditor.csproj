@@ -221,7 +221,9 @@
     <None Include="Resources\undo_blue.png" />
     <None Include="Resources\redo_blue.png" />
     <None Include="Resources\toolbarFind.bmp" />
-    <None Include="Resources\GranitBankIcon.ico" />
+    <None Include="Resources\GranitBankIcon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\GranitBankIcon.png" />
   </ItemGroup>
   <ItemGroup>
