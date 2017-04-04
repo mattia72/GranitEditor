@@ -69,7 +69,7 @@
     <ManifestKeyFile>GranitEditor_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -78,10 +78,16 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>GranitEditor_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -143,6 +149,7 @@
     <Compile Include="HUFTransaction.cs" />
     <Compile Include="GranitXmlToAdapterBinder.cs" />
     <None Include="GranitEditor_TemporaryKey.pfx" />
+    <None Include="Properties\app.manifest" />
     <None Include="Resources\paste.png" />
     <None Include="Resources\cut.png" />
     <None Include="Resources\copy.png" />
