@@ -3,11 +3,19 @@ branches:
   only:
   - master
 
+# Do not build on tags (GitHub and BitBucket)
+#skip_tags: true
+
+# Start builds on tags only (GitHub and BitBucket)
 #skip_non_tags: true
 
+# Skipping commits with particular message or from specific user
+#skip_commits:
+#  message: /Created.*\.(png|jpg|jpeg|bmp|gif)/      # Regex for matching commit message
+
 # Including commits with particular message or from specific user
-only_commits:
-  message: /build/                # Start a new build if message contains 'build'
+#only_commits:
+#  message: /build/                # Start a new build if message contains 'build'
 
 image: Visual Studio 2017
 
@@ -22,7 +30,7 @@ configuration:
 - Debug
 platform: Any CPU
 build:
-  verbosity: detailed
+  verbosity: normal
 
   # scripts to run after build
 #after_build:
