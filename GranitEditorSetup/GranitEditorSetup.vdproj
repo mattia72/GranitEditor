@@ -69,20 +69,20 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B36C60BA61984FCAB6F80648FAEA22B6"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_CA5437A374AD4DDCB467BA3C98682132"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_D9399B3F43C046A8AE75F7A9D79E4559"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B36C60BA61984FCAB6F80648FAEA22B6"
+        "OwnerKey" = "8:_D9399B3F43C046A8AE75F7A9D79E4559"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -460,11 +460,11 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GranitEditor"
         "ProductCode" = "8:{10D51CBA-6BA6-433D-A56D-9B41650BD278}"
-        "PackageCode" = "8:{8B6652BF-16DD-4344-A9B6-AC63AFD71364}"
+        "PackageCode" = "8:{CD896766-3FC6-4A62-9B6B-1E950887FA58}"
         "UpgradeCode" = "8:{1AD150C9-F336-488D-9C9C-933E2011B152}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
@@ -1035,7 +1035,7 @@
                 {
                 }
             }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_B36C60BA61984FCAB6F80648FAEA22B6"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_D9399B3F43C046A8AE75F7A9D79E4559"
             {
             "SourcePath" = "8:..\\GenericUndoRedo\\obj\\Release\\GenericUndoRedo.dll"
             "TargetName" = "8:"
