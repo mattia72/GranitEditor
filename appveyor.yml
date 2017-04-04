@@ -20,6 +20,11 @@ configuration:
 platform: Any CPU
 build:
   verbosity: normal
+
+  # scripts to run after build
+after_build:
+  - cmd: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\devenv.exe" GranitEditorSetup\GranitEditorSetup.vdproj /build %CONFIGURATION%
+
 artifacts:
 - path: GranitEditorSetup\Release
   name: GranitEditor Installer
