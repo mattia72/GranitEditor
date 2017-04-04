@@ -12,10 +12,7 @@ only_commits:
 image: Visual Studio 2017
 
 install:
-  - ps: $vsixPath = "$($env:USERPROFILE)\InstallerProjects.vsix"
-  - ps: (new-object net.webclient).DownloadFile('https://visualstudiogallery.msdn.microsoft.com/fd136a01-a0c8-475f-94dd-240136f86746/file/247375/3/InstallerProjects.vsix', $vsixPath)
-  - ps: "`"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\VSIXInstaller.exe`" /q /a $vsixPath" | out-file ".\install-vsix.cmd" -Encoding ASCII
-  - ps: & .\install-vsix.cmd
+  - ps: & .\install-vsix-appveyor.ps1
 
 configuration:
 - Release
