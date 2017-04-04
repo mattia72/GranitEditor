@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" 
+           Name="GranitEditor" 
+           Language="1033" 
+           Version="1.0.0.0" 
+           Manufacturer="Microsoft" 
+           UpgradeCode="d19938c3-a109-40c2-85fb-726aa8d89f38">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade 
+      DowngradeErrorMessage="A newer version of [ProductName] is already installed." 
+      Schedule="afterInstallValidate"/>
+		<MediaTemplate />
+
+		<Feature Id="ProductFeature" Title="GranitEditorWiXInstaller" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentGroupRef Id="StartMenuComponents" />
+   
+		</Feature>
+
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="GranitEditor" />
+			</Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="GranitEditor"/>
+      </Directory>
+    </Directory>
+	</Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="GranitEditor.exe">
+        <File Id="GranitEditor.exe" Source="$(var.GranitEditor.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="GranitEditor.exe.config">
+        <File Id="GranitEditor.exe.config" Source="$(var.GranitEditor.TargetPath).config" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="GenericUndoRedo.dll">
+        <File Id="GenericUndoRedo.dll" Source="$(var.GenericUndoRedo.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="example.xml">
+        <File Id="example.xml" Source="$(var.GranitEditor.TargetDir)\example.xml" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="HUFTransactions.xsd">
+        <File Id="HUFTransactions.xsd" Source="$(var.GranitEditor.TargetDir)\HUFTransactions.xsd" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="README.md">
+        <File Id="README.md" Source="$(var.GranitEditor.TargetDir)\README.md" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="README.hu.md">
+        <File Id="README.hu.md" Source="$(var.GranitEditor.TargetDir)\README.hu.md" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <!-- <Component Id="HUFTransactions.dtd">
+        <File Id="HUFTransactions.dtd" Source="$(var.GranitEditor.TargetDir)\HUFTransactions.dtd" KeyPath="yes" Checksum="yes"/>
+      </Component> -->
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="StartMenuComponents" Directory="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut"  >
+        <Shortcut Id="ApplicationStartMenuShortcut"
+           Name="GranitEditor"
+           Description="Granit Editor"
+           Target="[!GranitEditor.exe]"
+           WorkingDirectory="INSTALLFOLDER"/>
+        <Shortcut Id="UninstallProduct"
+                          Name="Uninstall GranitEditor"
+                          Description="Uninstalls GranitEditor"
+                          Target="[System64Folder]msiexec.exe"
+                          Arguments="/x [ProductCode]"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\GranitEditor" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
