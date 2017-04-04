@@ -253,6 +253,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /Y /R "$(TargetDir)README.*" "$(SolutionDir)" 
+
+
 xcopy /Y /R "$(TargetDir)LICENSE" "$(SolutionDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

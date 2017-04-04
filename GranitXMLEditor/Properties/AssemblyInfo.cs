@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("GranitEditor")]
-[assembly: AssemblyDescription("Import xml editor for Granit netBank transactions")]
+[assembly: AssemblyDescription("Xml editor for Granit netBank transactions")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MataSoft Bt.")]
 [assembly: AssemblyProduct("GranitEditor")]
