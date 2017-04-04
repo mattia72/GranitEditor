@@ -22,7 +22,7 @@ configuration:
 - Debug
 platform: Any CPU
 build:
-  verbosity: normal
+  verbosity: detailed
 
   # scripts to run after build
 after_build:
