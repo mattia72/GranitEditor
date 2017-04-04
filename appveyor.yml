@@ -12,7 +12,7 @@ only_commits:
 image: Visual Studio 2017
 
 install:
-  - ps: & .\install-vsix-appveyor.ps1
+  - ps: .\install-vsix-appveyor.ps1
 
 configuration:
 - Release
