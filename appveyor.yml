@@ -11,8 +11,8 @@ only_commits:
 
 image: Visual Studio 2017
 
-environment:
-  IDE_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE
+#environment:
+  #IDE_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE
 
 install:
   - ps: .\install-vsix-appveyor.ps1
@@ -25,8 +25,8 @@ build:
   verbosity: detailed
 
   # scripts to run after build
-after_build:
-  - ps: $($env:IDE_PATH)\devenv.exe GranitEditorSetup\GranitEditorSetup.vdproj /build $($env:CONFIGURATION)
+#after_build:
+  #- ps: $($env:IDE_PATH)\devenv.exe GranitEditorSetup\GranitEditorSetup.vdproj /build $($env:CONFIGURATION)
 
 artifacts:
 - path: GranitEditorSetup\Release
