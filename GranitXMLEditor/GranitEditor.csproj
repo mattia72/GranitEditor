@@ -263,8 +263,8 @@ xcopy /Y /R "$(TargetDir)LICENSE" "$(SolutionDir)"</PostBuildEvent>
   </Target>
   <Target Name="AfterBuild">
   </Target>
-  -->
   <Target Name="AfterCompile" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Exec Command="&quot;C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe&quot; sign /f &quot;C:\Users\akmattia\root\msys64\home\akmattia\dev\visual studio 2015\Projects\GranitXMLEditor_vs2017\GranitXMLEditor\GranitEditor_TemporaryKey.pfx&quot; /p &quot;&quot; /v &quot;$(ProjectDir)obj\$(ConfigurationName)\$(TargetFileName)&quot;" />
   </Target>
+  -->
 </Project>
