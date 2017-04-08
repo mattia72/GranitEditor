@@ -60,7 +60,7 @@
     <StartupObject>GranitEditor.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\GranitBankIcon.ico</ApplicationIcon>
+    <ApplicationIcon>GranitEditor.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>F25ABDE0609CB0F1961724A1F9EE50BE21441CC2</ManifestCertificateThumbprint>
@@ -189,9 +189,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Content Include="HUFTransactions.dtd">
+    <None Include="HUFTransactions.dtd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
+    <Content Include="GranitEditor.ico" />
     <Content Include="LICENSE">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -210,13 +211,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="example.xml">
+    <None Include="example.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HUFTransactions.xsd">
+    </None>
+    <None Include="HUFTransactions.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="README.hu.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -227,9 +228,7 @@
     <None Include="Resources\undo_blue.png" />
     <None Include="Resources\redo_blue.png" />
     <None Include="Resources\toolbarFind.bmp" />
-    <None Include="Resources\GranitBankIcon.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Resources\GranitEditor.ico" />
     <None Include="Resources\GranitBankIcon.png" />
   </ItemGroup>
   <ItemGroup>
