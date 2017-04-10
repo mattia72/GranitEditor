@@ -1,6 +1,6 @@
 # GranitEditor
 [GRÁNIT Bank](https://granitbank.hu/)-os tranzakció csomag sablon generátor.
-(A program NEM a Gránit Bank fejlesztése)
+(A program NEM a Gránit Bank hivatalos fejlesztése!)
 
 A generált xml fájl feltölthető a netbankban a *Csomag importálása* menüpontban:
 * **Importálandó fájl:** a generált fájl elérési útja 

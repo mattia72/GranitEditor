@@ -21,6 +21,13 @@ namespace GranitEditor
     public ClipboardHandler(DataGridView dataGridView)
     {
       this.DataGridView = dataGridView;
+      this.DataGridView.CellValueChanged += DataGridView_CellValueChanged;
+    }
+
+    private void DataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+    {
+      //Todo: handle History.EndCompoundChange.
+      //throw new NotImplementedException();
     }
 
     public void CopyToClipboard(DataGridView dataGridView)
@@ -68,6 +75,7 @@ namespace GranitEditor
             //Copy to selected cells if 'PasteToSelectedCellsOnly' is checked
             if ((PasteToSelectedCellsOnly && cell.Selected) || (!PasteToSelectedCellsOnly))
             {
+              //Todo: History.BeginCompoundDo()
               SetCellValue(cbValue, rowKey, cellKey, cell);
             }
           }
