@@ -37,12 +37,12 @@ build:
   #- ps: $($env:IDE_PATH)\devenv.exe GranitEditorSetup\GranitEditorSetup.vdproj /build $($env:CONFIGURATION)
 
 artifacts:
-- path: GranitEditorSetup\Release
-  name: GranitEditor Installer
-- path: GranitXMLEditor\bin\Release
-  name: GranitEditor Release Deployment
-- path: GranitXMLEditor\bin\Debug
-  name: GranitEditor Debug Deployment
+  - path: '**\*.msi'
+    name: GranitEditor Installer
+  - path: GranitXMLEditor\bin\Release
+    name: GranitEditor Release Deployment
+  - path: GranitXMLEditor\bin\Debug
+    name: GranitEditor Debug Deployment
 deploy:
 - provider: Environment
   name: GranitEditor Releases Environment
