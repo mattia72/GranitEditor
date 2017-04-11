@@ -1,5 +1,5 @@
 ## GranitEditor
-This is a transaction group template generator for the hungarian GRÁNIT Bank: https://granitbank.hu/
+This is a transaction group generator for the hungarian GRÁNIT Bank: https://granitbank.hu/
 
 *More detailed description: [Magyarul](README.hu.md), ...*
 

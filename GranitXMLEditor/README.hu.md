@@ -1,5 +1,5 @@
 # GranitEditor
-[GRÁNIT Bank](https://granitbank.hu/)-os tranzakció csomag sablon generátor.
+[GRÁNIT Bank](https://granitbank.hu/)-os tranzakció csomag generátor.
 
 ![image](https://github.com/mattia72/GranitEditor/blob/screenshots/Screenshots/GranitEditor.png "Screenshot"  ) 
 
