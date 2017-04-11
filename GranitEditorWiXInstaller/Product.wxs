@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-
-  <?define ProductVersion = "1.0.1.0"?> <!--Increment the first 3 place of the Version value in your Product element to be higher than any previous versions that you have shipped.-->
-  <?define ProductVersionWithoutPoints = "1010"?>
+  <!--Increment the first 3 place of the Version value in your Product element to be higher than any previous versions that you have shipped.-->
+  <!--<?define ProductVersion = "1.0.1.0"?>--> 
+  <?define ProductVersion = "!(bind.FileVersion.GranitEditor.exe)"?> <!-- FileVersion.<Id of the required field > --> 
   <?define ProductName = "GranitEditor"?>
-  <!--<?define ProductCode = "de9157d6-2faf-4c16-9d28-77f7907f$(var.ProductVersionWithoutPoints)"?>--><!-- it should be regenerated on every new install -->
   <?define UpgradeCode = "2141E9EA-1BAF-4B9F-A20F-1D9AE0A688B8"?>  
 
   <Product Id="*"
