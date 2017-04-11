@@ -1,15 +1,23 @@
 # GranitEditor
 [GRÁNIT Bank](https://granitbank.hu/)-os tranzakció csomag sablon generátor.
-(A program NEM a Gránit Bank hivatalos fejlesztése!)
 
 A generált xml fájl feltölthető a netbankban a *Csomag importálása* menüpontban:
 * **Importálandó fájl:** a generált fájl elérési útja 
 * **Import formátum:** _XML formátum (*.XML)_
 
+( **FIGYELEM:** A program NEM a Gránit Bank fejlesztése! A használatból eredő károkért a fejlesztő(k) nem vonható(ak) felelősségre! Lsd: [Licenc](LICENSE) )
+
 ## Az első lépések
-1. Töltse le a legfrissebb [telepítőt](https://github.com/mattia72/GranitEditor/releases/latest)!
-1. Csomagolja ki! 
-1. Futtassa a setup.exe-t a telepítés megkezdéséhez!
+
+### Telepítés
+1. Töltse le a [legfrissebb](https://github.com/mattia72/GranitEditor/releases/latest) installert (`GranitEditorInstaller.msi`)!
+1. Kattintson duplán a `GranitEditorInstaller.msi` fájlra a telepítés megkezdéséhez!
+
+### Zip 
+Ha nem akar telepíteni
+1. Töltse le a [legfrissebb](https://github.com/mattia72/GranitEditor/releases/latest) zip fájlt (`GranitEditor.Release.zip`)!
+1. Csomagolja ki egy tetszőleges könyvtárba!
+1. Indítsa el a `GranitEditor.exe`-t!
 
 ## Build és Teszt
 * IDE: Visual Studio 2017 Community Edition
