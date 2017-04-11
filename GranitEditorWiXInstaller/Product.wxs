@@ -21,7 +21,7 @@
         AllowSameVersionUpgrades="yes"
         Schedule="afterInstallValidate"/>
 
-    <MediaTemplate />
+    <Media Id="1" Cabinet="Cab1.cab" EmbedCab="yes" />
 
     <Feature Id="ProductFeature" Title="GranitEditorWiXInstaller" Level="1">
         <ComponentGroupRef Id="ProductComponents" />
