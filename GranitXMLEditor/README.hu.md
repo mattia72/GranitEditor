@@ -19,7 +19,7 @@ A generált xml fájl feltölthető a [netbankban](https://netbank.granitbank.hu
 
 ### Zip 
 Ha nem akar telepíteni
-1. Töltse le a [legfrissebb](https://github.com/mattia72/GranitEditor/releases/latest) zip fájlt (`GranitEditor.Release.zip`)!
+1. Töltse le a [legfrissebb](https://github.com/mattia72/GranitEditor/releases/latest) zip fájlt (`GranitEditor.zip`)!
 1. Csomagolja ki egy tetszőleges könyvtárba!
 1. Indítsa el a `GranitEditor.exe`-t!
 
