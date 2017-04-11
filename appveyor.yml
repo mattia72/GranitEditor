@@ -38,11 +38,11 @@ build:
 
 artifacts:
   - path: '**\*.msi'
-    name: GranitEditor Installer
+    name: GranitEditor
   - path: GranitXMLEditor\bin\Release
-    name: GranitEditor Release Copy Deployment
+    name: GranitEditor
   - path: GranitXMLEditor\bin\Debug
-    name: GranitEditor Debug Copy Deployment
+    name: GranitEditor.Debug
 
 
 deploy:
