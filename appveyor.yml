@@ -22,8 +22,8 @@ image: Visual Studio 2017
 #environment:
   #IDE_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE
 
-install:
-  - ps: .\install-vsix-appveyor.ps1
+#install:
+#- ps: .\install-vsix-appveyor.ps1
 
 configuration:
 - Release
@@ -40,9 +40,9 @@ artifacts:
   - path: '**\*.msi'
     name: GranitEditor Installer
   - path: GranitXMLEditor\bin\Release
-    name: GranitEditor Release Deployment
+    name: GranitEditor Release Copy Deployment
   - path: GranitXMLEditor\bin\Debug
-    name: GranitEditor Debug Deployment
+    name: GranitEditor Debug Copy Deployment
 deploy:
 - provider: Environment
   name: GranitEditor Releases Environment

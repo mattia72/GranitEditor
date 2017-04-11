@@ -30,7 +30,7 @@
     <ErrorReportUrl>https://github.com/mattia72/GranitEditor/issues</ErrorReportUrl>
     <ProductName>GranitEditor</ProductName>
     <ApplicationRevision>18</ApplicationRevision>
-    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
+    <ApplicationVersion>1.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
