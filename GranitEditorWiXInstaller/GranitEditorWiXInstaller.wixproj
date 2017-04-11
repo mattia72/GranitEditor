@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>62712467-98e7-4cca-939e-a2c70eb9f6d1</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>GranitEditorWiXInstaller</OutputName>
+    <OutputName>GranitEditorInstaller</OutputName>
     <OutputType>Package</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
