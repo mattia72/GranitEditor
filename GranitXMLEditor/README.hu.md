@@ -1,13 +1,13 @@
 # GranitEditor
 [GRÁNIT Bank](https://granitbank.hu/)-os tranzakció csomag sablon generátor.
 
-![image](https://github.com/mattia72/GranitEditor/blob/screenshots/Screenshots/GranitEditor.png "Screenshot")
+![image](https://github.com/mattia72/GranitEditor/blob/screenshots/Screenshots/GranitEditor.png "Screenshot" {width=1207px height=419px} ) 
 
 A generált xml fájl feltölthető a [netbankban](https://netbank.granitbank.hu) a *Csomag importálása* menüpontban:
 * **Importálandó fájl:** a generált fájl elérési útja 
 * **Import formátum:** _XML formátum (*.XML)_
 
-![image](https://github.com/mattia72/GranitEditor/blob/screenshots/Screenshots/CsomagImport.png "Screenshot")
+![image](https://github.com/mattia72/GranitEditor/blob/screenshots/Screenshots/CsomagImport.png "Screenshot" {width=964px height=191px})
 
 ( **FIGYELEM:** A program NEM a Gránit Bank fejlesztése! A használatból eredő károkért a fejlesztő(k) nem vonható(ak) felelősségre! Lsd: [Licenc](LICENSE) )
 
