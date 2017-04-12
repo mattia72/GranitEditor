@@ -37,6 +37,7 @@ Ha nem akar telepíteni
 * IDE: Visual Studio 2017 Community Edition
 * Installer: WiX Toolset Visual Studio 2017 Extension
 * UnitTest: Visual Studio Test Platform 
+* CI: https://ci.appveyor.com/project/mattia72/graniteditor
 
 ### XML Leírás 
 https://netbank.granitbank.hu/eibpublic_granit/help/hu/IMPXML.html
