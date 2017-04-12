@@ -248,5 +248,15 @@ namespace GranitEditor
       // Navigate to a URL.
       Process.Start(linkHomePage.Text);
     }
+
+    private void logoPictureBox_MouseEnter(object sender, EventArgs e)
+    {
+      Cursor = Cursors.Hand;
+    }
+
+    private void logoPictureBox_MouseLeave(object sender, EventArgs e)
+    {
+      Cursor = Cursors.Default;
+    }
   }
 }

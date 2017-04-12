@@ -135,16 +135,17 @@
       // 
       // logoPictureBox
       // 
-      this.logoPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
       this.logoPictureBox.Image = global::GranitEditor.Properties.Resources.GranitEditorIcon;
       this.logoPictureBox.Location = new System.Drawing.Point(4, 4);
       this.logoPictureBox.Margin = new System.Windows.Forms.Padding(4);
       this.logoPictureBox.Name = "logoPictureBox";
       this.tableLayoutPanel.SetRowSpan(this.logoPictureBox, 9);
-      this.logoPictureBox.Size = new System.Drawing.Size(107, 369);
+      this.logoPictureBox.Size = new System.Drawing.Size(78, 80);
       this.logoPictureBox.TabIndex = 12;
       this.logoPictureBox.TabStop = false;
       this.logoPictureBox.Click += new System.EventHandler(this.logoPictureBox_Click);
+      this.logoPictureBox.MouseEnter += new System.EventHandler(this.logoPictureBox_MouseEnter);
+      this.logoPictureBox.MouseLeave += new System.EventHandler(this.logoPictureBox_MouseLeave);
       // 
       // labelProductName
       // 
@@ -210,13 +211,13 @@
       // 
       this.tableLayoutPanel.SetColumnSpan(this.textBoxDescription, 2);
       this.textBoxDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.textBoxDescription.Location = new System.Drawing.Point(123, 157);
+      this.textBoxDescription.Location = new System.Drawing.Point(123, 129);
       this.textBoxDescription.Margin = new System.Windows.Forms.Padding(8, 4, 4, 4);
       this.textBoxDescription.Multiline = true;
       this.textBoxDescription.Name = "textBoxDescription";
       this.textBoxDescription.ReadOnly = true;
       this.textBoxDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-      this.textBoxDescription.Size = new System.Drawing.Size(485, 180);
+      this.textBoxDescription.Size = new System.Drawing.Size(485, 208);
       this.textBoxDescription.TabIndex = 23;
       this.textBoxDescription.TabStop = false;
       this.textBoxDescription.Text = "Description";
@@ -248,7 +249,7 @@
       // labelLicense
       // 
       this.labelLicense.AutoSize = true;
-      this.labelLicense.Location = new System.Drawing.Point(123, 133);
+      this.labelLicense.Location = new System.Drawing.Point(123, 105);
       this.labelLicense.Margin = new System.Windows.Forms.Padding(8, 0, 4, 0);
       this.labelLicense.Name = "labelLicense";
       this.labelLicense.Size = new System.Drawing.Size(61, 17);
