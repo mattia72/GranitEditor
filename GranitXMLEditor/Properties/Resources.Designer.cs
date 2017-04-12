@@ -240,6 +240,16 @@ namespace GranitEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GranitEditorIcon {
+            get {
+                object obj = ResourceManager.GetObject("GranitEditorIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The account number is invalid..
         /// </summary>
         internal static string InvalidAccountError {

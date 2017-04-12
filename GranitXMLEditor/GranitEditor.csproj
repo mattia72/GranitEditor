@@ -149,6 +149,8 @@
     <Compile Include="XDocumentExtension.cs" />
     <Compile Include="HUFTransaction.cs" />
     <Compile Include="GranitXmlToAdapterBinder.cs" />
+    <None Include="Resources\GranitEditiorIcon.bmp" />
+    <None Include="Resources\GranitEditorIcon.png" />
     <None Include="Properties\app.manifest" />
     <None Include="Resources\paste.png" />
     <None Include="Resources\cut.png" />
@@ -229,7 +231,6 @@
     <None Include="Resources\redo_blue.png" />
     <None Include="Resources\toolbarFind.bmp" />
     <None Include="Resources\GranitEditor.ico" />
-    <None Include="Resources\GranitBankIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

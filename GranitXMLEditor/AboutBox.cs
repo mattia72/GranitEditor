@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -21,13 +22,16 @@ namespace GranitEditor
     {
       InitializeComponent();
       this.Text = String.Format("About {0}", AssemblyTitle);
-      this.labelProductName.Text = AssemblyProduct;
-      this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-      this.labelCopyright.Text = AssemblyCopyright;
-      this.labelCompanyName.Text = AssemblyCompany;
+      this.labelProductNameText.Text = AssemblyProduct;
+      this.labelVersionText.Text = AssemblyVersion;
+      this.labelCopyright.Text = Regex.Replace(AssemblyCopyright, @"(.*©).*", "$1"); //
+      this.labelCopyrightText.Text = Regex.Replace(AssemblyCopyright, @".*© (.*)", "$1");
+      this.labelCompanyName.Text = "";
+      this.labelCompanyNameText.Text = "";
+      this.linkHomePage.Text = @"https://github.com/mattia72/GranitEditor";
 
       // Add the content of the ReadMe.txt into the TextBox
-      string readMeFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "README.md");
+      string readMeFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LICENSE");
       if (File.Exists(readMeFile))
         textBoxDescription.Text = File.ReadAllText(readMeFile).Replace("\n",Environment.NewLine);
 
@@ -142,7 +146,10 @@ namespace GranitEditor
     {
       get
       {
-        return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        //return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        var assembly = Assembly.GetExecutingAssembly();
+        FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+        return fvi.FileVersion;
       }
     }
 
@@ -226,6 +233,20 @@ namespace GranitEditor
       Debug.WriteLine("Wait for ending scroll thread.");
       scrollThreadReady.WaitOne();
       Debug.WriteLine("Scroll thread ready event received.");
+    }
+
+    private void logoPictureBox_Click(object sender, EventArgs e)
+    {
+      // Navigate to a URL.
+      Process.Start(linkHomePage.Text);
+    }
+
+    private void linkHomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      // Specify that the link was visited.
+        this.linkHomePage.LinkVisited = true;
+      // Navigate to a URL.
+      Process.Start(linkHomePage.Text);
     }
   }
 }
