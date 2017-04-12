@@ -30,15 +30,15 @@
     private void InitializeComponent()
     {
       this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-      this.labelCompanyNameText = new System.Windows.Forms.Label();
+      this.labelBuildDateTimeText = new System.Windows.Forms.Label();
       this.labelCopyright = new System.Windows.Forms.Label();
       this.labelVersionText = new System.Windows.Forms.Label();
       this.labelProductNameText = new System.Windows.Forms.Label();
       this.logoPictureBox = new System.Windows.Forms.PictureBox();
       this.labelProductName = new System.Windows.Forms.Label();
       this.labelVersion = new System.Windows.Forms.Label();
+      this.labelBuildDateTime = new System.Windows.Forms.Label();
       this.labelCopyrightText = new System.Windows.Forms.Label();
-      this.labelCompanyName = new System.Windows.Forms.Label();
       this.labelHomePage = new System.Windows.Forms.Label();
       this.textBoxDescription = new System.Windows.Forms.TextBox();
       this.okButton = new System.Windows.Forms.Button();
@@ -54,15 +54,15 @@
       this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.81042F));
       this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.86268F));
       this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.3269F));
-      this.tableLayoutPanel.Controls.Add(this.labelCompanyNameText, 2, 3);
-      this.tableLayoutPanel.Controls.Add(this.labelCopyright, 0, 2);
+      this.tableLayoutPanel.Controls.Add(this.labelBuildDateTimeText, 2, 2);
+      this.tableLayoutPanel.Controls.Add(this.labelCopyright, 0, 3);
       this.tableLayoutPanel.Controls.Add(this.labelVersionText, 2, 1);
       this.tableLayoutPanel.Controls.Add(this.labelProductNameText, 2, 0);
       this.tableLayoutPanel.Controls.Add(this.logoPictureBox, 0, 0);
       this.tableLayoutPanel.Controls.Add(this.labelProductName, 1, 0);
       this.tableLayoutPanel.Controls.Add(this.labelVersion, 1, 1);
-      this.tableLayoutPanel.Controls.Add(this.labelCopyrightText, 1, 2);
-      this.tableLayoutPanel.Controls.Add(this.labelCompanyName, 1, 3);
+      this.tableLayoutPanel.Controls.Add(this.labelBuildDateTime, 1, 2);
+      this.tableLayoutPanel.Controls.Add(this.labelCopyrightText, 1, 3);
       this.tableLayoutPanel.Controls.Add(this.labelHomePage, 1, 4);
       this.tableLayoutPanel.Controls.Add(this.textBoxDescription, 1, 7);
       this.tableLayoutPanel.Controls.Add(this.okButton, 2, 8);
@@ -85,22 +85,22 @@
       this.tableLayoutPanel.Size = new System.Drawing.Size(612, 377);
       this.tableLayoutPanel.TabIndex = 0;
       // 
-      // labelCompanyNameText
+      // labelBuildDateTimeText
       // 
-      this.labelCompanyNameText.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.labelCompanyNameText.Location = new System.Drawing.Point(262, 63);
-      this.labelCompanyNameText.Margin = new System.Windows.Forms.Padding(8, 0, 4, 0);
-      this.labelCompanyNameText.MaximumSize = new System.Drawing.Size(0, 21);
-      this.labelCompanyNameText.Name = "labelCompanyNameText";
-      this.labelCompanyNameText.Size = new System.Drawing.Size(346, 21);
-      this.labelCompanyNameText.TabIndex = 28;
-      this.labelCompanyNameText.Text = "Company (R)";
-      this.labelCompanyNameText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      this.labelBuildDateTimeText.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.labelBuildDateTimeText.Location = new System.Drawing.Point(262, 42);
+      this.labelBuildDateTimeText.Margin = new System.Windows.Forms.Padding(8, 0, 4, 0);
+      this.labelBuildDateTimeText.MaximumSize = new System.Drawing.Size(0, 21);
+      this.labelBuildDateTimeText.Name = "labelBuildDateTimeText";
+      this.labelBuildDateTimeText.Size = new System.Drawing.Size(346, 21);
+      this.labelBuildDateTimeText.TabIndex = 28;
+      this.labelBuildDateTimeText.Text = "2017.04.12";
+      this.labelBuildDateTimeText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
       // labelCopyright
       // 
       this.labelCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.labelCopyright.Location = new System.Drawing.Point(123, 42);
+      this.labelCopyright.Location = new System.Drawing.Point(123, 63);
       this.labelCopyright.Margin = new System.Windows.Forms.Padding(8, 0, 4, 0);
       this.labelCopyright.MaximumSize = new System.Drawing.Size(0, 21);
       this.labelCopyright.Name = "labelCopyright";
@@ -135,6 +135,7 @@
       // 
       // logoPictureBox
       // 
+      this.logoPictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
       this.logoPictureBox.Image = global::GranitEditor.Properties.Resources.GranitEditorIcon;
       this.logoPictureBox.Location = new System.Drawing.Point(4, 4);
       this.logoPictureBox.Margin = new System.Windows.Forms.Padding(4);
@@ -144,8 +145,6 @@
       this.logoPictureBox.TabIndex = 12;
       this.logoPictureBox.TabStop = false;
       this.logoPictureBox.Click += new System.EventHandler(this.logoPictureBox_Click);
-      this.logoPictureBox.MouseEnter += new System.EventHandler(this.logoPictureBox_MouseEnter);
-      this.logoPictureBox.MouseLeave += new System.EventHandler(this.logoPictureBox_MouseLeave);
       // 
       // labelProductName
       // 
@@ -171,10 +170,22 @@
       this.labelVersion.Text = "Version";
       this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
+      // labelBuildDateTime
+      // 
+      this.labelBuildDateTime.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.labelBuildDateTime.Location = new System.Drawing.Point(123, 42);
+      this.labelBuildDateTime.Margin = new System.Windows.Forms.Padding(8, 0, 4, 0);
+      this.labelBuildDateTime.MaximumSize = new System.Drawing.Size(0, 21);
+      this.labelBuildDateTime.Name = "labelBuildDateTime";
+      this.labelBuildDateTime.Size = new System.Drawing.Size(127, 21);
+      this.labelBuildDateTime.TabIndex = 22;
+      this.labelBuildDateTime.Text = "Build Time";
+      this.labelBuildDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      // 
       // labelCopyrightText
       // 
       this.labelCopyrightText.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.labelCopyrightText.Location = new System.Drawing.Point(262, 42);
+      this.labelCopyrightText.Location = new System.Drawing.Point(262, 63);
       this.labelCopyrightText.Margin = new System.Windows.Forms.Padding(8, 0, 4, 0);
       this.labelCopyrightText.MaximumSize = new System.Drawing.Size(0, 21);
       this.labelCopyrightText.Name = "labelCopyrightText";
@@ -182,18 +193,6 @@
       this.labelCopyrightText.TabIndex = 21;
       this.labelCopyrightText.Text = "Copyright";
       this.labelCopyrightText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-      // 
-      // labelCompanyName
-      // 
-      this.labelCompanyName.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.labelCompanyName.Location = new System.Drawing.Point(123, 63);
-      this.labelCompanyName.Margin = new System.Windows.Forms.Padding(8, 0, 4, 0);
-      this.labelCompanyName.MaximumSize = new System.Drawing.Size(0, 21);
-      this.labelCompanyName.Name = "labelCompanyName";
-      this.labelCompanyName.Size = new System.Drawing.Size(127, 21);
-      this.labelCompanyName.TabIndex = 22;
-      this.labelCompanyName.Text = "Company Name";
-      this.labelCompanyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
       // labelHomePage
       // 
@@ -238,12 +237,14 @@
       // linkHomePage
       // 
       this.linkHomePage.AutoSize = true;
-      this.linkHomePage.Location = new System.Drawing.Point(257, 84);
+      this.linkHomePage.Location = new System.Drawing.Point(262, 84);
+      this.linkHomePage.Margin = new System.Windows.Forms.Padding(8, 0, 4, 0);
       this.linkHomePage.Name = "linkHomePage";
       this.linkHomePage.Size = new System.Drawing.Size(99, 17);
       this.linkHomePage.TabIndex = 29;
       this.linkHomePage.TabStop = true;
       this.linkHomePage.Text = "linkHomePage";
+      this.linkHomePage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.linkHomePage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkHomePage_LinkClicked);
       // 
       // labelLicense
@@ -290,13 +291,13 @@
     private System.Windows.Forms.Label labelProductName;
     private System.Windows.Forms.Label labelVersion;
     private System.Windows.Forms.Label labelCopyrightText;
-    private System.Windows.Forms.Label labelCompanyName;
+    private System.Windows.Forms.Label labelBuildDateTime;
     private System.Windows.Forms.Label labelHomePage;
     private System.Windows.Forms.TextBox textBoxDescription;
     private System.Windows.Forms.Button okButton;
     private System.Windows.Forms.Label labelVersionText;
     private System.Windows.Forms.Label labelProductNameText;
-    private System.Windows.Forms.Label labelCompanyNameText;
+    private System.Windows.Forms.Label labelBuildDateTimeText;
     private System.Windows.Forms.Label labelCopyright;
     private System.Windows.Forms.LinkLabel linkHomePage;
     private System.Windows.Forms.Label labelLicense;

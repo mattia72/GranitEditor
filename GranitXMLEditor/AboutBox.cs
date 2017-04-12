@@ -26,8 +26,7 @@ namespace GranitEditor
       this.labelVersionText.Text = AssemblyVersion;
       this.labelCopyright.Text = Regex.Replace(AssemblyCopyright, @"(.*©).*", "$1"); //
       this.labelCopyrightText.Text = Regex.Replace(AssemblyCopyright, @".*© (.*)", "$1");
-      this.labelCompanyName.Text = "";
-      this.labelCompanyNameText.Text = "";
+      this.labelBuildDateTimeText.Text = AssemblyBuildDateTime.ToString();
       this.linkHomePage.Text = @"https://github.com/mattia72/GranitEditor";
 
       // Add the content of the ReadMe.txt into the TextBox
@@ -179,6 +178,19 @@ namespace GranitEditor
       }
     }
 
+    public DateTime AssemblyBuildDateTime
+    {
+      get
+      {
+        //In AssemblyInfo.cs: [assembly: AssemblyVersion("1.0.*")]
+        var version = Assembly.GetEntryAssembly().GetName().Version;
+        var buildDateTime = new DateTime(2000, 1, 1).Add(new TimeSpan(
+        TimeSpan.TicksPerDay * version.Build + // days since 1 January 2000
+        TimeSpan.TicksPerSecond * 2 * version.Revision)); /* seconds since midnight,(multiply by 2 to get original) */
+        return buildDateTime;
+      }
+    }
+
     public string AssemblyCopyright
     {
       get
@@ -247,16 +259,6 @@ namespace GranitEditor
         this.linkHomePage.LinkVisited = true;
       // Navigate to a URL.
       Process.Start(linkHomePage.Text);
-    }
-
-    private void logoPictureBox_MouseEnter(object sender, EventArgs e)
-    {
-      Cursor = Cursors.Hand;
-    }
-
-    private void logoPictureBox_MouseLeave(object sender, EventArgs e)
-    {
-      Cursor = Cursors.Default;
     }
   }
 }
