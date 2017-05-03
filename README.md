@@ -20,4 +20,4 @@ https://netbank.granitbank.hu/eibpublic_granit/help/en/IMPXML.html
 * UnitTest: Visual Studio Test Platform 
 
 ## Contribute
-Bugs and feature requests are tracked here: [here](https://github.com/mattia72/GranitEditor/issues/new)!
+Bugs and feature requests are tracked [here](https://github.com/mattia72/GranitEditor/issues/new)!

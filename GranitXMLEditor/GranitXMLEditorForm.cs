@@ -22,7 +22,9 @@ namespace GranitEditor
     private GranitDataGridViewCellValidator _cellVallidator;
     private GranitDataGridViewContextMenuHandler _contextMenuHandler;
     private SortableBindingList<TransactionAdapter> _bindingList;
-
+    private DataGridViewTextBoxEditingControl _editingControl;
+                                            
+    internal string SelectedTextInCurrentCell { get => _editingControl?.SelectedText; }
     internal UndoRedoHistory<IGranitXDocumentOwner> History => _xmlToObjectBinder?.History;
 
     internal DataGridView DataGrid => dataGridView1;
@@ -216,6 +218,7 @@ namespace GranitEditor
       Debug.WriteLine("CellEndEdit called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
       if ( e.RowIndex != -1 ) // not on first load 
         dataGridView1.Rows[e.RowIndex].ErrorText = string.Empty;
+      _editingControl = null;
     }
 
     private void dataGridView1_Sorted(object sender, EventArgs e)
@@ -527,6 +530,14 @@ namespace GranitEditor
 
         //// If this is true, then the user is trapped in this cell.
         //e.Cancel = false;
+    }
+
+    private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+    {
+      if (e.Control is DataGridViewTextBoxEditingControl)
+      {
+        _editingControl = (DataGridViewTextBoxEditingControl)e.Control;
+      }
     }
   }
 }

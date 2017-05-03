@@ -10,7 +10,23 @@ namespace GranitEditor
 {
   public partial class FindReplaceDlg : Form
   {
-    DataGridView dgv;
+    private DataGridView dgv;
+    private bool _oneOccuranceFound = false;
+    private bool _allreadyAsked = false;
+    private List<DataGridViewCell> _cellsToSearch;
+    private int _cellsToSearchNextIndex = 0;
+    private int _cellsToSearchEndIndex = 0;
+    private Regex _regexToSearch;
+
+    public bool IsFirstInitNecessary { get; set; }
+    public bool IsSelectionChecked {
+      get => selectionRadioButton.Checked;
+      set => selectionRadioButton.Checked = value;
+    }
+    public string InitialSearchText { set { findComboBox.Text = value; } }
+
+    internal DataGridView DataGrid { get => dgv; set => dgv = value; }
+
 
     public FindReplaceDlg(DataGridView dataGrdView)
       : this()
@@ -34,32 +50,6 @@ namespace GranitEditor
     private void cancelButton_Click(object sender, EventArgs e)
     {
       Hide();
-    }
-
-    private bool _oneOccuranceFound = false;
-    private bool _allreadyAsked = false;
-    private List<DataGridViewCell> _cellsToSearch;
-    private int _cellsToSearchNextIndex = 0;
-    private int _cellsToSearchEndIndex = 0;
-    private Regex _regexToSearch;
-
-    public bool IsFirstInitNecessary { get; set; }
-    public bool IsSelectionChecked {
-      get { return selectionRadioButton.Checked; }
-      set { selectionRadioButton.Checked = value; }
-    }
-
-    internal DataGridView DataGrid
-    {
-      get
-      {
-        return dgv;
-      }
-
-      set
-      {
-        dgv = value;
-      }
     }
 
     private void findButton_Click(object sender, EventArgs e)
@@ -159,7 +149,7 @@ namespace GranitEditor
       {
         _cellsToSearch = GetCellsToSearchList();
         _regexToSearch = CreateFindRegex();
-        _cellsToSearchNextIndex = HasSelectedCells() ? 0 : GetActiveCellIndex(_cellsToSearch);
+        _cellsToSearchNextIndex = IsSelectionChecked ? 0 : GetActiveCellIndex(_cellsToSearch);
         _cellsToSearchEndIndex = _cellsToSearchNextIndex;
         _oneOccuranceFound = false;
       }
@@ -191,11 +181,6 @@ namespace GranitEditor
       }
 
       return cells == null ? _cellsToSearch : cells;
-    }
-
-    private bool HasSelectedCells()
-    {
-      return selectionRadioButton.Checked;
     }
 
     private int GetActiveCellIndex(List<DataGridViewCell> cellsToSearch)

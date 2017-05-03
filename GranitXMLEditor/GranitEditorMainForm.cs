@@ -464,7 +464,24 @@ namespace GranitEditor
       if (!FindReplaceDlg.Visible)
       {
         if (ActiveXmlForm.DataGrid.SelectedCells.Count > 1)
+        {
           FindReplaceDlg.IsSelectionChecked = true;
+        }
+
+        FindReplaceDlg.InitialSearchText = String.Empty;
+
+        var currCell = ActiveXmlForm.DataGrid.CurrentCell;
+        if(currCell != null && currCell.ValueType != typeof(bool))
+        {
+          if (String.IsNullOrEmpty(ActiveXmlForm.SelectedTextInCurrentCell))
+          {
+            FindReplaceDlg.InitialSearchText = currCell.FormattedValue.ToString();
+          }
+          else
+          {
+            FindReplaceDlg.InitialSearchText = ActiveXmlForm.SelectedTextInCurrentCell;
+          }
+        }
 
         FindReplaceDlg.Show(this);
         FindReplaceDlg.BringToFront();
