@@ -38,10 +38,16 @@ namespace GranitEditor
       set
       {
         _docsHavePendingChanges = value;
-        saveToolStripButton.Enabled = _docsHavePendingChanges;
-        saveToolStripMenuItem.Enabled = _docsHavePendingChanges;
+        UpdateSaveAndSaveAllItems();
         UpdateUndoRedoItems();
       }
+    }
+
+    private void UpdateSaveAndSaveAllItems()
+    {
+      saveToolStripButton.Enabled = _docsHavePendingChanges;
+      saveToolStripMenuItem.Enabled = _docsHavePendingChanges;
+      //saveAsToolStripMenuItem1.Enabled = _docsHavePendingChanges;
     }
 
     public void SetDocsHavePendingChanges(bool value)
@@ -235,7 +241,7 @@ namespace GranitEditor
     {
       saveToolStripButton.Enabled = enabled;
       saveToolStripMenuItem.Enabled = enabled;
-      saveAsToolStripMenuItem1.Enabled = enabled;
+      saveAsToolStripMenuItem.Enabled = enabled;
       undoToolStripButton.Enabled = enabled;
       undoToolStripMenuItem.Enabled = enabled;
       redoToolStripButton.Enabled = enabled;
@@ -600,6 +606,7 @@ namespace GranitEditor
       UpdateCopyPasteItems();
 
       saveToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.DocHasPendingChanges;
+      saveAsToolStripMenuItem.Enabled = ActiveXmlForm != null;
       undoToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.History.CanUndo;
       redoToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.History.CanRedo;
       selectAllToolStripMenuItem.Enabled = ActiveXmlForm != null;

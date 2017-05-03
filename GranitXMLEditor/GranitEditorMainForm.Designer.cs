@@ -35,7 +35,7 @@
       this.openToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
       this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.saveAsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+      this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
       this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,7 +121,7 @@
             this.openToolStripMenuItem1,
             this.toolStripSeparator,
             this.saveToolStripMenuItem,
-            this.saveAsToolStripMenuItem1,
+            this.saveAsToolStripMenuItem,
             this.toolStripSeparator1,
             this.printToolStripMenuItem,
             this.printPreviewToolStripMenuItem,
@@ -171,10 +171,10 @@
       // 
       // saveAsToolStripMenuItem1
       // 
-      this.saveAsToolStripMenuItem1.Name = "saveAsToolStripMenuItem1";
-      this.saveAsToolStripMenuItem1.Size = new System.Drawing.Size(173, 26);
-      this.saveAsToolStripMenuItem1.Text = "Save &As...";
-      this.saveAsToolStripMenuItem1.Click += new System.EventHandler(this.saveAsToolStripMenuItem1_Click);
+      this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem1";
+      this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+      this.saveAsToolStripMenuItem.Text = "Save &As...";
+      this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem1_Click);
       // 
       // toolStripSeparator1
       // 
@@ -699,7 +699,7 @@
     private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem1;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
     private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem1;
+    private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem printPreviewToolStripMenuItem;
