@@ -7,9 +7,9 @@ using System.Windows.Forms;
 
 namespace GranitEditor
 {
-  internal class GranitDataGridViewCellFormatter
+  public class GranitDataGridViewCellFormatter
   {
-    internal static void Format(DataGridView dataGridView1, ref DataGridViewCellFormattingEventArgs e)
+    public static void Format(DataGridView dataGridView1, ref DataGridViewCellFormattingEventArgs e)
     {
       if (e.Value == null) return;
 
@@ -33,7 +33,7 @@ namespace GranitEditor
       }
     }
 
-    private static void FormatDateField(DataGridView dgv, DataGridViewCellFormattingEventArgs e)
+    public static void FormatDateField(DataGridView dgv, DataGridViewCellFormattingEventArgs e)
     {
       if (e.Value != null)
       {
@@ -75,7 +75,7 @@ namespace GranitEditor
       }
     }
 
-    private static void FormatAmount(DataGridView dgv, DataGridViewCellFormattingEventArgs e)
+    public static void FormatAmount(DataGridView dgv, DataGridViewCellFormattingEventArgs e)
     {
       if (e.Value != null)
       {
@@ -100,7 +100,7 @@ namespace GranitEditor
       }
     }
 
-    private static void FormatAccountNumber(DataGridViewCellFormattingEventArgs e)
+    public static void FormatAccountNumber(DataGridViewCellFormattingEventArgs e)
     {
       if (e.Value != null)
       {
@@ -111,16 +111,18 @@ namespace GranitEditor
           value = Regex.Replace(value, "-", "");
           string fragment = Constants.NullAccountFragment;
 
-          if(value.Length > 7)
+          if (value.Length > 7)
             fragment = value.Substring(0, 8);
+          else
+            fragment = SafeAddNulls(value, 0);
 
           accountString.Append(fragment);
           accountString.Append("-");
 
-          if(value.Length > 15)
+          if (value.Length > 15)
             fragment = value.Substring(8, 8);
           else
-            fragment = Constants.NullAccountFragment;
+            fragment = SafeAddNulls(value, 8);
 
           accountString.Append(fragment);
           accountString.Append("-");
@@ -128,7 +130,7 @@ namespace GranitEditor
           if (value.Length >= 23)
             fragment = value.Substring(16, 8);
           else
-            fragment = Constants.NullAccountFragment;
+            fragment = SafeAddNulls(value, 16);
 
           accountString.Append(fragment);
 
@@ -145,7 +147,25 @@ namespace GranitEditor
       }
     }
 
-    internal static void UnFormat(DataGridView dataGridView, ref DataGridViewCellFormattingEventArgs e)
+    private static string SafeAddNulls(string value, int index)
+    {
+      return AddNullsToTheEnd(value.Length >= index + 1 ? value.Substring(index, value.Length - index) : String.Empty);
+    }
+
+    public static string AddNullsToTheEnd(string value)
+    {
+      StringBuilder valueWithNulls = new StringBuilder();
+      StringBuilder nulls = new StringBuilder();
+
+      while (value.Length + nulls.Length != 8)
+        nulls.Append("0");
+
+      valueWithNulls.Append(value).Append(nulls);
+
+      return valueWithNulls.ToString();
+    }
+
+    public static void UnFormat(DataGridView dataGridView, ref DataGridViewCellFormattingEventArgs e)
     {
       if (e.Value == null) return;
 
@@ -169,7 +189,7 @@ namespace GranitEditor
       }
     }
 
-    private static void UnFormatDateField(DataGridView dataGridView, DataGridViewCellFormattingEventArgs e)
+    public static void UnFormatDateField(DataGridView dataGridView, DataGridViewCellFormattingEventArgs e)
     {
       if (e.Value != null)
       {
@@ -179,7 +199,7 @@ namespace GranitEditor
       }
     }
 
-    private static void UnFormatAmount(DataGridView dataGridView, DataGridViewCellFormattingEventArgs e)
+    public static void UnFormatAmount(DataGridView dataGridView, DataGridViewCellFormattingEventArgs e)
     {
 
       if (e.Value != null)
@@ -193,7 +213,7 @@ namespace GranitEditor
       }
     }
 
-    private static void UnFormatAccountNumber(DataGridViewCellFormattingEventArgs e)
+    public static void UnFormatAccountNumber(DataGridViewCellFormattingEventArgs e)
     {
       if (e.Value != null)
       {
@@ -217,7 +237,7 @@ namespace GranitEditor
       }
     }
 
-    private static string FormatDateTime(DateTime date)
+    public static string FormatDateTime(DateTime date)
     {
       StringBuilder dateString = new StringBuilder();
 

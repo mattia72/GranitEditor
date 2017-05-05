@@ -24,11 +24,10 @@ namespace GranitEditor
     private SortableBindingList<TransactionAdapter> _bindingList;
     private DataGridViewTextBoxEditingControl _editingControl;
                                             
-    internal string SelectedTextInCurrentCell { get => _editingControl?.SelectedText; }
     internal UndoRedoHistory<IGranitXDocumentOwner> History => _xmlToObjectBinder?.History;
-
     internal DataGridView DataGrid => dataGridView1;
     internal bool HasSelectedCells => dataGridView1.SelectedCells.Count > 0;
+    internal string SelectedTextInCurrentCell { get => _editingControl?.SelectedText; }
 
     public GranitXMLEditorForm(string xmlFilePath, 
       OpenFileDialog ofDlg, 
