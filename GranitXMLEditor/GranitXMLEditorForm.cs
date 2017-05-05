@@ -156,6 +156,8 @@ namespace GranitEditor
     public void SaveDocument(string fileName)
     {
       string xmlFilePath = Path.GetFullPath(fileName);
+
+      dataGridView1.EndEdit();
       _xmlToObjectBinder.SaveToFile(xmlFilePath);
       LastOpenedFilePath = xmlFilePath;
       DocHasPendingChanges = false;
