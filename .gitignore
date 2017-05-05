@@ -47,3 +47,4 @@ install/
 # !publish/*.*
 # !install/*.*
 *.*~
+/packages/FileHelpers.3.1.5
