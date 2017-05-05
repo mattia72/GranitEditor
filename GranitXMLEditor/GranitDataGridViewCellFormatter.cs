@@ -226,8 +226,11 @@ namespace GranitEditor
           string value = (string)e.Value;
           value = Regex.Replace(value, "[ -]", "");
           StringBuilder accountString = new StringBuilder(value);
-          while (accountString.Length < 24)
-            accountString.Append("0");
+          if (accountString.Length != 16)
+          {
+            while (accountString.Length < 24)
+              accountString.Append("0");
+          }
 
           e.Value = accountString.ToString();
           e.FormattingApplied = true;
