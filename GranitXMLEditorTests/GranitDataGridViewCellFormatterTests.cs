@@ -18,7 +18,12 @@ namespace GranitEditor.Tests
       var e = new DataGridViewCellFormattingEventArgs(0, 0, origValue, typeof(string), null);
 
       GranitDataGridViewCellFormatter.FormatAccountNumber(e);
-      Assert.AreEqual("12345678-12345678-00000000", e.Value);
+      Assert.AreEqual("12345678-12345678", e.Value);
+      Assert.IsTrue(e.FormattingApplied);
+
+      e.Value = "12345678-12";
+      GranitDataGridViewCellFormatter.FormatAccountNumber(e);
+      Assert.AreEqual("12345678-12000000", e.Value);
       Assert.IsTrue(e.FormattingApplied);
 
       e.Value = "12345678-12345678-12";
@@ -26,7 +31,7 @@ namespace GranitEditor.Tests
       Assert.AreEqual("12345678-12345678-12000000", e.Value);
       Assert.IsTrue(e.FormattingApplied);
 
-      e.Value = "12345678-12345678";
+      e.Value = "12345678-12345678-00000000";
       GranitDataGridViewCellFormatter.FormatAccountNumber(e);
       Assert.AreEqual("12345678-12345678-00000000", e.Value);
       Assert.IsTrue(e.FormattingApplied);
@@ -54,7 +59,7 @@ namespace GranitEditor.Tests
       var e = new DataGridViewCellFormattingEventArgs(0, 0, origValue, typeof(string), null);
 
       GranitDataGridViewCellFormatter.UnFormatAccountNumber(e);
-      Assert.AreEqual("123456781234567800000000", e.Value);
+      Assert.AreEqual("1234567812345678", e.Value);
       Assert.IsTrue(e.FormattingApplied);
 
       e.Value = "12345678-12345678-12345678";

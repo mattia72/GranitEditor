@@ -125,14 +125,18 @@ namespace GranitEditor
             fragment = SafeAddNulls(value, 8);
 
           accountString.Append(fragment);
-          accountString.Append("-");
 
-          if (value.Length >= 23)
-            fragment = value.Substring(16, 8);
-          else
-            fragment = SafeAddNulls(value, 16);
+          if (value.Length > 16)
+          {
+            accountString.Append("-");
 
-          accountString.Append(fragment);
+            if (value.Length >= 23)
+              fragment = value.Substring(16, 8);
+            else
+              fragment = SafeAddNulls(value, 16);
+
+            accountString.Append(fragment);
+          }
 
           e.Value = accountString.ToString();
           e.FormattingApplied = true;
