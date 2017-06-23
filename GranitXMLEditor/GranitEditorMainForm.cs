@@ -70,7 +70,7 @@ namespace GranitEditor
           _openFileDialog.RestoreDirectory = true;
           _openFileDialog.Multiselect = true;
         }
-        _openFileDialog.InitialDirectory = 
+        _openFileDialog.InitialDirectory =
           ActiveFilePath == null ? Application.StartupPath : Path.GetFileName(ActiveFilePath);
         return _openFileDialog;
       }
@@ -96,7 +96,8 @@ namespace GranitEditor
 
     public FindReplaceDlg FindReplaceDlg { get => _findReplaceDlg; set => _findReplaceDlg = value; }
 
-    public ClipboardHandler ClipboardHandler {
+    public ClipboardHandler ClipboardHandler
+    {
       get
       {
         if (_clipboardHandler == null)
@@ -128,7 +129,7 @@ namespace GranitEditor
         newName = string.Format(Resources.NewDocumentName, i++);
         foreach (var child in MdiChildren)
         {
-          if(File.Exists(newName))
+          if (File.Exists(newName))
           {
             found = true;
             break;
@@ -153,11 +154,11 @@ namespace GranitEditor
       ActiveFilePath = value;
 
       //in case of save as, change tab text too...
-      if(ActiveMdiChild?.Tag != null)
+      if (ActiveMdiChild?.Tag != null)
         (ActiveMdiChild.Tag as TabPage).Text = Path.GetFileName(_activeFilePath);
 
       if (!string.IsNullOrEmpty(_activeFilePath))
-          _mruMenu.AddFile(_activeFilePath);
+        _mruMenu.AddFile(_activeFilePath);
     }
 
     private void ChangeWindowLayout(Constants.WindowLayout enumItem)
@@ -185,7 +186,7 @@ namespace GranitEditor
           break;
         default:
           ChangeWindowLayout(WindowLayout.Tabbed);
-          MessageBox.Show( Resources.InvalidWindowLayout, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+          MessageBox.Show(Resources.InvalidWindowLayout, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
           break;
       }
       _windowLayout = enumItem;
@@ -250,7 +251,7 @@ namespace GranitEditor
       deleteSelectedToolStripMenuItem.Enabled = enabled;
       findAndReplaceToolStripMenuItem.Enabled = enabled;
       findToolStripButton.Enabled = enabled;
-      addRowToolStripButton.Enabled = enabled;                                 
+      addRowToolStripButton.Enabled = enabled;
       deleteRowToolStripButton.Enabled = enabled;
       alignTableToolStripMenuItem.Enabled = enabled;
 
@@ -287,7 +288,7 @@ namespace GranitEditor
       {
         SaveFileDialog.InitialDirectory =
           ActiveFilePath == null ? Application.StartupPath : Path.GetDirectoryName(ActiveFilePath);
-        SaveFileDialog.FileName = 
+        SaveFileDialog.FileName =
           ActiveFilePath == null ? "" : Path.GetFileName(ActiveFilePath);
 
         if (SaveFileDialog.ShowDialog() == DialogResult.OK)
@@ -381,7 +382,7 @@ namespace GranitEditor
       decimal amount = 0;
       SetStatusLabelItemText("selectedAmountStatus",
         string.Format("{0}{1} Ft",
-        Resources.StatusSumSelectedText, 
+        Resources.StatusSumSelectedText,
         amount.ToString(Constants.AmountFormatString, CultureInfo.InvariantCulture)));
       SetStatusLabelItemText("selectedStatusLabel",
        Resources.StatusCountSeletedText + "0");
@@ -389,7 +390,7 @@ namespace GranitEditor
         Resources.StatusCountAllText + "0");
       SetStatusLabelItemText("allAmountStatus",
         string.Format("{0}{1} Ft",
-        Resources.StatusSumSelectedText, 
+        Resources.StatusSumSelectedText,
         amount.ToString(Constants.AmountFormatString, CultureInfo.InvariantCulture)));
     }
 
@@ -417,7 +418,7 @@ namespace GranitEditor
     {
       if (OpenFileDialog.ShowDialog() == DialogResult.OK)
       {
-        foreach(string file in OpenFileDialog.FileNames)
+        foreach (string file in OpenFileDialog.FileNames)
           OpenNewFormWith(file);
       }
     }
@@ -477,7 +478,7 @@ namespace GranitEditor
         FindReplaceDlg.InitialSearchText = String.Empty;
 
         var currCell = ActiveXmlForm.DataGrid.CurrentCell;
-        if(currCell != null && currCell.ValueType != typeof(bool))
+        if (currCell != null && currCell.ValueType != typeof(bool))
         {
           if (String.IsNullOrEmpty(ActiveXmlForm.SelectedTextInCurrentCell))
           {
@@ -525,12 +526,12 @@ namespace GranitEditor
       //  e.Cancel = AskAndSaveFiles(MessageBoxButtons.YesNoCancel) == DialogResult.Cancel;
 
       //if (!e.Cancel)
-        SaveSettings();
+      SaveSettings();
 
       base.OnClosing(e);
     }
 
-    public FindReplaceDlg CreateFindDialog( DataGridView dgv = null)
+    public FindReplaceDlg CreateFindDialog(DataGridView dgv = null)
     {
       if (ActiveMdiChild is GranitXMLEditorForm)
       {
@@ -591,7 +592,7 @@ namespace GranitEditor
 
       _windowLayout = WindowLayout.Tabbed;
       string layout = Settings.Default.WindowLayout;
-      if(layout != null && layout != string.Empty)
+      if (layout != null && layout != string.Empty)
         Enum.TryParse<WindowLayout>(layout, out _windowLayout);
     }
 
@@ -612,8 +613,8 @@ namespace GranitEditor
       selectAllToolStripMenuItem.Enabled = ActiveXmlForm != null;
       deleteSelectedToolStripMenuItem.Enabled = ActiveXmlForm != null;
       findAndReplaceToolStripMenuItem.Enabled = ActiveXmlForm != null;
-      
-      if(ActiveXmlForm != null)
+
+      if (ActiveXmlForm != null)
         GridAlignMenu.SetCheckedByValue(ActiveXmlForm.DataGrid.AutoSizeColumnsMode);
 
       layoutToolStripMenuItem.Enabled = ActiveXmlForm != null;
@@ -625,7 +626,7 @@ namespace GranitEditor
       cutToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.HasSelectedCells;
       pasteToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.HasSelectedCells && ActiveXmlForm.ClipboardHandler.ClipboardHasContent;
 
-      copyToolStripButton.Enabled =  copyToolStripMenuItem.Enabled ;
+      copyToolStripButton.Enabled = copyToolStripMenuItem.Enabled;
       cutToolStripButton.Enabled = cutToolStripMenuItem.Enabled;
       pasteToolStripButton.Enabled = pasteToolStripMenuItem.Enabled;
 
@@ -716,8 +717,8 @@ namespace GranitEditor
 
     private void GranitEditorMainForm_DragDrop(object sender, DragEventArgs e)
     {
-        string[] files = (string[])(e.Data.GetData(DataFormats.FileDrop, false));
-        OpenNewFormWith(Path.GetFullPath(files[0]).ToString());
+      string[] files = (string[])(e.Data.GetData(DataFormats.FileDrop, false));
+      OpenNewFormWith(Path.GetFullPath(files[0]).ToString());
     }
 
     private void GranitEditorMainForm_DragEnter(object sender, DragEventArgs e)
@@ -812,12 +813,16 @@ namespace GranitEditor
 
     private void AddRowToolStripButton_Click(object sender, EventArgs e)
     {
+      ActiveXmlForm?.History?.Do(new TransactionPoolMemento(ActiveXmlForm.XmlToObjectBinder.GranitXDocument));
       ActiveXmlForm?.ContextMenuHandler.AddNewEmptyRow();
+      ActiveXmlForm.DocHasPendingChanges = true;
     }
 
     private void DeleteRowToolStripButton_Click(object sender, EventArgs e)
     {
+      ActiveXmlForm?.History?.Do(new TransactionPoolMemento(ActiveXmlForm.XmlToObjectBinder.GranitXDocument));
       ActiveXmlForm?.DeleteRowToolStripMenuItem_Click(sender, e);
+      ActiveXmlForm.DocHasPendingChanges = true;
     }
   }
 }

@@ -246,7 +246,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GenericUndoRedo\GenericUndoRedo.csproj">
-      <Project>{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}</Project>
+      <Project>{e5323f74-c017-4ad0-9fa1-e53ab85b23bf}</Project>
       <Name>GenericUndoRedo</Name>
     </ProjectReference>
   </ItemGroup>

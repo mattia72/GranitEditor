@@ -8,6 +8,7 @@ using System.Linq;
 using System.Xml.Schema;
 using System.Collections.Generic;
 using GenericUndoRedo;
+using System.Drawing;
 
 namespace GranitEditor
 {
@@ -18,29 +19,29 @@ namespace GranitEditor
     private SaveFileDialog _saveFileDialog;
 
     private string _lastOpenedFilePath;
-    private bool _docHasPendingChanges=false;
+    private bool _docHasPendingChanges = false;
     private GranitDataGridViewCellValidator _cellVallidator;
     private GranitDataGridViewContextMenuHandler _contextMenuHandler;
     private SortableBindingList<TransactionAdapter> _bindingList;
     private DataGridViewTextBoxEditingControl _editingControl;
-                                            
-    internal UndoRedoHistory<IGranitXDocumentOwner> History => _xmlToObjectBinder?.History;
+
+    internal UndoRedoHistory<IGranitXDocumentOwner> History => XmlToObjectBinder?.History;
     internal DataGridView DataGrid => dataGridView1;
     internal bool HasSelectedCells => dataGridView1.SelectedCells.Count > 0;
     internal string SelectedTextInCurrentCell { get => _editingControl?.SelectedText; }
 
-    public GranitXMLEditorForm(string xmlFilePath, 
-      OpenFileDialog ofDlg, 
-      SaveFileDialog sfDlg, 
+    public GranitXMLEditorForm(string xmlFilePath,
+      OpenFileDialog ofDlg,
+      SaveFileDialog sfDlg,
       ClipboardHandler clip)
     {
       InitializeComponent();
 
-      OpenNewDocument(); 
+      OpenNewDocument();
       _openFileDialog = ofDlg;
       _saveFileDialog = sfDlg;
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
-      _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, _xmlToObjectBinder);
+      _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, XmlToObjectBinder);
 
       dataGridView1.KeyDown += new KeyEventHandler(this.DataGridView1_KeyDown);
       ClipboardHandler = clip;
@@ -51,8 +52,8 @@ namespace GranitEditor
       //Drag & Drop support
       AllowDrop = true;
       dataGridView1.AllowDrop = true;
-      
-      if(File.Exists(xmlFilePath))
+
+      if (File.Exists(xmlFilePath))
         LoadDocument(xmlFilePath);
       else
         LastOpenedFilePath = xmlFilePath;
@@ -89,13 +90,14 @@ namespace GranitEditor
       set
       {
         _docHasPendingChanges = value;
-        if(_docHasPendingChanges)
+        if (_docHasPendingChanges)
           MainForm?.SetDocsHavePendingChanges(value);
       }
     }
 
     private GranitEditorMainForm MainForm { get => (ParentForm as GranitEditorMainForm); }
-    public ClipboardHandler ClipboardHandler { get;  set; }
+    public ClipboardHandler ClipboardHandler { get; set; }
+    public GranitXmlToAdapterBinder XmlToObjectBinder { get => _xmlToObjectBinder; set => _xmlToObjectBinder = value; }
 
     private void ApplySettings()
     {
@@ -114,14 +116,14 @@ namespace GranitEditor
       long? transactionIdTodelete = null;
       if (dataGridView1.Rows.Count > e.RowIndex)
       {
-         transactionIdTodelete = _xmlToObjectBinder.HUFTransactionsAdapter.TransactionAdapters.
-          Where(x => GetRow(x.TransactionId) == null).FirstOrDefault()?.TransactionId;
+        transactionIdTodelete = XmlToObjectBinder.HUFTransactionsAdapter.TransactionAdapters.
+         Where(x => GetRow(x.TransactionId) == null).FirstOrDefault()?.TransactionId;
       }
 
       if (transactionIdTodelete != null)
       {
         Debug.WriteLine("Remove transactionId: " + transactionIdTodelete + " from index: " + e.RowIndex);
-        _xmlToObjectBinder.RemoveTransactionRowById((long)transactionIdTodelete);
+        XmlToObjectBinder.RemoveTransactionRowById((long)transactionIdTodelete);
         DocHasPendingChanges = true;
       }
     }
@@ -130,7 +132,7 @@ namespace GranitEditor
     {
       foreach (DataGridViewRow row in dataGridView1.Rows)
       {
-        if(row.DataBoundItem != null && 
+        if (row.DataBoundItem != null &&
           (row.DataBoundItem as TransactionAdapter).TransactionId == transactionId)
           return row;
       }
@@ -158,28 +160,28 @@ namespace GranitEditor
       string xmlFilePath = Path.GetFullPath(fileName);
 
       dataGridView1.EndEdit();
-      _xmlToObjectBinder.SaveToFile(xmlFilePath);
+      XmlToObjectBinder.SaveToFile(xmlFilePath);
       LastOpenedFilePath = xmlFilePath;
       DocHasPendingChanges = false;
     }
 
     public void LoadDocument(string xmlFilePath)
     {
-      _xmlToObjectBinder = new GranitXmlToAdapterBinder(xmlFilePath, true);
-      if (_xmlToObjectBinder.XmlValidationErrorOccured)
+      XmlToObjectBinder = new GranitXmlToAdapterBinder(xmlFilePath, true);
+      if (XmlToObjectBinder.XmlValidationErrorOccured)
       {
-        XmlSchemaException e = _xmlToObjectBinder.ValidationEventArgs.Exception;
+        XmlSchemaException e = XmlToObjectBinder.ValidationEventArgs.Exception;
 
         MessageBox.Show(string.Format(
           Resources.ValidationErrorMsg,
-          _xmlToObjectBinder.ValidationEventArgs.Severity == XmlSeverityType.Error ? Resources.ErrorText : Resources.WarningText,
+          XmlToObjectBinder.ValidationEventArgs.Severity == XmlSeverityType.Error ? Resources.ErrorText : Resources.WarningText,
           xmlFilePath + " (" + e.LineNumber + ", " + e.LinePosition + ")",
-          _xmlToObjectBinder.ValidationEventArgs.Message),
+          XmlToObjectBinder.ValidationEventArgs.Message),
           Application.ProductName,
           MessageBoxButtons.OK,
           MessageBoxIcon.Error);
 
-        _xmlToObjectBinder = new GranitXmlToAdapterBinder();
+        XmlToObjectBinder = new GranitXmlToAdapterBinder();
 
         LastOpenedFilePath = MainForm?.GetNextNewDocumentName();
       }
@@ -217,21 +219,21 @@ namespace GranitEditor
     private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
     {
       Debug.WriteLine("CellEndEdit called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
-      if ( e.RowIndex != -1 ) // not on first load 
+      if (e.RowIndex != -1) // not on first load 
         dataGridView1.Rows[e.RowIndex].ErrorText = string.Empty;
       _editingControl = null;
     }
 
     private void dataGridView1_Sorted(object sender, EventArgs e)
     {
-      _xmlToObjectBinder.Sort(dataGridView1.SortedColumn.DataPropertyName, dataGridView1.SortOrder);
+      XmlToObjectBinder.Sort(dataGridView1.SortedColumn.DataPropertyName, dataGridView1.SortOrder);
       DocHasPendingChanges = true;
     }
 
     private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
     {
       Debug.WriteLine("CellValueChanged called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
-      if ( e.RowIndex != -1 ) // not on first load 
+      if (e.RowIndex != -1) // not on first load 
         DocHasPendingChanges = true;
     }
 
@@ -247,10 +249,10 @@ namespace GranitEditor
     {
       Debug.WriteLine("OnClosing called. docHasPendingChanges: {0}", DocHasPendingChanges);
 
-      if ((DocHasPendingChanges && History.CanUndo)|| !File.Exists(LastOpenedFilePath))
+      if ((DocHasPendingChanges && History.CanUndo) || !File.Exists(LastOpenedFilePath))
         e.Cancel = AskAndSaveFile(MessageBoxButtons.YesNoCancel) == DialogResult.Cancel;
 
-      if(!e.Cancel)
+      if (!e.Cancel)
         SaveSettings();
 
       base.OnClosing(e);
@@ -263,7 +265,7 @@ namespace GranitEditor
       dataGridView1.EndEdit();
       //change binding list item to our Adapter
       var ta = bindingList[bindingList.Count - 1];
-      bindingList[bindingList.Count - 1] = _xmlToObjectBinder.AddTransactionRow(ta);
+      bindingList[bindingList.Count - 1] = XmlToObjectBinder.AddTransactionRow(ta);
       Debug.WriteLine("User Added Adapter: " + (ta != null ? ta.ToString() : "null"));
       dataGridView1.BeginEdit(false);
     }
@@ -280,22 +282,51 @@ namespace GranitEditor
     public void ActualizeStatusLabelsOfAll()
     {
       MainForm?.SetStatusLabelItemText("allStatusLabel",
-        Resources.StatusCountAllText + _xmlToObjectBinder.TransactionCount);
+        Resources.StatusCountAllText + XmlToObjectBinder.TransactionCount);
       MainForm?.SetStatusLabelItemText("allAmountStatus",
-        Resources.StatusSumAllText + _xmlToObjectBinder.SumAmount + " Ft");
+        Resources.StatusSumAllText + XmlToObjectBinder.SumAmount + " Ft");
     }
+
+    private DateTimePicker _dateTimePicker;
+    private DataGridViewCell _clickedDateCell;
 
     private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
     {
       var dlg = MainForm.CreateFindDialog(DataGrid);
       dlg.IsFirstInitNecessary = true;
+
+      if (e.ColumnIndex >= 0 &&
+        dataGridView1.Columns[e.ColumnIndex].HeaderText == Resources.RequestedExecutionDateHeaderText)
+      {
+        _dateTimePicker = new DateTimePicker();
+        dataGridView1.Controls.Add(_dateTimePicker);
+        _dateTimePicker.Format = DateTimePickerFormat.Short;
+        Rectangle Rectangle = dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+        _dateTimePicker.Size = new Size(Rectangle.Width, Rectangle.Height);
+        _dateTimePicker.Location = new Point(Rectangle.X, Rectangle.Y);
+
+        _dateTimePicker.CloseUp += new EventHandler(dtp_CloseUp);
+        _dateTimePicker.TextChanged += new EventHandler(dtp_OnTextChange);
+
+        _dateTimePicker.Visible = true;
+      }
+    }
+
+    private void dtp_OnTextChange(object sender, EventArgs e)
+    {
+      dataGridView1.CurrentCell.Value = _dateTimePicker.Text.ToString();
+    }
+
+    private void dtp_CloseUp(object sender, EventArgs e)
+    {
+      _dateTimePicker.Visible = false;
     }
 
     public void RebindBindingList()
     {
-      if(dataGridView1.IsCurrentCellInEditMode)
+      if (dataGridView1.IsCurrentCellInEditMode)
         dataGridView1.CancelEdit();
-      _bindingList = new SortableBindingList<TransactionAdapter>(_xmlToObjectBinder.HUFTransactionsAdapter.TransactionAdapters);
+      _bindingList = new SortableBindingList<TransactionAdapter>(XmlToObjectBinder.HUFTransactionsAdapter.TransactionAdapters);
       dataGridView1.DataSource = _bindingList;
       if (_bindingList.RaiseListChangedEvents)
         _bindingList.ListChanged += bindingList_ListChanged;
@@ -308,7 +339,7 @@ namespace GranitEditor
 
     private void OpenNewDocument()
     {
-      _xmlToObjectBinder = new GranitXmlToAdapterBinder();
+      XmlToObjectBinder = new GranitXmlToAdapterBinder();
       RebindBindingList();
       DocHasPendingChanges = true;
     }
@@ -381,7 +412,7 @@ namespace GranitEditor
 
     private void duplicateRowToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      History?.Do(new TransactionPoolMemento(_xmlToObjectBinder.GranitXDocument));
+      History?.Do(new TransactionPoolMemento(XmlToObjectBinder.GranitXDocument));
 
       _contextMenuHandler.grid_DuplicateRow(sender, e);
       DocHasPendingChanges = true;
@@ -389,25 +420,25 @@ namespace GranitEditor
 
     private void AddRowToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      History?.Do(new TransactionPoolMemento(_xmlToObjectBinder.GranitXDocument));
+      History?.Do(new TransactionPoolMemento(XmlToObjectBinder.GranitXDocument));
       _contextMenuHandler.grid_AddNewRow(sender, e);
       DocHasPendingChanges = true;
     }
 
     public void Undo()
     {
-      if (_xmlToObjectBinder.History.CanUndo)
+      if (XmlToObjectBinder.History.CanUndo)
       {
-        _xmlToObjectBinder.History_Undo();
+        XmlToObjectBinder.History_Undo();
         RebindBindingList();
       }
     }
 
     public void Redo()
     {
-      if (_xmlToObjectBinder.History.CanRedo)
+      if (XmlToObjectBinder.History.CanRedo)
       {
-        _xmlToObjectBinder.History_Redo();
+        XmlToObjectBinder.History_Redo();
         RebindBindingList();
       }
     }
@@ -496,7 +527,7 @@ namespace GranitEditor
 
     public void DeleteRowToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      History?.Do(new TransactionPoolMemento(_xmlToObjectBinder.GranitXDocument));
+      History?.Do(new TransactionPoolMemento(XmlToObjectBinder.GranitXDocument));
       _contextMenuHandler.Grid_DeleteSelectedRows(sender, e);
       DocHasPendingChanges = true;
     }
@@ -519,18 +550,18 @@ namespace GranitEditor
 
     private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
     {
-        //// Don't throw an exception when we're done.
-        //e.ThrowException = false;
+      //// Don't throw an exception when we're done.
+      //e.ThrowException = false;
 
-        //// Display an error message.
-        //string txt = "Error with " +
-        //    dataGridView1.Columns[e.ColumnIndex].HeaderText +
-        //    "\n\n" + e.Exception.Message;
-        //MessageBox.Show(txt, "Error",
-        //    MessageBoxButtons.OK, MessageBoxIcon.Error);
+      //// Display an error message.
+      //string txt = "Error with " +
+      //    dataGridView1.Columns[e.ColumnIndex].HeaderText +
+      //    "\n\n" + e.Exception.Message;
+      //MessageBox.Show(txt, "Error",
+      //    MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-        //// If this is true, then the user is trapped in this cell.
-        //e.Cancel = false;
+      //// If this is true, then the user is trapped in this cell.
+      //e.Cancel = false;
     }
 
     private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)

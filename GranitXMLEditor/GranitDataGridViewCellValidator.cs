@@ -52,7 +52,7 @@ namespace GranitEditor
     {
       try
       {
-        DateTime.Parse((string)e.FormattedValue);
+        DateTime.Parse((string)e.FormattedValue, new CultureInfo("HU-hu"));
       }
       catch (System.Exception)
       {
