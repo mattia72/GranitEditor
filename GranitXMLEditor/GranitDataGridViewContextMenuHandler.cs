@@ -75,14 +75,22 @@ namespace GranitEditor
           if (item.DataBoundItem != null)
             _dataGridView.Rows.Remove(item);
         }
+      else if(_dataGridView.SelectedCells.Count > 0)
+      {
+        foreach (DataGridViewCell item in _dataGridView.SelectedCells)
+        {
+          if (item.OwningRow.DataBoundItem != null)
+            _dataGridView.Rows.Remove(item.OwningRow);
+        }
+      }
       else
       {
-        grid_DeleteActiveRow();
+        grid_DeleteMouseOverRow();
       }
       _currentMouseOverRow = null;
     }
 
-    private void grid_DeleteActiveRow()
+    private void grid_DeleteMouseOverRow()
     {
       if (_currentMouseOverRow != null && _currentMouseOverRow > -1 
         && _currentMouseOverRow <= _dataGridView.RowCount - (_dataGridView.AllowUserToAddRows ? 2 : 1)) // last committed line

@@ -41,7 +41,6 @@ namespace GranitEditor
       _openFileDialog = ofDlg;
       _saveFileDialog = sfDlg;
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
-      _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, XmlToObjectBinder);
 
       dataGridView1.KeyDown += new KeyEventHandler(this.DataGridView1_KeyDown);
       ClipboardHandler = clip;
@@ -57,6 +56,9 @@ namespace GranitEditor
         LoadDocument(xmlFilePath);
       else
         LastOpenedFilePath = xmlFilePath;
+
+      //This should bee the last call
+      _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, XmlToObjectBinder);
     }
 
     private void SetTextResources()
@@ -90,7 +92,7 @@ namespace GranitEditor
       set
       {
         _docHasPendingChanges = value;
-        if (_docHasPendingChanges)
+        //if (_docHasPendingChanges)
           MainForm?.SetDocsHavePendingChanges(value);
       }
     }
