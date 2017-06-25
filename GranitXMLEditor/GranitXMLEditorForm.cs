@@ -289,29 +289,39 @@ namespace GranitEditor
         Resources.StatusSumAllText + XmlToObjectBinder.SumAmount + " Ft");
     }
 
-    private DateTimePicker _dateTimePicker;
-    private DataGridViewCell _clickedDateCell;
+    private DateTimePicker _dateTimePicker = null;
 
     private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
     {
       var dlg = MainForm.CreateFindDialog(DataGrid);
       dlg.IsFirstInitNecessary = true;
 
-      if (e.ColumnIndex >= 0 &&
-        dataGridView1.Columns[e.ColumnIndex].HeaderText == Resources.RequestedExecutionDateHeaderText)
+      ShowDateTimePickerIfNeeded(e);
+
+    }
+
+    private void ShowDateTimePickerIfNeeded(DataGridViewCellEventArgs e)
+    {
+      if (e.ColumnIndex >= 0 && dataGridView1.Columns[e.ColumnIndex].HeaderText == Resources.RequestedExecutionDateHeaderText)
       {
-        _dateTimePicker = new DateTimePicker();
+        if (_dateTimePicker != null)
+          _dateTimePicker.Visible = false;
+        else
+          _dateTimePicker = new DateTimePicker();
+
         dataGridView1.Controls.Add(_dateTimePicker);
         _dateTimePicker.Format = DateTimePickerFormat.Short;
         Rectangle Rectangle = dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
         _dateTimePicker.Size = new Size(Rectangle.Width, Rectangle.Height);
         _dateTimePicker.Location = new Point(Rectangle.X, Rectangle.Y);
-
         _dateTimePicker.CloseUp += new EventHandler(dtp_CloseUp);
         _dateTimePicker.TextChanged += new EventHandler(dtp_OnTextChange);
+        _dateTimePicker.Value = (DateTime)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
 
         _dateTimePicker.Visible = true;
       }
+      else if (_dateTimePicker.Visible)
+        _dateTimePicker.Visible = false;
     }
 
     private void dtp_OnTextChange(object sender, EventArgs e)
