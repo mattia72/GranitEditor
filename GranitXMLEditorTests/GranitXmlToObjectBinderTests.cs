@@ -74,6 +74,20 @@ namespace GranitEditor.Tests
     }
 
     [TestMethod()]
+    public void AddEmptyTransactionRow_IncreasesTransactionCountByOne_Test()
+    {
+      foreach (var xml in goodXmlExamples)
+      {
+        var x2o = new GranitXmlToAdapterBinder(xml, true);
+        int origCount = x2o.HUFTransactionsAdapter.TransactionAdapters.Count;
+        TransactionAdapter newTa = x2o.AddEmptyTransactionRow();
+        int afterCount = x2o.HUFTransactionsAdapter.TransactionAdapters.Count;
+
+        Assert.AreEqual(origCount + 1, afterCount);
+      }
+    }
+
+    [TestMethod()]
     public void AddEmptyTransactionRow_ReturnsWithTheLargestId_Test()
     {
       foreach (var xml in goodXmlExamples)

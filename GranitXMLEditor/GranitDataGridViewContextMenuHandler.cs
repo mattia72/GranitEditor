@@ -17,7 +17,7 @@ namespace GranitEditor
     public GranitDataGridViewContextMenuHandler(DataGridView dgv, ContextMenuStrip contextMenuStrip, GranitXmlToAdapterBinder xml2Obj)
     {
       _contextMenuStrip = contextMenuStrip;
-      _contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(ContextMenuStrip_Opening);
+      _contextMenuStrip.Opening += new CancelEventHandler(ContextMenuStrip_Opening);
       _dataGridView = dgv;
       _xmlToObject = xml2Obj;
     }

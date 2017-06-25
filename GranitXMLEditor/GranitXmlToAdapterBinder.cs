@@ -92,6 +92,7 @@ namespace GranitEditor
       XElement transactionXelem = new TransactionXElementParser(ta).ParsedElement;
       GranitXDocument.Root.Add(transactionXelem);
       TransactionAdapter taRetVal = ReCreateAdapter();
+
       return taRetVal;
     }
 
@@ -122,6 +123,8 @@ namespace GranitEditor
     {
       var xDocToSave = new XDocument(new XElement(Constants.HUFTransactions));
 
+      Debug.WriteLine("SaveToFile: {0}", HUFTransactionsAdapter.ToString());
+      
       foreach (var item in GranitXDocument.Root.Elements().InDocumentOrder().
         Where(x => x.Attribute(Constants.TransactionSelectedAttribute) == null ||
         x.Attribute(Constants.TransactionSelectedAttribute).Value == "true"))
@@ -203,10 +206,17 @@ namespace GranitEditor
 
     private TransactionAdapter ReCreateAdapter()
     {
+      var ts = HUFTransactionsAdapter?.TransactionAdapters;
+
+      if(ts!=null) Debug.WriteLine("ReCreateAdapter begin TransactionCount: {0}", ts.Count);
+
       HUFTransactionsAdapter = new HUFTransactionsAdapter(GranitXDocument);
       HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;
       HUFTransactionsAdapter.PropertyChanging += HUFTransactionsAdapter_PropertyChanging;
-      var ts = HUFTransactionsAdapter.TransactionAdapters;
+      ts = HUFTransactionsAdapter.TransactionAdapters;
+
+      Debug.WriteLine("ReCreateAdapter end TransactionCount: {0}", ts.Count);
+
       if (ts.Count != 0)
       {
         // return with the largest TransactionId

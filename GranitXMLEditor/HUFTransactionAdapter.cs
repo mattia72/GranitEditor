@@ -51,5 +51,9 @@ namespace GranitEditor
       Transaction t = (Transaction)ser.Deserialize(xml.CreateReader());
       HUFTransactions.Transactions.Add(t);
     }
+    public override string ToString()
+    {
+      return string.Format("HUFTransactionAdapers contains {0} elem", TransactionAdapters.Count);
+    }
   }
 }
