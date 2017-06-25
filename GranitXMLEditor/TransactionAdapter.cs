@@ -278,7 +278,7 @@ namespace GranitEditor
           .Where(x => this.IsBindedWith(x)).ToList()
           .FirstOrDefault();
 
-      return string.Format("Id: {0}, {1}", TransactionId, xt == null ? "null" : xt.ToString());
+      return string.Format("Id: {0}, Originator: {1}, Date: {2}, Amount: {3}", TransactionId, Originator, ExecutionDate, Amount);
     }
   }
 }
