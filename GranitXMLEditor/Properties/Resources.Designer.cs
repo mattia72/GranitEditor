@@ -495,6 +495,18 @@ namespace GranitEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to change 
+        ///{0}
+        ///to
+        ///{1}.
+        /// </summary>
+        internal static string UnableToReplaceMsgBoxText {
+            get {
+                return ResourceManager.GetString("UnableToReplaceMsgBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap undo_blue {

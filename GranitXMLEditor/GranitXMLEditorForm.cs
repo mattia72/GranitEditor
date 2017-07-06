@@ -198,6 +198,11 @@ namespace GranitEditor
 
     private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
     {
+      // Don't try to validate the 'new row' until finished 
+      // editing since there
+      // is not any point in validating its initial value.
+      if (dataGridView1.Rows[e.RowIndex].IsNewRow) { return; }
+
       if (dataGridView1.CurrentCell.Tag == e.FormattedValue)
       {
         e.Cancel = true;    //Cancel changes of current cell
@@ -320,8 +325,10 @@ namespace GranitEditor
 
         _dateTimePicker.Visible = true;
       }
-      else if (_dateTimePicker.Visible)
+      else if (_dateTimePicker != null && _dateTimePicker.Visible)
+      {
         _dateTimePicker.Visible = false;
+      }
     }
 
     private void dtp_OnTextChange(object sender, EventArgs e)

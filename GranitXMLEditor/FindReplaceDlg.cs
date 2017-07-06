@@ -5,9 +5,18 @@ using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using GranitEditor.Properties;
+using System.Globalization;
+using System.Diagnostics;
 
 namespace GranitEditor
 {
+  enum FindReplaceError
+  {
+    nothingFoundAtAll,
+    replaceFailed,
+    endReached
+  }
+
   public partial class FindReplaceDlg : Form
   {
     private DataGridView dgv;
@@ -83,7 +92,9 @@ namespace GranitEditor
           //&& _cellsToSearchEndIndex == (downRadioButton.Checked ? 0 : (upRadioButton.Checked ? _cellsToSearch.Count - 1 : 0))
           )
         {
-          DialogResult answer = ShowMessageBox(endReached && !_oneOccuranceFound);
+          FindReplaceError err = endReached && !_oneOccuranceFound ? 
+            FindReplaceError.endReached : FindReplaceError.nothingFoundAtAll;
+          DialogResult answer = ShowMessageBox(err);
 
           if (calledFromReplace)
             _allreadyAsked = true;
@@ -111,17 +122,25 @@ namespace GranitEditor
       }
       while (true);
 
+      _allreadyAsked = false;
+
       return match;
     }
 
-    private DialogResult ShowMessageBox(bool nothingFoundAtAll)
+    private DialogResult ShowMessageBox(FindReplaceError error)
     {
-      string text = nothingFoundAtAll ? string.Format(Resources.NotFoundMsgBoxText, findComboBox.Text)
-        : upRadioButton.Checked ? Resources.FirstRowMsgBoxText : Resources.LastRowMsgBoxText;
+      string text;
+      if (error == FindReplaceError.nothingFoundAtAll)
+        text = string.Format(Resources.NotFoundMsgBoxText, findComboBox.Text);
+      else if (error == FindReplaceError.replaceFailed)
+        text = string.Format(Resources.UnableToReplaceMsgBoxText, findComboBox.Text, replaceComboBox.Text);
+      else
+        text = upRadioButton.Checked ? Resources.FirstRowMsgBoxText : Resources.LastRowMsgBoxText;
 
       var answer = MessageBox.Show(text, Application.ProductName,
-        nothingFoundAtAll ? MessageBoxButtons.OK : MessageBoxButtons.YesNo,
-        nothingFoundAtAll ? MessageBoxIcon.Information : MessageBoxIcon.Question);
+        error != FindReplaceError.endReached ? MessageBoxButtons.OK : MessageBoxButtons.YesNo,
+        error != FindReplaceError.endReached ? MessageBoxIcon.Information : MessageBoxIcon.Question);
+
       return answer;
     }
 
@@ -244,7 +263,7 @@ namespace GranitEditor
           || tbCell.Value.ToString() == string.Empty)
           return match;
 
-        match = regex.Match(tbCell.Value.ToString());
+        match = regex.Match(tbCell.FormattedValue.ToString());
         if (match.Success)
         {
           ResetDgvState();
@@ -333,13 +352,33 @@ namespace GranitEditor
         ReplaceCellText(m);
     }
 
-    private void ReplaceCellText(Match match)
+    private bool ReplaceCellText(Match match)
     {
+      bool succeeded = true;
       dgv.BeginEdit(false);
       string text = dgv.EditingControl.Text;
-      dgv.EditingControl.Text = _regexToSearch.Replace(text, replaceComboBox.Text);
+      string replaced_text = _regexToSearch.Replace(text, replaceComboBox.Text);
+      //Todo:
+      if (dgv.CurrentCell.ValueType == typeof(DateTime))
+      {
+        try
+        {
+          dgv.CurrentCell.Value = DateTime.Parse(replaced_text, new CultureInfo("HU-hu"));
+        }
+        catch (FormatException ex)
+        {
+          Debug.WriteLine(ex, "Exception" );
+          succeeded = false;
+        }
+      }
+      else
+      {
+        dgv.EditingControl.Text = replaced_text;
+      }
+
       dgv.EndEdit();
       ResetDgvState();
+      return succeeded;
     }
 
     private void FindReplaceDlg_VisibleChanged(object sender, EventArgs e)
@@ -356,17 +395,18 @@ namespace GranitEditor
 
       ResetDgvState();
       var matchingCells = _cellsToSearch
-        .Where(c => c.Value != null && _regexToSearch.Match(c.Value.ToString()).Success).ToList();
+        .Where(c => c.Value != null && _regexToSearch.Match(c.FormattedValue.ToString()).Success).ToList();
 
       if (matchingCells.Count == 0)
-        ShowMessageBox(true);
+        ShowMessageBox(FindReplaceError.nothingFoundAtAll);
       else
         for (int i = 0; i < matchingCells.Count; i++)
         {
           Match match = SelectMatchedTextInCell(matchingCells[i], _regexToSearch);
           if (match.Success)
           {
-            ReplaceCellText(match);
+            if (!ReplaceCellText(match))
+              ShowMessageBox(FindReplaceError.replaceFailed);
           }
         }
     }
