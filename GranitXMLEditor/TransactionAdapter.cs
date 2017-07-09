@@ -87,7 +87,7 @@ namespace GranitEditor
       {
         if (string.IsNullOrEmpty(Transaction.RequestedExecutionDate))
           return DateTime.Today;
-        return DateTime.Parse(Transaction.RequestedExecutionDate);
+        return DateTime.Parse(Transaction.RequestedExecutionDate, new CultureInfo("HU-hu"));
       }
       set
       {

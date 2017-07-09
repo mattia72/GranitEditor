@@ -1,6 +1,7 @@
 ﻿using GranitEditor.Properties;
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -39,7 +40,7 @@ namespace GranitEditor
       {
         try
         {
-          DateTime value = DateTime.Parse(e.Value.ToString());
+          DateTime value = DateTime.Parse(e.Value.ToString(), new CultureInfo("HU-hu"));
           if (value < DateTime.Today)
           {
             SetErrorBackground(dgv, e, Resources.DateInThePastError);
@@ -197,7 +198,7 @@ namespace GranitEditor
     {
       if (e.Value != null)
       {
-        DateTime d = DateTime.Parse((string)e.Value);
+        DateTime d = DateTime.Parse((string)e.Value, new CultureInfo("HU-hu"));
         e.Value = d;
         e.FormattingApplied = true;
       }
