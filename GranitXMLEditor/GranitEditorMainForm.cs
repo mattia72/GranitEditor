@@ -6,9 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using static GranitEditor.Constants;
 
 namespace GranitEditor
@@ -43,16 +41,9 @@ namespace GranitEditor
       }
     }
 
-    private void UpdateSaveAndSaveAllItems()
+    public void SetDocsHavePendingChanges(bool isChanged)
     {
-      saveToolStripButton.Enabled = _docsHavePendingChanges;
-      saveToolStripMenuItem.Enabled = _docsHavePendingChanges;
-      //saveAsToolStripMenuItem1.Enabled = _docsHavePendingChanges;
-    }
-
-    public void SetDocsHavePendingChanges(bool value)
-    {
-      DocsHavePendingChanges = value;
+      DocsHavePendingChanges = isChanged;
     }
 
     public EnumStripMenu<DataGridViewAutoSizeColumnsMode> GridAlignMenu { get => _gridAlignMenu; set => _gridAlignMenu = value; }
@@ -606,8 +597,8 @@ namespace GranitEditor
     {
       UpdateCopyPasteItems();
 
-      saveToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.DocHasPendingChanges;
-      saveAsToolStripMenuItem.Enabled = ActiveXmlForm != null;
+      UpdateSaveAndSaveAllItems();
+
       undoToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.History.CanUndo;
       redoToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.History.CanRedo;
       selectAllToolStripMenuItem.Enabled = ActiveXmlForm != null;
@@ -633,6 +624,13 @@ namespace GranitEditor
       ActiveXmlForm?.ContextMenuHandler.EnableMenuItem("copyToolStripMenuItem", copyToolStripMenuItem.Enabled);
       ActiveXmlForm?.ContextMenuHandler.EnableMenuItem("cutToolStripMenuItem", cutToolStripMenuItem.Enabled);
       ActiveXmlForm?.ContextMenuHandler.EnableMenuItem("pasteToolStripMenuItem", pasteToolStripMenuItem.Enabled);
+    }
+
+    public void UpdateSaveAndSaveAllItems()
+    {
+      saveToolStripButton.Enabled = _docsHavePendingChanges && ! ActiveXmlForm.XmlToObjectBinder.DocumentSaved;
+      saveToolStripMenuItem.Enabled = _docsHavePendingChanges && ! ActiveXmlForm.XmlToObjectBinder.DocumentSaved;
+      saveAsToolStripMenuItem.Enabled = ActiveXmlForm != null;
     }
 
     private void EnableToolbarItemsForActiveForm()

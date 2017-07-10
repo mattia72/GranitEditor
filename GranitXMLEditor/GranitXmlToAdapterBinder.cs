@@ -14,6 +14,12 @@ namespace GranitEditor
     public HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
     public XDocument GranitXDocument { get; set; }
     public UndoRedoHistory<IGranitXDocumentOwner> History { get; set; }
+
+    // TODO: DeepEquals doesn't do the job... 
+    public bool DocumentSaved => 
+      string.IsNullOrEmpty(XmlFilePath) ? 
+      false : XNode.DeepEquals(GranitXDocument.Root, XDocument.Load(XmlFilePath));
+
     public decimal SumAmount => HUFTransactionsAdapter.TransactionAdapters.Aggregate(0m, (total, next) => total + next.Amount);
     public int TransactionCount => GranitXDocument.Root.Elements(Constants.Transaction).Count();
 
@@ -22,6 +28,7 @@ namespace GranitEditor
     private ValidationEventArgs _validationEventArgs = null;
 
     public ValidationEventArgs ValidationEventArgs { get => _validationEventArgs; set => _validationEventArgs = value; }
+    public string XmlFilePath { get; private set; }
 
     public GranitXmlToAdapterBinder()
     {
@@ -33,6 +40,7 @@ namespace GranitEditor
       //SetTransactionIdAttribute();
       //ReCreateAdapter();
       History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
+      XmlFilePath = "";
     }
 
     public GranitXmlToAdapterBinder(string xmlFilePath, bool validate = false)
@@ -48,6 +56,8 @@ namespace GranitEditor
         }
         else
           GranitXDocument = XDocument.Load(xmlFilePath);
+
+        XmlFilePath = xmlFilePath;
       }
 
       if (!XmlValidationErrorOccured)

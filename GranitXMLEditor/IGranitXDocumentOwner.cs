@@ -5,5 +5,6 @@ namespace GranitEditor
   public interface IGranitXDocumentOwner
   {
     XDocument GranitXDocument { get; set; }
+    bool DocumentSaved { get; }
   }
 }

@@ -93,7 +93,7 @@ namespace GranitEditor
       {
         _docHasPendingChanges = value;
         //if (_docHasPendingChanges)
-          MainForm?.SetDocsHavePendingChanges(value);
+        MainForm?.SetDocsHavePendingChanges(value);
       }
     }
 
@@ -446,11 +446,12 @@ namespace GranitEditor
 
     public void Undo()
     {
-      if (XmlToObjectBinder.History.CanUndo)
+      if (XmlToObjectBinder.History.CanUndo) 
       {
         XmlToObjectBinder.History_Undo();
         RebindBindingList();
       }
+      MainForm?.UpdateSaveAndSaveAllItems();
     }
 
     public void Redo()
