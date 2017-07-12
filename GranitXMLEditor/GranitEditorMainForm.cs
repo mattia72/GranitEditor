@@ -36,7 +36,7 @@ namespace GranitEditor
       set
       {
         _docsHavePendingChanges = value;
-        UpdateSaveAndSaveAllItems();
+        UpdateSaveAndSaveAsItems();
         UpdateUndoRedoItems();
       }
     }
@@ -596,8 +596,7 @@ namespace GranitEditor
     private void UpdateMenuItemsForActiveForm()
     {
       UpdateCopyPasteItems();
-
-      UpdateSaveAndSaveAllItems();
+      UpdateSaveAndSaveAsItems();
 
       undoToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.History.CanUndo;
       redoToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.History.CanRedo;
@@ -626,7 +625,7 @@ namespace GranitEditor
       ActiveXmlForm?.ContextMenuHandler.EnableMenuItem("pasteToolStripMenuItem", pasteToolStripMenuItem.Enabled);
     }
 
-    public void UpdateSaveAndSaveAllItems()
+    public void UpdateSaveAndSaveAsItems()
     {
       saveToolStripButton.Enabled = _docsHavePendingChanges && ! ActiveXmlForm.XmlToObjectBinder.DocumentSaved;
       saveToolStripMenuItem.Enabled = _docsHavePendingChanges && ! ActiveXmlForm.XmlToObjectBinder.DocumentSaved;

@@ -58,7 +58,8 @@ namespace GranitEditor
         LastOpenedFilePath = xmlFilePath;
 
       //This should bee the last call
-      _contextMenuHandler = new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, XmlToObjectBinder);
+      _contextMenuHandler = 
+        new GranitDataGridViewContextMenuHandler(dataGridView1, contextMenuStrip1, XmlToObjectBinder);
     }
 
     private void SetTextResources()
@@ -451,7 +452,7 @@ namespace GranitEditor
         XmlToObjectBinder.History_Undo();
         RebindBindingList();
       }
-      MainForm?.UpdateSaveAndSaveAllItems();
+      MainForm?.UpdateSaveAndSaveAsItems();
     }
 
     public void Redo()
