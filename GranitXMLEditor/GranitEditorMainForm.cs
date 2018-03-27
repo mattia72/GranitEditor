@@ -627,9 +627,14 @@ namespace GranitEditor
 
     public void UpdateSaveAndSaveAsItems()
     {
-      saveToolStripButton.Enabled = _docsHavePendingChanges && ! ActiveXmlForm.XmlToObjectBinder.DocumentSaved;
-      saveToolStripMenuItem.Enabled = _docsHavePendingChanges && ! ActiveXmlForm.XmlToObjectBinder.DocumentSaved;
       saveAsToolStripMenuItem.Enabled = ActiveXmlForm != null;
+      bool saved = false;
+      if (ActiveForm != null)
+      {
+        saved = ActiveXmlForm.XmlToObjectBinder.DocumentSaved;
+      }
+      saveToolStripButton.Enabled = _docsHavePendingChanges && !saved;
+      saveToolStripMenuItem.Enabled = _docsHavePendingChanges && !saved; 
     }
 
     private void EnableToolbarItemsForActiveForm()
@@ -817,9 +822,8 @@ namespace GranitEditor
 
     private void DeleteRowToolStripButton_Click(object sender, EventArgs e)
     {
-      ActiveXmlForm?.History?.Do(new TransactionPoolMemento(ActiveXmlForm.XmlToObjectBinder.GranitXDocument));
+      //ActiveXmlForm?.History?.Do(new TransactionPoolMemento(ActiveXmlForm.XmlToObjectBinder.GranitXDocument));
       ActiveXmlForm?.DeleteRowToolStripMenuItem_Click(sender, e);
-      ActiveXmlForm.DocHasPendingChanges = true;
     }
   }
 }

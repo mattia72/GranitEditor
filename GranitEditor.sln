@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitEditor", "GranitXMLEditor\GranitEditor.csproj", "{030E3907-E433-4F66-96AB-160C4128875D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitXMLEditorTests", "GranitXMLEditorTests\GranitXMLEditorTests.csproj", "{1EF2EC31-D8F0-42DD-968F-477FB81674C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitEditorTests", "GranitXMLEditorTests\GranitEditorTests.csproj", "{1EF2EC31-D8F0-42DD-968F-477FB81674C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericUndoRedo", "GenericUndoRedo\GenericUndoRedo.csproj", "{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}"
 EndProject
@@ -71,5 +71,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {374B058A-6BCF-43F6-9765-E0A566DA1150}
 	EndGlobalSection
 EndGlobal

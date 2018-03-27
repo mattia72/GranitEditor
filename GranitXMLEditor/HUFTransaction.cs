@@ -213,6 +213,12 @@ namespace GranitEditor
 
       return clone;
     }
+
+    public static Transaction CreateTransactionFromXElement(XElement xml)
+    {
+      var ser = new XmlSerializer(typeof(Transaction));
+      return (Transaction)ser.Deserialize(xml.CreateReader());
+    }
   }
 
   [XmlRoot(ElementName = Constants.HUFTransactions)]

@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
+using System.Diagnostics;
 
 namespace GenericUndoRedo
 {
@@ -237,6 +238,7 @@ namespace GenericUndoRedo
         /// <seealso cref="Redo()"/>
         public void Do(IMemento<T> m)
         {
+            Debug.WriteLine(string.Format("UndoRedo.Do {0}", m.ToString()));
             if (inUndoRedo)
                 throw new InvalidOperationException("Involking do within an undo/redo action.");
 

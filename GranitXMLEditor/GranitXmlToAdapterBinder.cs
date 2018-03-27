@@ -30,6 +30,7 @@ namespace GranitEditor
     public ValidationEventArgs ValidationEventArgs { get => _validationEventArgs; set => _validationEventArgs = value; }
     public string XmlFilePath { get; private set; }
 
+
     public GranitXmlToAdapterBinder()
     {
       GranitXDocument = new XDocument();
@@ -84,6 +85,27 @@ namespace GranitEditor
     {
       var ta = new TransactionAdapter();
       return AddTransactionRow(ta);
+    }
+
+    public bool GranitXmlDocumentContains(TransactionAdapter ta)
+    {
+      return GranitXmlToAdapterBinder.GranitXmlDocumentContains(GranitXDocument, ta);
+    }
+
+    public static bool GranitXmlDocumentContains(XDocument xd, TransactionAdapter ta)
+    {
+      return xd.Root.Elements(Constants.Transaction)
+        .Where(t => t.Attribute(Constants.TransactionIdAttribute).Value == ta.TransactionId.ToString()).
+        FirstOrDefault() != null;
+    }
+
+    public static void Bind(ref XDocument xd, TransactionAdapter ta)
+    {
+      if(!GranitXmlDocumentContains(xd, ta))
+      {
+        XElement transactionXelem = new TransactionXElementParser(ta).ParsedElement;
+        xd.Root.Add(transactionXelem);
+      }
     }
 
     public void RemoveTransactionRowById(long transactionId)

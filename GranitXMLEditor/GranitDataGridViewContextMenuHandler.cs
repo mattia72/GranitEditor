@@ -73,14 +73,14 @@ namespace GranitEditor
         foreach (DataGridViewRow item in this._dataGridView.SelectedRows)
         {
           if (item.DataBoundItem != null)
-            _dataGridView.Rows.Remove(item);
+            RemoveRowAndTransaction(item.Index);
         }
       else if(_dataGridView.SelectedCells.Count > 0)
       {
         foreach (DataGridViewCell item in _dataGridView.SelectedCells)
         {
           if (item.OwningRow.DataBoundItem != null)
-            _dataGridView.Rows.Remove(item.OwningRow);
+            RemoveRowAndTransaction(item.OwningRow.Index);
         }
       }
       else
@@ -92,14 +92,27 @@ namespace GranitEditor
 
     private void grid_DeleteMouseOverRow()
     {
+      Debug.WriteLine("grid_DeleteMouseOverRow");
+      
       if (_currentMouseOverRow != null && _currentMouseOverRow > -1 
         && _currentMouseOverRow <= _dataGridView.RowCount - (_dataGridView.AllowUserToAddRows ? 2 : 1)) // last committed line
       {
-        //Transaction t = (Transaction)_dataGridView.Rows[(int)_currentMouseOverRow].DataBoundItem;
-        //if(t != null)
-        //  _xmlToObject.History.Do(new RemoveTransactionMemento(t));
-        _dataGridView.Rows.RemoveAt((int)_currentMouseOverRow);
+        RemoveRowAndTransaction((int)_currentMouseOverRow);
       }
+    }
+
+    private void RemoveRowAndTransaction(int rowIndex)
+    {
+      TransactionAdapter ta = (TransactionAdapter)_dataGridView.Rows[rowIndex].DataBoundItem;
+      if (ta != null)
+      {
+        Debug.WriteLine(string.Format("Remove row at index: {0} transaction id: {1}", rowIndex, ta.TransactionId));
+        _xmlToObject.RemoveTransactionRowById(ta.TransactionId);
+        _dataGridView.Rows.RemoveAt(rowIndex);
+      }
+      else
+        throw new InvalidOperationException("No transaction found at row index " + rowIndex);
+
     }
 
     private long GetTransactionId(int rowIndex)

@@ -37,7 +37,9 @@ namespace GranitEditor
     {
       InitializeComponent();
 
-      OpenNewDocument();
+      if (!File.Exists(xmlFilePath))
+        OpenNewDocument();
+
       _openFileDialog = ofDlg;
       _saveFileDialog = sfDlg;
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
@@ -92,8 +94,8 @@ namespace GranitEditor
       get => _docHasPendingChanges;
       set
       {
+        Debug.WriteLine(string.Format("Doc has pending changes {0}", value));
         _docHasPendingChanges = value;
-        //if (_docHasPendingChanges)
         MainForm?.SetDocsHavePendingChanges(value);
       }
     }
@@ -344,8 +346,11 @@ namespace GranitEditor
 
     public void RebindBindingList()
     {
+      Debug.WriteLine("RebindBindingList");
+
       if (dataGridView1.IsCurrentCellInEditMode)
         dataGridView1.CancelEdit();
+
       _bindingList = new SortableBindingList<TransactionAdapter>(XmlToObjectBinder.HUFTransactionsAdapter.TransactionAdapters);
       dataGridView1.DataSource = _bindingList;
       if (_bindingList.RaiseListChangedEvents)
@@ -355,6 +360,14 @@ namespace GranitEditor
     private void bindingList_ListChanged(object sender, ListChangedEventArgs e)
     {
       Debug.WriteLine("BindingList changed " + e.ListChangedType + " " + e.PropertyDescriptor);
+      switch (e.ListChangedType)
+      {
+        case ListChangedType.ItemAdded:
+        case ListChangedType.ItemDeleted:
+        case ListChangedType.ItemChanged:
+          DocHasPendingChanges = true;
+          break;
+      }
     }
 
     private void OpenNewDocument()
@@ -556,7 +569,6 @@ namespace GranitEditor
     private void copyToolStripMenuItem_Click(object sender, EventArgs e)
     {
       MainForm.Copy();
-
     }
 
     private void cutToolStripMenuItem_Click(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using GranitXMLEditorTests;
+﻿using GranitEditor;
+using GranitXMLEditorTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -102,5 +103,17 @@ namespace GranitEditor.Tests
       Assert.AreEqual(t1.CompareTo(t2), "1000.00".CompareTo("1111.11"));
     }
 
+    [TestMethod()]
+    public void CreateTransactionFromXElement_Test()
+    {
+      //arrange
+      var xt1 = XDocument.Parse(TestConstants.TransactionXml);
+      //act
+      Transaction t = Transaction.CreateTransactionFromXElement(xt1.Root);
+      //assert
+      Assert.IsNotNull(t.TransactionId);
+      Assert.AreEqual(t.Amount.Value, decimal.Parse(xt1.Root.Element(Constants.Amount).Value));
+      //Assert.AreEqual(t.Beneficiary.Account, decimal.Parse(xt1.Root.Element(Constants.Amount).Value));
+    }
   }
 }

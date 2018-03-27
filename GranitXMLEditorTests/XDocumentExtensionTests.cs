@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using GranitEditor;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Xml.Linq;
 using GranitXMLEditorTests;
@@ -71,13 +72,13 @@ namespace GranitEditor.Tests
       var xdoc = XDocument.Parse(xml);
 
       decimal[] elementArray = xdoc.Root.Elements(elements)
-        .Elements(byElement).Select(t => 
+        .Elements(byElement).Select(t =>
         decimal.Parse(t.Value, NumberStyles.Number, CultureInfo.InvariantCulture)).ToArray();
 
       xdoc.SortElementsByXPathToDecimalValue(elements, byElement, sortOrder);
 
       decimal[] sortedElementArray = xdoc.Root.Elements(elements)
-        .Elements(byElement).Select(t => 
+        .Elements(byElement).Select(t =>
         decimal.Parse(t.Value, NumberStyles.Number, CultureInfo.InvariantCulture)).ToArray();
 
       var ordered = sortOrder == SortOrder.Descending ?
@@ -92,6 +93,13 @@ namespace GranitEditor.Tests
       string s2 = string.Join(",", sortedElementArray);
 
       Assert.AreEqual(s1, s2);
+    }
+
+    [TestMethod()]
+    public void IsEmpty_Test()
+    {
+      XDocument x = new XDocument();
+      Assert.IsTrue(x.IsEmpty());
     }
   }
 }

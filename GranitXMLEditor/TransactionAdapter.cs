@@ -123,6 +123,7 @@ namespace GranitEditor
     public TransactionAdapter(Transaction t, XDocument xdoc)
     {                                
       Transaction = t;
+      GranitXmlToAdapterBinder.Bind(ref xdoc, this);
       GranitXDocument = xdoc;
     }
 
@@ -274,11 +275,7 @@ namespace GranitEditor
 
     public override string ToString()
     {
-      var xt = GranitXDocument?.Root.Elements(Constants.Transaction)
-          .Where(x => this.IsBindedWith(x)).ToList()
-          .FirstOrDefault();
-
-      return string.Format("Id: {0}, Originator: {1}, Date: {2}, Amount: {3}", TransactionId, Originator, ExecutionDate, Amount);
+      return string.Format("Id: {0}, From: {1}, To: {2}, Date: {3}, Amount: {4}", TransactionId, Originator, BeneficiaryName, ExecutionDate, Amount);
     }
   }
 }

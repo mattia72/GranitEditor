@@ -45,11 +45,10 @@ namespace GranitEditor
       return (HUFTransaction)ser.Deserialize(xml.CreateReader());
     }
 
-    private void CreateObjectFromXElement(XElement xml)
+    private Transaction CreateTransactionFromXElement(XElement xml)
     {
       var ser = new XmlSerializer(typeof(Transaction));
-      Transaction t = (Transaction)ser.Deserialize(xml.CreateReader());
-      HUFTransactions.Transactions.Add(t);
+      return (Transaction)ser.Deserialize(xml.CreateReader());
     }
     public override string ToString()
     {
