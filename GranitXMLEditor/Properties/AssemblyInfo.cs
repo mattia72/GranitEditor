@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MataSoft Bt.")]
 [assembly: AssemblyProduct("GranitEditor")]
-[assembly: AssemblyCopyright("Copyright © MataSoft Bt. 2016 - 2017")]
+[assembly: AssemblyCopyright("Copyright © MataSoft Bt. 2016 - 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -34,4 +34,4 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.*")]
 // This will be the version of the installer also:
-[assembly: AssemblyFileVersion("1.0.9.0")]  
+[assembly: AssemblyFileVersion("1.0.10.0")]  
