@@ -445,7 +445,7 @@ namespace GranitEditor
       Close();
     }
 
-    private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+    private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
     {
       ActiveXmlForm?.Undo();
       UpdateUndoRedoItems();
@@ -594,7 +594,7 @@ namespace GranitEditor
     }
 
 
-    private void editToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
+    private void EditToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
     {
       UpdateMenuItemsForActiveForm();
     }
@@ -652,73 +652,73 @@ namespace GranitEditor
       findToolStripButton.Enabled = ActiveXmlForm != null;
     }
 
-    private void toolsToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
+    private void ToolsToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
     {
       alignTableToolStripMenuItem.Enabled = ActiveXmlForm != null;
     }
 
-    private void fileToolStripMenuItem1_DropDownOpened(object sender, EventArgs e)
+    private void FileToolStripMenuItem1_DropDownOpened(object sender, EventArgs e)
     {
       saveToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.DocHasPendingChanges;
     }
 
-    private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+    private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
     {
       ActiveXmlForm?.Redo();
       UpdateUndoRedoItems();
     }
 
-    private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+    private void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
     {
       ActiveXmlForm?.SelectAll();
     }
 
-    private void deleteSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+    private void DeleteSelectedToolStripMenuItem_Click(object sender, EventArgs e)
     {
       ActiveXmlForm?.ContextMenuHandler.Grid_DeleteSelectedRows(sender, e);
     }
 
-    private void findAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
+    private void FindAndReplaceToolStripMenuItem_Click(object sender, EventArgs e)
     {
       ShowFindAndReplaceDlg();
     }
 
-    private void newToolStripButton_Click(object sender, EventArgs e)
+    private void NewToolStripButton_Click(object sender, EventArgs e)
     {
       NewToolStripMenuItem_Click(sender, e);
     }
 
-    private void openToolStripButton_Click(object sender, EventArgs e)
+    private void OpenToolStripButton_Click(object sender, EventArgs e)
     {
       OpenToolStripMenuItem1_Click(sender, e);
     }
 
-    private void saveToolStripButton_Click(object sender, EventArgs e)
+    private void SaveToolStripButton_Click(object sender, EventArgs e)
     {
       SaveToolStripMenuItem_Click(sender, e);
     }
 
-    private void findToolStripButton_Click(object sender, EventArgs e)
+    private void FindToolStripButton_Click(object sender, EventArgs e)
     {
-      findAndReplaceToolStripMenuItem_Click(sender, e);
+      FindAndReplaceToolStripMenuItem_Click(sender, e);
     }
 
-    private void undoToolStripButton_Click(object sender, EventArgs e)
+    private void UndoToolStripButton_Click(object sender, EventArgs e)
     {
-      undoToolStripMenuItem_Click(sender, e);
+      UndoToolStripMenuItem_Click(sender, e);
     }
 
-    private void redoToolStripButton_Click(object sender, EventArgs e)
+    private void RedoToolStripButton_Click(object sender, EventArgs e)
     {
-      redoToolStripMenuItem_Click(sender, e);
+      RedoToolStripMenuItem_Click(sender, e);
     }
 
-    private void helpToolStripButton_Click(object sender, EventArgs e)
+    private void HelpToolStripButton_Click(object sender, EventArgs e)
     {
       About();
     }
 
-    private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
+    private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
     {
       About();
     }
@@ -745,8 +745,7 @@ namespace GranitEditor
 
       if ((e.AllowedEffect & DragDropEffects.Copy) == DragDropEffects.Copy)
       {
-        Array data = ((IDataObject)e.Data).GetData("FileName") as Array;
-        if (data != null)
+        if (((IDataObject)e.Data).GetData("FileName") is Array data)
         {
           if ((data.Length == 1) && (data.GetValue(0) is string))
           {
@@ -767,7 +766,7 @@ namespace GranitEditor
       ChangeWindowLayout(_windowLayout);
     }
 
-    private void cutToolStripButton_Click(object sender, EventArgs e)
+    private void CutToolStripButton_Click(object sender, EventArgs e)
     {
       Cut();
     }
@@ -782,7 +781,7 @@ namespace GranitEditor
         dgvCell.Value = string.Empty;
     }
 
-    private void copyToolStripButton_Click(object sender, EventArgs e)
+    private void CopyToolStripButton_Click(object sender, EventArgs e)
     {
       Copy();
     }
@@ -793,7 +792,7 @@ namespace GranitEditor
       UpdateCopyPasteItems();
     }
 
-    private void pasteToolStripButton_Click(object sender, EventArgs e)
+    private void PasteToolStripButton_Click(object sender, EventArgs e)
     {
       Paste();
     }
@@ -803,20 +802,20 @@ namespace GranitEditor
       _clipboardHandler.PasteClipboardValue(ActiveXmlForm.DataGrid);
     }
 
-    private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+    private void CutToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      cutToolStripButton_Click(sender, e);
+      CutToolStripButton_Click(sender, e);
       UpdateCopyPasteItems();
     }
 
-    private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+    private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      copyToolStripButton_Click(sender, e);
+      CopyToolStripButton_Click(sender, e);
     }
 
-    private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+    private void PasteToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      pasteToolStripButton_Click(sender, e);
+      PasteToolStripButton_Click(sender, e);
     }
 
     private void AddRowToolStripButton_Click(object sender, EventArgs e)
