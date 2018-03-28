@@ -119,12 +119,14 @@ namespace GranitEditor
 
     public TransactionAdapter AddTransactionRow(TransactionAdapter ta)
     {
-      History?.Do(new TransactionPoolMemento(GranitXDocument));
+      if (!GranitXmlDocumentContains(ta))
+      {
+        History?.Do(new TransactionPoolMemento(GranitXDocument));
+        XElement transactionXelem = new TransactionXElementParser(ta).ParsedElement;
+        GranitXDocument.Root.Add(transactionXelem);
+      }
 
-      XElement transactionXelem = new TransactionXElementParser(ta).ParsedElement;
-      GranitXDocument.Root.Add(transactionXelem);
       TransactionAdapter taRetVal = ReCreateAdapter();
-
       return taRetVal;
     }
 
