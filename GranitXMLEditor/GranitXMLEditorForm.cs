@@ -475,6 +475,7 @@ namespace GranitEditor
         XmlToObjectBinder.History_Redo();
         RebindBindingList();
       }
+      MainForm?.UpdateSaveAndSaveAsItems();
     }
 
     private void dataGridView1_SelectionChanged(object sender, EventArgs e)

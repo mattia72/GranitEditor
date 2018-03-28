@@ -18,7 +18,7 @@ namespace GranitEditor
 
     // TODO: DeepEquals doesn't do the job... 
     public bool DocumentSaved => 
-      string.IsNullOrEmpty(XmlFilePath) ? false : XNode.DeepEquals(GranitXDocument.Root, XDocument.Load(XmlFilePath));
+      string.IsNullOrEmpty(XmlFilePath) ? false :  0 == CompareGranitXDocuments(GranitXDocument, XDocument.Load(XmlFilePath));
 
     public decimal SumAmount => HUFTransactionsAdapter.TransactionAdapters.Aggregate(0m, (total, next) => total + next.Amount);
     public int TransactionCount => GranitXDocument.Root.Elements(GranitXml.Constants.Transaction).Count();
@@ -70,12 +70,11 @@ namespace GranitEditor
       }
     }
 
-    private bool CompareGranitXDocuments(XDocument x1, XDocument x2)
+    private int CompareGranitXDocuments(XDocument x1, XDocument x2)
     {
       HUFTransaction h1 = HUFTransaction.Load(x1);
       HUFTransaction h2 = HUFTransaction.Load(x2);
-      //TODO ????
-      return true;
+      return h1.CompareTo(h2);
     }
     
     private void HUFTransactionsAdapter_PropertyChanging(object sender, System.ComponentModel.PropertyChangingEventArgs e)

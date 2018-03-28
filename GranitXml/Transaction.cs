@@ -46,6 +46,9 @@ namespace GranitXml
 
     public int CompareTo(Transaction other)
     {
+      if (other == null)
+        return -1;
+
       if (0 != Amount.CompareTo(other.Amount))
         return Amount.CompareTo(other.Amount);
       if (0 != Originator.CompareTo(other.Originator))
