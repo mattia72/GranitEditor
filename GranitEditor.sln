@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericUndoRedo", "GenericU
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "GranitEditorWiXInstaller", "GranitEditorWiXInstaller\GranitEditorWiXInstaller.wixproj", "{62712467-98E7-4CCA-939E-A2C70EB9F6D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitXml", "GranitXml\GranitXml.csproj", "{8971D225-002C-402F-A857-6A556980528E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,18 @@ Global
 		{62712467-98E7-4CCA-939E-A2C70EB9F6D1}.Release|x64.Build.0 = Release|x86
 		{62712467-98E7-4CCA-939E-A2C70EB9F6D1}.Release|x86.ActiveCfg = Release|x86
 		{62712467-98E7-4CCA-939E-A2C70EB9F6D1}.Release|x86.Build.0 = Release|x86
+		{8971D225-002C-402F-A857-6A556980528E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8971D225-002C-402F-A857-6A556980528E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8971D225-002C-402F-A857-6A556980528E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8971D225-002C-402F-A857-6A556980528E}.Debug|x64.Build.0 = Debug|Any CPU
+		{8971D225-002C-402F-A857-6A556980528E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8971D225-002C-402F-A857-6A556980528E}.Debug|x86.Build.0 = Debug|Any CPU
+		{8971D225-002C-402F-A857-6A556980528E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8971D225-002C-402F-A857-6A556980528E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8971D225-002C-402F-A857-6A556980528E}.Release|x64.ActiveCfg = Release|Any CPU
+		{8971D225-002C-402F-A857-6A556980528E}.Release|x64.Build.0 = Release|Any CPU
+		{8971D225-002C-402F-A857-6A556980528E}.Release|x86.ActiveCfg = Release|Any CPU
+		{8971D225-002C-402F-A857-6A556980528E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

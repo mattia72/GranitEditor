@@ -143,7 +143,7 @@
       this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
       this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
       this.newToolStripMenuItem.Text = "&New";
-      this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+      this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
       // 
       // openToolStripMenuItem1
       // 
@@ -153,7 +153,7 @@
       this.openToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
       this.openToolStripMenuItem1.Size = new System.Drawing.Size(146, 22);
       this.openToolStripMenuItem1.Text = "&Open";
-      this.openToolStripMenuItem1.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
+      this.openToolStripMenuItem1.Click += new System.EventHandler(this.OpenToolStripMenuItem1_Click);
       // 
       // toolStripSeparator
       // 
@@ -168,14 +168,14 @@
       this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
       this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
       this.saveToolStripMenuItem.Text = "&Save";
-      this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+      this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
       // 
       // saveAsToolStripMenuItem
       // 
       this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
       this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
       this.saveAsToolStripMenuItem.Text = "Save &As...";
-      this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem1_Click);
+      this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem1_Click);
       // 
       // toolStripSeparator1
       // 
@@ -222,7 +222,7 @@
       this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
       this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
       this.exitToolStripMenuItem.Text = "E&xit";
-      this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+      this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
       // 
       // editToolStripMenuItem
       // 

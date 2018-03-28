@@ -30,14 +30,14 @@ namespace GranitEditor.Tests
 
       foreach (string HUFTransactionXml in HUFTransactionXmls)
       {
-        SortDecimal_Test(HUFTransactionXml, Constants.Transaction, Constants.AmountPropertyName, SortOrder.Ascending);
-        SortDecimal_Test(HUFTransactionXml, Constants.Transaction, Constants.AmountPropertyName, SortOrder.Descending);
+        SortDecimal_Test(HUFTransactionXml, GranitXml.Constants.Transaction, Constants.AmountPropertyName, SortOrder.Ascending);
+        SortDecimal_Test(HUFTransactionXml, GranitXml.Constants.Transaction, Constants.AmountPropertyName, SortOrder.Descending);
       }
 
       foreach (string HUFTransactionXml in HUFTransactionXmls)
       {
-        SortString_Test(HUFTransactionXml, Constants.Transaction, Constants.RequestedExecutionDate, SortOrder.Ascending);
-        SortString_Test(HUFTransactionXml, Constants.Transaction, Constants.RequestedExecutionDate, SortOrder.Descending);
+        SortString_Test(HUFTransactionXml, GranitXml.Constants.Transaction, GranitXml.Constants.RequestedExecutionDate, SortOrder.Ascending);
+        SortString_Test(HUFTransactionXml, GranitXml.Constants.Transaction, GranitXml.Constants.RequestedExecutionDate, SortOrder.Descending);
       }
     }
 

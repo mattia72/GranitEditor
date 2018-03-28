@@ -71,6 +71,10 @@
       <Project>{030E3907-E433-4F66-96AB-160C4128875D}</Project>
       <Name>GranitEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GranitXml\GranitXml.csproj">
+      <Project>{8971d225-002c-402f-a857-6a556980528e}</Project>
+      <Name>GranitXml</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="bad_example.xml">

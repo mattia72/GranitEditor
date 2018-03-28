@@ -54,12 +54,14 @@ namespace GranitEditor
       {
         if (_openFileDialog == null)
         {
-          _openFileDialog = new OpenFileDialog();
-          _openFileDialog.InitialDirectory = Application.StartupPath;
-          _openFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-          _openFileDialog.FilterIndex = 1;
-          _openFileDialog.RestoreDirectory = true;
-          _openFileDialog.Multiselect = true;
+          _openFileDialog = new OpenFileDialog
+          {
+            InitialDirectory = Application.StartupPath,
+            Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*",
+            FilterIndex = 1,
+            RestoreDirectory = true,
+            Multiselect = true
+          };
         }
         _openFileDialog.InitialDirectory =
           ActiveFilePath == null ? Application.StartupPath : Path.GetFileName(ActiveFilePath);
@@ -73,12 +75,14 @@ namespace GranitEditor
       {
         if (_saveFileDialog == null)
         {
-          _saveFileDialog = new SaveFileDialog();
-          _saveFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-          _saveFileDialog.FilterIndex = 1;
-          _saveFileDialog.RestoreDirectory = true;
-          _saveFileDialog.AddExtension = true;
-          _saveFileDialog.DefaultExt = "xml";
+          _saveFileDialog = new SaveFileDialog
+          {
+            Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*",
+            FilterIndex = 1,
+            RestoreDirectory = true,
+            AddExtension = true,
+            DefaultExt = "xml"
+          };
         }
 
         return _saveFileDialog;
@@ -302,10 +306,12 @@ namespace GranitEditor
         if (ActiveMdiChild.Tag == null)
         {
           // Add a tabPage to tabControl with child form caption
-          TabPage tp = new TabPage(this.ActiveMdiChild.Text);
-          tp.Tag = ActiveMdiChild;
-          tp.Parent = formsTabControl;
-          tp.ToolTipText = ActiveXmlForm.LastOpenedFilePath;
+          TabPage tp = new TabPage(this.ActiveMdiChild.Text)
+          {
+            Tag = ActiveMdiChild,
+            Parent = formsTabControl,
+            ToolTipText = ActiveXmlForm.LastOpenedFilePath
+          };
           ActiveMdiChild.Tag = tp;
           ActiveMdiChild.FormClosed += new FormClosedEventHandler(ActiveMdiChild_FormClosed);
           formsTabControl.SelectedTab = tp;
@@ -374,7 +380,7 @@ namespace GranitEditor
       SetStatusLabelItemText("selectedAmountStatus",
         string.Format("{0}{1} Ft",
         Resources.StatusSumSelectedText,
-        amount.ToString(Constants.AmountFormatString, CultureInfo.InvariantCulture)));
+        amount.ToString(GranitXml.Constants.AmountFormatString, CultureInfo.InvariantCulture)));
       SetStatusLabelItemText("selectedStatusLabel",
        Resources.StatusCountSeletedText + "0");
       SetStatusLabelItemText("allStatusLabel",
@@ -382,10 +388,10 @@ namespace GranitEditor
       SetStatusLabelItemText("allAmountStatus",
         string.Format("{0}{1} Ft",
         Resources.StatusSumSelectedText,
-        amount.ToString(Constants.AmountFormatString, CultureInfo.InvariantCulture)));
+        amount.ToString(GranitXml.Constants.AmountFormatString, CultureInfo.InvariantCulture)));
     }
 
-    private void newToolStripMenuItem_Click(object sender, EventArgs e)
+    private void NewToolStripMenuItem_Click(object sender, EventArgs e)
     {
       OpenNewFormWith(GetNextNewDocumentName());
     }
@@ -414,17 +420,17 @@ namespace GranitEditor
       }
     }
 
-    private void openToolStripMenuItem1_Click(object sender, EventArgs e)
+    private void OpenToolStripMenuItem1_Click(object sender, EventArgs e)
     {
       OpenGranitXmlFile();
     }
 
-    private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+    private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
     {
       ActiveXmlForm?.AskAndSaveFile();
     }
 
-    private void saveAsToolStripMenuItem1_Click(object sender, EventArgs e)
+    private void SaveAsToolStripMenuItem1_Click(object sender, EventArgs e)
     {
       if (ActiveMdiChild is GranitXMLEditorForm)
       {
@@ -434,7 +440,7 @@ namespace GranitEditor
       }
     }
 
-    private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+    private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
     {
       Close();
     }
@@ -556,7 +562,7 @@ namespace GranitEditor
     private void SaveSettings()
     {
       string layout = _windowLayoutMenu?.CheckedMenuItem?.Tag.ToString();
-      Settings.Default.WindowLayout = layout == null ? "" : layout;
+      Settings.Default.WindowLayout = layout ?? "";
 
       Settings.Default.RecentFileList = new StringCollection();
       Settings.Default.RecentFileList.AddRange(_mruMenu.GetFiles());
@@ -679,17 +685,17 @@ namespace GranitEditor
 
     private void newToolStripButton_Click(object sender, EventArgs e)
     {
-      newToolStripMenuItem_Click(sender, e);
+      NewToolStripMenuItem_Click(sender, e);
     }
 
     private void openToolStripButton_Click(object sender, EventArgs e)
     {
-      openToolStripMenuItem1_Click(sender, e);
+      OpenToolStripMenuItem1_Click(sender, e);
     }
 
     private void saveToolStripButton_Click(object sender, EventArgs e)
     {
-      saveToolStripMenuItem_Click(sender, e);
+      SaveToolStripMenuItem_Click(sender, e);
     }
 
     private void findToolStripButton_Click(object sender, EventArgs e)

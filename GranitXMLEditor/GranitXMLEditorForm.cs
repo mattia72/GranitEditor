@@ -435,7 +435,7 @@ namespace GranitEditor
 
     private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
     {
-      _contextMenuHandler.grid_MouseClick(sender, e);
+      _contextMenuHandler.Grid_MouseClick(sender, e);
     }
 
     private void deleteRowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -447,14 +447,14 @@ namespace GranitEditor
     {
       History?.Do(new TransactionPoolMemento(XmlToObjectBinder.GranitXDocument));
 
-      _contextMenuHandler.grid_DuplicateRow(sender, e);
+      _contextMenuHandler.Grid_DuplicateRow(sender, e);
       DocHasPendingChanges = true;
     }
 
     private void AddRowToolStripMenuItem_Click(object sender, EventArgs e)
     {
       History?.Do(new TransactionPoolMemento(XmlToObjectBinder.GranitXDocument));
-      _contextMenuHandler.grid_AddNewRow(sender, e);
+      _contextMenuHandler.Grid_AddNewRow(sender, e);
       DocHasPendingChanges = true;
     }
 

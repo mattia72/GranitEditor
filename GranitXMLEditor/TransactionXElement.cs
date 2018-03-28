@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GranitXml;
+using System;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -9,12 +10,12 @@ namespace GranitEditor
   {
     public XElement ParsedElement { get; set; }
 
-    public TransactionXElementParser(): base(Constants.Transaction)
+    public TransactionXElementParser(): base(GranitXml.Constants.Transaction)
     {
       ParsedElement = Parse(TransactionXml);
     }
 
-    public TransactionXElementParser(TransactionAdapter ta): base(Constants.Transaction)
+    public TransactionXElementParser(TransactionAdapter ta): base(GranitXml.Constants.Transaction)
     {
       ParsedElement = Parse(ta.Transaction);
     }
@@ -24,7 +25,7 @@ namespace GranitEditor
        <Originator> <Account> <AccountNumber>000000000000000000000000</AccountNumber> </Account> </Originator>
        <Beneficiary> <Name></Name> <Account> <AccountNumber>000000000000000000000000</AccountNumber> </Account> </Beneficiary>
        <Amount Currency = ""HUF"" >1.00</Amount>
-       <RequestedExecutionDate>" + DateTime.Now.ToString(Constants.DateFormat) + @"</RequestedExecutionDate>
+       <RequestedExecutionDate>" + DateTime.Now.ToString(GranitXml.Constants.DateFormat) + @"</RequestedExecutionDate>
        <RemittanceInfo> <Text></Text> </RemittanceInfo>
       </Transaction> ";
 

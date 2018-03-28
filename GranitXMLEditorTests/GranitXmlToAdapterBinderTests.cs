@@ -49,7 +49,7 @@ namespace GranitEditor.Tests
 
         long previous_id = -1;
         foreach (var id in x2o.GranitXDocument.Root
-          .Elements(Constants.Transaction).Select(x => x.Attribute(Constants.TransactionIdAttribute).Value))
+          .Elements(GranitXml.Constants.Transaction).Select(x => x.Attribute(GranitXml.Constants.TransactionIdAttribute).Value))
         {
           Assert.AreNotEqual(previous_id, long.Parse(id));
           previous_id = long.Parse(id);
@@ -111,8 +111,8 @@ namespace GranitEditor.Tests
         foreach (var ta in x2o.HUFTransactionsAdapter.TransactionAdapters)
           Assert.IsTrue(newTa.TransactionId >= ta.TransactionId);
 
-        Assert.AreEqual(x2o.GranitXDocument.Root.Elements(Constants.Transaction)
-        .Where(t => t.Attribute(Constants.TransactionIdAttribute).Value == newTa.TransactionId.ToString()).Count(), 1);
+        Assert.AreEqual(x2o.GranitXDocument.Root.Elements(GranitXml.Constants.Transaction)
+        .Where(t => t.Attribute(GranitXml.Constants.TransactionIdAttribute).Value == newTa.TransactionId.ToString()).Count(), 1);
 
       }
     }
@@ -140,10 +140,10 @@ namespace GranitEditor.Tests
       x2o.Sort(Constants.AmountPropertyName, order);
       decimal maxAmount = x2o.HUFTransactionsAdapter.TransactionAdapters.Max(ta => ta.Amount);
       decimal minAmount = x2o.HUFTransactionsAdapter.TransactionAdapters.Min(ta => ta.Amount);
-      string firstAmount = x2o.GranitXDocument.Root.Elements(Constants.Transaction).First().Element(Constants.Amount).Value;
-      string lastAmount = x2o.GranitXDocument.Root.Elements(Constants.Transaction).Last().Element(Constants.Amount).Value;
+      string firstAmount = x2o.GranitXDocument.Root.Elements(GranitXml.Constants.Transaction).First().Element(GranitXml.Constants.Amount).Value;
+      string lastAmount = x2o.GranitXDocument.Root.Elements(GranitXml.Constants.Transaction).Last().Element(GranitXml.Constants.Amount).Value;
 
-      string[] amounts = x2o.GranitXDocument.Root.Elements(Constants.Transaction).Elements(Constants.Amount).Select(t => t.Value).ToArray();
+      string[] amounts = x2o.GranitXDocument.Root.Elements(GranitXml.Constants.Transaction).Elements(GranitXml.Constants.Amount).Select(t => t.Value).ToArray();
       string s_before = amounts[0];
 
       if (order == SortOrder.Descending)
@@ -222,8 +222,8 @@ namespace GranitEditor.Tests
 
       DateTime maxDate = x2o.HUFTransactionsAdapter.TransactionAdapters.Max(ta => ta.ExecutionDate);
       DateTime minDate = x2o.HUFTransactionsAdapter.TransactionAdapters.Min(ta => ta.ExecutionDate);
-      string firstDate = x2o.GranitXDocument.Root.Elements(Constants.Transaction).InDocumentOrder().First().Element(Constants.RequestedExecutionDate).Value;
-      string lastDate = x2o.GranitXDocument.Root.Elements(Constants.Transaction).InDocumentOrder().Last().Element(Constants.RequestedExecutionDate).Value;
+      string firstDate = x2o.GranitXDocument.Root.Elements(GranitXml.Constants.Transaction).InDocumentOrder().First().Element(GranitXml.Constants.RequestedExecutionDate).Value;
+      string lastDate = x2o.GranitXDocument.Root.Elements(GranitXml.Constants.Transaction).InDocumentOrder().Last().Element(GranitXml.Constants.RequestedExecutionDate).Value;
 
       if (order == SortOrder.Descending)
       {
@@ -255,8 +255,8 @@ namespace GranitEditor.Tests
         Assert.AreEqual(x2o.GranitXDocument.Root.Elements().ToList().Count, origCount + 1);
         foreach (var ta in x2o.HUFTransactionsAdapter.TransactionAdapters)
           Assert.IsTrue(newTa.TransactionId >= ta.TransactionId);
-        Assert.AreEqual(x2o.GranitXDocument.Root.Elements(Constants.Transaction)
-        .Where(t => t.Attribute(Constants.TransactionIdAttribute).Value == newTa.TransactionId.ToString()).Count(), 1);
+        Assert.AreEqual(x2o.GranitXDocument.Root.Elements(GranitXml.Constants.Transaction)
+        .Where(t => t.Attribute(GranitXml.Constants.TransactionIdAttribute).Value == newTa.TransactionId.ToString()).Count(), 1);
       }
     }
 
@@ -278,8 +278,8 @@ namespace GranitEditor.Tests
         Assert.AreEqual(x2o.History.UndoCount, 0);
         Assert.AreEqual(x2o.GranitXDocument.Root.Elements().ToList().Count, origCount);
 
-        Assert.AreEqual(x2o.GranitXDocument.Root.Elements(Constants.Transaction)
-        .Where(t => t.Attribute(Constants.TransactionIdAttribute).Value == newTa.TransactionId.ToString()).Count(), 1);
+        Assert.AreEqual(x2o.GranitXDocument.Root.Elements(GranitXml.Constants.Transaction)
+        .Where(t => t.Attribute(GranitXml.Constants.TransactionIdAttribute).Value == newTa.TransactionId.ToString()).Count(), 1);
       }
     }
 

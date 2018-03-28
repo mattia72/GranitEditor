@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections.Generic;
+using GranitXml;
 
 namespace GranitEditor
 {
@@ -25,7 +26,7 @@ namespace GranitEditor
       get { return (Transaction.IsSelected); }
       set
       {
-        UpdateGranitXDocument(Constants.IsSelected, value.ToString().ToLower());
+        UpdateGranitXDocument(GranitXml.Constants.IsSelected, value.ToString().ToLower());
         Transaction.IsSelected = value;
         Debug.WriteLine("IsActiv property set to {0} for T id:{1}", value, Transaction.TransactionId);
       }
@@ -36,7 +37,7 @@ namespace GranitEditor
       get { return (Transaction.Originator.Account.AccountNumber); }
       set
       {
-        UpdateGranitXDocument(Constants.Originator, value);
+        UpdateGranitXDocument(GranitXml.Constants.Originator, value);
         Transaction.Originator.Account.AccountNumber = value;
       }
     }
@@ -66,7 +67,7 @@ namespace GranitEditor
       get { return Transaction.Amount.Value; }
       set
       {
-        UpdateGranitXDocument(Constants.Amount, value.ToString(Constants.AmountFormatString, CultureInfo.InvariantCulture));
+        UpdateGranitXDocument(GranitXml.Constants.Amount, value.ToString(GranitXml.Constants.AmountFormatString, CultureInfo.InvariantCulture));
         Transaction.Amount.Value = value;
       }
     }
@@ -76,7 +77,7 @@ namespace GranitEditor
       get { return Transaction.Amount.Currency; }
       set
       {
-        UpdateGranitXDocument(Constants.Currency, value);
+        UpdateGranitXDocument(GranitXml.Constants.Currency, value);
         Transaction.Amount.Currency = value;
       }
     }
@@ -91,8 +92,8 @@ namespace GranitEditor
       }
       set
       {
-        UpdateGranitXDocument(Constants.RequestedExecutionDate, value.ToString(Constants.DateFormat));
-        Transaction.RequestedExecutionDate = value.ToString(Constants.DateFormat);
+        UpdateGranitXDocument(GranitXml.Constants.RequestedExecutionDate, value.ToString(GranitXml.Constants.DateFormat));
+        Transaction.RequestedExecutionDate = value.ToString(GranitXml.Constants.DateFormat);
       }
     }
 
@@ -106,7 +107,7 @@ namespace GranitEditor
       }
       set
       {
-        UpdateGranitXDocument(Constants.RemittanceInfo, value);
+        UpdateGranitXDocument(GranitXml.Constants.RemittanceInfo, value);
         Transaction.RemittanceInfo.Text = value.Split('|').ToList();
       }
     }
@@ -146,7 +147,7 @@ namespace GranitEditor
       if (GranitXDocument == null)
         return;
 
-      var xt = GranitXDocument.Root.Elements(Constants.Transaction)
+      var xt = GranitXDocument.Root.Elements(GranitXml.Constants.Transaction)
           .Where(x => this.IsBindedWith(x)).ToList()
           .FirstOrDefault();
 
@@ -156,28 +157,28 @@ namespace GranitEditor
       OnPropertyChanging(field);
       switch (field)
       {
-        case Constants.IsSelected:
-          xt.Attribute(Constants.TransactionSelectedAttribute).Value = value;
+        case GranitXml.Constants.IsSelected:
+          xt.Attribute(GranitXml.Constants.TransactionSelectedAttribute).Value = value;
           break;
-        case Constants.Originator:
-          xt.Element(Constants.Originator).Element(Constants.Account).Element(Constants.AccountNumber).Value = value;
+        case GranitXml.Constants.Originator:
+          xt.Element(GranitXml.Constants.Originator).Element(GranitXml.Constants.Account).Element(GranitXml.Constants.AccountNumber).Value = value;
           break;
         case Constants.BeneficiaryName:
-          xt.Element(Constants.Beneficiary).Element(Constants.Name).Value = value;
+          xt.Element(GranitXml.Constants.Beneficiary).Element(GranitXml.Constants.Name).Value = value;
           break;
         case Constants.BeneficiaryAccount:
-          xt.Element(Constants.Beneficiary).Element(Constants.Account).Element(Constants.AccountNumber).Value = value;
+          xt.Element(GranitXml.Constants.Beneficiary).Element(GranitXml.Constants.Account).Element(GranitXml.Constants.AccountNumber).Value = value;
           break;
-        case Constants.Amount:
-          xt.Element(Constants.Amount).Value = value;
+        case GranitXml.Constants.Amount:
+          xt.Element(GranitXml.Constants.Amount).Value = value;
           break;
-        case Constants.Currency:
-          xt.Element(Constants.Amount).Attribute(Constants.Currency).Value = value;
+        case GranitXml.Constants.Currency:
+          xt.Element(GranitXml.Constants.Amount).Attribute(GranitXml.Constants.Currency).Value = value;
           break;
-        case Constants.RequestedExecutionDate:
-          xt.Element(Constants.RequestedExecutionDate).Value = value;
+        case GranitXml.Constants.RequestedExecutionDate:
+          xt.Element(GranitXml.Constants.RequestedExecutionDate).Value = value;
           break;
-        case Constants.RemittanceInfo:
+        case GranitXml.Constants.RemittanceInfo:
           UpdateRemittanceInfo(xt, value);
           break;
       }
@@ -218,22 +219,22 @@ namespace GranitEditor
     private static void UpdateRemittanceInfo(XElement xt, string value)
     {
       var texts = value.Split('|');
-      var xTexts = xt.Element(Constants.RemittanceInfo).Elements(Constants.Text).ToArray();
+      var xTexts = xt.Element(GranitXml.Constants.RemittanceInfo).Elements(GranitXml.Constants.Text).ToArray();
       int i = 0;
       for (; i < texts.Length; i++)
       {
         if (i < xTexts.Length)
-          xt.Element(Constants.RemittanceInfo).Elements(Constants.Text).ToArray()[i].Value = texts[i].Trim();
+          xt.Element(GranitXml.Constants.RemittanceInfo).Elements(GranitXml.Constants.Text).ToArray()[i].Value = texts[i].Trim();
         else
         {
-          xt.Element(Constants.RemittanceInfo).Add(new XElement(Constants.Text, texts[i].Trim()));
+          xt.Element(GranitXml.Constants.RemittanceInfo).Add(new XElement(GranitXml.Constants.Text, texts[i].Trim()));
         }
       }
       while (i < xTexts.Length)
       {
-        xt.Element(Constants.RemittanceInfo).Elements(Constants.Text).ToArray()[i++].Value = "";
+        xt.Element(GranitXml.Constants.RemittanceInfo).Elements(GranitXml.Constants.Text).ToArray()[i++].Value = "";
       }
-      xt.Element(Constants.RemittanceInfo).Elements(Constants.Text).Where(x => x.Value == "").Remove();
+      xt.Element(GranitXml.Constants.RemittanceInfo).Elements(GranitXml.Constants.Text).Where(x => x.Value == "").Remove();
     }
 
     public bool IsBindedWith(XElement t)

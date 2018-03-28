@@ -44,7 +44,7 @@ namespace GranitEditor
       }
     }
 
-    internal void grid_MouseClick(object sender, MouseEventArgs e)
+    internal void Grid_MouseClick(object sender, MouseEventArgs e)
     {
       if (e.Button == MouseButtons.Right)
       {
@@ -85,12 +85,12 @@ namespace GranitEditor
       }
       else
       {
-        grid_DeleteMouseOverRow();
+        Grid_DeleteMouseOverRow();
       }
       _currentMouseOverRow = null;
     }
 
-    private void grid_DeleteMouseOverRow()
+    private void Grid_DeleteMouseOverRow()
     {
       Debug.WriteLine("grid_DeleteMouseOverRow");
       
@@ -120,7 +120,7 @@ namespace GranitEditor
       return ((TransactionAdapter)_dataGridView.Rows[rowIndex].DataBoundItem).TransactionId;
     }
 
-    internal void grid_DuplicateRow(object sender, EventArgs e)
+    internal void Grid_DuplicateRow(object sender, EventArgs e)
     {
       DataGridViewRow row = GetActiveRow();
       if (row != null)
@@ -177,7 +177,7 @@ namespace GranitEditor
       _dataGridView.FirstDisplayedScrollingRowIndex = nRowIndex;
     }
 
-    internal void grid_AddNewRow(object sender, EventArgs e)
+    internal void Grid_AddNewRow(object sender, EventArgs e)
     {
       DataGridViewRow row = GetActiveRow();
 
