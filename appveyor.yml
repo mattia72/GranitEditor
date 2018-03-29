@@ -62,3 +62,11 @@ deploy:
     branch: master                # release from master branch only
     appveyor_repo_tag: true       # deploy on tag push only
 
+    
+# enable patching of AssemblyInfo.cs files
+assembly_info:
+  patch: true
+  file: AssemblyInfo.cs
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
