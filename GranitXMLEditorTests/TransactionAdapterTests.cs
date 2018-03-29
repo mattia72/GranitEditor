@@ -52,7 +52,8 @@ namespace GranitEditor.Tests
 
     public void FillTransactionAdapter()
     {
-      HUFTransaction testHUFTransaction = HUFTransaction.Parse(TestConstants.HUFTransactionXml); 
+      TestXDoc = XDocument.Parse(TestConstants.HUFTransactionXml);
+      HUFTransaction testHUFTransaction = HUFTransaction.Load(TestXDoc); 
       TestAdapter = new TransactionAdapter(testHUFTransaction.Transactions[0], TestXDoc);
     }
 
