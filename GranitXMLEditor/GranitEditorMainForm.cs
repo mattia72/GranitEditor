@@ -639,8 +639,9 @@ namespace GranitEditor
       {
         saved = ActiveXmlForm.XmlToObjectBinder.DocumentSaved;
       }
-      saveToolStripButton.Enabled = _docsHavePendingChanges && !saved;
-      saveToolStripMenuItem.Enabled = _docsHavePendingChanges && !saved; 
+
+      saveToolStripButton.Enabled   = !saved;
+      saveToolStripMenuItem.Enabled = saveToolStripButton.Enabled;
     }
 
     private void EnableToolbarItemsForActiveForm()

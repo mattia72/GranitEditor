@@ -18,7 +18,7 @@ namespace GranitEditor
 
     // TODO: DeepEquals doesn't do the job... 
     public bool DocumentSaved => 
-      string.IsNullOrEmpty(XmlFilePath) ? false :  0 == CompareGranitXDocuments(GranitXDocument, XDocument.Load(XmlFilePath));
+      string.IsNullOrEmpty(OnDiscXmlFilePath) ? false :  0 == CompareGranitXDocuments(GranitXDocument, OnDiscXDocument);
 
     public decimal SumAmount => HUFTransactionsAdapter.TransactionAdapters.Aggregate(0m, (total, next) => total + next.Amount);
     public int TransactionCount => GranitXDocument.Root.Elements(GranitXml.Constants.Transaction).Count();
@@ -28,7 +28,8 @@ namespace GranitEditor
     private ValidationEventArgs _validationEventArgs = null;
 
     public ValidationEventArgs ValidationEventArgs { get => _validationEventArgs; set => _validationEventArgs = value; }
-    public string XmlFilePath { get; private set; }
+    public string OnDiscXmlFilePath { get; private set; }
+    public XDocument OnDiscXDocument { get; private set; }
 
 
     public GranitXmlToAdapterBinder()
@@ -41,7 +42,7 @@ namespace GranitEditor
       //SetTransactionIdAttribute();
       //ReCreateAdapter();
       History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
-      XmlFilePath = "";
+      OnDiscXmlFilePath = "";
     }
 
     public GranitXmlToAdapterBinder(string xmlFilePath, bool validate = false)
@@ -58,7 +59,8 @@ namespace GranitEditor
         else
           GranitXDocument = XDocument.Load(xmlFilePath);
 
-        XmlFilePath = xmlFilePath;
+        OnDiscXmlFilePath = xmlFilePath;
+        OnDiscXDocument = XDocument.Load(xmlFilePath);
       }
 
       if (!XmlValidationErrorOccured)
@@ -162,7 +164,7 @@ namespace GranitEditor
 
     public void SaveToFile(string xmlFilePath)
     {
-      var xDocToSave = new XDocument(new XElement(GranitXml.Constants.HUFTransactions));
+      OnDiscXDocument = new XDocument(new XElement(GranitXml.Constants.HUFTransactions));
 
       Debug.WriteLine("SaveToFile: {0}", HUFTransactionsAdapter.ToString());
       
@@ -171,9 +173,9 @@ namespace GranitEditor
         x.Attribute(GranitXml.Constants.TransactionSelectedAttribute).Value == "true"))
       {
         XElement copy = RemoveTransactionAttributes(item);
-        xDocToSave.Root.Add(RemoveAllNamespaces(copy));
+        OnDiscXDocument.Root.Add(RemoveAllNamespaces(copy));
       }
-      xDocToSave.Save(xmlFilePath);
+      OnDiscXDocument.Save(xmlFilePath);
     }
 
     private static XElement RemoveTransactionAttributes( XElement item)
