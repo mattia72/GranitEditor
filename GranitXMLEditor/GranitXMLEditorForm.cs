@@ -116,7 +116,7 @@ namespace GranitEditor
     /// <summary>
     /// If the user press delete on a row we should delete the DataBoundItem
     /// </summary>
-    private void dataGridView1_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+    private void DataGridView1_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
     {
       long? transactionIdTodelete = null;
       if (dataGridView1.Rows.Count > e.RowIndex)
@@ -199,7 +199,7 @@ namespace GranitEditor
       DocHasPendingChanges = false;
     }
 
-    private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+    private void DataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
     {
       // Don't try to validate the 'new row' until finished 
       // editing since there
@@ -219,14 +219,14 @@ namespace GranitEditor
     }
 
     //Transaction beginEditTrans=null;
-    private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+    private void DataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
     {
       Debug.WriteLine("CellBeginEdit called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
       //beginEditTrans = ((TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem).Transaction;
       //if ( e.RowIndex != -1 ) // not on first load 
     }
 
-    private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+    private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
     {
       Debug.WriteLine("CellEndEdit called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
       if (e.RowIndex != -1) // not on first load 
@@ -234,13 +234,13 @@ namespace GranitEditor
       _editingControl = null;
     }
 
-    private void dataGridView1_Sorted(object sender, EventArgs e)
+    private void DataGridView1_Sorted(object sender, EventArgs e)
     {
       XmlToObjectBinder.Sort(dataGridView1.SortedColumn.DataPropertyName, dataGridView1.SortOrder);
       DocHasPendingChanges = true;
     }
 
-    private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+    private void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
     {
       Debug.WriteLine("CellValueChanged called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
       if (e.RowIndex != -1) // not on first load 
@@ -268,7 +268,7 @@ namespace GranitEditor
       base.OnClosing(e);
     }
 
-    private void dataGridView1_UserAddedNewRow(object sender, DataGridViewRowEventArgs e)
+    private void DataGridView1_UserAddedNewRow(object sender, DataGridViewRowEventArgs e)
     {
       var bindingList = ((SortableBindingList<TransactionAdapter>)dataGridView1.DataSource);
       //Commit the first character
@@ -280,7 +280,7 @@ namespace GranitEditor
       dataGridView1.BeginEdit(false);
     }
 
-    private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+    private void DataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
     {
       Debug.WriteLine(e.RowCount + " rows added at index: " + e.RowIndex);
       TransactionAdapter ta = (TransactionAdapter)dataGridView1.Rows[e.RowIndex].DataBoundItem;
@@ -299,7 +299,7 @@ namespace GranitEditor
 
     private DateTimePicker _dateTimePicker = null;
 
-    private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+    private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
     {
       var dlg = MainForm.CreateFindDialog(DataGrid);
       dlg.IsFirstInitNecessary = true;
@@ -322,8 +322,8 @@ namespace GranitEditor
         Rectangle Rectangle = dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
         _dateTimePicker.Size = new Size(Rectangle.Width, Rectangle.Height);
         _dateTimePicker.Location = new Point(Rectangle.X, Rectangle.Y);
-        _dateTimePicker.CloseUp += new EventHandler(dtp_CloseUp);
-        _dateTimePicker.TextChanged += new EventHandler(dtp_OnTextChange);
+        _dateTimePicker.CloseUp += new EventHandler(Dtp_CloseUp);
+        _dateTimePicker.TextChanged += new EventHandler(Dtp_OnTextChange);
         _dateTimePicker.Value = (DateTime)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
 
         _dateTimePicker.Visible = true;
@@ -334,12 +334,12 @@ namespace GranitEditor
       }
     }
 
-    private void dtp_OnTextChange(object sender, EventArgs e)
+    private void Dtp_OnTextChange(object sender, EventArgs e)
     {
       dataGridView1.CurrentCell.Value = _dateTimePicker.Text.ToString();
     }
 
-    private void dtp_CloseUp(object sender, EventArgs e)
+    private void Dtp_CloseUp(object sender, EventArgs e)
     {
       _dateTimePicker.Visible = false;
     }
@@ -354,10 +354,10 @@ namespace GranitEditor
       _bindingList = new SortableBindingList<TransactionAdapter>(XmlToObjectBinder.HUFTransactionsAdapter.TransactionAdapters);
       dataGridView1.DataSource = _bindingList;
       if (_bindingList.RaiseListChangedEvents)
-        _bindingList.ListChanged += bindingList_ListChanged;
+        _bindingList.ListChanged += BindingList_ListChanged;
     }
 
-    private void bindingList_ListChanged(object sender, ListChangedEventArgs e)
+    private void BindingList_ListChanged(object sender, ListChangedEventArgs e)
     {
       Debug.WriteLine("BindingList changed " + e.ListChangedType + " " + e.PropertyDescriptor);
       switch (e.ListChangedType)
@@ -421,7 +421,7 @@ namespace GranitEditor
       }
     }
 
-    private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+    private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
     {
       GranitDataGridViewCellFormatter.Format(dataGridView1, ref e);
       if (e.ColumnIndex == dataGridView1.Columns[0].Index)
@@ -433,17 +433,12 @@ namespace GranitEditor
       }
     }
 
-    private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
+    private void DataGridView1_MouseClick(object sender, MouseEventArgs e)
     {
       _contextMenuHandler.Grid_MouseClick(sender, e);
     }
 
-    private void deleteRowToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-      DeleteRowToolStripMenuItem_Click(sender, e);
-    }
-
-    private void duplicateRowToolStripMenuItem_Click(object sender, EventArgs e)
+    private void DuplicateRowToolStripMenuItem_Click(object sender, EventArgs e)
     {
       History?.Do(new TransactionPoolMemento(XmlToObjectBinder.GranitXDocument));
 
@@ -478,7 +473,7 @@ namespace GranitEditor
       MainForm?.UpdateSaveAndSaveAsItems();
     }
 
-    private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+    private void DataGridView1_SelectionChanged(object sender, EventArgs e)
     {
       ActualizeStatusLabelsOfSelected();
       MainForm.UpdateCopyPasteItems();
@@ -503,7 +498,7 @@ namespace GranitEditor
        Resources.StatusCountSeletedText + selectedRowIndexes.Count);
     }
 
-    private void dataGridView1_DragEnter(object sender, DragEventArgs e)
+    private void DataGridView1_DragEnter(object sender, DragEventArgs e)
     {
       string filename = MainForm.GetDropFileName(e);
       if (filename != string.Empty)
@@ -512,7 +507,7 @@ namespace GranitEditor
         e.Effect = DragDropEffects.None;
     }
 
-    private void dataGridView1_DragDrop(object sender, DragEventArgs e)
+    private void DataGridView1_DragDrop(object sender, DragEventArgs e)
     {
       string[] files = (string[])(e.Data.GetData(DataFormats.FileDrop, false));
       MainForm.OpenNewFormWith(Path.GetFullPath(files[0]).ToString());
@@ -567,22 +562,22 @@ namespace GranitEditor
       DocHasPendingChanges = true;
     }
 
-    private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+    private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
     {
       MainForm.Copy();
     }
 
-    private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+    private void CutToolStripMenuItem_Click(object sender, EventArgs e)
     {
       MainForm.Cut();
     }
 
-    private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+    private void PasteToolStripMenuItem_Click(object sender, EventArgs e)
     {
       MainForm.Paste();
     }
 
-    private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+    private void DataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
     {
       //// Don't throw an exception when we're done.
       //e.ThrowException = false;
@@ -598,7 +593,7 @@ namespace GranitEditor
       //e.Cancel = false;
     }
 
-    private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+    private void DataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
     {
       if (e.Control is DataGridViewTextBoxEditingControl)
       {

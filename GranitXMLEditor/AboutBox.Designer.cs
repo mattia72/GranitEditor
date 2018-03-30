@@ -142,7 +142,7 @@
       this.logoPictureBox.Size = new System.Drawing.Size(80, 78);
       this.logoPictureBox.TabIndex = 12;
       this.logoPictureBox.TabStop = false;
-      this.logoPictureBox.Click += new System.EventHandler(this.logoPictureBox_Click);
+      this.logoPictureBox.Click += new System.EventHandler(this.LogoPictureBox_Click);
       // 
       // labelProductName
       // 
@@ -229,7 +229,7 @@
       this.okButton.Size = new System.Drawing.Size(75, 23);
       this.okButton.TabIndex = 24;
       this.okButton.Text = "&OK";
-      this.okButton.Click += new System.EventHandler(this.okButton_Click);
+      this.okButton.Click += new System.EventHandler(this.OkButton_Click);
       // 
       // linkHomePage
       // 
@@ -242,7 +242,7 @@
       this.linkHomePage.TabStop = true;
       this.linkHomePage.Text = "linkHomePage";
       this.linkHomePage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-      this.linkHomePage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkHomePage_LinkClicked);
+      this.linkHomePage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkHomePage_LinkClicked);
       // 
       // labelLicense
       // 

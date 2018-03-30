@@ -35,16 +35,16 @@ namespace GranitEditor
         textBoxDescription.Text = File.ReadAllText(readMeFile).Replace("\n",Environment.NewLine);
 
       // With mouse click you can start/stop the animation
-      textBoxDescription.MouseClick += new MouseEventHandler(textBoxDescription_MouseClick);
+      textBoxDescription.MouseClick += new MouseEventHandler(TextBoxDescription_MouseClick);
       // Set scroller thread
-      scroller.DoWork += new DoWorkEventHandler(scroller_DoWork);
+      scroller.DoWork += new DoWorkEventHandler(Scroller_DoWork);
       scroller.WorkerSupportsCancellation = true;
     }
 
     /// <summary>
     /// MouseClick on textbox stops/starts scrolling
     /// </summary>
-    void textBoxDescription_MouseClick(object sender, EventArgs e)
+    void TextBoxDescription_MouseClick(object sender, EventArgs e)
     {
       if (scrollStop.WaitOne(0))
         scrollStop.Reset();
@@ -80,7 +80,7 @@ namespace GranitEditor
     /// <summary>
     /// Scroller thread
     /// </summary>
-    void scroller_DoWork(object sender, DoWorkEventArgs e)
+    void Scroller_DoWork(object sender, DoWorkEventArgs e)
     {
       try
       {
@@ -218,7 +218,7 @@ namespace GranitEditor
     }
     #endregion
 
-    private void okButton_Click(object sender, EventArgs e)
+    private void OkButton_Click(object sender, EventArgs e)
     {
       this.Close();
     }
@@ -247,13 +247,13 @@ namespace GranitEditor
       Debug.WriteLine("Scroll thread ready event received.");
     }
 
-    private void logoPictureBox_Click(object sender, EventArgs e)
+    private void LogoPictureBox_Click(object sender, EventArgs e)
     {
       // Navigate to a URL.
       Process.Start(linkHomePage.Text);
     }
 
-    private void linkHomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    private void LinkHomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
       // Specify that the link was visited.
         this.linkHomePage.LinkVisited = true;
