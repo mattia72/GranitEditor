@@ -551,7 +551,7 @@ namespace GranitEditor
       }
       catch (Exception ex)
       {
-        MessageBox.Show("Copy/paste operation failed. " + ex.Message, "Copy/Paste", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        MessageBox.Show("Copy/paste operation failed. " + ex.Message,Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
       }
     }
 

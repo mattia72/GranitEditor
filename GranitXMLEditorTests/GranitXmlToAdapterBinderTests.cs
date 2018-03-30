@@ -333,5 +333,29 @@ namespace GranitEditor.Tests
       }
     }
 
+    [TestMethod()]
+    public void CompareGranitXDocuments_BothNull_Test()
+    {
+      Assert.AreEqual(GranitXmlToAdapterBinder.CompareGranitXDocuments(null, null), 0);
+    }
+
+    [TestMethod()]
+    public void CompareGranitXDocuments_OneNull_Test()
+    { 
+      foreach (var xml in goodXmlExamples)
+      {
+        var x2o = new GranitXmlToAdapterBinder(xml, true);
+        Assert.AreEqual(GranitXmlToAdapterBinder.CompareGranitXDocuments(x2o.GranitXDocument, null), -1);
+        Assert.AreEqual(GranitXmlToAdapterBinder.CompareGranitXDocuments(null, x2o.GranitXDocument), -1);
+      }
+    }
+
+    [TestMethod()]
+    public void CompareGranitXDocuments_Test()
+    { 
+        var x1 = new GranitXmlToAdapterBinder("example.xml", true);
+        var x2 = new GranitXmlToAdapterBinder("test.xml", true);
+        Assert.AreNotEqual(GranitXmlToAdapterBinder.CompareGranitXDocuments(x1.GranitXDocument, x2.GranitXDocument), 0);
+    }
   }
 }

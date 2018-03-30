@@ -52,7 +52,7 @@ namespace GranitXml
         IsNullable = true
       };
       var ser = new XmlSerializer(typeof(HUFTransaction), xRoot);
-      return (HUFTransaction)ser.Deserialize(x.CreateReader());
+      return x == null ? null : (HUFTransaction)ser.Deserialize(x.CreateReader());
     }
 
     public int CompareTo(HUFTransaction other)

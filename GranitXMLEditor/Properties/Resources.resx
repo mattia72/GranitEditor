@@ -278,4 +278,7 @@ Line separator is '|' character.</value>
 to
 {1}</value>
   </data>
+  <data name="FileCouldntBeSaved" xml:space="preserve">
+    <value>File couldn't be saved.</value>
+  </data>
 </root>

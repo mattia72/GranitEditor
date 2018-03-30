@@ -1,6 +1,7 @@
 ﻿using GenericUndoRedo;
 using GranitEditor.Properties;
 using GranitXml;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -72,11 +73,11 @@ namespace GranitEditor
       }
     }
 
-    private int CompareGranitXDocuments(XDocument x1, XDocument x2)
+    public static int CompareGranitXDocuments(XDocument x1, XDocument x2)
     {
       HUFTransaction h1 = HUFTransaction.Load(x1);
       HUFTransaction h2 = HUFTransaction.Load(x2);
-      return h1.CompareTo(h2);
+      return h1 != null ? h1.CompareTo(h2) : h2 == null ? 0 : -1;
     }
     
     private void HUFTransactionsAdapter_PropertyChanging(object sender, System.ComponentModel.PropertyChangingEventArgs e)
@@ -175,7 +176,20 @@ namespace GranitEditor
         XElement copy = RemoveTransactionAttributes(item);
         OnDiscXDocument.Root.Add(RemoveAllNamespaces(copy));
       }
-      OnDiscXDocument.Save(xmlFilePath);
+      try
+      {
+        OnDiscXDocument.Save(xmlFilePath);
+      }
+      catch(UnauthorizedAccessException ex)
+      {
+        MessageBox.Show(Resources.FileCouldntBeSaved + "\n" + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        OnDiscXDocument = null;
+      }
+      catch(Exception ex)
+      {
+        MessageBox.Show(Resources.FileCouldntBeSaved + "\n" + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        OnDiscXDocument = null;
+      }
     }
 
     private static XElement RemoveTransactionAttributes( XElement item)
