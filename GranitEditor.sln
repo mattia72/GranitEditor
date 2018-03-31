@@ -5,13 +5,13 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitEditor", "GranitXMLEditor\GranitEditor.csproj", "{030E3907-E433-4F66-96AB-160C4128875D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitEditorTests", "GranitXMLEditorTests\GranitEditorTests.csproj", "{1EF2EC31-D8F0-42DD-968F-477FB81674C7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericUndoRedo", "GenericUndoRedo\GenericUndoRedo.csproj", "{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "GranitEditorWiXInstaller", "GranitEditorWiXInstaller\GranitEditorWiXInstaller.wixproj", "{62712467-98E7-4CCA-939E-A2C70EB9F6D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitXml", "GranitXml\GranitXml.csproj", "{8971D225-002C-402F-A857-6A556980528E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranitEditorTestsV2", "GranitEditorTests1\GranitEditorTestsV2.csproj", "{728279B6-D832-4FD6-A280-8799A4D71573}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,18 +36,6 @@ Global
 		{030E3907-E433-4F66-96AB-160C4128875D}.Release|x64.Build.0 = Release|Any CPU
 		{030E3907-E433-4F66-96AB-160C4128875D}.Release|x86.ActiveCfg = Release|Any CPU
 		{030E3907-E433-4F66-96AB-160C4128875D}.Release|x86.Build.0 = Release|Any CPU
-		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|x64.Build.0 = Debug|Any CPU
-		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Debug|x86.Build.0 = Debug|Any CPU
-		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Release|x64.ActiveCfg = Release|Any CPU
-		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Release|x64.Build.0 = Release|Any CPU
-		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Release|x86.ActiveCfg = Release|Any CPU
-		{1EF2EC31-D8F0-42DD-968F-477FB81674C7}.Release|x86.Build.0 = Release|Any CPU
 		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -82,6 +70,18 @@ Global
 		{8971D225-002C-402F-A857-6A556980528E}.Release|x64.Build.0 = Release|Any CPU
 		{8971D225-002C-402F-A857-6A556980528E}.Release|x86.ActiveCfg = Release|Any CPU
 		{8971D225-002C-402F-A857-6A556980528E}.Release|x86.Build.0 = Release|Any CPU
+		{728279B6-D832-4FD6-A280-8799A4D71573}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{728279B6-D832-4FD6-A280-8799A4D71573}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{728279B6-D832-4FD6-A280-8799A4D71573}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{728279B6-D832-4FD6-A280-8799A4D71573}.Debug|x64.Build.0 = Debug|Any CPU
+		{728279B6-D832-4FD6-A280-8799A4D71573}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{728279B6-D832-4FD6-A280-8799A4D71573}.Debug|x86.Build.0 = Debug|Any CPU
+		{728279B6-D832-4FD6-A280-8799A4D71573}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{728279B6-D832-4FD6-A280-8799A4D71573}.Release|Any CPU.Build.0 = Release|Any CPU
+		{728279B6-D832-4FD6-A280-8799A4D71573}.Release|x64.ActiveCfg = Release|Any CPU
+		{728279B6-D832-4FD6-A280-8799A4D71573}.Release|x64.Build.0 = Release|Any CPU
+		{728279B6-D832-4FD6-A280-8799A4D71573}.Release|x86.ActiveCfg = Release|Any CPU
+		{728279B6-D832-4FD6-A280-8799A4D71573}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

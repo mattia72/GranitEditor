@@ -213,8 +213,7 @@ namespace GranitEditor
 
       if (e.Value != null)
       {
-        decimal parsedValue = 0;
-        if (Decimal.TryParse((string)e.Value, out parsedValue))
+        if (Decimal.TryParse((string)e.Value, out decimal parsedValue))
         {
           e.Value = parsedValue;
           e.FormattingApplied = true;

@@ -131,8 +131,7 @@ namespace GranitEditor
         {
           case "System.Boolean":
             {
-              bool parsedBoolValue = false;
-              if (Boolean.TryParse(cbValue[rowKey][cellKey], out parsedBoolValue))
+              if (Boolean.TryParse(cbValue[rowKey][cellKey], out bool parsedBoolValue))
               {
                 cell.Value = parsedBoolValue;
                 DataGridView.RefreshEdit();
