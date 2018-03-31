@@ -16,7 +16,6 @@ namespace GranitEditor
     private MruStripMenu _mruMenu;
     private string _activeFilePath;
     private EnumStripMenu<DataGridViewAutoSizeColumnsMode> _gridAlignMenu;
-    private bool _docsHavePendingChanges = false;
 
     private AboutBox _aboutBox;
     private OpenFileDialog _openFileDialog;
@@ -30,20 +29,16 @@ namespace GranitEditor
 
     private ClipboardHandler _clipboardHandler;
 
-    public bool DocsHavePendingChanges
+    public bool ActiveDocHavePendingChanges
     {
-      get => _docsHavePendingChanges;
-      set
-      {
-        _docsHavePendingChanges = value;
-        UpdateSaveAndSaveAsItems();
-        UpdateUndoRedoItems();
-      }
+      get => ActiveXmlForm?.DocHasPendingChanges == null ? 
+        false : ActiveXmlForm.DocHasPendingChanges; 
     }
 
-    public void SetDocsHavePendingChanges(bool isChanged)
+    public void UpdateToolbarItems()
     {
-      DocsHavePendingChanges = isChanged;
+      UpdateSaveAndSaveAsItems();
+      UpdateUndoRedoItems();
     }
 
     public EnumStripMenu<DataGridViewAutoSizeColumnsMode> GridAlignMenu { get => _gridAlignMenu; set => _gridAlignMenu = value; }
@@ -517,7 +512,7 @@ namespace GranitEditor
 
     protected override void OnClosing(CancelEventArgs e)
     {
-      Debug.WriteLine("OnClosing called on MainForm. docHasPendingChanges: {0}", DocsHavePendingChanges);
+      Debug.WriteLine("OnClosing called on MainForm. docHasPendingChanges: {0}", ActiveDocHavePendingChanges);
 
       //if (DocsHavePendingChanges || ActiveFilePath == string.Empty)
       //  e.Cancel = AskAndSaveFiles(MessageBoxButtons.YesNoCancel) == DialogResult.Cancel;
@@ -634,13 +629,7 @@ namespace GranitEditor
     public void UpdateSaveAndSaveAsItems()
     {
       saveAsToolStripMenuItem.Enabled = ActiveXmlForm != null;
-      bool saved = false;
-      if (ActiveForm != null)
-      {
-        saved = ActiveXmlForm.XmlToObjectBinder.DocumentSaved;
-      }
-
-      saveToolStripButton.Enabled   = !saved;
+      saveToolStripButton.Enabled = ActiveDocHavePendingChanges; 
       saveToolStripMenuItem.Enabled = saveToolStripButton.Enabled;
     }
 
@@ -660,7 +649,7 @@ namespace GranitEditor
 
     private void FileToolStripMenuItem1_DropDownOpened(object sender, EventArgs e)
     {
-      saveToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.DocHasPendingChanges;
+      //saveToolStripMenuItem.Enabled = saveToolStripButton.Enabled;
     }
 
     private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -823,7 +812,6 @@ namespace GranitEditor
     {
       ActiveXmlForm?.History?.Do(new TransactionPoolMemento(ActiveXmlForm.XmlToObjectBinder.GranitXDocument));
       ActiveXmlForm?.ContextMenuHandler.AddNewEmptyRow();
-      ActiveXmlForm.DocHasPendingChanges = true;
     }
 
     private void DeleteRowToolStripButton_Click(object sender, EventArgs e)

@@ -19,7 +19,6 @@ namespace GranitEditor
     private SaveFileDialog _saveFileDialog;
 
     private string _lastOpenedFilePath;
-    private bool _docHasPendingChanges = false;
     private GranitDataGridViewCellValidator _cellVallidator;
     private GranitDataGridViewContextMenuHandler _contextMenuHandler;
     private SortableBindingList<TransactionAdapter> _bindingList;
@@ -91,13 +90,7 @@ namespace GranitEditor
 
     public bool DocHasPendingChanges
     {
-      get => _docHasPendingChanges;
-      set
-      {
-        Debug.WriteLine(string.Format("Doc has pending changes {0}", value));
-        _docHasPendingChanges = value;
-        MainForm?.SetDocsHavePendingChanges(value);
-      }
+      get => XmlToObjectBinder.DocHasPendingChanges;
     }
 
     private GranitEditorMainForm MainForm { get => (ParentForm as GranitEditorMainForm); }
@@ -129,7 +122,7 @@ namespace GranitEditor
       {
         Debug.WriteLine("Remove transactionId: " + transactionIdTodelete + " from index: " + e.RowIndex);
         XmlToObjectBinder.RemoveTransactionRowById((long)transactionIdTodelete);
-        DocHasPendingChanges = true;
+        MainForm?.UpdateToolbarItems();
       }
     }
 
@@ -167,7 +160,7 @@ namespace GranitEditor
       dataGridView1.EndEdit();
       XmlToObjectBinder.SaveToFile(xmlFilePath);
       LastOpenedFilePath = xmlFilePath;
-      DocHasPendingChanges = false;
+      MainForm?.UpdateToolbarItems();
     }
 
     public void LoadDocument(string xmlFilePath)
@@ -196,7 +189,6 @@ namespace GranitEditor
       }
 
       RebindBindingList();
-      DocHasPendingChanges = false;
     }
 
     private void DataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
@@ -237,20 +229,20 @@ namespace GranitEditor
     private void DataGridView1_Sorted(object sender, EventArgs e)
     {
       XmlToObjectBinder.Sort(dataGridView1.SortedColumn.DataPropertyName, dataGridView1.SortOrder);
-      DocHasPendingChanges = true;
+      MainForm?.UpdateToolbarItems();
     }
 
     private void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
     {
       Debug.WriteLine("CellValueChanged called on row: {0} col: {1}", e.RowIndex, e.ColumnIndex);
       if (e.RowIndex != -1) // not on first load 
-        DocHasPendingChanges = true;
+        MainForm?.UpdateToolbarItems();
     }
 
     public DialogResult CheckPendingChangesAndSaveIfNecessary()
     {
       DialogResult answere = DialogResult.OK; ;
-      if (DocHasPendingChanges && History.CanUndo)
+      if (DocHasPendingChanges)
         answere = AskAndSaveFile(MessageBoxButtons.YesNoCancel);
       return answere;
     }
@@ -259,7 +251,7 @@ namespace GranitEditor
     {
       Debug.WriteLine("OnClosing called. docHasPendingChanges: {0}", DocHasPendingChanges);
 
-      if ((DocHasPendingChanges && History.CanUndo) || !File.Exists(LastOpenedFilePath))
+      if (DocHasPendingChanges || !File.Exists(LastOpenedFilePath))
         e.Cancel = AskAndSaveFile(MessageBoxButtons.YesNoCancel) == DialogResult.Cancel;
 
       if (!e.Cancel)
@@ -365,7 +357,7 @@ namespace GranitEditor
         case ListChangedType.ItemAdded:
         case ListChangedType.ItemDeleted:
         case ListChangedType.ItemChanged:
-          DocHasPendingChanges = true;
+          MainForm?.UpdateToolbarItems();
           break;
       }
     }
@@ -374,7 +366,7 @@ namespace GranitEditor
     {
       XmlToObjectBinder = new GranitXmlToAdapterBinder();
       RebindBindingList();
-      DocHasPendingChanges = true;
+      MainForm?.UpdateToolbarItems();
     }
 
     /// <summary>
@@ -443,14 +435,14 @@ namespace GranitEditor
       History?.Do(new TransactionPoolMemento(XmlToObjectBinder.GranitXDocument));
 
       _contextMenuHandler.Grid_DuplicateRow(sender, e);
-      DocHasPendingChanges = true;
+        //DocHasPendingChanges = true;
     }
 
     private void AddRowToolStripMenuItem_Click(object sender, EventArgs e)
     {
       History?.Do(new TransactionPoolMemento(XmlToObjectBinder.GranitXDocument));
       _contextMenuHandler.Grid_AddNewRow(sender, e);
-      DocHasPendingChanges = true;
+        //DocHasPendingChanges = true;
     }
 
     public void Undo()
@@ -559,7 +551,7 @@ namespace GranitEditor
     {
       History?.Do(new TransactionPoolMemento(XmlToObjectBinder.GranitXDocument));
       _contextMenuHandler.Grid_DeleteSelectedRows(sender, e);
-      DocHasPendingChanges = true;
+        //DocHasPendingChanges = true;
     }
 
     private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
