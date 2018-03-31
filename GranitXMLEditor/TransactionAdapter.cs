@@ -69,6 +69,7 @@ namespace GranitEditor
       get { return Transaction.Amount.Value; }
       set
       {
+        //culture = CultureInfo.CreateSpecificCulture("hu-HU");
         UpdateGranitXDocument(GranitXml.Constants.Amount, value.ToString(GranitXml.Constants.AmountFormatString, CultureInfo.InvariantCulture));
         Transaction.Amount.Value = value;
       }

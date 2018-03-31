@@ -66,7 +66,7 @@ namespace GranitEditor
       {
         e.CellStyle.BackColor = Color.LightPink;
         e.CellStyle.SelectionBackColor = Color.HotPink;
-        dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Resources.DateInThePastError;
+        dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = errorText; 
       }
       else
       {
@@ -107,39 +107,7 @@ namespace GranitEditor
       {
         try
         {
-          StringBuilder accountString = new StringBuilder();
-          string value = (string)e.Value;
-          value = Regex.Replace(value, "-", "");
-          string fragment = Constants.NullAccountFragment;
-
-          if (value.Length > 7)
-            fragment = value.Substring(0, 8);
-          else
-            fragment = SafeAddNulls(value, 0);
-
-          accountString.Append(fragment);
-          accountString.Append("-");
-
-          if (value.Length > 15)
-            fragment = value.Substring(8, 8);
-          else
-            fragment = SafeAddNulls(value, 8);
-
-          accountString.Append(fragment);
-
-          if (value.Length > 16)
-          {
-            accountString.Append("-");
-
-            if (value.Length >= 23)
-              fragment = value.Substring(16, 8);
-            else
-              fragment = SafeAddNulls(value, 16);
-
-            accountString.Append(fragment);
-          }
-
-          e.Value = accountString.ToString();
+          e.Value = FormatToDisplayAccountNumber((string)e.Value);
           e.FormattingApplied = true;
         }
         catch (Exception)
@@ -150,6 +118,42 @@ namespace GranitEditor
         }
 
       }
+    }
+
+    public static string FormatToDisplayAccountNumber(string value)
+    {
+      StringBuilder accountString = new StringBuilder();
+      value = Regex.Replace(value, "-", "");
+      string fragment = Constants.NullAccountFragment;
+
+      if (value.Length > 7)
+        fragment = value.Substring(0, 8);
+      else
+        fragment = SafeAddNulls(value, 0);
+
+      accountString.Append(fragment);
+      accountString.Append("-");
+
+      if (value.Length > 15)
+        fragment = value.Substring(8, 8);
+      else
+        fragment = SafeAddNulls(value, 8);
+
+      accountString.Append(fragment);
+
+      if (value.Length > 16)
+      {
+        accountString.Append("-");
+
+        if (value.Length >= 23)
+          fragment = value.Substring(16, 8);
+        else
+          fragment = SafeAddNulls(value, 16);
+
+        accountString.Append(fragment);
+      }
+
+      return accountString.ToString();
     }
 
     private static string SafeAddNulls(string value, int index)
