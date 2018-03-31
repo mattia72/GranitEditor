@@ -224,16 +224,7 @@ namespace GranitEditor
       {
         try
         {
-          string value = (string)e.Value;
-          value = Regex.Replace(value, "[ -]", "");
-          StringBuilder accountString = new StringBuilder(value);
-          if (accountString.Length != 16)
-          {
-            while (accountString.Length < 24)
-              accountString.Append("0");
-          }
-
-          e.Value = accountString.ToString();
+          e.Value = FormatToXmlValidAccountNumber((string)e.Value);
           e.FormattingApplied = true;
         }
         catch (Exception)
@@ -243,6 +234,19 @@ namespace GranitEditor
           e.FormattingApplied = false;
         }
       }
+    }
+
+    public static string FormatToXmlValidAccountNumber(string value)
+    {
+      value = Regex.Replace(value, "[ -]", "");
+      StringBuilder accountString = new StringBuilder(value);
+      if (accountString.Length != 16)
+      {
+        while (accountString.Length < 24)
+          accountString.Append("0");
+      }
+
+      return accountString.ToString();
     }
 
     public static string FormatDateTime(DateTime date)

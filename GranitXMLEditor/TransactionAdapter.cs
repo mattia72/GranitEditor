@@ -37,8 +37,9 @@ namespace GranitEditor
       get { return (Transaction.Originator.Account.AccountNumber); }
       set
       {
-        UpdateGranitXDocument(GranitXml.Constants.Originator, value);
-        Transaction.Originator.Account.AccountNumber = value;
+        string xmlValidValue = GranitDataGridViewCellFormatter.FormatToXmlValidAccountNumber(value);
+        UpdateGranitXDocument(GranitXml.Constants.Originator, xmlValidValue);
+        Transaction.Originator.Account.AccountNumber = xmlValidValue;
       }
     }
 
@@ -57,8 +58,9 @@ namespace GranitEditor
       get { return (Transaction.Beneficiary.Account.AccountNumber); }
       set
       {
-        UpdateGranitXDocument(Constants.BeneficiaryAccount, value);
-        Transaction.Beneficiary.Account.AccountNumber = value;
+        string xmlValidValue = GranitDataGridViewCellFormatter.FormatToXmlValidAccountNumber(value);
+        UpdateGranitXDocument(Constants.BeneficiaryAccount, xmlValidValue);
+        Transaction.Beneficiary.Account.AccountNumber = xmlValidValue;
       }
     }
 
