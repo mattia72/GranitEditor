@@ -14,7 +14,12 @@ namespace GranitEditor
   public class GranitXmlToAdapterBinder : IGranitXDocumentOwner
   {
     public HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
+
+    //IGranitXDocumentOwner
     public XDocument GranitXDocument { get; set; }
+    public string OnDiscXmlFilePath { get; set; }
+    public XDocument OnDiscXDocument { get; set; }
+
     public UndoRedoHistory<IGranitXDocumentOwner> History { get; set; }
 
     // TODO: DeepEquals doesn't do the job... 
@@ -29,8 +34,6 @@ namespace GranitEditor
     private ValidationEventArgs _validationEventArgs = null;
 
     public ValidationEventArgs ValidationEventArgs { get => _validationEventArgs; set => _validationEventArgs = value; }
-    public string OnDiscXmlFilePath { get; private set; }
-    public XDocument OnDiscXDocument { get; private set; }
 
 
     public GranitXmlToAdapterBinder()
