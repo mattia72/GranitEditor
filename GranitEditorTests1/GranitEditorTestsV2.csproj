@@ -67,7 +67,9 @@
     <Compile Include="XDocumentExtensionTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GenericUndoRedo\GenericUndoRedo.csproj">
