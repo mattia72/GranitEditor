@@ -120,8 +120,8 @@
   </Target>
   <Import Project="..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>echo Start NuGet restore "$(ProjectDir)packages.config"
-nuget restore "$(ProjectDir)packages.config" -PackagesDirectory "$(SolutionDir)packages"
+    <PreBuildEvent>rem echo Start NuGet restore "$(ProjectDir)packages.config"
+rem nuget restore "$(ProjectDir)packages.config" -PackagesDirectory "$(SolutionDir)packages"
 dir "$(SolutionDir)packages"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
