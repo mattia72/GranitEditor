@@ -527,7 +527,9 @@ namespace GranitEditor
               break;
 
             case Keys.V:
+              History.BeginCompoundDo();
               ClipboardHandler.PasteClipboardValue(dataGridView1);
+              EndCompoundDo();
               break;
           }
         }
@@ -536,7 +538,9 @@ namespace GranitEditor
           switch (e.KeyCode)
           {
             case Keys.Insert:
+              History.BeginCompoundDo();
               ClipboardHandler.PasteClipboardValue(dataGridView1);
+              EndCompoundDo();
               break;
           }
         }
@@ -545,6 +549,12 @@ namespace GranitEditor
       {
         MessageBox.Show("Copy/paste operation failed. " + ex.Message,Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
       }
+    }
+
+    private void EndCompoundDo()
+    {
+      History.EndCompoundDo();
+      MainForm.UpdateToolbarItems();
     }
 
     public void DeleteRowToolStripMenuItem_Click(object sender, EventArgs e)

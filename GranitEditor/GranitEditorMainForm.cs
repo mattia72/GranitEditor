@@ -789,7 +789,10 @@ namespace GranitEditor
 
     public void Paste()
     {
+      ActiveXmlForm?.History.BeginCompoundDo();
       _clipboardHandler.PasteClipboardValue(ActiveXmlForm.DataGrid);
+      ActiveXmlForm?.History.EndCompoundDo();
+      UpdateToolbarItems();
     }
 
     private void CutToolStripMenuItem_Click(object sender, EventArgs e)
