@@ -305,7 +305,7 @@ namespace GranitEditor
           {
             Tag = ActiveMdiChild,
             Parent = formsTabControl,
-            ToolTipText = ActiveXmlForm.LastOpenedFilePath
+            ToolTipText = Path.GetFullPath(ActiveXmlForm.LastOpenedFilePath)
           };
           ActiveMdiChild.Tag = tp;
           ActiveMdiChild.FormClosed += new FormClosedEventHandler(ActiveMdiChild_FormClosed);
