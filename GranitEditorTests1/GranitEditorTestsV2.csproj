@@ -122,7 +122,7 @@
   <PropertyGroup>
     <PreBuildEvent>rem echo Start NuGet restore "$(ProjectDir)packages.config"
 rem nuget restore "$(ProjectDir)packages.config" -PackagesDirectory "$(SolutionDir)packages"
-dir "$(SolutionDir)packages"</PreBuildEvent>
+rem dir "$(SolutionDir)packages"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

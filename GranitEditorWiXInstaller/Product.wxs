@@ -66,8 +66,8 @@
       <Component Id="README.hu.md">
         <File Id="README.hu.md" Source="$(var.GranitEditor.TargetDir)\README.hu.md" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="LICENCSE">
-        <File Id="LICENCSE" Source="$(var.GranitEditor.TargetDir)\LICENSE" KeyPath="yes" Checksum="yes"/>
+      <Component Id="LICENSE">
+        <File Id="LICENSE" Source="$(var.GranitEditor.TargetDir)\LICENSE" KeyPath="yes" Checksum="yes"/>
       </Component>
     </ComponentGroup>
   </Fragment>
