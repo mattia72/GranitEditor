@@ -12,8 +12,9 @@ namespace GranitEditor.Tests
   [TestClass()]
   public class TransactionAdapterTests
   {
-    TransactionAdapter TestAdapter { get; set; }
     XDocument TestXDoc { get; set; }
+    HUFTransaction TestHUFTransaction { get; set; }
+    TransactionAdapter TestAdapter { get; set; }
 
     [TestMethod()]
     public void UpdateGranitXDocument_Test()
@@ -50,11 +51,16 @@ namespace GranitEditor.Tests
       Assert.AreEqual(rInfo, TestAdapter.RemittanceInfo);
     }
 
-    public void FillTransactionAdapter()
+    public void FillTransactionAdapter(int transactionIndex = 0)
     {
       TestXDoc = XDocument.Parse(TestConstants.HUFTransactionXml);
-      HUFTransaction testHUFTransaction = HUFTransaction.Load(TestXDoc); 
-      TestAdapter = new TransactionAdapter(testHUFTransaction.Transactions[0], TestXDoc);
+      TestHUFTransaction = HUFTransaction.Load(TestXDoc);
+      TestAdapter = GetTransactionAdapter(TestHUFTransaction, transactionIndex);
+    }
+
+    private TransactionAdapter GetTransactionAdapter(HUFTransaction testHUFTransaction, int transactionIndex)
+    {
+      return new TransactionAdapter(testHUFTransaction.Transactions[transactionIndex], TestXDoc);
     }
 
     [TestMethod()]
@@ -91,6 +97,22 @@ namespace GranitEditor.Tests
       clone.Amount = TestAdapter.Amount + 1;
       Assert.IsFalse(clone.CompareTo(TestAdapter) == 0);
 
+    }
+
+    [TestMethod()]
+    public void IsBindedWith_Test()
+    {
+      FillTransactionAdapter();
+      var arr = TestXDoc.Root.Elements(GranitXml.Constants.Transaction).ToArray();
+
+      for (int i = 0; i < arr.Count(); i++)
+      {
+        TestAdapter = GetTransactionAdapter(TestHUFTransaction, i);
+        Assert.IsTrue(TestAdapter.IsBindedWith(arr[i]));
+      }
+
+      Assert.IsFalse(TestAdapter.IsBindedWith(arr[0]));
+      Assert.IsFalse(TestAdapter.IsBindedWith(arr[1]));
     }
   }
 }
