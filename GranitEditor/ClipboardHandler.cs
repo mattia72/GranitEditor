@@ -11,9 +11,8 @@ namespace GranitEditor
   /// </summary>
   public class ClipboardHandler
   {
-    private DataGridView dataGridView1;
-    public DataGridView DataGridView { get => dataGridView1; set => dataGridView1 = value; }
-    public bool ClipboardHasContent { get => dataGridView1?.GetClipboardContent() != null; }
+    public DataGridView DataGridView { get; set; }
+    public bool ClipboardHasContent { get => DataGridView?.GetClipboardContent() != null; }
     public bool PasteToSelectedCellsOnly { get; set; }
 
     public ClipboardHandler()
