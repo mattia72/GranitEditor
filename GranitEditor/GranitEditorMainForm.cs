@@ -451,6 +451,8 @@ namespace GranitEditor
       var hist = ActiveXmlForm?.History;
       undoToolStripButton.Enabled = hist == null ? false : hist.CanUndo;
       redoToolStripButton.Enabled = hist == null ? false : hist.CanRedo;
+      //undoToolStripButton.ToolTipText = hist == null ? "" : hist.UndoCount.ToString();
+      //redoToolStripMenuItem.ToolTipText =  hist == null ? "" : hist.RedoCount.ToString();
     }
 
     public void ShowFindAndReplaceDlg()

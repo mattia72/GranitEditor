@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace GranitEditor
@@ -94,12 +95,16 @@ namespace GranitEditor
       var lines = clipBoardContent.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
       foreach (string line in lines)
       {
+        //Skip empty lines
+        if (Regex.IsMatch(line, "^\t+$"))
+          continue;
+
         if (line.StartsWith("\t"))
           lineList.Add(line.Remove(0, 1));
         else
           lineList.Add(line);
       }
-      Dictionary<int, Dictionary<int, string>> cbValue = ClipBoardValues(string.Join(Environment.NewLine, lineList.ToArray()));
+      Dictionary<int, Dictionary<int, string>> cbValue = ClipBoardValuesToDictionary(lineList);
       return cbValue;
     }
 
@@ -174,16 +179,15 @@ namespace GranitEditor
       return dgView[colIndex, rowIndex];
     }
 
-    private Dictionary<int, Dictionary<int, string>> ClipBoardValues(string clipboardValue)
+    private Dictionary<int, Dictionary<int, string>> ClipBoardValuesToDictionary(List<string> lines)
     {
       Dictionary<int, Dictionary<int, string>> copyValues = new Dictionary<int, Dictionary<int, string>>();
 
-      String[] lines = clipboardValue.Split('\n');
-
-      for (int i = 0; i <= lines.Length - 1; i++)
+      for (int i = 0; i <= lines.Count - 1; i++)
       {
-        copyValues[i] = new Dictionary<int, string>();
         String[] lineContent = lines[i].Split('\t');
+
+        copyValues[i] = new Dictionary<int, string>();
 
         //if an empty cell value copied, then set the dictionay with an empty string
         //else Set value to dictionary
