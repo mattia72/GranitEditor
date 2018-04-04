@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -96,16 +97,21 @@ namespace GranitEditor
       foreach (string line in lines)
       {
         //Skip empty lines
-        if (Regex.IsMatch(line, "^\t+$"))
+        if (IsWholeLine(line) && Regex.IsMatch(line, "^\t+$"))
           continue;
 
-        if (line.StartsWith("\t"))
+        if (IsWholeLine(line))
           lineList.Add(line.Remove(0, 1));
         else
           lineList.Add(line);
       }
       Dictionary<int, Dictionary<int, string>> cbValue = ClipBoardValuesToDictionary(lineList);
       return cbValue;
+    }
+
+    private bool IsWholeLine(string line)
+    {
+      return line.StartsWith("\t") && line.Count(c => c == '\t') == DataGridView.ColumnCount;
     }
 
     private void AddRow()
