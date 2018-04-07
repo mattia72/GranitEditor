@@ -12,7 +12,7 @@ namespace GranitEditor
 
     public TransactionXElementParser(): base(GranitXml.Constants.Transaction)
     {
-      ParsedElement = Parse(TransactionXml);
+      ParsedElement = Parse(DefaultTransactionXml);
     }
 
     public TransactionXElementParser(TransactionAdapter ta): base(GranitXml.Constants.Transaction)
@@ -20,7 +20,7 @@ namespace GranitEditor
       ParsedElement = Parse(ta.Transaction);
     }
 
-    private string TransactionXml = @"  
+    private string DefaultTransactionXml = @"  
       <Transaction>
        <Originator> <Account> <AccountNumber>000000000000000000000000</AccountNumber> </Account> </Originator>
        <Beneficiary> <Name></Name> <Account> <AccountNumber>000000000000000000000000</AccountNumber> </Account> </Beneficiary>

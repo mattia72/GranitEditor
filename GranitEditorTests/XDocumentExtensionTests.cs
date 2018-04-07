@@ -148,7 +148,7 @@ namespace GranitEditor.Tests
           .Where(x => TransactionAdapterTests.TestAdapter.IsBindedWith(x)).ToList()
           .FirstOrDefault();
 
-      xe.CommentXElmenet();
+      xdoc.CommentXElmenet(xe);
     }
   }
 }

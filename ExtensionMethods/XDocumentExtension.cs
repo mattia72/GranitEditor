@@ -18,29 +18,17 @@ namespace ExtensionMethods
       return element.Elements().Count() == 0;
     }
 
-    //public static void CommentXElmenet(this XDocument x, XElement xElement)
-    //{
-    //  xElement.ReplaceWith(new XComment(xElement.ToString()));
-    //}
+    public static void CommentXElmenet(this XDocument x, XElement xe)
+    {
+      XComment xc = xe.CommentXElmenet();
+      xe.ReplaceWith(xc);
+    }
 
     public static void UnCommentXElmenet(this XDocument xd, XComment xc)
     {
-      XElement xe = null;
-      try
-      {
-        xe = XElement.Parse(xc.Value);
-      }
-      catch (XmlException e)
-      {
-        Debug.WriteLine(string.Format("{0} not valid xml element. Exception: {1}", xc.Value, e.Message));
-      }
-      finally
-      {
-        if (xe != null)
-        {
-          xc.ReplaceWith(xe);
-        }
-      }
+      XElement xe = xc.UnCommentXElmenet();
+      if(xe != null)
+        xc.ReplaceWith(xe);
     }
 
     /// <summary>
