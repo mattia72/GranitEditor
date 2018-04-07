@@ -70,6 +70,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj">
+      <Project>{f03fc11a-0776-42b9-b943-d8838e158958}</Project>
+      <Name>ExtensionMethods</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GenericUndoRedo\GenericUndoRedo.csproj">
       <Project>{e5323f74-c017-4ad0-9fa1-e53ab85b23bf}</Project>
       <Name>GenericUndoRedo</Name>

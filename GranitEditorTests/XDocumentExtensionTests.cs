@@ -1,4 +1,4 @@
-﻿using GranitEditor;
+﻿using ExtensionMethods;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Xml.Linq;
@@ -6,7 +6,7 @@ using GranitXMLEditorTests;
 using System.Windows.Forms;
 using System.Globalization;
 using System.IO;
-using System.Diagnostics;
+using System.Xml;
 
 namespace GranitEditor.Tests
 {
@@ -100,6 +100,55 @@ namespace GranitEditor.Tests
     {
       XDocument x = new XDocument();
       Assert.IsTrue(x.IsEmpty());
+    }
+
+    [TestMethod()]
+    public void CommentXElmenet_Test()
+    {
+      CommentFirstXElement(out XDocument xdoc, out int origTransCount, out int origCommentCount);
+
+      CountTransactionsAndComments(xdoc, out int actTransCount, out int actCommentCount);
+
+      Assert.AreEqual(origTransCount - 1, actTransCount);
+      Assert.AreEqual(origCommentCount + 1, actCommentCount);
+    }
+
+    private static void CountTransactionsAndComments(XDocument xdoc, out int actTransCount, out int actCommentCount)
+    {
+      actTransCount = xdoc.Root.Elements(GranitXml.Constants.Transaction).Count();
+      actCommentCount = xdoc.DescendantNodes().Where(x => x.NodeType == XmlNodeType.Comment).Count();
+    }
+
+    [TestMethod()]
+    public void UnCommentXElmenet_Test()
+    {
+      CommentFirstXElement(out XDocument xdoc, out int origTransCount, out int origCommentCount);
+      CountTransactionsAndComments(xdoc, out origTransCount, out origCommentCount);
+
+      var comList = xdoc.DescendantNodes().Where(x => x.NodeType == XmlNodeType.Comment).ToList();
+
+      foreach(XComment xc in comList)
+        xdoc.UnCommentXElmenet(xc);
+
+      CountTransactionsAndComments(xdoc, out int actTransCount, out int actCommentCount);
+
+      Assert.AreEqual(origTransCount + 1, actTransCount);
+      Assert.AreEqual(origCommentCount - 1, actCommentCount);
+    }
+
+    private void CommentFirstXElement(out XDocument xdoc, out int origTransCount, out int origCommentCount)
+    {
+      TransactionAdapterTests.FillTransactionAdapter();
+      xdoc = TransactionAdapterTests.TestXDoc;
+
+      origTransCount = xdoc.Root.Elements(GranitXml.Constants.Transaction).Count();
+      origCommentCount = xdoc.DescendantNodes().Where(x => x.NodeType == XmlNodeType.Comment).Count();
+
+      XElement xe = xdoc.Root.Elements(GranitXml.Constants.Transaction)
+          .Where(x => TransactionAdapterTests.TestAdapter.IsBindedWith(x)).ToList()
+          .FirstOrDefault();
+
+      xe.CommentXElmenet();
     }
   }
 }

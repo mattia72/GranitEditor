@@ -12,9 +12,9 @@ namespace GranitEditor.Tests
   [TestClass()]
   public class TransactionAdapterTests
   {
-    XDocument TestXDoc { get; set; }
-    HUFTransaction TestHUFTransaction { get; set; }
-    TransactionAdapter TestAdapter { get; set; }
+    public static XDocument TestXDoc { get; set; }
+    public static HUFTransaction TestHUFTransaction { get; set; }
+    public static TransactionAdapter TestAdapter { get; set; }
 
     [TestMethod()]
     public void UpdateGranitXDocument_Test()
@@ -51,14 +51,14 @@ namespace GranitEditor.Tests
       Assert.AreEqual(rInfo, TestAdapter.RemittanceInfo);
     }
 
-    public void FillTransactionAdapter(int transactionIndex = 0)
+    public static void FillTransactionAdapter(int transactionIndex = 0)
     {
       TestXDoc = XDocument.Parse(TestConstants.HUFTransactionXml);
       TestHUFTransaction = HUFTransaction.Load(TestXDoc);
       TestAdapter = GetTransactionAdapter(TestHUFTransaction, transactionIndex);
     }
 
-    private TransactionAdapter GetTransactionAdapter(HUFTransaction testHUFTransaction, int transactionIndex)
+    public static TransactionAdapter GetTransactionAdapter(HUFTransaction testHUFTransaction, int transactionIndex)
     {
       return new TransactionAdapter(testHUFTransaction.Transactions[transactionIndex], TestXDoc);
     }

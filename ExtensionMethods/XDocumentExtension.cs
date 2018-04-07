@@ -1,23 +1,46 @@
-﻿using GranitEditor.Properties;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.XPath;
 
-namespace GranitEditor
+namespace ExtensionMethods
 {
   public static class XDocumentExtension
   {
     public static bool IsEmpty(this XDocument element)
     {
       return element.Elements().Count() == 0;
+    }
+
+    //public static void CommentXElmenet(this XDocument x, XElement xElement)
+    //{
+    //  xElement.ReplaceWith(new XComment(xElement.ToString()));
+    //}
+
+    public static void UnCommentXElmenet(this XDocument xd, XComment xc)
+    {
+      XElement xe = null;
+      try
+      {
+        xe = XElement.Parse(xc.Value);
+      }
+      catch (XmlException e)
+      {
+        Debug.WriteLine(string.Format("{0} not valid xml element. Exception: {1}", xc.Value, e.Message));
+      }
+      finally
+      {
+        if (xe != null)
+        {
+          xc.ReplaceWith(xe);
+        }
+      }
     }
 
     /// <summary>
@@ -72,12 +95,14 @@ namespace GranitEditor
       XmlSchemaSet schemaSet = new XmlSchemaSet();
       schemaSet.Add("", schemaPath);
 
-      XmlReaderSettings settings = new XmlReaderSettings();
-      settings.ValidationType = ValidationType.Schema;
-      settings.ValidationFlags =
-              XmlSchemaValidationFlags.ReportValidationWarnings | XmlSchemaValidationFlags.ProcessSchemaLocation;
-      settings.CloseInput = true;
-      settings.Schemas = schemaSet;
+      XmlReaderSettings settings = new XmlReaderSettings
+      {
+        ValidationType = ValidationType.Schema,
+        ValidationFlags =
+              XmlSchemaValidationFlags.ReportValidationWarnings | XmlSchemaValidationFlags.ProcessSchemaLocation,
+        CloseInput = true,
+        Schemas = schemaSet
+      };
 
       ValidationEventArgs eventArgs = null;
       settings.ValidationEventHandler += (o, e) =>

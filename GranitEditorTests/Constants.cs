@@ -54,7 +54,9 @@
 
     public static string HUFTransactionXml = @"
       <HUFTransactions> " + 
+        "<!-- comment1 -->" +
         TransactionXElem2 + 
+        "<!-- comment2 -->" +
         TransactionXElem1 + 
         TransactionXElem3 + @"
       </HUFTransactions>

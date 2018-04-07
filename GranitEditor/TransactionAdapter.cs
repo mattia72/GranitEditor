@@ -255,7 +255,7 @@ namespace GranitEditor
 
     public static IComparer<TransactionAdapter> SortAmountAscending()
     {
-      return (IComparer<TransactionAdapter>)new SortAmountAscendingHelper();
+      return new SortAmountAscendingHelper();
     }
 
     private class SortAmountDescendingHelper : IComparer<TransactionAdapter>
@@ -268,7 +268,7 @@ namespace GranitEditor
 
     public static IComparer<TransactionAdapter> SortAmountDescending()
     {
-      return (IComparer<TransactionAdapter>) new SortAmountDescendingHelper();
+      return new SortAmountDescendingHelper();
     }
 
     public object Clone()
