@@ -146,11 +146,13 @@ namespace GranitEditor
 
     private void AddDefaultAttributes()
     {
-      Transaction.ConvertCommentsToTransactions(GranitXDocument);
+      long maxId = Transaction.ConvertCommentsToTransactions(GranitXDocument);
 
-      foreach (var item in GranitXDocument.Root.Elements(GranitXml.Constants.Transaction).InDocumentOrder())
+      foreach (var item in GranitXDocument.Root.Elements(GranitXml.Constants.Transaction)
+          .Where(x=> null == x.Attribute(GranitXml.Constants.TransactionIdAttribute) || 
+                     null == x.Attribute(GranitXml.Constants.TransactionSelectedAttribute)).InDocumentOrder())
       {
-        Transaction.AddDefaultAttributes(item, 0, true, false);
+        Transaction.AddDefaultAttributes(item, ++maxId, true, false);
       }
     }
 

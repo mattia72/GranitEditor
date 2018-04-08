@@ -119,10 +119,10 @@ namespace GranitXml
       }
     }
 
-    public static void ConvertCommentsToTransactions(XDocument xd)
+    public static long ConvertCommentsToTransactions(XDocument xd)
     {
       if (xd == null)
-        return;
+        return 0;
 
       long maxid = xd.Root.Elements(Constants.Transaction).
         Select(xe => xe.HasAttributes ? long.Parse(xe.Attribute(Constants.TransactionIdAttribute).Value) : 0).Max();
@@ -136,7 +136,7 @@ namespace GranitXml
           item.ReplaceWith(xe);
         }
       }
-
+      return maxid;
     }
   }
 }
