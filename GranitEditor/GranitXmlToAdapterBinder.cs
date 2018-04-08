@@ -71,7 +71,7 @@ namespace GranitEditor
       if (!XmlValidationErrorOccured)
       {
         _validationEventArgs = null;
-        SetTransactionIdAttribute();
+        AddDefaultAttributes();
         ReCreateAdapter();
         History = new UndoRedoHistory<IGranitXDocumentOwner>(this);
       }
@@ -144,13 +144,13 @@ namespace GranitEditor
       return taRetVal;
     }
 
-    private void SetTransactionIdAttribute()
+    private void AddDefaultAttributes()
     {
       Transaction.ConvertCommentsToTransactions(GranitXDocument);
 
       foreach (var item in GranitXDocument.Root.Elements(GranitXml.Constants.Transaction).InDocumentOrder())
       {
-        Transaction.AddDefaultAttributes(item, 0, true);
+        Transaction.AddDefaultAttributes(item, 0, true, false);
       }
     }
 

@@ -279,7 +279,7 @@ namespace GranitEditor
 
     public override string ToString()
     {
-      return string.Format("Id: {0}, From: {1}, To: {2}, Date: {3}, Amount: {4}", TransactionId, Originator, BeneficiaryName, ExecutionDate, Amount);
+      return string.Format("Id: {0}, Selected: {1}, From: {2}, To: {3}, Date: {4}, Amount: {5}", TransactionId, IsSelected, Originator, BeneficiaryName, ExecutionDate, Amount);
     }
   }
 }

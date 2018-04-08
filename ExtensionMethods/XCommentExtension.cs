@@ -22,7 +22,8 @@ namespace ExtensionMethods
       XElement xe = null;
       try
       {
-        xe = XElement.Parse(xc.Value);
+        if(xc.Value.Contains("<"))
+          xe = XElement.Parse(xc.Value);
       }
       catch (XmlException e)
       {

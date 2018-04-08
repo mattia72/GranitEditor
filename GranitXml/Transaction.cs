@@ -94,7 +94,7 @@ namespace GranitXml
       return (Transaction)ser.Deserialize(xml.CreateReader());
     }
 
-    public static void AddDefaultAttributes(XElement item, long id = 0, bool selected = true)
+    public static void AddDefaultAttributes(XElement item, long id = 0, bool selected = true, bool overrideExisting = true)
     {
       if (item.Attribute(Constants.TransactionIdAttribute) == null)
       {
@@ -103,7 +103,8 @@ namespace GranitXml
       }
       else 
       {
-        item.Attribute(Constants.TransactionIdAttribute).Value = (id == 0 ? ++NextTransactionId : id).ToString();
+        if(overrideExisting)
+          item.Attribute(Constants.TransactionIdAttribute).Value = (id == 0 ? ++NextTransactionId : id).ToString();
       }
 
       if (item.Attribute(Constants.TransactionSelectedAttribute) == null)
@@ -113,7 +114,8 @@ namespace GranitXml
       }
       else
       {
-        item.Attribute(Constants.TransactionSelectedAttribute).Value = selected.ToString().ToLower();
+        if(overrideExisting)
+          item.Attribute(Constants.TransactionSelectedAttribute).Value = selected.ToString().ToLower();
       }
     }
 

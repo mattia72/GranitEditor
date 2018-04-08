@@ -324,10 +324,7 @@ namespace GranitEditor.Tests
         {
           var origTransaction = orig.HUFTransactionsAdapter.TransactionAdapters[i++];
 
-          if(origTransaction.IsSelected) // Selected are equal
-            Assert.AreEqual(t.CompareTo(origTransaction), 0);
-          else                           // else compare returns -2
-            Assert.AreEqual(t.CompareTo(origTransaction), -2);
+          Assert.AreEqual(t.CompareTo(origTransaction), 0);
         }
       }
     }
@@ -355,7 +352,7 @@ namespace GranitEditor.Tests
 
     [TestMethod()]
     public void CompareGranitXDocuments_OneNull_Test()
-    { 
+    {
       foreach (var xml in goodXmlExamples)
       {
         var x2o = new GranitXmlToAdapterBinder(xml, true);
@@ -366,10 +363,10 @@ namespace GranitEditor.Tests
 
     [TestMethod()]
     public void CompareGranitXDocuments_Test()
-    { 
-        var x1 = new GranitXmlToAdapterBinder("example.xml", true);
-        var x2 = new GranitXmlToAdapterBinder("test.xml", true);
-        Assert.AreNotEqual(GranitXmlToAdapterBinder.CompareGranitXDocuments(x1.GranitXDocument, x2.GranitXDocument), 0);
+    {
+      var x1 = new GranitXmlToAdapterBinder("example.xml", true);
+      var x2 = new GranitXmlToAdapterBinder("test.xml", true);
+      Assert.AreNotEqual(GranitXmlToAdapterBinder.CompareGranitXDocuments(x1.GranitXDocument, x2.GranitXDocument), 0);
     }
   }
 }
