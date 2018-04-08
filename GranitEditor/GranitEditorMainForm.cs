@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using static GranitEditor.Constants;
 
@@ -588,6 +589,7 @@ namespace GranitEditor
       string layout = Settings.Default.WindowLayout;
       if (layout != null && layout != string.Empty)
         Enum.TryParse<WindowLayout>(layout, out _windowLayout);
+
     }
 
 

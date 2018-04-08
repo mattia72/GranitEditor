@@ -111,7 +111,7 @@
       this.menuStrip1.MdiWindowListItem = this.windowToolStripMenuItem;
       this.menuStrip1.Name = "menuStrip1";
       this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-      this.menuStrip1.Size = new System.Drawing.Size(650, 24);
+      this.menuStrip1.Size = new System.Drawing.Size(838, 24);
       this.menuStrip1.TabIndex = 2;
       this.menuStrip1.Text = "menuStrip1";
       // 
@@ -453,7 +453,7 @@
             this.helpToolStripButton});
       this.toolStrip1.Location = new System.Drawing.Point(0, 24);
       this.toolStrip1.Name = "toolStrip1";
-      this.toolStrip1.Size = new System.Drawing.Size(650, 27);
+      this.toolStrip1.Size = new System.Drawing.Size(838, 27);
       this.toolStrip1.TabIndex = 3;
       this.toolStrip1.Text = "toolStrip1";
       // 
@@ -616,11 +616,11 @@
       // 
       this.formsTabControl.Dock = System.Windows.Forms.DockStyle.Top;
       this.formsTabControl.Location = new System.Drawing.Point(0, 51);
-      this.formsTabControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.formsTabControl.Margin = new System.Windows.Forms.Padding(2);
       this.formsTabControl.Name = "formsTabControl";
       this.formsTabControl.SelectedIndex = 0;
       this.formsTabControl.ShowToolTips = true;
-      this.formsTabControl.Size = new System.Drawing.Size(650, 20);
+      this.formsTabControl.Size = new System.Drawing.Size(838, 20);
       this.formsTabControl.TabIndex = 4;
       this.formsTabControl.Visible = false;
       this.formsTabControl.SelectedIndexChanged += new System.EventHandler(this.FormsTabControl_SelectedIndexChanged);
@@ -633,10 +633,10 @@
             this.allAmountStatus,
             this.selectedStatusLabel,
             this.selectedAmountStatus});
-      this.statusStrip1.Location = new System.Drawing.Point(0, 301);
+      this.statusStrip1.Location = new System.Drawing.Point(0, 338);
       this.statusStrip1.Name = "statusStrip1";
       this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
-      this.statusStrip1.Size = new System.Drawing.Size(650, 22);
+      this.statusStrip1.Size = new System.Drawing.Size(838, 22);
       this.statusStrip1.TabIndex = 5;
       this.statusStrip1.Text = "statusStrip1";
       // 
@@ -669,15 +669,18 @@
       this.AllowDrop = true;
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(650, 323);
+      this.ClientSize = global::GranitEditor.Properties.Settings.Default.Size;
       this.Controls.Add(this.statusStrip1);
       this.Controls.Add(this.formsTabControl);
       this.Controls.Add(this.toolStrip1);
       this.Controls.Add(this.menuStrip1);
+      this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::GranitEditor.Properties.Settings.Default, "Location", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+      this.DataBindings.Add(new System.Windows.Forms.Binding("ClientSize", global::GranitEditor.Properties.Settings.Default, "Size", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.IsMdiContainer = true;
+      this.Location = global::GranitEditor.Properties.Settings.Default.Location;
       this.MainMenuStrip = this.menuStrip1;
-      this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.Margin = new System.Windows.Forms.Padding(2);
       this.Name = "GranitEditorMainForm";
       this.Text = "GranitEditor";
       this.MdiChildActivate += new System.EventHandler(this.GranitEditorMainForm_MdiChildActivate);
