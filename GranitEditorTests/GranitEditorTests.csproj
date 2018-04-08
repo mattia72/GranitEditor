@@ -61,6 +61,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="GranitDataGridViewCellFormatterTests.cs" />
     <Compile Include="GranitXmlToAdapterBinderTests.cs" />
+    <Compile Include="HUFTransactionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtension.cs" />
     <Compile Include="TransactionAdapterTests.cs" />

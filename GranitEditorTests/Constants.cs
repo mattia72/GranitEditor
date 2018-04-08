@@ -58,6 +58,7 @@
         TransactionXElem2 + 
         "<!-- comment2 -->" +
         TransactionXElem1 + 
+        "<!--" + TransactionXElem4 + "-->" +
         TransactionXElem3 + @"
       </HUFTransactions>
       ";

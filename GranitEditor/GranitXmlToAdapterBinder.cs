@@ -24,8 +24,8 @@ namespace GranitEditor
     public UndoRedoHistory<IGranitXDocumentOwner> History { get; set; }
 
     // TODO: DeepEquals doesn't do the job... 
-    public bool DocHasPendingChanges => 
-      string.IsNullOrEmpty(OnDiscXmlFilePath) ? true :  0 != CompareGranitXDocuments(GranitXDocument, OnDiscXDocument);
+    public bool DocHasPendingChanges =>
+      string.IsNullOrEmpty(OnDiscXmlFilePath) ? true : 0 != CompareGranitXDocuments(GranitXDocument, OnDiscXDocument);
 
     public decimal SumAmount => HUFTransactionsAdapter.TransactionAdapters.Aggregate(0m, (total, next) => total + next.Amount);
     public int TransactionCount => GranitXDocument.Root.Elements(GranitXml.Constants.Transaction).Count();
@@ -83,7 +83,7 @@ namespace GranitEditor
       HUFTransaction h2 = HUFTransaction.Load(x2);
       return h1 != null ? h1.CompareTo(h2) : h2 == null ? 0 : -1;
     }
-    
+
     private void HUFTransactionsAdapter_PropertyChanging(object sender, System.ComponentModel.PropertyChangingEventArgs e)
     {
       History?.Do(new TransactionPoolMemento(GranitXDocument));
@@ -115,7 +115,7 @@ namespace GranitEditor
 
     public static void Bind(ref XDocument xd, TransactionAdapter ta)
     {
-      if(!GranitXmlDocumentContains(xd, ta))
+      if (!GranitXmlDocumentContains(xd, ta))
       {
         XElement transactionXelem = new TransactionXElementParser(ta).ParsedElement;
         xd.Root.Add(transactionXelem);
@@ -146,24 +146,11 @@ namespace GranitEditor
 
     private void SetTransactionIdAttribute()
     {
-      int index = 1;
+      Transaction.ConvertCommentsToTransactions(GranitXDocument);
+
       foreach (var item in GranitXDocument.Root.Elements(GranitXml.Constants.Transaction).InDocumentOrder())
       {
-        AddDefaultAttributes(index++, item);
-      }
-    }
-
-    private static void AddDefaultAttributes(long id, XElement item)
-    {
-      if (item.Attribute(GranitXml.Constants.TransactionIdAttribute) == null)
-      {
-        XAttribute idAttribute = new XAttribute(GranitXml.Constants.TransactionIdAttribute, id);
-        item.Add(idAttribute);
-      }
-      if (item.Attribute(GranitXml.Constants.TransactionSelectedAttribute) == null)
-      {
-        XAttribute activeAttribute = new XAttribute(GranitXml.Constants.TransactionSelectedAttribute, true);
-        item.Add(activeAttribute);
+        Transaction.AddDefaultAttributes(item, 0, true);
       }
     }
 
@@ -172,32 +159,50 @@ namespace GranitEditor
       OnDiscXDocument = new XDocument(new XElement(GranitXml.Constants.HUFTransactions));
 
       Debug.WriteLine("SaveToFile: {0}", HUFTransactionsAdapter.ToString());
-      
-      foreach (var item in GranitXDocument.Root.Elements().InDocumentOrder().
-        Where(x => x.Attribute(GranitXml.Constants.TransactionSelectedAttribute) == null ||
-        x.Attribute(GranitXml.Constants.TransactionSelectedAttribute).Value == "true"))
+
+      foreach (var item in GranitXDocument.Root.DescendantNodes().InDocumentOrder())
       {
-        XElement copy = RemoveTransactionAttributes(item);
-        OnDiscXDocument.Root.Add(RemoveAllNamespaces(copy));
+        if (item is XElement)
+        {
+          XElement x = item as XElement;
+          if (x.Name == GranitXml.Constants.Transaction)
+          {
+            if (x.Attribute(GranitXml.Constants.TransactionSelectedAttribute).Value == "true")
+            {
+              XElement copy = RemoveTransactionAttributes(x);
+              OnDiscXDocument.Root.Add(RemoveAllNamespaces(copy));
+            }
+            else if (x.Attribute(GranitXml.Constants.TransactionSelectedAttribute).Value == "false")
+            {
+              XElement copy = RemoveTransactionAttributes(x);
+              OnDiscXDocument.Root.Add(RemoveAllNamespaces(copy).CommentXElmenet());
+            }
+          }
+        }
+        else if (item is XComment)
+        {
+          OnDiscXDocument.Root.Add(item);
+        }
       }
+
       try
       {
         OnDiscXDocument.Save(xmlFilePath);
         OnDiscXmlFilePath = xmlFilePath;
       }
-      catch(UnauthorizedAccessException ex)
+      catch (UnauthorizedAccessException ex)
       {
         MessageBox.Show(Resources.FileCouldntBeSaved + "\n" + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         OnDiscXDocument = null;
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         MessageBox.Show(Resources.FileCouldntBeSaved + "\n" + ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         OnDiscXDocument = null;
       }
     }
 
-    private static XElement RemoveTransactionAttributes( XElement item)
+    private static XElement RemoveTransactionAttributes(XElement item)
     {
       var returnItem = new XElement(item);
       if (returnItem.Attribute(GranitXml.Constants.TransactionIdAttribute) != null)
@@ -270,7 +275,7 @@ namespace GranitEditor
     {
       var ts = HUFTransactionsAdapter?.TransactionAdapters;
 
-      if(ts!=null) Debug.WriteLine("ReCreateAdapter begin TransactionCount: {0}", ts.Count);
+      if (ts != null) Debug.WriteLine("ReCreateAdapter begin TransactionCount: {0}", ts.Count);
 
       HUFTransactionsAdapter = new HUFTransactionsAdapter(GranitXDocument);
       HUFTransactionsAdapter.PropertyChanged += HUFTransactionsAdapter_PropertyChanged;

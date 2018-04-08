@@ -4,8 +4,10 @@
  http://www.apache.org/licenses/LICENSE-2.0
 */
 
+using ExtensionMethods;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
@@ -24,7 +26,7 @@ namespace GranitXml
 
     public HUFTransaction(List<Transaction> transactionList)
     {
-      Transactions = transactionList; 
+      Transactions = transactionList;
     }
 
     public static HUFTransaction Load(XDocument xdoc)
@@ -44,15 +46,16 @@ namespace GranitXml
       return SerializeHUFTransactions(x);
     }
 
-    private static HUFTransaction SerializeHUFTransactions(XDocument x)
+    private static HUFTransaction SerializeHUFTransactions(XDocument xd)
     {
+      Transaction.ConvertCommentsToTransactions(xd);
       XmlRootAttribute xRoot = new XmlRootAttribute
       {
         ElementName = Constants.HUFTransactions,
         IsNullable = true
       };
       var ser = new XmlSerializer(typeof(HUFTransaction), xRoot);
-      return x == null ? null : (HUFTransaction)ser.Deserialize(x.CreateReader());
+      return xd == null ? null : (HUFTransaction)ser.Deserialize(xd.CreateReader());
     }
 
     public int CompareTo(HUFTransaction other)
@@ -64,7 +67,7 @@ namespace GranitXml
       if (comp != 0)
         return comp;
 
-      for (int i=0;  i < Transactions.Count; i++)
+      for (int i = 0; i < Transactions.Count; i++)
       {
         comp = Transactions[i].CompareTo(other.Transactions.Count > i ? other.Transactions[i] : null);
 

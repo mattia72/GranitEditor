@@ -293,7 +293,9 @@ namespace GranitEditor.Tests
         int origCount = x2o.TransactionCount;
         Assert.AreEqual(x2o.History.UndoCount, 0);
 
-        x2o.RemoveTransactionRowById(1);
+        long idToRemove = x2o.HUFTransactionsAdapter.TransactionAdapters.Min(x => x.TransactionId);
+
+        x2o.RemoveTransactionRowById(idToRemove);
 
         Assert.AreEqual(x2o.History.UndoCount, 1);
         Assert.AreEqual(x2o.GranitXDocument.Root.Elements().ToList().Count, origCount - 1);
@@ -308,12 +310,24 @@ namespace GranitEditor.Tests
       foreach (var xml in goodXmlExamples)
       {
         var orig = new GranitXmlToAdapterBinder(xml, validate: true);
+
+        long idToSelect1 = orig.HUFTransactionsAdapter.TransactionAdapters.Min(x => x.TransactionId);
+        long idToSelect2 = orig.HUFTransactionsAdapter.TransactionAdapters.Max(x => x.TransactionId);
+
+        orig.HUFTransactionsAdapter.TransactionAdapters[1].IsSelected = false;
+        orig.HUFTransactionsAdapter.TransactionAdapters[orig.TransactionCount - 2].IsSelected = false;
+
         orig.SaveToFile(tempXml);
         var saved = new GranitXmlToAdapterBinder(tempXml, validate: true);
         int i = 0;
         foreach (var t in saved.HUFTransactionsAdapter.TransactionAdapters)
         {
-          Assert.AreEqual(t.CompareTo(orig.HUFTransactionsAdapter.TransactionAdapters[i++]), 0);
+          var origTransaction = orig.HUFTransactionsAdapter.TransactionAdapters[i++];
+
+          if(origTransaction.IsSelected) // Selected are equal
+            Assert.AreEqual(t.CompareTo(origTransaction), 0);
+          else                           // else compare returns -2
+            Assert.AreEqual(t.CompareTo(origTransaction), -2);
         }
       }
     }

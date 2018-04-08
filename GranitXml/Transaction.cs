@@ -7,6 +7,8 @@
 using System;
 using System.Xml.Serialization;
 using System.Xml.Linq;
+using System.Linq;
+using ExtensionMethods;
 
 namespace GranitXml
 {
@@ -49,6 +51,9 @@ namespace GranitXml
       if (other == null)
         return -1;
 
+      if (IsSelected != other.IsSelected)
+        return -2;
+
       if (0 != Amount.CompareTo(other.Amount))
         return Amount.CompareTo(other.Amount);
       if (0 != Originator.CompareTo(other.Originator))
@@ -87,6 +92,49 @@ namespace GranitXml
     {
       var ser = new XmlSerializer(typeof(Transaction));
       return (Transaction)ser.Deserialize(xml.CreateReader());
+    }
+
+    public static void AddDefaultAttributes(XElement item, long id = 0, bool selected = true)
+    {
+      if (item.Attribute(Constants.TransactionIdAttribute) == null)
+      {
+        XAttribute idAttribute = new XAttribute(Constants.TransactionIdAttribute, id == 0 ? ++NextTransactionId : id);
+        item.Add(idAttribute);
+      }
+      else 
+      {
+        item.Attribute(Constants.TransactionIdAttribute).Value = (id == 0 ? ++NextTransactionId : id).ToString();
+      }
+
+      if (item.Attribute(Constants.TransactionSelectedAttribute) == null)
+      {
+        XAttribute activeAttribute = new XAttribute(Constants.TransactionSelectedAttribute, selected);
+        item.Add(activeAttribute);
+      }
+      else
+      {
+        item.Attribute(Constants.TransactionSelectedAttribute).Value = selected.ToString().ToLower();
+      }
+    }
+
+    public static void ConvertCommentsToTransactions(XDocument xd)
+    {
+      if (xd == null)
+        return;
+
+      long maxid = xd.Root.Elements(Constants.Transaction).
+        Select(xe => xe.HasAttributes ? long.Parse(xe.Attribute(Constants.TransactionIdAttribute).Value) : 0).Max();
+
+      foreach (var item in xd.Root.DescendantNodes().OfType<XComment>().InDocumentOrder())
+      {
+        XElement xe = item.UnCommentXElmenet();
+        if (xe != null)
+        {
+          Transaction.AddDefaultAttributes(xe, ++maxid, false);
+          item.ReplaceWith(xe);
+        }
+      }
+
     }
   }
 }
