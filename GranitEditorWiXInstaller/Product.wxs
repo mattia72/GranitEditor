@@ -48,6 +48,9 @@
       <Component Id="GranitEditor.exe.config">
         <File Id="GranitEditor.exe.config" Source="$(var.GranitEditor.TargetPath).config" KeyPath="yes" Checksum="yes"/>
       </Component>
+      <Component Id="ExtensionMethods.dll">
+        <File Id="ExtensionMethods.dll" Source="$(var.ExtensionMethods.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
       <Component Id="GranitXml.dll">
         <File Id="GranitXml.dll" Source="$(var.GranitXml.TargetPath)" KeyPath="yes" Checksum="yes"/>
       </Component>

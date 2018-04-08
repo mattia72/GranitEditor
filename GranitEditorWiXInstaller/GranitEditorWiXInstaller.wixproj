@@ -22,6 +22,14 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj">
+      <Name>ExtensionMethods</Name>
+      <Project>{f03fc11a-0776-42b9-b943-d8838e158958}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\GenericUndoRedo\GenericUndoRedo.csproj">
       <Name>GenericUndoRedo</Name>
       <Project>{e5323f74-c017-4ad0-9fa1-e53ab85b23bf}</Project>
