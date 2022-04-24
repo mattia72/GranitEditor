@@ -2,5 +2,5 @@
 - Update version in appveyor.yml
 - git commit, push
 (- git tag v1.0.3.1-beta)
-- git tag v1.1.0
+- git tag 1.1.0
 - git push --tags 
