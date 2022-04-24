@@ -2,6 +2,7 @@
 using GranitXml;
 using GranitXMLEditorTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Globalization;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
@@ -105,16 +106,26 @@ namespace GranitEditor.Tests
     }
 
     [TestMethod()]
-    public void CreateTransactionFromXElement_Test()
-    {
-      //arrange
-      var xt1 = XDocument.Parse(TestConstants.TransactionXml);
-      //act
-      Transaction t = Transaction.CreateTransactionFromXElement(xt1.Root);
-      //assert
-      Assert.IsNotNull(t.TransactionId);
-      Assert.AreEqual(t.Amount.Value, decimal.Parse(xt1.Root.Element(GranitXml.Constants.Amount).Value));
-      //Assert.AreEqual(t.Beneficiary.Account, decimal.Parse(xt1.Root.Element(GranitXML.Constants.Amount).Value));
+        public void CreateTransactionFromXElement_Test()
+        {
+            //arrange
+            var xt1 = XDocument.Parse(TestConstants.TransactionXml);
+            //act
+            Transaction t = Transaction.CreateTransactionFromXElement(xt1.Root);
+            //assert
+            Assert.IsNotNull(t.TransactionId);
+
+            string val = xt1.Root.Element(GranitXml.Constants.Amount).Value;
+            var style = NumberStyles.Any;
+            if (decimal.TryParse(val, style, CultureInfo.InvariantCulture, out decimal other))
+            {
+                Assert.AreEqual(t.Amount.Value, other);
+            }
+            else
+            {
+                Assert.Fail("Failed to parse:" + val);
+            }
+            //Assert.AreEqual(t.Beneficiary.Account, decimal.Parse(xt1.Root.Element(GranitXML.Constants.Amount).Value));
+        }
     }
-  }
 }

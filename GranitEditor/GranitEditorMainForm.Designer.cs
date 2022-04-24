@@ -16,6 +16,12 @@
       if (disposing && (components != null))
       {
         components.Dispose();
+        if (_aboutBox != null)
+          _aboutBox.Dispose();
+        if(_openFileDialog != null)
+          _openFileDialog.Dispose();
+        if(_saveFileDialog != null)
+        _saveFileDialog.Dispose();
       }
       base.Dispose(disposing);
     }

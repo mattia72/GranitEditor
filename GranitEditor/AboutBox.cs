@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -9,8 +10,10 @@ using System.Windows.Forms;
 
 namespace GranitEditor
 {
-  public partial class AboutBox : Form
+    public partial class AboutBox : Form
   {
+    private const string programHomeUrl = @"https://github.com/mattia72/GranitEditor";
+
     // BackgroundWorker for the animation
     BackgroundWorker scroller = new BackgroundWorker();
     // If this event is signaled, the scrolling will stop
@@ -21,18 +24,20 @@ namespace GranitEditor
     public AboutBox()
     {
       InitializeComponent();
-      this.Text = String.Format("About {0}", AssemblyTitle);
-      this.labelProductNameText.Text = AssemblyProduct;
-      this.labelVersionText.Text = AssemblyVersion;
-      this.labelCopyright.Text = Regex.Replace(AssemblyCopyright, @"(.*©).*", "$1"); //
-      this.labelCopyrightText.Text = Regex.Replace(AssemblyCopyright, @".*© (.*)", "$1");
-      this.labelBuildDateTimeText.Text = AssemblyBuildDateTime.ToString();
-      this.linkHomePage.Text = @"https://github.com/mattia72/GranitEditor";
+      Text = $"About {AssemblyTitle}";
+      labelProductNameText.Text = AssemblyProduct;
+      labelVersionText.Text = AssemblyVersion;
+      labelCopyright.Text = Regex.Replace(AssemblyCopyright, @"(.*©).*", "$1"); //
+      labelCopyrightText.Text = Regex.Replace(AssemblyCopyright, @".*© (.*)", "$1");
+      labelBuildDateTimeText.Text = AssemblyBuildDateTime.ToString("f", CultureInfo.InvariantCulture);
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+      linkHomePage.Text = programHomeUrl;
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
 
       // Add the content of the ReadMe.txt into the TextBox
       string readMeFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LICENSE");
       if (File.Exists(readMeFile))
-        textBoxDescription.Text = File.ReadAllText(readMeFile).Replace("\n",Environment.NewLine);
+        textBoxDescription.Text = File.ReadAllText(readMeFile).Replace("\n", Environment.NewLine);
 
       // With mouse click you can start/stop the animation
       textBoxDescription.MouseClick += new MouseEventHandler(TextBoxDescription_MouseClick);
@@ -124,7 +129,7 @@ namespace GranitEditor
 
     #region Assembly Attribute Accessors
 
-    public string AssemblyTitle
+    public static string AssemblyTitle
     {
       get
       {
@@ -132,7 +137,7 @@ namespace GranitEditor
         if (attributes.Length > 0)
         {
           AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
-          if (titleAttribute.Title != "")
+          if (!string.IsNullOrEmpty(titleAttribute.Title))
           {
             return titleAttribute.Title;
           }
@@ -141,7 +146,7 @@ namespace GranitEditor
       }
     }
 
-    public string AssemblyVersion
+    public static string AssemblyVersion
     {
       get
       {
@@ -152,7 +157,7 @@ namespace GranitEditor
       }
     }
 
-    public string AssemblyDescription
+    public static string AssemblyDescription
     {
       get
       {
@@ -165,7 +170,7 @@ namespace GranitEditor
       }
     }
 
-    public string AssemblyProduct
+    public static string AssemblyProduct
     {
       get
       {
@@ -178,7 +183,7 @@ namespace GranitEditor
       }
     }
 
-    public DateTime AssemblyBuildDateTime
+    public static DateTime AssemblyBuildDateTime
     {
       get
       {
@@ -191,7 +196,7 @@ namespace GranitEditor
       }
     }
 
-    public string AssemblyCopyright
+    public static string AssemblyCopyright
     {
       get
       {
@@ -204,7 +209,7 @@ namespace GranitEditor
       }
     }
 
-    public string AssemblyCompany
+    public static string AssemblyCompany
     {
       get
       {
@@ -256,7 +261,7 @@ namespace GranitEditor
     private void LinkHomePage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
       // Specify that the link was visited.
-        this.linkHomePage.LinkVisited = true;
+      this.linkHomePage.LinkVisited = true;
       // Navigate to a URL.
       Process.Start(linkHomePage.Text);
     }

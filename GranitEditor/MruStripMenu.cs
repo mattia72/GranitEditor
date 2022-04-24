@@ -672,10 +672,10 @@ namespace GranitEditor
 		public void RenameFile(string oldFilename, string newFilename, string newEntryname)
 		{
 			if (newFilename == null)
-				throw new ArgumentNullException("newFilename");
+				throw new ArgumentNullException(nameof(newFilename));
 
 			if (newFilename.Length == 0)
-				throw new ArgumentException("newFilename");
+				throw new ArgumentException("Length is 0", nameof(newFilename));
 
 			if (numEntries > 0)
 			{

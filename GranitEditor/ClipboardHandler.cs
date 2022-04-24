@@ -45,9 +45,9 @@ namespace GranitEditor
       DataGridView = dataGridView;
 
       //Show Error if no cell is selected
-      if (DataGridView.SelectedCells.Count == 0)
+      if (DataGridView != null && DataGridView.SelectedCells.Count == 0)
       {
-        MessageBox.Show("Please select a cell", "Paste", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        _ = MessageBox.Show("Please select a cell", "Paste", MessageBoxButtons.OK, icon: MessageBoxIcon.Warning);
         return;
       }
 
@@ -110,7 +110,7 @@ namespace GranitEditor
 
     private bool IsWholeLine(string line)
     {
-      return line.StartsWith("\t") && line.Count(c => c == '\t') == DataGridView.ColumnCount;
+      return line.StartsWith("\t", StringComparison.Ordinal) && line.Count(c => c == '\t') == DataGridView.ColumnCount;
     }
 
     private void AddRow()

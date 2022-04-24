@@ -1,5 +1,7 @@
 ﻿using GranitEditor.Properties;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Text;
@@ -8,14 +10,40 @@ using System.Windows.Forms;
 
 namespace GranitEditor
 {
-  public class GranitDataGridViewCellFormatter
+  public static class GranitDataGridViewCellFormatter
   {
-    public static void Format(DataGridView dataGridView1, ref DataGridViewCellFormattingEventArgs e)
+    private static Color defaultBackColor = SystemColors.Window;
+    private static Color defaultHighlightedBackColor = SystemColors.Highlight;
+    private static Color defaultNotSelectedBackColor = Color.LightGray;
+    private static Color defaultNotSelectedHighlightedBackColor = Color.DarkGray;
+    private static Color defaultErrorBackColor = Color.LightPink;
+    private static Color defaultErrorHighlightedBackColor = Color.HotPink;
+
+    public static Color DefaultBackColor { get => defaultBackColor; set => defaultBackColor = value; }
+    public static Color DefaultHighlightedBackColor { get => defaultHighlightedBackColor; set => defaultHighlightedBackColor = value; }
+    public static Color DefaultNotSelectedBackColor { get => defaultNotSelectedBackColor; set => defaultNotSelectedBackColor = value; }
+    public static Color DefaultNotSelectedHighlightedBackColor { get => defaultNotSelectedHighlightedBackColor; set => defaultNotSelectedHighlightedBackColor = value; }
+    public static Color DefaultErrorBackColor { get => defaultErrorBackColor; set => defaultErrorBackColor = value; }
+    public static Color DefaultErrorHighlightedBackColor { get => defaultErrorHighlightedBackColor; set => defaultErrorHighlightedBackColor = value; }
+
+    //List<Tuple<int, int>> notSelectedCells;
+
+    //public List<Tuple<int, int>> NotSelectedCells {
+    //  get => notSelectedCells ?? new List<Tuple<int, int>>();
+    //  }
+
+    public static void CellFormat(DataGridView dataGridView1, ref DataGridViewCellFormattingEventArgs e)
     {
-      if (e.Value == null) return;
+      if (dataGridView1 == null || e == null || e.Value == null) 
+        return;
+
+      Debug.WriteLine($"CellFormat cell: {e.RowIndex} {e.ColumnIndex}");
 
       switch (dataGridView1.Columns[e.ColumnIndex].DataPropertyName)
       {
+        //case Constants.IsSelectedPropertyName:
+        //  SetNotSelectedBackground(dataGridView1, e);
+        //  break;
         case Constants.OriginatorPropertyName:
           FormatAccountNumber(e);
           break;
@@ -32,11 +60,14 @@ namespace GranitEditor
           e.FormattingApplied = false;
           break;
       }
+
+      //if (!(bool)dataGridView1.Rows[e.RowIndex].Cells[0].Value)
+      //  SetNotSelectedBackground(dataGridView1, e);
     }
 
     public static void FormatDateField(DataGridView dgv, DataGridViewCellFormattingEventArgs e)
     {
-      if (e.Value != null)
+      if (dgv != null && e != null && e.Value != null)
       {
         try
         {
@@ -60,20 +91,21 @@ namespace GranitEditor
       }
     }
 
+    private static void SetNotSelectedBackground(DataGridView dgv, DataGridViewCellFormattingEventArgs e, string errorText = null)
+    {
+      foreach (DataGridViewCell cell in dgv.Rows[e.RowIndex].Cells)
+      {
+        //bool isSelected = (bool)dgv.Rows[e.RowIndex].Cells[0].Value;
+        cell.Style.BackColor = /*isSelected ? DefaultBackColor : */DefaultNotSelectedBackColor;
+        cell.Style.SelectionBackColor = /*isSelected ? DefaultHighlightedBackColor : */DefaultNotSelectedHighlightedBackColor;
+      }
+    }
+
     private static void SetErrorBackground(DataGridView dgv, DataGridViewCellFormattingEventArgs e, string errorText = null)
     {
-      if (errorText != null)
-      {
-        e.CellStyle.BackColor = Color.LightPink;
-        e.CellStyle.SelectionBackColor = Color.HotPink;
-        dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = errorText; 
-      }
-      else
-      {
-        e.CellStyle.BackColor = SystemColors.Window;
-        e.CellStyle.SelectionBackColor = SystemColors.Highlight;
-        dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "";
-      }
+       e.CellStyle.BackColor = (errorText != null) ? DefaultErrorBackColor : DefaultBackColor;
+       e.CellStyle.SelectionBackColor = (errorText != null) ? DefaultErrorHighlightedBackColor : DefaultHighlightedBackColor;
+       dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = errorText ?? string.Empty; 
     }
 
     public static void FormatAmount(DataGridView dgv, DataGridViewCellFormattingEventArgs e)
@@ -116,7 +148,6 @@ namespace GranitEditor
           // format this DataGridViewCellFormattingEventArgs instance.
           e.FormattingApplied = false;
         }
-
       }
     }
 

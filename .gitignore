@@ -49,3 +49,5 @@ install/
 *.*~
 /packages/FileHelpers.3.1.5
 /packages
+/UpgradeLog*.htm
+/obj

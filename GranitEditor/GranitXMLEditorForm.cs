@@ -29,10 +29,8 @@ namespace GranitEditor
     internal bool HasSelectedCells => dataGridView1.SelectedCells.Count > 0;
     internal string SelectedTextInCurrentCell { get => _editingControl?.SelectedText; }
 
-    public GranitXMLEditorForm(string xmlFilePath,
-      OpenFileDialog ofDlg,
-      SaveFileDialog sfDlg,
-      ClipboardHandler clip)
+
+    public GranitXMLEditorForm(string xmlFilePath, OpenFileDialog ofDlg, SaveFileDialog sfDlg, ClipboardHandler clip)
     {
       InitializeComponent();
 
@@ -316,9 +314,11 @@ namespace GranitEditor
         _dateTimePicker.Location = new Point(Rectangle.X, Rectangle.Y);
         _dateTimePicker.CloseUp += new EventHandler(Dtp_CloseUp);
         _dateTimePicker.TextChanged += new EventHandler(Dtp_OnTextChange);
-        _dateTimePicker.Value = (DateTime)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-
-        _dateTimePicker.Visible = true;
+        if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+        {
+          _dateTimePicker.Value = (DateTime)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+          _dateTimePicker.Visible = true;
+        }
       }
       else if (_dateTimePicker != null && _dateTimePicker.Visible)
       {
@@ -415,7 +415,8 @@ namespace GranitEditor
 
     private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
     {
-      GranitDataGridViewCellFormatter.Format(dataGridView1, ref e);
+            GranitDataGridViewCellFormatter.CellFormat(dataGridView1, ref e);
+
       if (e.ColumnIndex == dataGridView1.Columns[0].Index)
       {
         var cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];

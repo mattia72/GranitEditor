@@ -1,6 +1,6 @@
 ﻿namespace GranitEditor
 {
-  partial class AboutBox
+   sealed partial class AboutBox
   {
     /// <summary>
     /// Required designer variable.
@@ -17,6 +17,7 @@
         components.Dispose();
         scrollStop.Dispose();
         scrollThreadReady.Dispose();
+        scroller.Dispose();
       }
       base.Dispose(disposing);
     }
