@@ -18,7 +18,7 @@
 
     <MajorUpgrade
         DowngradeErrorMessage="A newer version of [ProductName] is already installed."
-        AllowSameVersionUpgrades="yes"
+        AllowSameVersionUpgrades="no"
         Schedule="afterInstallValidate"/>
 
     <Media Id="1" Cabinet="Cab1.cab" EmbedCab="yes" />

@@ -15,11 +15,13 @@ namespace GranitEditor
     private const string programHomeUrl = @"https://github.com/mattia72/GranitEditor";
 
     // BackgroundWorker for the animation
-    BackgroundWorker scroller = new BackgroundWorker();
+    readonly BackgroundWorker scroller = new BackgroundWorker();
+
     // If this event is signaled, the scrolling will stop
-    ManualResetEvent scrollStop = new ManualResetEvent(true);
+    readonly ManualResetEvent scrollStop = new ManualResetEvent(true);
+
     // Closing the form should wait till the thread exits
-    AutoResetEvent scrollThreadReady = new AutoResetEvent(false);
+    readonly AutoResetEvent scrollThreadReady = new AutoResetEvent(false);
 
     public AboutBox()
     {
@@ -30,9 +32,7 @@ namespace GranitEditor
       labelCopyright.Text = Regex.Replace(AssemblyCopyright, @"(.*©).*", "$1"); //
       labelCopyrightText.Text = Regex.Replace(AssemblyCopyright, @".*© (.*)", "$1");
       labelBuildDateTimeText.Text = AssemblyBuildDateTime.ToString("f", CultureInfo.InvariantCulture);
-#pragma warning disable CA1303 // Do not pass literals as localized parameters
       linkHomePage.Text = programHomeUrl;
-#pragma warning restore CA1303 // Do not pass literals as localized parameters
 
       // Add the content of the ReadMe.txt into the TextBox
       string readMeFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LICENSE");

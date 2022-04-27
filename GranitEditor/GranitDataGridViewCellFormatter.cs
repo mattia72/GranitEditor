@@ -91,15 +91,15 @@ namespace GranitEditor
       }
     }
 
-    private static void SetNotSelectedBackground(DataGridView dgv, DataGridViewCellFormattingEventArgs e, string errorText = null)
-    {
-      foreach (DataGridViewCell cell in dgv.Rows[e.RowIndex].Cells)
-      {
-        //bool isSelected = (bool)dgv.Rows[e.RowIndex].Cells[0].Value;
-        cell.Style.BackColor = /*isSelected ? DefaultBackColor : */DefaultNotSelectedBackColor;
-        cell.Style.SelectionBackColor = /*isSelected ? DefaultHighlightedBackColor : */DefaultNotSelectedHighlightedBackColor;
-      }
-    }
+    //private static void SetNotSelectedBackground(DataGridView dgv, DataGridViewCellFormattingEventArgs e, string errorText = null)
+    //{
+    //  foreach (DataGridViewCell cell in dgv.Rows[e.RowIndex].Cells)
+    //  {
+    //    //bool isSelected = (bool)dgv.Rows[e.RowIndex].Cells[0].Value;
+    //    cell.Style.BackColor = /*isSelected ? DefaultBackColor : */DefaultNotSelectedBackColor;
+    //    cell.Style.SelectionBackColor = /*isSelected ? DefaultHighlightedBackColor : */DefaultNotSelectedHighlightedBackColor;
+    //  }
+    //}
 
     private static void SetErrorBackground(DataGridView dgv, DataGridViewCellFormattingEventArgs e, string errorText = null)
     {
@@ -155,7 +155,7 @@ namespace GranitEditor
     {
       StringBuilder accountString = new StringBuilder();
       value = Regex.Replace(value, "-", "");
-      string fragment = Constants.NullAccountFragment;
+      string fragment;
 
       if (value.Length > 7)
         fragment = value.Substring(0, 8);
@@ -163,7 +163,7 @@ namespace GranitEditor
         fragment = SafeAddNulls(value, 0);
 
       accountString.Append(fragment);
-      accountString.Append("-");
+      accountString.Append('-');
 
       if (value.Length > 15)
         fragment = value.Substring(8, 8);
@@ -174,7 +174,7 @@ namespace GranitEditor
 
       if (value.Length > 16)
       {
-        accountString.Append("-");
+        accountString.Append('-');
 
         if (value.Length >= 23)
           fragment = value.Substring(16, 8);
@@ -198,7 +198,7 @@ namespace GranitEditor
       StringBuilder nulls = new StringBuilder();
 
       while (value.Length + nulls.Length != 8)
-        nulls.Append("0");
+        nulls.Append('0');
 
       valueWithNulls.Append(value).Append(nulls);
 
@@ -218,28 +218,28 @@ namespace GranitEditor
           UnFormatAccountNumber(e);
           break;
         case Constants.AmountPropertyName:
-          UnFormatAmount(dataGridView, e);
-          break;
-        case Constants.ExecutionDatePropertyName:
-          UnFormatDateField(dataGridView, e);
-          break;
-        default:
-          e.FormattingApplied = false;
-          break;
+            UnFormatAmount(e);
+            break;
+          case Constants.ExecutionDatePropertyName:
+            UnFormatDateField(e);
+            break;
+          default:
+            e.FormattingApplied = false;
+            break;
+        }
       }
-    }
 
-    public static void UnFormatDateField(DataGridView dataGridView, DataGridViewCellFormattingEventArgs e)
-    {
-      if (e.Value != null)
+      public static void UnFormatDateField(DataGridViewCellFormattingEventArgs e)
       {
-        DateTime d = DateTime.Parse((string)e.Value, new CultureInfo("HU-hu"));
-        e.Value = d;
-        e.FormattingApplied = true;
+        if (e.Value != null)
+        {
+          DateTime d = DateTime.Parse((string)e.Value, new CultureInfo("HU-hu"));
+          e.Value = d;
+          e.FormattingApplied = true;
+        }
       }
-    }
 
-    public static void UnFormatAmount(DataGridView dataGridView, DataGridViewCellFormattingEventArgs e)
+      public static void UnFormatAmount(DataGridViewCellFormattingEventArgs e)
     {
 
       if (e.Value != null)
@@ -277,7 +277,7 @@ namespace GranitEditor
       if (accountString.Length != 16)
       {
         while (accountString.Length < 24)
-          accountString.Append("0");
+          accountString.Append('0');
       }
 
       return accountString.ToString();
@@ -288,11 +288,11 @@ namespace GranitEditor
       StringBuilder dateString = new StringBuilder();
 
       dateString.Append(date.Year.ToString().Substring(2));
-      dateString.Append(".");
+      dateString.Append('.');
       dateString.Append(date.Month.ToString("00"));
-      dateString.Append(".");
+      dateString.Append('.');
       dateString.Append(date.Day.ToString("00"));
-      dateString.Append(".");
+      dateString.Append('.');
       return dateString.ToString();
     }
   }

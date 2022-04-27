@@ -151,7 +151,7 @@ namespace GranitEditor
               break;
             }
           case "System.Decimal":
-            decimal parsedValue = 0;
+            decimal parsedValue;
             if (Decimal.TryParse(cbValue[rowKey][cellKey], out parsedValue))
               cell.Value = parsedValue;
             else
@@ -164,7 +164,7 @@ namespace GranitEditor
       }
     }
 
-    private DataGridViewCell GetStartCell(DataGridView dgView)
+    private static DataGridViewCell GetStartCell(DataGridView dgView)
     {
       //get the smallest row,column index
       if (dgView.SelectedCells.Count == 0)
@@ -184,7 +184,7 @@ namespace GranitEditor
       return dgView[colIndex, rowIndex];
     }
 
-    private Dictionary<int, Dictionary<int, string>> ClipBoardValuesToDictionary(List<string> lines)
+    private static Dictionary<int, Dictionary<int, string>> ClipBoardValuesToDictionary(List<string> lines)
     {
       Dictionary<int, Dictionary<int, string>> copyValues = new Dictionary<int, Dictionary<int, string>>();
 

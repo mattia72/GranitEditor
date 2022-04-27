@@ -19,7 +19,6 @@ namespace GranitEditor
 
   public partial class FindReplaceDlg : Form
   {
-    private DataGridView dgv;
     private bool _oneOccuranceFound = false;
     private bool _allreadyAsked = false;
     private List<DataGridViewCell> _cellsToSearch;
@@ -34,13 +33,13 @@ namespace GranitEditor
     }
     public string InitialSearchText { set { findComboBox.Text = value; } }
 
-    internal DataGridView DataGrid { get => dgv; set => dgv = value; }
+    internal DataGridView DataGrid { get; set; }
 
 
     public FindReplaceDlg(DataGridView dataGrdView)
       : this()
     {
-      dgv = dataGrdView;
+      DataGrid = dataGrdView;
     }
 
     public FindReplaceDlg()
@@ -154,8 +153,8 @@ namespace GranitEditor
         {
           if (item.IsInEditMode)
           {
-            if(dgv.CancelEdit())
-              dgv.EndEdit();
+            if(DataGrid.CancelEdit())
+              DataGrid.EndEdit();
           }
           item.Selected = true;
         }
@@ -183,8 +182,10 @@ namespace GranitEditor
       {
         if (selectionRadioButton.Checked)
         {
-          DataGridViewCell[] cellArrayToSearch = new DataGridViewCell[dgv.SelectedCells.Count];
-          dgv.SelectedCells.CopyTo(cellArrayToSearch, 0);
+          DataGridViewCell[] cellArrayToSearch = new DataGridViewCell[DataGrid.SelectedCells.Count];
+
+          DataGrid.SelectedCells.CopyTo(cellArrayToSearch, 0);
+
           cells = cellArrayToSearch.ToList();
           cells.Reverse();
         }
@@ -207,7 +208,7 @@ namespace GranitEditor
       int i = 0;
       foreach (DataGridViewCell cell in cellsToSearch)
       {
-        if (dgv.CurrentCell == cell)
+        if (DataGrid.CurrentCell == cell)
           break;
         i++;
       }
@@ -217,7 +218,7 @@ namespace GranitEditor
     private List<DataGridViewCell> GetAllCells()
     {
       var cells = new List<DataGridViewCell>();
-      foreach (DataGridViewRow row in dgv.Rows)
+      foreach (DataGridViewRow row in DataGrid.Rows)
       {
         foreach (DataGridViewCell cell in row.Cells)
         {
@@ -275,11 +276,11 @@ namespace GranitEditor
 
     private void SelectTextInCell(DataGridViewTextBoxCell tbCell, Match match)
     {
-      dgv.CurrentCell = tbCell;
-      dgv.BeginEdit(false);
-      ((TextBox)dgv.EditingControl).SelectionStart = match.Index;
-      ((TextBox)dgv.EditingControl).SelectionLength = match.Length;
-      dgv.Parent.Parent.Select(); //Activate parent, to show the selection in the grid
+      DataGrid.CurrentCell = tbCell;
+      DataGrid.BeginEdit(false);
+      ((TextBox)DataGrid.EditingControl).SelectionStart = match.Index;
+      ((TextBox)DataGrid.EditingControl).SelectionLength = match.Length;
+      DataGrid.Parent.Parent.Select(); //Activate parent, to show the selection in the grid
     }
 
     private Regex CreateFindRegex()
@@ -341,10 +342,10 @@ namespace GranitEditor
     private void FindNextAndReplace()
     {
         Match m = null; 
-        if (dgv.EditingControl == null)
+        if (DataGrid.EditingControl == null)
           m = FindAndSelectMatchingCell(true);
 
-        if (dgv.EditingControl == null)
+        if (DataGrid.EditingControl == null)
         {
           IsFirstInitNecessary = true;
           return;
@@ -355,15 +356,15 @@ namespace GranitEditor
     private bool ReplaceCellText(Match match)
     {
       bool succeeded = true;
-      dgv.BeginEdit(false);
-      string text = dgv.EditingControl.Text;
+      DataGrid.BeginEdit(false);
+      string text = DataGrid.EditingControl.Text;
       string replaced_text = _regexToSearch.Replace(text, replaceComboBox.Text);
       //Todo:
-      if (dgv.CurrentCell.ValueType == typeof(DateTime))
+      if (DataGrid.CurrentCell.ValueType == typeof(DateTime))
       {
         try
         {
-          dgv.CurrentCell.Value = DateTime.Parse(replaced_text, new CultureInfo("HU-hu"));
+          DataGrid.CurrentCell.Value = DateTime.Parse(replaced_text, new CultureInfo("HU-hu"));
         }
         catch (FormatException ex)
         {
@@ -373,10 +374,10 @@ namespace GranitEditor
       }
       else
       {
-        dgv.EditingControl.Text = replaced_text;
+        DataGrid.EditingControl.Text = replaced_text;
       }
 
-      dgv.EndEdit();
+      DataGrid.EndEdit();
       ResetDgvState();
       return succeeded;
     }
@@ -400,6 +401,7 @@ namespace GranitEditor
       if (matchingCells.Count == 0)
         ShowMessageBox(FindReplaceError.nothingFoundAtAll);
       else
+      {
         for (int i = 0; i < matchingCells.Count; i++)
         {
           Match match = SelectMatchedTextInCell(matchingCells[i], _regexToSearch);
@@ -409,13 +411,14 @@ namespace GranitEditor
               ShowMessageBox(FindReplaceError.replaceFailed);
           }
         }
+      }
     }
 
     private void ResetDgvState()
     {
-      dgv.CancelEdit();
-      dgv.EndEdit();
-      dgv.ClearSelection();
+      DataGrid.CancelEdit();
+      DataGrid.EndEdit();
+      DataGrid.ClearSelection();
     }
 
     private void matchWholeWordsCheckBox_CheckedChanged(object sender, EventArgs e)

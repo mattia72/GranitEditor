@@ -15,12 +15,10 @@ namespace GranitEditor
   public partial class GranitXMLEditorForm : Form
   {
     private GranitXmlToAdapterBinder _xmlToObjectBinder;
-    private OpenFileDialog _openFileDialog;
-    private SaveFileDialog _saveFileDialog;
 
     private string _lastOpenedFilePath;
-    private GranitDataGridViewCellValidator _cellVallidator;
-    private GranitDataGridViewContextMenuHandler _contextMenuHandler;
+    private readonly GranitDataGridViewCellValidator _cellVallidator;
+    private readonly GranitDataGridViewContextMenuHandler _contextMenuHandler;
     private SortableBindingList<TransactionAdapter> _bindingList;
     private DataGridViewTextBoxEditingControl _editingControl;
 
@@ -30,17 +28,14 @@ namespace GranitEditor
     internal string SelectedTextInCurrentCell { get => _editingControl?.SelectedText; }
 
 
-    public GranitXMLEditorForm(string xmlFilePath, OpenFileDialog ofDlg, SaveFileDialog sfDlg, ClipboardHandler clip)
+    public GranitXMLEditorForm(string xmlFilePath, ClipboardHandler clip)
     {
       InitializeComponent();
 
       if (!File.Exists(xmlFilePath))
         OpenNewDocument();
-
-      _openFileDialog = ofDlg;
-      _saveFileDialog = sfDlg;
+      
       _cellVallidator = new GranitDataGridViewCellValidator(dataGridView1);
-
       dataGridView1.KeyDown += new KeyEventHandler(this.DataGridView1_KeyDown);
       ClipboardHandler = clip;
 
@@ -141,15 +136,15 @@ namespace GranitEditor
       Settings.Default.Save();
     }
 
-    private DataGridViewColumn FindColumnByHeaderText(string headerText)
-    {
-      foreach (DataGridViewColumn col in dataGridView1.Columns)
-      {
-        if (col.HeaderText == headerText)
-          return col;
-      }
-      return null;
-    }
+    //private DataGridViewColumn FindColumnByHeaderText(string headerText)
+    //{
+    //  foreach (DataGridViewColumn col in dataGridView1.Columns)
+    //  {
+    //    if (col.HeaderText == headerText)
+    //      return col;
+    //  }
+    //  return null;
+    //}
 
     public void SaveDocument(string fileName)
     {
@@ -493,7 +488,7 @@ namespace GranitEditor
 
     private void DataGridView1_DragEnter(object sender, DragEventArgs e)
     {
-      string filename = MainForm.GetDropFileName(e);
+      string filename = GranitEditorMainForm.GetDropFileName(e);
       if (filename != string.Empty)
         e.Effect = DragDropEffects.Copy;
       else
@@ -598,9 +593,9 @@ namespace GranitEditor
 
     private void DataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
     {
-      if (e.Control is DataGridViewTextBoxEditingControl)
+      if (e.Control is DataGridViewTextBoxEditingControl control)
       {
-        _editingControl = (DataGridViewTextBoxEditingControl)e.Control;
+        _editingControl = control;
       }
     }
   }

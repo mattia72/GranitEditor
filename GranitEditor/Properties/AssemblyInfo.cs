@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MataSoft Bt.")]
 [assembly: AssemblyProduct("GranitEditor")]
-[assembly: AssemblyCopyright("Copyright © MataSoft Bt. 2016 - 2018")]
+[assembly: AssemblyCopyright("Copyright © MataSoft Bt. 2016 - 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

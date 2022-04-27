@@ -14,7 +14,7 @@ namespace GranitEditor
 {
   public partial class GranitEditorMainForm : Form
   {
-    private MruStripMenu _mruMenu;
+    private readonly MruStripMenu _mruMenu;
     private string _activeFilePath;
     private EnumStripMenu<DataGridViewAutoSizeColumnsMode> _gridAlignMenu;
 
@@ -22,7 +22,7 @@ namespace GranitEditor
     private OpenFileDialog _openFileDialog;
     private SaveFileDialog _saveFileDialog;
     private FindReplaceDlg _findReplaceDlg;
-    private EnumStripMenu<Constants.WindowLayout> _windowLayoutMenu;
+    private readonly EnumStripMenu<Constants.WindowLayout> _windowLayoutMenu;
     private WindowLayout _windowLayout;
 
     public GranitXMLEditorForm ActiveXmlForm => ActiveMdiChild as GranitXMLEditorForm;
@@ -32,8 +32,7 @@ namespace GranitEditor
 
     public bool ActiveDocHavePendingChanges
     {
-      get => ActiveXmlForm?.DocHasPendingChanges == null ? 
-        false : ActiveXmlForm.DocHasPendingChanges; 
+      get => (ActiveXmlForm?.DocHasPendingChanges) != null && ActiveXmlForm.DocHasPendingChanges; 
     }
 
     public void UpdateToolbarItems()
@@ -113,10 +112,9 @@ namespace GranitEditor
     {
       string newName;
       int i = 1;
-      bool found = false;
       do
       {
-        found = false;
+        bool found = false;
         newName = string.Format(Resources.NewDocumentName, i++);
         foreach (var child in MdiChildren)
         {
@@ -394,7 +392,7 @@ namespace GranitEditor
 
     public void OpenNewFormWith(string xmlFilePath)
     {
-      GranitXMLEditorForm f = new GranitXMLEditorForm(xmlFilePath, OpenFileDialog, SaveFileDialog, ClipboardHandler)
+      GranitXMLEditorForm f = new GranitXMLEditorForm(xmlFilePath, ClipboardHandler)
       {
         MdiParent = this
       };
@@ -450,8 +448,8 @@ namespace GranitEditor
     private void UpdateUndoRedoItems()
     {
       var hist = ActiveXmlForm?.History;
-      undoToolStripButton.Enabled = hist == null ? false : hist.CanUndo;
-      redoToolStripButton.Enabled = hist == null ? false : hist.CanRedo;
+      undoToolStripButton.Enabled = hist != null && hist.CanUndo;
+      redoToolStripButton.Enabled = hist != null && hist.CanRedo;
       //undoToolStripButton.ToolTipText = hist == null ? "" : hist.UndoCount.ToString();
       //redoToolStripMenuItem.ToolTipText =  hist == null ? "" : hist.RedoCount.ToString();
     }
@@ -542,20 +540,20 @@ namespace GranitEditor
       return null;
     }
 
-    private DialogResult AskAndSaveFiles(MessageBoxButtons yesNoCancel)
-    {
-      DialogResult result = DialogResult.OK;
-      while (ActiveMdiChild != null)
-      {
-        if (ActiveMdiChild is GranitXMLEditorForm)
-          result = ActiveXmlForm.AskAndSaveFile();
+    //private DialogResult AskAndSaveFiles(MessageBoxButtons yesNoCancel)
+    //{
+    //  DialogResult result = DialogResult.OK;
+    //  while (ActiveMdiChild != null)
+    //  {
+    //    if (ActiveMdiChild is GranitXMLEditorForm)
+    //      result = ActiveXmlForm.AskAndSaveFile();
 
-        if (result == DialogResult.Cancel) break;
+    //    if (result == DialogResult.Cancel) break;
 
-        ActiveMdiChild.Close();
-      }
-      return result;
-    }
+    //    ActiveMdiChild.Close();
+    //  }
+    //  return result;
+    //}
 
     private void SaveSettings()
     {
@@ -588,7 +586,7 @@ namespace GranitEditor
       _windowLayout = WindowLayout.Tabbed;
       string layout = Settings.Default.WindowLayout;
       if (layout != null && layout != string.Empty)
-        Enum.TryParse<WindowLayout>(layout, out _windowLayout);
+        _ = Enum.TryParse<WindowLayout>(layout, out _windowLayout);
 
     }
 
@@ -603,8 +601,8 @@ namespace GranitEditor
       UpdateCopyPasteItems();
       UpdateSaveAndSaveAsItems();
 
-      undoToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.History.CanUndo;
-      redoToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.History.CanRedo;
+      undoToolStripMenuItem.Enabled = ActiveXmlForm != null && ActiveXmlForm.History.CanUndo;
+      redoToolStripMenuItem.Enabled = ActiveXmlForm != null && ActiveXmlForm.History.CanRedo;
       selectAllToolStripMenuItem.Enabled = ActiveXmlForm != null;
       deleteSelectedToolStripMenuItem.Enabled = ActiveXmlForm != null;
       findAndReplaceToolStripMenuItem.Enabled = ActiveXmlForm != null;
@@ -617,9 +615,9 @@ namespace GranitEditor
 
     public void UpdateCopyPasteItems()
     {
-      copyToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.HasSelectedCells;
-      cutToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.HasSelectedCells;
-      pasteToolStripMenuItem.Enabled = ActiveXmlForm == null ? false : ActiveXmlForm.HasSelectedCells && ActiveXmlForm.ClipboardHandler.ClipboardHasContent;
+      copyToolStripMenuItem.Enabled = ActiveXmlForm != null && ActiveXmlForm.HasSelectedCells;
+      cutToolStripMenuItem.Enabled = ActiveXmlForm != null && ActiveXmlForm.HasSelectedCells;
+      pasteToolStripMenuItem.Enabled = ActiveXmlForm != null && ActiveXmlForm.HasSelectedCells && ActiveXmlForm.ClipboardHandler.ClipboardHasContent;
 
       copyToolStripButton.Enabled = copyToolStripMenuItem.Enabled;
       cutToolStripButton.Enabled = cutToolStripMenuItem.Enabled;
@@ -733,7 +731,7 @@ namespace GranitEditor
         e.Effect = DragDropEffects.None;
     }
 
-    public string GetDropFileName(DragEventArgs e)
+    public static string GetDropFileName(DragEventArgs e)
     {
       string fileName = string.Empty;
 

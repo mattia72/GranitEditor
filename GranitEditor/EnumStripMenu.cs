@@ -10,12 +10,11 @@ namespace GranitEditor
     public delegate void ClickedHandler(T enumItem);
     public virtual ToolStripItemCollection MenuItems => parentMenuItem.DropDownItems;
     public EnumStripMenuItem<T> CheckedMenuItem;
-    private ClickedHandler clickedHandler;
+    private readonly ClickedHandler clickedHandler;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
     public EnumStripMenu(ToolStripMenuItem parentMenuItem, ClickedHandler clickedHandler)
     {
-      this.parentMenuItem = parentMenuItem ?? throw new ArgumentNullException("parentMenuItem");
+      this.parentMenuItem = parentMenuItem ?? throw new ArgumentNullException(nameof(parentMenuItem));
       this.parentMenuItem.Checked = false;
       this.parentMenuItem.Enabled = true;
 
@@ -70,7 +69,6 @@ namespace GranitEditor
       Tag = "";
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
     public EnumStripMenuItem(T enumValue, EventHandler clickEventHandler)
     {
       if (!typeof(T).IsEnum)
