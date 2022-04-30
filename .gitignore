@@ -51,3 +51,5 @@ install/
 /packages
 /UpgradeLog*.htm
 /obj
+*.wixpdb
+*.msi

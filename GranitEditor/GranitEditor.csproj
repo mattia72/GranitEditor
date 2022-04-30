@@ -261,7 +261,6 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy /Y /R "$(TargetDir)README.*" "$(SolutionDir)" 
 
-
 xcopy /Y /R "$(TargetDir)LICENSE" "$(SolutionDir)"</PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
