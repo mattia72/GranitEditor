@@ -15,8 +15,11 @@ You can upload the generated xml in the [Gránit Netbank](https://netbank.granit
 https://netbank.granitbank.hu/eibpublic_granit/help/en/IMPXML.html
 
 ## Development 
-* IDE: Visual Studio 2017 Community Edition
-* Installer: WiX Toolset Visual Studio 2017 Extension
+
+[![Build status](https://ci.appveyor.com/api/projects/status/l5b06xtigg6yxw0c?svg=true)](https://ci.appveyor.com/project/mattia72/graniteditor)
+
+* IDE: Visual Studio 2019 Community Edition
+* Installer: WiX Toolset and Extension 
 * UnitTest: Visual Studio Test Platform 
 
 ## Contribute
