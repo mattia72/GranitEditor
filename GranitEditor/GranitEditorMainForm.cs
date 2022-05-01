@@ -824,5 +824,24 @@ namespace GranitEditor
       //ActiveXmlForm?.History?.Do(new TransactionPoolMemento(ActiveXmlForm.XmlToObjectBinder.GranitXDocument));
       ActiveXmlForm?.DeleteRowToolStripMenuItem_Click(sender, e);
     }
+
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
+    {
+      if (disposing && (components != null))
+      {
+        components.Dispose();
+        if (_aboutBox != null)
+          _aboutBox.Dispose();
+        if(_openFileDialog != null)
+          _openFileDialog.Dispose();
+        if(_saveFileDialog != null)
+        _saveFileDialog.Dispose();
+      }
+      base.Dispose(disposing);
+    }
   }
 }

@@ -54,7 +54,7 @@
       this.findComboBox.Name = "findComboBox";
       this.findComboBox.Size = new System.Drawing.Size(315, 24);
       this.findComboBox.TabIndex = 0;
-      this.findComboBox.TextChanged += new System.EventHandler(this.findComboBox_TextChanged);
+      this.findComboBox.TextChanged += new System.EventHandler(this.FindComboBox_TextChanged);
       // 
       // label1
       // 
@@ -90,7 +90,7 @@
       this.findButton.TabIndex = 4;
       this.findButton.Text = "&Find";
       this.findButton.UseVisualStyleBackColor = true;
-      this.findButton.Click += new System.EventHandler(this.findButton_Click);
+      this.findButton.Click += new System.EventHandler(this.FindButton_Click);
       // 
       // replaceButton
       // 
@@ -100,7 +100,7 @@
       this.replaceButton.TabIndex = 4;
       this.replaceButton.Text = "&Replace";
       this.replaceButton.UseVisualStyleBackColor = true;
-      this.replaceButton.Click += new System.EventHandler(this.replaceButton_Click);
+      this.replaceButton.Click += new System.EventHandler(this.ReplaceButton_Click);
       // 
       // replaceAllButton
       // 
@@ -110,7 +110,7 @@
       this.replaceAllButton.TabIndex = 4;
       this.replaceAllButton.Text = "Replace &All";
       this.replaceAllButton.UseVisualStyleBackColor = true;
-      this.replaceAllButton.Click += new System.EventHandler(this.replaceAllButton_Click);
+      this.replaceAllButton.Click += new System.EventHandler(this.ReplaceAllButton_Click);
       // 
       // cancelButton
       // 
@@ -121,7 +121,7 @@
       this.cancelButton.TabIndex = 5;
       this.cancelButton.Text = "&Cancel";
       this.cancelButton.UseVisualStyleBackColor = true;
-      this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+      this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
       // 
       // matchWholeWordsCheckBox
       // 
@@ -132,7 +132,7 @@
       this.matchWholeWordsCheckBox.TabIndex = 6;
       this.matchWholeWordsCheckBox.Text = "Match &whole words";
       this.matchWholeWordsCheckBox.UseVisualStyleBackColor = true;
-      this.matchWholeWordsCheckBox.CheckedChanged += new System.EventHandler(this.matchWholeWordsCheckBox_CheckedChanged);
+      this.matchWholeWordsCheckBox.CheckedChanged += new System.EventHandler(this.MatchWholeWordsCheckBox_CheckedChanged);
       // 
       // matchCaseCheckBox
       // 
@@ -143,7 +143,7 @@
       this.matchCaseCheckBox.TabIndex = 6;
       this.matchCaseCheckBox.Text = "Match &case";
       this.matchCaseCheckBox.UseVisualStyleBackColor = true;
-      this.matchCaseCheckBox.CheckedChanged += new System.EventHandler(this.matchCaseCheckBox_CheckedChanged);
+      this.matchCaseCheckBox.CheckedChanged += new System.EventHandler(this.MatchCaseCheckBox_CheckedChanged);
       // 
       // upRadioButton
       // 
@@ -154,7 +154,7 @@
       this.upRadioButton.TabIndex = 7;
       this.upRadioButton.Text = "Up";
       this.upRadioButton.UseVisualStyleBackColor = true;
-      this.upRadioButton.CheckedChanged += new System.EventHandler(this.upRadioButton_CheckedChanged);
+      this.upRadioButton.CheckedChanged += new System.EventHandler(this.UpRadioButton_CheckedChanged);
       // 
       // downRadioButton
       // 
@@ -177,7 +177,7 @@
       this.selectionRadioButton.TabIndex = 8;
       this.selectionRadioButton.Text = "Selection";
       this.selectionRadioButton.UseVisualStyleBackColor = true;
-      this.selectionRadioButton.CheckedChanged += new System.EventHandler(this.selectionRadioButton_CheckedChanged);
+      this.selectionRadioButton.CheckedChanged += new System.EventHandler(this.SelectionRadioButton_CheckedChanged);
       // 
       // groupBox1
       // 
@@ -200,7 +200,7 @@
       this.useRegexpCheckBox.TabIndex = 10;
       this.useRegexpCheckBox.Text = "Use &regexp";
       this.useRegexpCheckBox.UseVisualStyleBackColor = true;
-      this.useRegexpCheckBox.CheckedChanged += new System.EventHandler(this.useRegexpCheckBox_CheckedChanged);
+      this.useRegexpCheckBox.CheckedChanged += new System.EventHandler(this.UseRegexpCheckBox_CheckedChanged);
       // 
       // FindReplaceDlg
       // 

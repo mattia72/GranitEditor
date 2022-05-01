@@ -55,12 +55,12 @@ namespace GranitEditor
       Hide();
     }
 
-    private void cancelButton_Click(object sender, EventArgs e)
+    private void CancelButton_Click(object sender, EventArgs e)
     {
       Hide();
     }
 
-    private void findButton_Click(object sender, EventArgs e)
+    private void FindButton_Click(object sender, EventArgs e)
     {
       AddToRecentSearches();
       FindAndSelectMatchingCell(false);
@@ -77,8 +77,7 @@ namespace GranitEditor
     private Match FindAndSelectMatchingCell(bool calledFromReplace)
     {
       FirstInitializationIfNeeded();
-
-      Match match = _regexToSearch.Match("");
+      Match match;
       do
       {
         match = SelectNextMatchingCell(_regexToSearch, _allreadyAsked, ref _cellsToSearchNextIndex);
@@ -86,12 +85,12 @@ namespace GranitEditor
         bool notFound = !match.Success;
         bool endReached = _cellsToSearchNextIndex < 0;
 
-        if (!calledFromReplace && ( endReached || notFound) || 
-            (calledFromReplace && ( endReached || notFound) && !_oneOccuranceFound && !_allreadyAsked) // Don't ask in case of replace all, if something replaced
-          //&& _cellsToSearchEndIndex == (downRadioButton.Checked ? 0 : (upRadioButton.Checked ? _cellsToSearch.Count - 1 : 0))
+        if (!calledFromReplace && (endReached || notFound) ||
+            (calledFromReplace && (endReached || notFound) && !_oneOccuranceFound && !_allreadyAsked) // Don't ask in case of replace all, if something replaced
+                                                                                                      //&& _cellsToSearchEndIndex == (downRadioButton.Checked ? 0 : (upRadioButton.Checked ? _cellsToSearch.Count - 1 : 0))
           )
         {
-          FindReplaceError err = endReached && !_oneOccuranceFound ? 
+          FindReplaceError err = endReached && !_oneOccuranceFound ?
             FindReplaceError.endReached : FindReplaceError.nothingFoundAtAll;
           DialogResult answer = ShowMessageBox(err);
 
@@ -200,7 +199,7 @@ namespace GranitEditor
         }
       }
 
-      return cells == null ? _cellsToSearch : cells;
+      return cells ?? _cellsToSearch;
     }
 
     private int GetActiveCellIndex(List<DataGridViewCell> cellsToSearch)
@@ -328,12 +327,12 @@ namespace GranitEditor
       return result;
     }
 
-    private void findComboBox_TextChanged(object sender, EventArgs e)
+    private void FindComboBox_TextChanged(object sender, EventArgs e)
     {
       IsFirstInitNecessary = true;
     }
 
-    private void replaceButton_Click(object sender, EventArgs e)
+    private void ReplaceButton_Click(object sender, EventArgs e)
     {
       AddToRecentSearches();
       FindNextAndReplace();
@@ -341,25 +340,26 @@ namespace GranitEditor
 
     private void FindNextAndReplace()
     {
-        Match m = null; 
         if (DataGrid.EditingControl == null)
-          m = FindAndSelectMatchingCell(true);
+          FindAndSelectMatchingCell(true);
 
         if (DataGrid.EditingControl == null)
         {
           IsFirstInitNecessary = true;
           return;
         }
-        ReplaceCellText(m);
+        ReplaceCellText();
     }
 
-    private bool ReplaceCellText(Match match)
+    private bool ReplaceCellText()
     {
       bool succeeded = true;
       DataGrid.BeginEdit(false);
       string text = DataGrid.EditingControl.Text;
       string replaced_text = _regexToSearch.Replace(text, replaceComboBox.Text);
-      //Todo:
+      //Todo: work with doc, not with view!
+      //var trId = ((TransactionAdapter)DataGrid.Rows[rowIndex].DataBoundItem).TransactionId;
+
       if (DataGrid.CurrentCell.ValueType == typeof(DateTime))
       {
         try
@@ -368,7 +368,7 @@ namespace GranitEditor
         }
         catch (FormatException ex)
         {
-          Debug.WriteLine(ex, "Exception" );
+          Debug.WriteLine(ex, "Exception formatting DateTime" );
           succeeded = false;
         }
       }
@@ -388,7 +388,7 @@ namespace GranitEditor
         IsFirstInitNecessary = true;
     }
 
-    private void replaceAllButton_Click(object sender, EventArgs e)
+    private void ReplaceAllButton_Click(object sender, EventArgs e)
     {
 
       AddToRecentSearches();
@@ -407,7 +407,7 @@ namespace GranitEditor
           Match match = SelectMatchedTextInCell(matchingCells[i], _regexToSearch);
           if (match.Success)
           {
-            if (!ReplaceCellText(match))
+            if (!ReplaceCellText())
               ShowMessageBox(FindReplaceError.replaceFailed);
           }
         }
@@ -421,27 +421,27 @@ namespace GranitEditor
       DataGrid.ClearSelection();
     }
 
-    private void matchWholeWordsCheckBox_CheckedChanged(object sender, EventArgs e)
+    private void MatchWholeWordsCheckBox_CheckedChanged(object sender, EventArgs e)
     {
       IsFirstInitNecessary = true;
     }
 
-    private void matchCaseCheckBox_CheckedChanged(object sender, EventArgs e)
+    private void MatchCaseCheckBox_CheckedChanged(object sender, EventArgs e)
     {
       IsFirstInitNecessary = true;
     }
 
-    private void useRegexpCheckBox_CheckedChanged(object sender, EventArgs e)
+    private void UseRegexpCheckBox_CheckedChanged(object sender, EventArgs e)
     {
       IsFirstInitNecessary = true;
     }
 
-    private void upRadioButton_CheckedChanged(object sender, EventArgs e)
+    private void UpRadioButton_CheckedChanged(object sender, EventArgs e)
     {
       IsFirstInitNecessary = true;
     }
 
-    private void selectionRadioButton_CheckedChanged(object sender, EventArgs e)
+    private void SelectionRadioButton_CheckedChanged(object sender, EventArgs e)
     {
       IsFirstInitNecessary = true;
     }

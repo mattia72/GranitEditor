@@ -9,9 +9,9 @@ namespace GranitEditor
 {
   class GranitDataGridViewContextMenuHandler
   {
-    private ContextMenuStrip _contextMenuStrip;
-    private DataGridView _dataGridView;
-    private GranitXmlToAdapterBinder _xmlToObject;
+    private readonly ContextMenuStrip _contextMenuStrip;
+    private readonly DataGridView _dataGridView;
+    private readonly GranitXmlToAdapterBinder _xmlToObject;
     private int? _currentMouseOverRow = null;
 
     public GranitDataGridViewContextMenuHandler(DataGridView dgv, ContextMenuStrip contextMenuStrip, GranitXmlToAdapterBinder xml2Obj)
@@ -113,11 +113,6 @@ namespace GranitEditor
       else
         throw new InvalidOperationException("No transaction found at row index " + rowIndex);
 
-    }
-
-    private long GetTransactionId(int rowIndex)
-    {
-      return ((TransactionAdapter)_dataGridView.Rows[rowIndex].DataBoundItem).TransactionId;
     }
 
     internal void Grid_DuplicateRow(object sender, EventArgs e)
