@@ -25,7 +25,7 @@ namespace GranitEditor
 
     // TODO: DeepEquals doesn't do the job... 
     public bool DocHasPendingChanges =>
-      string.IsNullOrEmpty(OnDiscXmlFilePath) ? true : 0 != CompareGranitXDocuments(GranitXDocument, OnDiscXDocument);
+      string.IsNullOrEmpty(OnDiscXmlFilePath) || 0 != CompareGranitXDocuments(GranitXDocument, OnDiscXDocument);
 
     public decimal SumAmount => HUFTransactionsAdapter.TransactionAdapters.Aggregate(0m, (total, next) => total + next.Amount);
     public int TransactionCount => GranitXDocument.Root.Elements(GranitXml.Constants.Transaction).Count();

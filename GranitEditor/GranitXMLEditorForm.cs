@@ -286,7 +286,7 @@ namespace GranitEditor
 
     private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
     {
-      var dlg = MainForm.CreateFindDialog(DataGrid);
+      var dlg = MainForm.CreateFindDialog(DataGrid, XmlToObjectBinder.GranitXDocument);
       dlg.IsFirstInitNecessary = true;
 
       ShowDateTimePickerIfNeeded(e);

@@ -41,12 +41,10 @@ before_build:
 
 artifacts:
   - path: '**\*.msi'
-    name: GranitEditor
-  - path: GranitXMLEditor\bin\Release
-    name: GranitEditor
-  - path: GranitXMLEditor\bin\Debug
-    name: GranitEditor.Debug
-
+    name: GranitEditor Setup
+  - path: GranitXMLEditor\bin\$(configuration)
+  - path: GranitEditor\bin\$(configuration)
+    name: GranitEditor Zip 
 
 deploy:
   # this section works :)

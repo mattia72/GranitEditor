@@ -7,6 +7,7 @@ using System.ComponentModel;
 using GranitEditor.Properties;
 using System.Globalization;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace GranitEditor
 {
@@ -34,12 +35,13 @@ namespace GranitEditor
     public string InitialSearchText { set { findComboBox.Text = value; } }
 
     internal DataGridView DataGrid { get; set; }
+    internal XDocument XmlDoc { get; set; }
 
 
-    public FindReplaceDlg(DataGridView dataGrdView)
-      : this()
+    public FindReplaceDlg(DataGridView dataGrdView, XDocument xmlDoc) : this()
     {
       DataGrid = dataGrdView;
+      XmlDoc = xmlDoc;
     }
 
     public FindReplaceDlg()

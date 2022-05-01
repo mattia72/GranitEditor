@@ -8,6 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using static GranitEditor.Constants;
 
 namespace GranitEditor
@@ -456,7 +457,7 @@ namespace GranitEditor
 
     public void ShowFindAndReplaceDlg()
     {
-      CreateFindDialog(ActiveXmlForm.DataGrid);
+      CreateFindDialog(ActiveXmlForm.DataGrid, ActiveXmlForm.XmlToObjectBinder.GranitXDocument);
 
       if (FindReplaceDlg == null)
         return;
@@ -524,16 +525,19 @@ namespace GranitEditor
       base.OnClosing(e);
     }
 
-    public FindReplaceDlg CreateFindDialog(DataGridView dgv = null)
+    public FindReplaceDlg CreateFindDialog(DataGridView dgv, XDocument doc)
     {
       if (ActiveMdiChild is GranitXMLEditorForm)
       {
         if (FindReplaceDlg == null)
-          FindReplaceDlg = new FindReplaceDlg(ActiveXmlForm.DataGrid);
+          FindReplaceDlg = new FindReplaceDlg(ActiveXmlForm.DataGrid, ActiveXmlForm.XmlToObjectBinder.GranitXDocument);
         else if (FindReplaceDlg.IsDisposed)
-          FindReplaceDlg = new FindReplaceDlg(ActiveXmlForm.DataGrid);
+          FindReplaceDlg = new FindReplaceDlg(ActiveXmlForm.DataGrid, ActiveXmlForm.XmlToObjectBinder.GranitXDocument);
         else
+        {
           FindReplaceDlg.DataGrid = dgv;
+          FindReplaceDlg.XmlDoc = doc;
+        }
 
         return FindReplaceDlg;
       }
