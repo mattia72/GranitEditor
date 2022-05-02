@@ -8,7 +8,7 @@ namespace GranitEditor
 {
   internal class GranitDataGridViewCellValidator
   {
-    private DataGridView dataGridView1;
+    private readonly DataGridView dataGridView1;
 
     public GranitDataGridViewCellValidator(DataGridView dataGridView1)
     {

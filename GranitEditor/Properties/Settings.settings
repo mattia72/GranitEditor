@@ -23,10 +23,10 @@
     <Setting Name="WindowLayout" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Location" Type="System.Drawing.Point" Scope="User">
+    <Setting Name="WindowLocation" Type="System.Drawing.Point" Scope="User">
       <Value Profile="(Default)">0, 0</Value>
     </Setting>
-    <Setting Name="Size" Type="System.Drawing.Size" Scope="User">
+    <Setting Name="WindowSize" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">838, 360</Value>
     </Setting>
   </Settings>

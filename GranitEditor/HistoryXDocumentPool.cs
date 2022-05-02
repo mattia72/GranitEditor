@@ -9,7 +9,7 @@ namespace GranitEditor
   [Serializable]
   public class HistoryXDocumentPool: IEnumerable<XDocument>, ICloneable
   {
-    List<XDocument> _pool;
+    readonly List<XDocument> _pool;
 
     internal int Count { get { return _pool.Count; } }
 

@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using static GranitEditor.Constants;
@@ -393,7 +392,7 @@ namespace GranitEditor
 
     public void OpenNewFormWith(string xmlFilePath)
     {
-      GranitXMLEditorForm f = new GranitXMLEditorForm(xmlFilePath, ClipboardHandler)
+      GranitXMLEditorForm f = new GranitXMLEditorForm(xmlFilePath, clip: ClipboardHandler)
       {
         MdiParent = this
       };

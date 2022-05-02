@@ -12,7 +12,7 @@ namespace GranitEditor.Tests
   [TestClass()]
   public class GranitXmlToAdapterBinderTests
   {
-    static string[] goodXmlExamples = { "example.xml", "test.xml" };
+    static readonly string[] goodXmlExamples = { "example.xml", "test.xml" };
     //static string[] good_examples = { "fizu_adok_1701.xml" };
 
     [TestMethod()]

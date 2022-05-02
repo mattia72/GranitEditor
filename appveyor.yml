@@ -42,7 +42,7 @@ before_build:
 artifacts:
   - path: '**\*.msi'
     name: GranitEditorSetup
-  - path: GranitXMLEditor\bin\$(configuration)
+# TODO: remove unnecessary files from zip!
   - path: GranitEditor\bin\$(configuration)
     name: GranitEditorPortable 
 

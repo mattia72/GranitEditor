@@ -9,11 +9,32 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Schema;
+using System.Configuration;
 
 namespace GranitEditor
 {
   public class GranitXmlToAdapterBinder : IGranitXDocumentOwner
   {
+
+    private string _schemaFilePath;
+    public string SchemaFilePath
+    {
+      get
+      {
+        _schemaFilePath = Settings.Default.SchemaFile;
+        if (!File.Exists(_schemaFilePath))
+        {
+          _schemaFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _schemaFilePath);
+          if (!File.Exists(_schemaFilePath))
+          {
+            var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+            throw new FileNotFoundException(string.Format("{0} not found. Check {1}", _schemaFilePath, path));
+          }
+        }
+        return _schemaFilePath;
+      }
+    }
+
     public HUFTransactionsAdapter HUFTransactionsAdapter { get; private set; }
 
     //IGranitXDocumentOwner
@@ -58,7 +79,7 @@ namespace GranitEditor
         if (validate)
         {
           GranitXDocument = new XDocument();
-          GranitXDocument = GranitXDocument.ValidateAndLoad(xmlFilePath, Settings.Default.SchemaFile, ref _validationEventArgs);
+          GranitXDocument = GranitXDocument.ValidateAndLoad(xmlFilePath, SchemaFilePath, ref _validationEventArgs);
           XmlValidationErrorOccured = _validationEventArgs != null;
         }
         else

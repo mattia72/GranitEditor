@@ -18,7 +18,7 @@ namespace GranitEditor
 
   class UnSortTransactionMemento : TransactionMemento
   {
-    List<Transaction> sorted;
+    readonly List<Transaction> sorted;
     public UnSortTransactionMemento(List<Transaction> itemList)
     {
       sorted = itemList;
@@ -34,7 +34,7 @@ namespace GranitEditor
 
   class SortTransactionMemento : TransactionMemento
   {
-    List<Transaction> unsorted;
+    readonly List<Transaction> unsorted;
     public SortTransactionMemento(List<Transaction> items)
     {
       unsorted = items;
