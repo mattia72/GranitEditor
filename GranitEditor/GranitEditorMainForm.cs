@@ -184,11 +184,13 @@ namespace GranitEditor
 
     private void OpenLastOpenedFilesIfExists()
     {
-      if (Settings.Default.LastOpenedFilePaths.Count > 0)
-        foreach (string file in Settings.Default.LastOpenedFilePaths)
+      if (UserSettings.Instance.LastOpenedFilePaths.Count > 0)
+        foreach (string file in UserSettings.Instance.LastOpenedFilePaths)
         {
-          ActiveFilePath = file;
-          if (ActiveFilePath != string.Empty && File.Exists(ActiveFilePath))
+          ActiveFilePath = file != string.Empty && File.Exists(file) ? 
+            file : Path.Combine(Application.StartupPath, file);
+
+          if(File.Exists(ActiveFilePath))
           {
             OpenNewFormWith(ActiveFilePath);
           }
@@ -197,7 +199,7 @@ namespace GranitEditor
         EnableAllXmlFormContextFunction(false);
 
       // Childs fills this...
-      Settings.Default.LastOpenedFilePaths.Clear();
+      UserSettings.Instance.LastOpenedFilePaths.Clear();
     }
 
     private void About()
@@ -543,54 +545,36 @@ namespace GranitEditor
       return null;
     }
 
-    //private DialogResult AskAndSaveFiles(MessageBoxButtons yesNoCancel)
-    //{
-    //  DialogResult result = DialogResult.OK;
-    //  while (ActiveMdiChild != null)
-    //  {
-    //    if (ActiveMdiChild is GranitXMLEditorForm)
-    //      result = ActiveXmlForm.AskAndSaveFile();
-
-    //    if (result == DialogResult.Cancel) break;
-
-    //    ActiveMdiChild.Close();
-    //  }
-    //  return result;
-    //}
-
     private void SaveSettings()
-    {
-      string layout = _windowLayoutMenu?.CheckedMenuItem?.Tag.ToString();
-      Settings.Default.WindowLayout = layout ?? "";
+    { 
+      var mi = _windowLayoutMenu?.CheckedMenuItem;
+      UserSettings.Instance.WindowLayout = (WindowLayout)(mi != null ? mi.Tag : WindowLayout.Tabbed);
 
-      Settings.Default.RecentFileList = new StringCollection();
-      Settings.Default.RecentFileList.AddRange(_mruMenu.GetFiles());
+      UserSettings.Instance.RecentFileList.Clear();
+      UserSettings.Instance.RecentFileList.AddRange(_mruMenu.GetFiles());
       List<string> paths = new List<string>();
       foreach (var f in MdiChildren)
       {
         if (f is GranitXMLEditorForm)
           paths.Add((f as GranitXMLEditorForm).LastOpenedFilePath);
       }
-      Settings.Default.LastOpenedFilePaths = new StringCollection();
-      Settings.Default.LastOpenedFilePaths.AddRange(paths.ToArray());
+      UserSettings.Instance.LastOpenedFilePaths.Clear();
+      UserSettings.Instance.LastOpenedFilePaths.AddRange(paths.ToArray());
 
-      Settings.Default.Save();
+      UserSettings.Instance.Save();
+      UserSettings.Instance.Save();
     }
 
     private void ApplySettings()
     {
-      _mruMenu.MaxShortenPathLength = Settings.Default.MruListItemLength;
-      if (Settings.Default.RecentFileList != null)
-        foreach (string item in Settings.Default.RecentFileList)
+      _mruMenu.MaxShortenPathLength = UserSettings.Instance.MruListItemLength;
+      if (UserSettings.Instance.RecentFileList != null)
+        foreach (string item in UserSettings.Instance.RecentFileList)
         {
           _mruMenu.AddFile(item);
         }
 
-      _windowLayout = WindowLayout.Tabbed;
-      string layout = Settings.Default.WindowLayout;
-      if (layout != null && layout != string.Empty)
-        _ = Enum.TryParse<WindowLayout>(layout, out _windowLayout);
-
+      _windowLayout = UserSettings.Instance.WindowLayout;
     }
 
 

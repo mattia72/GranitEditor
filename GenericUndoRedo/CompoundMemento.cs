@@ -43,7 +43,7 @@ namespace GenericUndoRedo
     [Serializable]
     public class CompoundMemento<T> : IMemento<T>
     {        
-        private List<IMemento<T>> mementos = new List<IMemento<T>>();
+        private readonly List<IMemento<T>> mementos = new List<IMemento<T>>();
         
         /// <summary>
         /// Adds memento to this complex memento. Note that the order of adding mementos is critical.

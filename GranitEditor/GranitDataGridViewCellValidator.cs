@@ -63,9 +63,8 @@ namespace GranitEditor
 
     private void ValidateAmount(DataGridViewCellValidatingEventArgs e)
     {
-      decimal number;
       string value = (string)e.FormattedValue;
-      if ((decimal.TryParse(value, out number) && (number < 0))) //|| Math.Round(number) != number)
+      if ((decimal.TryParse(value, out decimal number) && (number < 0))) //|| Math.Round(number) != number)
       {
         dataGridView1.Rows[e.RowIndex].ErrorText = Resources.InvalidAmountError;
         e.Cancel = true;
@@ -85,7 +84,7 @@ namespace GranitEditor
     {
       string value = (string)e.FormattedValue;
       string line = string.Empty;
-      if (!IsRemittanceInfoValid(value, ref line) &&
+      if (!IsRemittanceInfoValid(value) &&
         dataGridView1.Rows[e.RowIndex].ErrorText == string.Empty)
       {
         if (line != string.Empty)
@@ -105,7 +104,7 @@ namespace GranitEditor
       }
     }
 
-    private bool IsRemittanceInfoValid(string value, ref string lineOfError)
+    private static bool IsRemittanceInfoValid(string value)
     {
       string[] lines = value.Split('|');
       return (lines.Length <= 4);

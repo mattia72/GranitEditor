@@ -81,7 +81,7 @@ namespace GranitEditor.Tests
         var x2o = new GranitXmlToAdapterBinder(xml, true);
 
         Assert.AreEqual(x2o.History.UndoCount, 0);
-        TransactionAdapter newTa = x2o.AddEmptyTransactionRow();
+        _ = x2o.AddEmptyTransactionRow();
         Assert.AreEqual(x2o.History.UndoCount, 1);
       }
     }
@@ -93,7 +93,7 @@ namespace GranitEditor.Tests
       {
         var x2o = new GranitXmlToAdapterBinder(xml, true);
         int origCount = x2o.HUFTransactionsAdapter.TransactionAdapters.Count;
-        TransactionAdapter newTa = x2o.AddEmptyTransactionRow();
+        _ = x2o.AddEmptyTransactionRow();
         int afterCount = x2o.HUFTransactionsAdapter.TransactionAdapters.Count;
         Assert.AreEqual(origCount + 1, afterCount);
       }
@@ -335,8 +335,7 @@ namespace GranitEditor.Tests
       foreach (var xml in goodXmlExamples)
       {
         var x2o = new GranitXmlToAdapterBinder(xml, true);
-
-        int origCount = x2o.TransactionCount;
+        _ = x2o.TransactionCount;
 
         Assert.IsTrue(x2o.GranitXmlDocumentContains(x2o.HUFTransactionsAdapter.TransactionAdapters[0]));
         Assert.IsFalse(x2o.GranitXmlDocumentContains(new TransactionAdapter()));

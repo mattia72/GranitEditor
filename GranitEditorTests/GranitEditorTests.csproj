@@ -46,6 +46,7 @@
       <HintPath>..\packages\MSTest.TestFramework.2.2.9\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
@@ -67,7 +68,7 @@
     <Compile Include="StringExtension.cs" />
     <Compile Include="TransactionAdapterTests.cs" />
     <Compile Include="TransactionTests.cs" />
-    <Compile Include="SettingsTest.cs" />
+    <Compile Include="JsonSettingsTest.cs" />
     <Compile Include="XCommentExtensionTests.cs" />
     <Compile Include="XDocumentExtensionTests.cs" />
   </ItemGroup>

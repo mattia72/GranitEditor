@@ -50,7 +50,7 @@ namespace GranitEditor
 
   class InsertTransactionMemento : TransactionMemento
   {
-    private int index;
+    private readonly int index;
     public InsertTransactionMemento(int index)
     {
       this.index = index;
@@ -67,8 +67,8 @@ namespace GranitEditor
 
   class RemoveTransactionMemento : TransactionMemento
   {
-    Transaction removed;
-    int? index;
+    readonly Transaction removed;
+    readonly int? index;
 
     public RemoveTransactionMemento(int index, Transaction item)
     {
@@ -84,7 +84,7 @@ namespace GranitEditor
 
     public override IMemento<List<Transaction>> Restore(ref List<Transaction> target)
     {
-      IMemento<List<Transaction>> inverse = null;
+      IMemento<List<Transaction>> inverse;
       if (index != null)
       {
         inverse = new InsertTransactionMemento((int)index);
@@ -116,7 +116,7 @@ namespace GranitEditor
 
   class TransactionPoolMemento : IMemento<IGranitXDocumentOwner>
   {
-    XDocument _memento;
+    readonly XDocument _memento;
 
     public TransactionPoolMemento(XDocument memento)
     {

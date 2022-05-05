@@ -92,9 +92,9 @@ namespace GranitEditor
 
     private void ApplySettings()
     {
-      if (Settings.Default.AlignTable != 0)
+      if (UserSettings.Instance.AlignTable != 0)
       {
-        dataGridView1.AutoSizeColumnsMode = Settings.Default.AlignTable;
+        dataGridView1.AutoSizeColumnsMode = UserSettings.Instance.AlignTable;
         MainForm?.GridAlignMenu.SetCheckedByValue(dataGridView1.AutoSizeColumnsMode);
       }
     }
@@ -132,8 +132,8 @@ namespace GranitEditor
 
     private void SaveSettings()
     {
-      Settings.Default.AlignTable = DataGrid.AutoSizeColumnsMode;
-      Settings.Default.Save();
+      UserSettings.Instance.AlignTable = DataGrid.AutoSizeColumnsMode;
+      UserSettings.Instance.Save();
     }
 
     //private DataGridViewColumn FindColumnByHeaderText(string headerText)

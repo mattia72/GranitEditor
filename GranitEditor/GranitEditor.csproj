@@ -119,6 +119,8 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="GranitSettings.cs" />
     <Compile Include="JsonAppSettings.cs" />
     <Compile Include="ClipboardHandler.cs" />
     <Compile Include="EnumStripMenu.cs" />
@@ -148,6 +150,11 @@
     <Compile Include="IGranitXDocumentOwner.cs" />
     <Compile Include="Mementos.cs" />
     <Compile Include="MruStripMenu.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="PropertyComparer.cs" />
     <Compile Include="SortableBindingList.cs" />
     <Compile Include="TransactionAdapter.cs" />
@@ -157,6 +164,10 @@
     <Compile Include="TransactionXElement.cs" />
     <Compile Include="GranitXmlToAdapterBinder.cs" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Resources\GranitEditiorIcon.bmp" />
     <None Include="Resources\GranitEditorIcon.png" />
     <None Include="Properties\app.manifest" />
@@ -204,15 +215,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\DataSources\TransactionAdapter1.datasource" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

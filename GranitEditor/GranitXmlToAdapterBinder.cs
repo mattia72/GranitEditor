@@ -21,7 +21,7 @@ namespace GranitEditor
     {
       get
       {
-        _schemaFilePath = Settings.Default.SchemaFile;
+        _schemaFilePath = UserSettings.Instance.SchemaFilePath;
         if (!File.Exists(_schemaFilePath))
         {
           _schemaFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _schemaFilePath);
