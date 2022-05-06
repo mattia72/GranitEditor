@@ -1,0 +1,18 @@
+{
+  "AlignTable": 1,
+  "SchemaFilePath": "HUFTransactions.xsd",
+  "LastOpenedFilePaths": [ "example.xml" ],
+  "RecentFileList": [ "example.xml" ],
+  "WindowLocation": {
+    "IsEmpty": true,
+    "X": 0,
+    "Y": 0
+  },
+  "WindowSize": {
+    "IsEmpty": false,
+    "Width": 838,
+    "Height": 360
+  },
+  "WindowLayout": 0,
+  "MruListItemLength": 10
+}

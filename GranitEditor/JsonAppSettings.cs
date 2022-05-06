@@ -1,16 +1,15 @@
 ﻿using System.IO;
 using System.Web.Script.Serialization;
+using System.Windows.Forms;
 
 namespace GranitEditor
 {
   // Todo: change user settigs to json
   public class JsonAppSettings<T> where T : new()
   {
-    private const string DEFAULT_FILENAME = "settings.json";
-
-    public void Save(string fileName = DEFAULT_FILENAME)
+    public void Save(string filePath)
     {
-      File.WriteAllText(fileName, new JavaScriptSerializer().Serialize(this));
+      File.WriteAllText(filePath, new JavaScriptSerializer().Serialize(this));
     }
 
     public string ToJson()
@@ -18,9 +17,9 @@ namespace GranitEditor
       return new JavaScriptSerializer().Serialize(this);
     }
 
-    public static void Save(T pSettings, string fileName = DEFAULT_FILENAME)
+    public static void Save(T settings, string filePath)
     {
-      File.WriteAllText(fileName, new JavaScriptSerializer().Serialize(pSettings));
+      File.WriteAllText(filePath, new JavaScriptSerializer().Serialize(settings));
     }
 
     public static T LoadFromText(string json)
@@ -28,10 +27,10 @@ namespace GranitEditor
       return new JavaScriptSerializer().Deserialize<T>(json);
     }
 
-    public static T LoadFromFile(string fileName = DEFAULT_FILENAME)
+    public static T LoadFromFile(string filPath)
     {
-      return (File.Exists(fileName)) ? 
-        new JavaScriptSerializer().Deserialize<T>(File.ReadAllText(fileName)) : new T();
+      return (File.Exists(filPath)) ? 
+        new JavaScriptSerializer().Deserialize<T>(File.ReadAllText(filPath)) : new T();
     }
   }
 }

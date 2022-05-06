@@ -662,8 +662,6 @@
       this.Controls.Add(this.formsTabControl);
       this.Controls.Add(this.toolStrip1);
       this.Controls.Add(this.menuStrip1);
-      this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::GranitEditor.UserSettings.Instance, "WindowLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-      this.DataBindings.Add(new System.Windows.Forms.Binding("ClientSize", global::GranitEditor.UserSettings.Instance, "WindowSize", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.IsMdiContainer = true;
       this.Location = global::GranitEditor.UserSettings.Instance.WindowLocation;

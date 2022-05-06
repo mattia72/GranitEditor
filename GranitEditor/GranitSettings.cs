@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -9,13 +10,21 @@ namespace GranitEditor
   // Threadsafe Singleton
   public sealed class UserSettings
   {
+    public const string DEFAULT_FILENAME = "settings.json";
+    public static string DEFAULT_FILEPATH => Path.Combine(Application.StartupPath, DEFAULT_FILENAME);
+
     private static readonly Lazy<GranitSettings> lazy =
-          new Lazy<GranitSettings>(() => GranitSettings.LoadFromFile());
+          new Lazy<GranitSettings>(() => GranitSettings.LoadFromFile(DEFAULT_FILEPATH));
 
     public static GranitSettings Instance { get { return lazy.Value; } }
 
     private UserSettings()
     {
+    }
+
+    public static void Save()
+    {
+      Instance.Save(DEFAULT_FILEPATH);
     }
   }
 

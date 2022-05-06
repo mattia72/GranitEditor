@@ -163,6 +163,7 @@
     <Compile Include="HistoryXDocumentPool.cs" />
     <Compile Include="TransactionXElement.cs" />
     <Compile Include="GranitXmlToAdapterBinder.cs" />
+    <None Include="settings.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -264,9 +265,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y /R "$(TargetDir)README.*" "$(SolutionDir)" 
+    <PostBuildEvent>rem Only for GitHub site...
+xcopy /Y /R "$(TargetDir)README.*" "$(SolutionDir)" 
 
-xcopy /Y /R "$(TargetDir)LICENSE" "$(SolutionDir)"</PostBuildEvent>
+xcopy /Y /R "$(TargetDir)LICENSE" "$(SolutionDir)"
+
+</PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -1,7 +1,5 @@
 ﻿using GranitEditor.Properties;
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -550,19 +548,20 @@ namespace GranitEditor
       var mi = _windowLayoutMenu?.CheckedMenuItem;
       UserSettings.Instance.WindowLayout = (WindowLayout)(mi != null ? mi.Tag : WindowLayout.Tabbed);
 
+      UserSettings.Instance.WindowLocation = Location;
+      UserSettings.Instance.WindowSize = ClientSize;
+
       UserSettings.Instance.RecentFileList.Clear();
       UserSettings.Instance.RecentFileList.AddRange(_mruMenu.GetFiles());
-      List<string> paths = new List<string>();
+
+      UserSettings.Instance.LastOpenedFilePaths.Clear();
       foreach (var f in MdiChildren)
       {
         if (f is GranitXMLEditorForm)
-          paths.Add((f as GranitXMLEditorForm).LastOpenedFilePath);
+          UserSettings.Instance.LastOpenedFilePaths.Add((f as GranitXMLEditorForm).LastOpenedFilePath);
       }
-      UserSettings.Instance.LastOpenedFilePaths.Clear();
-      UserSettings.Instance.LastOpenedFilePaths.AddRange(paths.ToArray());
-
-      UserSettings.Instance.Save();
-      UserSettings.Instance.Save();
+      
+      UserSettings.Save();
     }
 
     private void ApplySettings()

@@ -37,7 +37,7 @@ namespace GranitEditor
       if (dataGridView1 == null || e == null || e.Value == null) 
         return;
 
-      Debug.WriteLine($"CellFormat cell: {e.RowIndex} {e.ColumnIndex}");
+      //Debug.WriteLine($"CellFormat cell: {e.RowIndex} {e.ColumnIndex}");
 
       switch (dataGridView1.Columns[e.ColumnIndex].DataPropertyName)
       {

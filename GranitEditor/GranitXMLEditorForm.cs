@@ -133,7 +133,7 @@ namespace GranitEditor
     private void SaveSettings()
     {
       UserSettings.Instance.AlignTable = DataGrid.AutoSizeColumnsMode;
-      UserSettings.Instance.Save();
+      UserSettings.Save();
     }
 
     //private DataGridViewColumn FindColumnByHeaderText(string headerText)
