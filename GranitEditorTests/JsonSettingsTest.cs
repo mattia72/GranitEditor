@@ -62,7 +62,9 @@ namespace GranitEditor.Tests
       const int LENGTH = 10;
       for (int i = 0; i < LENGTH; i++)
       {
-        settings.LastOpenedFilePaths.Add("file" + i.ToString());
+        settings.LastOpenedFilePaths.Add(
+          new GranitXMLFormSettings("file" + i.ToString(),
+          System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill));
       }
       settings.WindowLocation = new System.Drawing.Point(10, 20);
       settings.WindowSize = new System.Drawing.Size(10, 20);
