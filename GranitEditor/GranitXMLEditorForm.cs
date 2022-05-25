@@ -92,9 +92,10 @@ namespace GranitEditor
 
     private void ApplySettings()
     {
-      if (UserSettings.Instance.AlignTable != 0)
+      var settings = UserSettings.Instance.LastOpenedFilePaths.Find(o => o.FilePath == LastOpenedFilePath);
+      if (settings != null && settings.AlignTable != 0)
       {
-        dataGridView1.AutoSizeColumnsMode = UserSettings.Instance.AlignTable;
+        dataGridView1.AutoSizeColumnsMode = settings.AlignTable;
         MainForm?.GridAlignMenu.SetCheckedByValue(dataGridView1.AutoSizeColumnsMode);
       }
     }
@@ -132,7 +133,15 @@ namespace GranitEditor
 
     private void SaveSettings()
     {
-      UserSettings.Instance.AlignTable = DataGrid.AutoSizeColumnsMode;
+      var settings = UserSettings.Instance.LastOpenedFilePaths.Find(o => o.FilePath == LastOpenedFilePath);
+      if (settings != null)
+      {
+        settings.AlignTable = DataGrid.AutoSizeColumnsMode;
+      }
+      else
+      {
+        UserSettings.Instance.LastOpenedFilePaths.Add(new GranitXMLFormSettings(LastOpenedFilePath, DataGrid.AutoSizeColumnsMode));
+      }
       UserSettings.Save();
     }
 

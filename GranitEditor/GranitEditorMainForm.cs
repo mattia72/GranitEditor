@@ -101,7 +101,6 @@ namespace GranitEditor
       _mruMenu = new MruStripMenu(recentFilesToolStripMenuItem, MostRecentMenu_Clicked, 10);
       _gridAlignMenu = new EnumStripMenu<DataGridViewAutoSizeColumnsMode>(alignTableToolStripMenuItem, AutoSizeMenu_Clicked);
       _windowLayoutMenu = new EnumStripMenu<WindowLayout>(layoutToolStripMenuItem, ChangeWindowLayout);
-      OpenLastOpenedFilesIfExists();
       ApplySettings();
       ActualizeMenuToolBarAndStatusLabels();
     }
@@ -183,10 +182,10 @@ namespace GranitEditor
     private void OpenLastOpenedFilesIfExists()
     {
       if (UserSettings.Instance.LastOpenedFilePaths.Count > 0)
-        foreach (string file in UserSettings.Instance.LastOpenedFilePaths)
+        foreach (var settings in UserSettings.Instance.LastOpenedFilePaths)
         {
-          ActiveFilePath = file != string.Empty && File.Exists(file) ? 
-            file : Path.Combine(Application.StartupPath, file);
+          ActiveFilePath = settings.FilePath != string.Empty && File.Exists(settings.FilePath) ? 
+            settings.FilePath : Path.Combine(Application.StartupPath, settings.FilePath);
 
           if(File.Exists(ActiveFilePath))
           {
@@ -557,8 +556,13 @@ namespace GranitEditor
       UserSettings.Instance.LastOpenedFilePaths.Clear();
       foreach (var f in MdiChildren)
       {
+        var alMi = GridAlignMenu?.CheckedMenuItem;
         if (f is GranitXMLEditorForm)
-          UserSettings.Instance.LastOpenedFilePaths.Add((f as GranitXMLEditorForm).LastOpenedFilePath);
+          UserSettings.Instance.LastOpenedFilePaths.Add(
+            new GranitXMLFormSettings(
+              (f as GranitXMLEditorForm).LastOpenedFilePath,
+              (DataGridViewAutoSizeColumnsMode)(alMi != null ? alMi.Tag : DataGridViewAutoSizeColumnsMode.ColumnHeader)
+            )) ;
       }
       
       UserSettings.Save();
@@ -574,6 +578,9 @@ namespace GranitEditor
         }
 
       _windowLayout = UserSettings.Instance.WindowLayout;
+      Location = UserSettings.Instance.WindowLocation;
+      ClientSize = UserSettings.Instance.WindowSize;
+      OpenLastOpenedFilesIfExists();
     }
 
 
@@ -628,11 +635,6 @@ namespace GranitEditor
       addRowToolStripButton.Enabled = ActiveXmlForm != null;
       deleteRowToolStripButton.Enabled = ActiveXmlForm != null;
       findToolStripButton.Enabled = ActiveXmlForm != null;
-    }
-
-    private void ToolsToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
-    {
-      alignTableToolStripMenuItem.Enabled = ActiveXmlForm != null;
     }
 
     private void FileToolStripMenuItem1_DropDownOpened(object sender, EventArgs e)
@@ -828,6 +830,11 @@ namespace GranitEditor
         _saveFileDialog.Dispose();
       }
       base.Dispose(disposing);
+    }
+
+    private void WindowToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
+    {
+      alignTableToolStripMenuItem.Enabled = ActiveXmlForm != null;
     }
   }
 }

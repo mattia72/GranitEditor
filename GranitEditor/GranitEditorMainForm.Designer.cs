@@ -44,12 +44,11 @@
       this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
       this.findAndReplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.alignTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
       this.customizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.layoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.alignTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.contentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.indexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -324,53 +323,47 @@
       // toolsToolStripMenuItem
       // 
       this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.alignTableToolStripMenuItem,
-            this.toolStripSeparator6,
             this.customizeToolStripMenuItem,
             this.optionsToolStripMenuItem});
       this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-      this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+      this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
       this.toolsToolStripMenuItem.Text = "&Tools";
-      this.toolsToolStripMenuItem.DropDownOpened += new System.EventHandler(this.ToolsToolStripMenuItem_DropDownOpened);
-      // 
-      // alignTableToolStripMenuItem
-      // 
-      this.alignTableToolStripMenuItem.Name = "alignTableToolStripMenuItem";
-      this.alignTableToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
-      this.alignTableToolStripMenuItem.Text = "Align Table";
-      // 
-      // toolStripSeparator6
-      // 
-      this.toolStripSeparator6.Name = "toolStripSeparator6";
-      this.toolStripSeparator6.Size = new System.Drawing.Size(130, 6);
       // 
       // customizeToolStripMenuItem
       // 
       this.customizeToolStripMenuItem.Enabled = false;
       this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-      this.customizeToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+      this.customizeToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
       this.customizeToolStripMenuItem.Text = "&Customize";
       // 
       // optionsToolStripMenuItem
       // 
       this.optionsToolStripMenuItem.Enabled = false;
       this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-      this.optionsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+      this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
       this.optionsToolStripMenuItem.Text = "&Options";
       // 
       // windowToolStripMenuItem
       // 
       this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.layoutToolStripMenuItem});
+            this.layoutToolStripMenuItem,
+            this.alignTableToolStripMenuItem});
       this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
       this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
       this.windowToolStripMenuItem.Text = "&Window";
+      this.windowToolStripMenuItem.DropDownOpened += new System.EventHandler(this.WindowToolStripMenuItem_DropDownOpened);
       // 
       // layoutToolStripMenuItem
       // 
       this.layoutToolStripMenuItem.Name = "layoutToolStripMenuItem";
-      this.layoutToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+      this.layoutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.layoutToolStripMenuItem.Text = "Layout";
+      // 
+      // alignTableToolStripMenuItem
+      // 
+      this.alignTableToolStripMenuItem.Name = "alignTableToolStripMenuItem";
+      this.alignTableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.alignTableToolStripMenuItem.Text = "Align";
       // 
       // helpToolStripMenuItem1
       // 
@@ -657,14 +650,13 @@
       this.AllowDrop = true;
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = global::GranitEditor.UserSettings.Instance.WindowSize;
+      this.ClientSize = new System.Drawing.Size(838, 360);
       this.Controls.Add(this.statusStrip1);
       this.Controls.Add(this.formsTabControl);
       this.Controls.Add(this.toolStrip1);
       this.Controls.Add(this.menuStrip1);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.IsMdiContainer = true;
-      this.Location = global::GranitEditor.UserSettings.Instance.WindowLocation;
       this.MainMenuStrip = this.menuStrip1;
       this.Margin = new System.Windows.Forms.Padding(2);
       this.Name = "GranitEditorMainForm";
@@ -713,8 +705,6 @@
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
     private System.Windows.Forms.ToolStripMenuItem findAndReplaceToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem alignTableToolStripMenuItem;
-    private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
     private System.Windows.Forms.ToolStripMenuItem customizeToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
@@ -750,5 +740,6 @@
     private System.Windows.Forms.ToolStripButton addRowToolStripButton;
     private System.Windows.Forms.ToolStripButton deleteRowToolStripButton;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+    private System.Windows.Forms.ToolStripMenuItem alignTableToolStripMenuItem;
   }
 }

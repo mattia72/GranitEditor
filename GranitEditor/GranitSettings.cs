@@ -10,29 +10,98 @@ namespace GranitEditor
   // Threadsafe Singleton
   public sealed class UserSettings
   {
-    public const string DEFAULT_FILENAME = "settings.json";
-    public static string DEFAULT_FILEPATH => Path.Combine(Application.StartupPath, DEFAULT_FILENAME);
+    public const string DEFAULT_FILENAME = "settings_default.json";
+    public const string FILENAME = "settings.json";
 
-    private static readonly Lazy<GranitSettings> lazy =
-          new Lazy<GranitSettings>(() => GranitSettings.LoadFromFile(DEFAULT_FILEPATH));
+    private static GranitSettings settingsInstance;
+    private static readonly Func<GranitSettings> objectFactory = () =>
+    {
+      var filePath = GetSettingsFilePath(FILENAME);
+      if (!File.Exists(filePath))
+      {
+        filePath = GetSettingsFilePath(DEFAULT_FILENAME);
+      }
+      GranitSettings obj;
+      try
+      {
+        obj = GranitSettings.LoadFromFile(filePath);
+      }
+      catch (Exception)
+      {
+        obj = GranitSettings.LoadFromFile(DEFAULT_FILENAME);
+      }
+      return obj;
+    };
+    private static readonly Lazy<GranitSettings> lazy = new Lazy<GranitSettings>(objectFactory);
 
-    public static GranitSettings Instance { get { return lazy.Value; } }
+    public static GranitSettings Instance
+    {
+      get
+      {
+        if (null == settingsInstance)
+        {
+          settingsInstance = lazy.Value;
+        }
+        return settingsInstance;
+      }
+    }
 
     private UserSettings()
     {
+      settingsInstance = null;
+    }
+
+    private static string GetSettingsFilePath(string fileName)
+    {
+      return Path.Combine(Application.StartupPath, fileName);
     }
 
     public static void Save()
     {
-      Instance.Save(DEFAULT_FILEPATH);
+      Instance.Save(GetSettingsFilePath(FILENAME));
+    }
+
+  }
+  public class GranitXMLFormSettings : IComparable<GranitXMLFormSettings>, IEqualityComparer<GranitXMLFormSettings>, IComparable
+  {
+    public string FilePath;
+    public DataGridViewAutoSizeColumnsMode AlignTable;
+
+    public GranitXMLFormSettings()
+    { }
+
+    public GranitXMLFormSettings(string filePath, DataGridViewAutoSizeColumnsMode alignTable)
+    {
+      FilePath = filePath;
+      AlignTable = alignTable;
+    }
+
+    public int CompareTo(GranitXMLFormSettings other)
+    {
+      int retVal = AlignTable.CompareTo(other.AlignTable);
+      if (0 == retVal) retVal = FilePath.CompareTo(other.FilePath);
+      return retVal;
+    }
+
+    public int CompareTo(object obj) => CompareTo(obj as GranitXMLFormSettings);
+
+    public override bool Equals(object obj) => 0 == CompareTo(obj as GranitXMLFormSettings);
+    public bool Equals(GranitXMLFormSettings x, GranitXMLFormSettings y) => 0 == x.CompareTo(y);
+
+    public int GetHashCode(GranitXMLFormSettings obj) => obj.GetHashCode();
+
+    public override int GetHashCode()
+    {
+      int hash = AlignTable.GetHashCode();
+      hash += FilePath.GetHashCode();
+      return hash;
     }
   }
 
   public class GranitSettings : JsonAppSettings<GranitSettings>, IComparable<GranitSettings>, IEqualityComparer<GranitSettings>
   {
-    public DataGridViewAutoSizeColumnsMode AlignTable;
     public string SchemaFilePath;
-    public List<string> LastOpenedFilePaths;
+    public List<GranitXMLFormSettings> LastOpenedFilePaths;
     public List<string> RecentFileList;
     public Point WindowLocation;
     public Size WindowSize;
@@ -41,20 +110,20 @@ namespace GranitEditor
 
     public GranitSettings()
     {
-      SetDefault();
+      SetDefaultValues();
     }
 
-    public void SetDefault()
+    public void SetDefaultValues()
     {
-      AlignTable = DataGridViewAutoSizeColumnsMode.None;
       SchemaFilePath = "HUFTransactions.xsd";
-      LastOpenedFilePaths = new List<string>
+      LastOpenedFilePaths = new List<GranitXMLFormSettings>
       {
-        "example.xls"
+        new GranitXMLFormSettings("example.xml", DataGridViewAutoSizeColumnsMode.None)
       };
+
       RecentFileList = new List<string>
       {
-        "example.xls"
+        "example.xml"
       };
       WindowLocation = new Point(0, 0);
       WindowSize = new Size(838, 360);
@@ -64,12 +133,10 @@ namespace GranitEditor
 
     public int CompareTo(GranitSettings other)
     {
-      int retVal;
-      retVal = AlignTable.CompareTo(other.AlignTable);
-      if (retVal == 0) retVal = SchemaFilePath.CompareTo(other.SchemaFilePath);
+      int retVal = SchemaFilePath.CompareTo(other.SchemaFilePath);
 
-      if (retVal == 0) retVal = ComapareList(LastOpenedFilePaths, other.LastOpenedFilePaths);
-      if (retVal == 0) retVal = ComapareList(RecentFileList, other.RecentFileList);
+      if (retVal == 0) retVal = ComapareList<GranitXMLFormSettings>(LastOpenedFilePaths, other.LastOpenedFilePaths);
+      if (retVal == 0) retVal = ComapareList<string>(RecentFileList, other.RecentFileList);
 
       if (retVal == 0) retVal = WindowLocation.X.CompareTo(other.WindowLocation.X);
       if (retVal == 0) retVal = WindowLocation.Y.CompareTo(other.WindowLocation.Y);
@@ -80,19 +147,18 @@ namespace GranitEditor
       return retVal;
     }
 
-    private static int ComapareList(List<string> one, List<string> other)
+    private static int ComapareList<T>(List<T> one, List<T> other) where T : IComparable
     {
       int retVal, i = 0;
       retVal = one.Count.CompareTo(other.Count);
-      if (retVal == 0) 
+      if (retVal == 0)
         retVal = one.Sum(o => o.CompareTo(other[i++]));
       return retVal;
     }
 
     public int GetHashCode(GranitSettings obj)
     {
-      int hash = obj.AlignTable.GetHashCode();
-      hash += obj.SchemaFilePath.GetHashCode();
+      var hash = obj.SchemaFilePath.GetHashCode();
       hash += obj.LastOpenedFilePaths.GetSequenceHashCode();
       hash += obj.RecentFileList.GetSequenceHashCode();
       hash += obj.WindowLocation.GetHashCode();
@@ -102,14 +168,9 @@ namespace GranitEditor
       return hash;
     }
 
-    public override bool Equals(object obj)
-    {
-      return 0 == CompareTo(obj as GranitSettings);    }
+    public override bool Equals(object obj) => 0 == CompareTo(obj as GranitSettings);
 
-    public bool Equals(GranitSettings x, GranitSettings y)
-    {
-      return x.CompareTo(y) == 0;
-    }
+    public bool Equals(GranitSettings x, GranitSettings y) => x.CompareTo(y) == 0;
 
     public override int GetHashCode()
     {

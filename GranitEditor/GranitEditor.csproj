@@ -163,7 +163,7 @@
     <Compile Include="HistoryXDocumentPool.cs" />
     <Compile Include="TransactionXElement.cs" />
     <Compile Include="GranitXmlToAdapterBinder.cs" />
-    <None Include="settings.json">
+    <None Include="settings_default.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

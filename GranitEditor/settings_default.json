@@ -1,7 +1,11 @@
 {
-  "AlignTable": 1,
   "SchemaFilePath": "HUFTransactions.xsd",
-  "LastOpenedFilePaths": [ "example.xml" ],
+  "LastOpenedFilePaths": [
+    {
+      "FilePath": "example.xml", 
+      "AlignTable": 1
+    }
+  ],
   "RecentFileList": [ "example.xml" ],
   "WindowLocation": {
     "IsEmpty": true,
